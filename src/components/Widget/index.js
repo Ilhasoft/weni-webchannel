@@ -36,6 +36,7 @@ import {
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
 import { isSnippet, isVideo, isImage, isQR, isText } from './msgProcessor';
+import { getAttachmentFromText } from './msgProcessor';
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
@@ -201,8 +202,6 @@ class Widget extends Component {
   }
 
   handleBotUtterance(botUtterance) {
-    console.log('Bot Utterance: ');
-    console.log(botUtterance);
     const { dispatch } = this.props;
     this.clearCustomStyle();
     this.eventListenerCleaner();
@@ -362,8 +361,13 @@ class Widget extends Component {
 
   handleMessageData(data) {
     var botUtterance = { text: data.text };
-    if (data.quick_replies) {
+    if (data.quick_replies && data.quick_replies.length > 0) {
       botUtterance.quick_replies = data.quick_replies.map(reply => ({title: reply, payload: reply}));
+    }
+
+    let attachment = getAttachmentFromText(botUtterance);
+    if (attachment) {
+      botUtterance.attachment = attachment;
     }
     return botUtterance;
   }
