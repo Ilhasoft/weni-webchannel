@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import Widget from './components/Widget';
 import { initStore } from '../src/store/store';
-import socket from './socket';
+import socketCluster from './socketcluster.min.js';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let store = null;
@@ -31,7 +31,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
     }
 
     isInitialized() {
-      return this.socket !== null && this.socket.connected;
+      return this.socket !== null && this.socket.state == 'open';
     }
 
     on(event, callback) {
@@ -42,9 +42,11 @@ const ConnectedWidget = forwardRef((props, ref) => {
       }
     }
 
-    emit(message, data) {
+    emit(message, data, callback) {
+      console.log('Trying to emit: ' + message);
+      console.log(data);
       if (this.socket) {
-        this.socket.emit(message, data);
+        this.socket.emit(message, data, callback);
       }
     }
 
@@ -55,13 +57,19 @@ const ConnectedWidget = forwardRef((props, ref) => {
     }
 
     createSocket() {
-      this.socket = socket(
-        this.url,
-        this.customData,
-        this.path,
-        this.protocol,
-        this.protocolOptions
-      );
+      // =============== TODO: Make it beatiful ===============
+      console.log('TODO: createSocket()');
+      var options = {
+        hostname: this.url ? this.url.replace(/^(https?:|)\/\//, '') : 'socket.push.al',
+        secure: false,
+        port: 5005,
+        query: {
+          channelUUID: 'cf3d62bc-5cab-4561-a96b-3abed4e5be44',
+          hostApi: 'https://new.push.al',
+        },
+      };
+      this.socket = socketCluster.connect(options);
+
       this.onEvents.forEach((event) => {
         this.socket.on(event.event, event.callback);
       });
