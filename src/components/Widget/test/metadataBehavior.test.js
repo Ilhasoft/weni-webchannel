@@ -77,7 +77,7 @@ describe('Metadata store affect app behavior', () => {
       } });
     store.dispatch({ type: 'EVAL_URL', url: 'http://ipsum.com/cool' });
     expect(sentToSocket).toHaveLength(1);
-    expect(sentToSocket[0].message.message).toEqual('/yes');
+    expect(sentToSocket[0].message.text).toEqual('/yes');
   });
 
   it('should ignore host and use the callbackIntent on expected url change', () => {
@@ -95,7 +95,7 @@ describe('Metadata store affect app behavior', () => {
       } });
     store.dispatch({ type: 'EVAL_URL', url: 'http://lorem.com/bla' });
     expect(sentToSocket).toHaveLength(1);
-    expect(sentToSocket[0].message.message).toEqual('/yes');
+    expect(sentToSocket[0].message.text).toEqual('/yes');
   });
 
 
@@ -114,7 +114,7 @@ describe('Metadata store affect app behavior', () => {
       } });
     store.dispatch({ type: 'EVAL_URL', url: 'http://dolor.com/blo' });
     expect(sentToSocket).toHaveLength(1);
-    expect(sentToSocket[0].message.message).toEqual('/no');
+    expect(sentToSocket[0].message.text).toEqual('/no');
   });
 
   it('should use the regex for urlchecking', () => {
@@ -132,7 +132,7 @@ describe('Metadata store affect app behavior', () => {
       } });
     store.dispatch({ type: 'EVAL_URL', url: 'dolor/amet/sit.com' });
     expect(sentToSocket).toHaveLength(1);
-    expect(sentToSocket[0].message.message).toEqual('/yes');
+    expect(sentToSocket[0].message.text).toEqual('/yes');
   });
 
   it('should use multiple the regex/string for urlchecking', () => {
@@ -160,7 +160,7 @@ describe('Metadata store affect app behavior', () => {
       } });
     store.dispatch({ type: 'EVAL_URL', url: 'http://elit.com/sed' });
     expect(sentToSocket).toHaveLength(1);
-    expect(sentToSocket[0].message.message).toEqual('/yes');
+    expect(sentToSocket[0].message.text).toEqual('/yes');
   });
 
   it('should change the style of a element', () => {

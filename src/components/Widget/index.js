@@ -303,10 +303,6 @@ class Widget extends Component {
     if (!socket.isInitialized()) {
       socket.createSocket();
 
-      // socket.on('bot_uttered', (botUttered) => {
-      //   this.handleBotUtterance(botUttered);
-      // });
-
       dispatch(pullSession());
 
       // Request a session from server

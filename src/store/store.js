@@ -65,7 +65,7 @@ function initStore(
         const newUrl = action.url;
         const emitMessage = (message) => {
           socket.emit('sendMessageToChannel', {
-            text: action.text,
+            text: message,
             userUrn: session_id
           });
         };
