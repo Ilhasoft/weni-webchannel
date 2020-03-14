@@ -29,7 +29,6 @@ In your `<body/>`:
     initPayload: "/get_started",
     customData: {"language": "en"}, // arbitrary custom data. Stay minimal as this will be added to the socket
     socketUrl: "http://localhost:5500",
-    socketPath: "/socket.io/",
     title: "Title",
     subtitle: "Subtitle",
   })
@@ -58,7 +57,6 @@ function CustomWidget = () => {
     <Widget
       initPayload={"/get_started"}
       socketUrl={"http://localhost:5500"}
-      socketPath={"/socket.io/"}
       customData={{"language": "en"}} // arbitrary custom data. Stay minimal as this will be added to the socket
       title={"Title"}
     />
@@ -75,7 +73,6 @@ set to `true` if you don't want to see the launcher.
 |------------------------|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `initPayload`          | `null`             | Payload sent to Rasa when conversation starts                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `socketUrl`            | `null`             | Socket URL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| `socketPath`           | `null`             | Close the chat window                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `customData`           | `null`             | Arbitrary object sent with the socket. If using with Botfront, it must include the language (e.g. `{"language": "en"}`)                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `docViewer`            | `false`            | If you add this prop to the component or to the init script, `docViewer=true` , this will treat links in received messages as links to a document ( `.pdf .doc .xlsx` etc. ) and will open them in a popup using `https://docs.google.com/viewer` service                                                                                                                                                                                                                                                                    |
 | `title`                | `'Welcome"`        | Title shown in the header of the widget                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |

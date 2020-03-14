@@ -14,14 +14,12 @@ const ConnectedWidget = forwardRef((props, ref) => {
     constructor(
       url,
       customData,
-      path,
       protocol,
       protocolOptions,
       onSocketEvent
     ) {
       this.url = url;
       this.customData = customData;
-      this.path = path;
       this.protocol = protocol;
       this.protocolOptions = protocolOptions;
       this.onSocketEvent = onSocketEvent;
@@ -88,7 +86,6 @@ const ConnectedWidget = forwardRef((props, ref) => {
   const sock = new Socket(
     props.socketUrl,
     props.customData,
-    props.socketPath,
     props.protocol,
     props.protocolOptions,
     props.onSocketEvent
@@ -151,7 +148,6 @@ ConnectedWidget.propTypes = {
   subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   protocol: PropTypes.string,
   socketUrl: PropTypes.string.isRequired,
-  socketPath: PropTypes.string,
   protocolOptions: PropTypes.shape({}),
   customData: PropTypes.shape({}),
   handleNewUserMessage: PropTypes.func,
