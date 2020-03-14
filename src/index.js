@@ -42,9 +42,13 @@ const ConnectedWidget = forwardRef((props, ref) => {
       }
     }
 
+    subscribe(sessionId, callback) {
+      if (!this.socket.isSubscribed(sessionId)) {
+        this.socket.subscribe(sessionId).watch(callback);
+      }
+    }
+
     emit(message, data, callback) {
-      console.log('Trying to emit: ' + message);
-      console.log(data);
       if (this.socket) {
         this.socket.emit(message, data, callback);
       }
@@ -61,8 +65,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
       console.log('TODO: createSocket()');
       var options = {
         hostname: this.url ? this.url.replace(/^(https?:|)\/\//, '') : 'socket.push.al',
-        secure: false,
-        port: 5005,
+        secure: true,
+        port: 443,
         query: {
           channelUUID: 'cf3d62bc-5cab-4561-a96b-3abed4e5be44',
           hostApi: 'https://new.push.al',

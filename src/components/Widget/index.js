@@ -201,6 +201,8 @@ class Widget extends Component {
   }
 
   handleBotUtterance(botUtterance) {
+    console.log('Bot Utterance: ');
+    console.log(botUtterance);
     const { dispatch } = this.props;
     this.clearCustomStyle();
     this.eventListenerCleaner();
@@ -293,20 +295,14 @@ class Widget extends Component {
 
   initializeWidget(sendInitPayload = true) {
     const {
-      storage,
       socket,
       dispatch,
       embedded,
       initialized,
-      connectOn,
-      tooltipPayload,
-      tooltipDelay
     } = this.props;
 
     if (!socket.isInitialized()) {
       socket.createSocket();
-
-      // =============== TODO: Receive messages from bot ===============
 
       // socket.on('bot_uttered', (botUttered) => {
       //   this.handleBotUtterance(botUttered);
@@ -324,15 +320,15 @@ class Widget extends Component {
               if (data.urn) {
                 remoteId = data.urn;
                 
-                // =============== TODO: Subscribe to the bots messages ===============
-                this.startConnection(localId, remoteId);
+                this.startConnection(sendInitPayload, localId, remoteId);
+                this.subscribeBotMessages(remoteId);
               } else {
                 console.error(data);
               }
           });
         } else {
-          console.log(localId);
-          this.startConnection(localId, localId);
+          this.startConnection(sendInitPayload, localId, localId);
+          this.subscribeBotMessages(localId);
         }
       });
 
@@ -351,7 +347,28 @@ class Widget extends Component {
     }
   }
 
-  startConnection(localId, remoteId) {
+  subscribeBotMessages(localId) {
+    const {
+      socket,
+    } = this.props;
+
+    socket.subscribe(localId, (data) => {
+      if (data.to === localId) {
+        let botUtterance = this.handleMessageData(data);
+        this.handleBotUtterance(botUtterance);
+      }
+    });
+  }
+
+  handleMessageData(data) {
+    var botUtterance = { text: data.text };
+    if (data.quick_replies) {
+      botUtterance.quick_replies = data.quick_replies.map(reply => ({title: reply, payload: reply}));
+    }
+    return botUtterance;
+  }
+
+  startConnection(sendInitPayload, localId, remoteId) {
     const {
       storage,
       dispatch,
