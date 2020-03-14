@@ -14,14 +14,16 @@ const ConnectedWidget = forwardRef((props, ref) => {
     constructor(
       url,
       customData,
-      protocol,
       protocolOptions,
+      channelUuid,
+      host,
       onSocketEvent
     ) {
       this.url = url;
       this.customData = customData;
-      this.protocol = protocol;
       this.protocolOptions = protocolOptions;
+      this.channelUuid = channelUuid;
+      this.host = host;
       this.onSocketEvent = onSocketEvent;
       this.socket = null;
       this.onEvents = [];
@@ -59,17 +61,14 @@ const ConnectedWidget = forwardRef((props, ref) => {
     }
 
     createSocket() {
-      // =============== TODO: Make it beatiful ===============
-      console.log('TODO: createSocket()');
       var options = {
-        hostname: this.url ? this.url.replace(/^(https?:|)\/\//, '') : 'socket.push.al',
-        secure: true,
-        port: 443,
+        hostname: this.url.replace(/^(https?:|)\/\//, ''),
         query: {
-          channelUUID: 'cf3d62bc-5cab-4561-a96b-3abed4e5be44',
-          hostApi: 'https://new.push.al',
+          channelUUID: this.channelUuid,
+          hostApi: this.host,
         },
       };
+      options = Object.assign(options, this.protocolOptions);
       this.socket = socketCluster.connect(options);
 
       this.onEvents.forEach((event) => {
@@ -86,8 +85,9 @@ const ConnectedWidget = forwardRef((props, ref) => {
   const sock = new Socket(
     props.socketUrl,
     props.customData,
-    props.protocol,
     props.protocolOptions,
+    props.channelUuid,
+    props.host,
     props.onSocketEvent
   );
 
@@ -146,9 +146,10 @@ ConnectedWidget.propTypes = {
   initPayload: PropTypes.string,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  protocol: PropTypes.string,
   socketUrl: PropTypes.string.isRequired,
   protocolOptions: PropTypes.shape({}),
+  channelUuid: PropTypes.string,
+  host: PropTypes.string,
   customData: PropTypes.shape({}),
   handleNewUserMessage: PropTypes.func,
   profileAvatar: PropTypes.string,
@@ -195,9 +196,10 @@ ConnectedWidget.defaultProps = {
   autoClearCache: false,
   connectOn: 'mount',
   onSocketEvent: {},
-  protocol: 'socketio',
-  socketUrl: 'http://localhost',
-  protocolOptions: {},
+  socketUrl: 'https://socket.push.al',
+  protocolOptions: { secure: true, port: 443 },
+  channelUuid: null,
+  host: 'https://new.push.al',
   badge: 0,
   embedded: false,
   params: {

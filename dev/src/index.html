@@ -15,17 +15,15 @@
   WebChat.default.init({
     selector: "#webchat",
     initPayload: "/intro_registered_accounts",
-    socketUrl: "http://localhost:5005/",
+    socketUrl: 'https://socket.push.al',
+    channelUuid: 'cf3d62bc-5cab-4561-a96b-3abed4e5be44',
     tooltipPayload: "/tooltip_registered_accounts",
     tooltipDelay: 40000,
-    socketPath: "/socket.io/",
-    customData: {
-      language: 'fr'
-    },
-    // subtitle: 'A subtitle',
+    subtitle: 'A subtitle',
     inputTextFieldHint: "Type a message...",
     connectingText: "Waiting for server...",
-    profileAvatar: "https://storage.googleapis.com/dev-media-store-botfront-cloud/logo_square_circle_white_bg256.jpg",
+    profileAvatar: 'https://martha.bothub.it/assets/img/martha.png',
+    openLauncherImage: 'https://martha.bothub.it/assets/img/martha.png',
     hideWhenNotConnected: false,
     defaultHighlightAnimation: `@keyframes default-botfront-blinker-animation {
       from {
