@@ -36,6 +36,7 @@ import {
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
 import { isSnippet, isVideo, isImage, isQR, isText } from './msgProcessor';
+import { getAttachmentFromText } from './msgProcessor';
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
@@ -293,76 +294,36 @@ class Widget extends Component {
 
   initializeWidget(sendInitPayload = true) {
     const {
-      storage,
       socket,
       dispatch,
       embedded,
       initialized,
-      connectOn,
-      tooltipPayload,
-      tooltipDelay
     } = this.props;
 
     if (!socket.isInitialized()) {
       socket.createSocket();
-
-      socket.on('bot_uttered', (botUttered) => {
-        this.handleBotUtterance(botUttered);
-      });
 
       dispatch(pullSession());
 
       // Request a session from server
       const localId = this.getSessionId();
       socket.on('connect', () => {
-        socket.emit('session_request', { session_id: localId });
-      });
-
-      // When session_confirm is received from the server:
-      socket.on('session_confirm', (sessionObject) => {
-        let remoteId;
-        if (typeof sessionObject === 'object' && sessionObject !== null) {
-          remoteId = sessionObject.session_id;
+        if (!localId) {
+          socket.emit('registerUser', {}, (_response) => {
+              let remoteId;
+              const data = JSON.parse(_response);
+              if (data.urn) {
+                remoteId = data.urn;
+                
+                this.startConnection(sendInitPayload, localId, remoteId);
+                this.subscribeBotMessages(remoteId);
+              } else {
+                console.error(data);
+              }
+          });
         } else {
-          remoteId = sessionObject;
-        }
-
-        // eslint-disable-next-line no-console
-        console.log(`session_confirm:${socket.socket.id} session_id:${remoteId}`);
-        // Store the initial state to both the redux store and the storage, set connected to true
-        dispatch(connectServer());
-        /*
-        Check if the session_id is consistent with the server
-        If the localId is null or different from the remote_id,
-        start a new session.
-        */
-        if (localId !== remoteId) {
-          // storage.clear();
-          // Store the received session_id to storage
-
-          storeLocalSession(storage, SESSION_NAME, remoteId);
-          dispatch(pullSession());
-          if (sendInitPayload) {
-            this.trySendInitPayload();
-          }
-        } else {
-          // If this is an existing session, it's possible we changed pages and want to send a
-          // user message when we land.
-          const nextMessage = window.localStorage.getItem(NEXT_MESSAGE);
-
-          if (nextMessage !== null) {
-            const { message, expiry } = JSON.parse(nextMessage);
-            window.localStorage.removeItem(NEXT_MESSAGE);
-
-            if (expiry === 0 || expiry > Date.now()) {
-              dispatch(addUserMessage(message));
-              dispatch(emitUserMessage(message));
-            }
-          }
-        } if (connectOn === 'mount' && tooltipPayload) {
-          this.tooltipTimeout = setTimeout(() => {
-            this.trySendTooltipPayload();
-          }, parseInt(tooltipDelay, 10));
+          this.startConnection(sendInitPayload, localId, localId);
+          this.subscribeBotMessages(localId);
         }
       });
 
@@ -378,6 +339,77 @@ class Widget extends Component {
     if (embedded && initialized) {
       dispatch(showChat());
       dispatch(openChat());
+    }
+  }
+
+  subscribeBotMessages(localId) {
+    const {
+      socket,
+    } = this.props;
+
+    socket.subscribe(localId, (data) => {
+      if (data.to === localId) {
+        let botUtterance = this.handleMessageData(data);
+        this.handleBotUtterance(botUtterance);
+      }
+    });
+  }
+
+  handleMessageData(data) {
+    var botUtterance = { text: data.text };
+    if (data.quick_replies && data.quick_replies.length > 0) {
+      botUtterance.quick_replies = data.quick_replies.map(reply => ({title: reply, payload: reply}));
+    }
+
+    let attachment = getAttachmentFromText(botUtterance);
+    if (attachment) {
+      botUtterance.attachment = attachment;
+    }
+    return botUtterance;
+  }
+
+  startConnection(sendInitPayload, localId, remoteId) {
+    const {
+      storage,
+      dispatch,
+      connectOn,
+      tooltipPayload,
+      tooltipDelay
+    } = this.props;
+
+    dispatch(connectServer());
+    /*
+    Check if the session_id is consistent with the server
+    If the localId is null or different from the remote_id,
+    start a new session.
+    */
+    if (localId !== remoteId) {
+      // storage.clear();
+      // Store the received session_id to storage
+
+      storeLocalSession(storage, SESSION_NAME, remoteId);
+      dispatch(pullSession());
+      if (sendInitPayload) {
+        this.trySendInitPayload();
+      }
+    } else {
+      // If this is an existing session, it's possible we changed pages and want to send a
+      // user message when we land.
+      const nextMessage = window.localStorage.getItem(NEXT_MESSAGE);
+
+      if (nextMessage !== null) {
+        const { message, expiry } = JSON.parse(nextMessage);
+        window.localStorage.removeItem(NEXT_MESSAGE);
+
+        if (expiry === 0 || expiry > Date.now()) {
+          dispatch(addUserMessage(message));
+          dispatch(emitUserMessage(message));
+        }
+      }
+    } if (connectOn === 'mount' && tooltipPayload) {
+      this.tooltipTimeout = setTimeout(() => {
+        this.trySendTooltipPayload();
+      }, parseInt(tooltipDelay, 10));
     }
   }
 
@@ -409,7 +441,7 @@ class Widget extends Component {
 
       // eslint-disable-next-line no-console
       console.log('sending init payload', sessionId);
-      socket.emit('user_uttered', { message: initPayload, customData, session_id: sessionId });
+      socket.emit('sendMessageToChannel', { text: initPayload, userUrn: sessionId });
       dispatch(initialize());
     }
   }
@@ -430,7 +462,7 @@ class Widget extends Component {
 
       if (!sessionId) return;
 
-      socket.emit('user_uttered', { message: tooltipPayload, customData, session_id: sessionId });
+      socket.emit('sendMessageToChannel', { text: tooltipPayload, userUrn: sessionId });
 
       dispatch(triggerTooltipSent(tooltipPayload));
       dispatch(initialize());

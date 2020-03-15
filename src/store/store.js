@@ -34,19 +34,17 @@ function initStore(
       : null;
     switch (action.type) {
       case actionTypes.EMIT_NEW_USER_MESSAGE: {
-        socket.emit('user_uttered', {
-          message: action.text,
-          customData: socket.customData,
-          session_id
+        socket.emit('sendMessageToChannel', {
+          text: action.text,
+          userUrn: session_id
         });
         break;
       }
       case actionTypes.EMIT_MESSAGE_IF_FIRST: {
         if (store.getState().messages.size === 0) {
-          socket.emit('user_uttered', {
-            message: action.payload,
-            customData: socket.customData,
-            session_id
+          socket.emit('sendMessageToChannel', {
+            text: action.text,
+            userUrn: session_id
           });
         }
         break;
@@ -66,10 +64,9 @@ function initStore(
 
         const newUrl = action.url;
         const emitMessage = (message) => {
-          socket.emit('user_uttered', {
-            message,
-            customData: socket.customData,
-            session_id
+          socket.emit('sendMessageToChannel', {
+            text: message,
+            userUrn: session_id
           });
         };
 

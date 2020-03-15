@@ -8,8 +8,9 @@ const plugin = {
       <Widget
         protocol={args.protocol}
         socketUrl={args.socketUrl}
-        socketPath={args.socketPath}
         protocolOptions={args.protocolOptions}
+        channelUuid={args.channelUuid}
+        host={args.host}
         initPayload={args.initPayload}
         title={args.title}
         subtitle={args.subtitle}

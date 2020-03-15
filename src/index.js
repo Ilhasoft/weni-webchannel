@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import Widget from './components/Widget';
 import { initStore } from '../src/store/store';
-import socket from './socket';
+import socketCluster from './socketcluster.min.js';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let store = null;
@@ -14,16 +14,16 @@ const ConnectedWidget = forwardRef((props, ref) => {
     constructor(
       url,
       customData,
-      path,
-      protocol,
       protocolOptions,
+      channelUuid,
+      host,
       onSocketEvent
     ) {
       this.url = url;
       this.customData = customData;
-      this.path = path;
-      this.protocol = protocol;
       this.protocolOptions = protocolOptions;
+      this.channelUuid = channelUuid;
+      this.host = host;
       this.onSocketEvent = onSocketEvent;
       this.socket = null;
       this.onEvents = [];
@@ -31,7 +31,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
     }
 
     isInitialized() {
-      return this.socket !== null && this.socket.connected;
+      return this.socket !== null && this.socket.state == 'open';
     }
 
     on(event, callback) {
@@ -42,9 +42,15 @@ const ConnectedWidget = forwardRef((props, ref) => {
       }
     }
 
-    emit(message, data) {
+    subscribe(sessionId, callback) {
+      if (!this.socket.isSubscribed(sessionId)) {
+        this.socket.subscribe(sessionId).watch(callback);
+      }
+    }
+
+    emit(message, data, callback) {
       if (this.socket) {
-        this.socket.emit(message, data);
+        this.socket.emit(message, data, callback);
       }
     }
 
@@ -55,13 +61,16 @@ const ConnectedWidget = forwardRef((props, ref) => {
     }
 
     createSocket() {
-      this.socket = socket(
-        this.url,
-        this.customData,
-        this.path,
-        this.protocol,
-        this.protocolOptions
-      );
+      var options = {
+        hostname: this.url.replace(/^(https?:|)\/\//, ''),
+        query: {
+          channelUUID: this.channelUuid,
+          hostApi: this.host,
+        },
+      };
+      options = Object.assign(options, this.protocolOptions);
+      this.socket = socketCluster.connect(options);
+
       this.onEvents.forEach((event) => {
         this.socket.on(event.event, event.callback);
       });
@@ -76,9 +85,9 @@ const ConnectedWidget = forwardRef((props, ref) => {
   const sock = new Socket(
     props.socketUrl,
     props.customData,
-    props.socketPath,
-    props.protocol,
     props.protocolOptions,
+    props.channelUuid,
+    props.host,
     props.onSocketEvent
   );
 
@@ -137,10 +146,10 @@ ConnectedWidget.propTypes = {
   initPayload: PropTypes.string,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  protocol: PropTypes.string,
   socketUrl: PropTypes.string.isRequired,
-  socketPath: PropTypes.string,
   protocolOptions: PropTypes.shape({}),
+  channelUuid: PropTypes.string,
+  host: PropTypes.string,
   customData: PropTypes.shape({}),
   handleNewUserMessage: PropTypes.func,
   profileAvatar: PropTypes.string,
@@ -187,9 +196,10 @@ ConnectedWidget.defaultProps = {
   autoClearCache: false,
   connectOn: 'mount',
   onSocketEvent: {},
-  protocol: 'socketio',
-  socketUrl: 'http://localhost',
-  protocolOptions: {},
+  socketUrl: 'https://socket.push.al',
+  protocolOptions: { secure: true, port: 443 },
+  channelUuid: null,
+  host: 'https://new.push.al',
   badge: 0,
   embedded: false,
   params: {
