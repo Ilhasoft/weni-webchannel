@@ -12,7 +12,7 @@ A simple webchat widget to connect with Push 💬platform. Originally forked fro
 - Typing indications
 - Smart delay between messages
 
-<img src="./assets/chat-demonstration.gif" alt="demonstration" width="400"/>
+<img src="./assets/chat-demonstration-push.gif" alt="demonstration" width="400"/>
 
 ## Usage
 
