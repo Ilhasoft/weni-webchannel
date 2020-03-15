@@ -21,7 +21,7 @@ A simple webchat widget to connect with Push 💬platform. Originally forked fro
 In your `<body/>`:
 ```javascript
 <div id="webchat"/>
-<script src="https://ilhasoft-webchat.s3-eu-west-1.amazonaws.com/webchat-latest.js"></script>
+<script src="https://storage.googleapis.com/push-webchat/webchat-latest.js"></script>
 // Or you can replace latest with a specific version
 <script>
   WebChat.default.init({
