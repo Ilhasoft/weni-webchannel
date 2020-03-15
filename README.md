@@ -1,4 +1,4 @@
-# Push Webchat ![npm](https://img.shields.io/npm/v/rasa-webchat)
+# Push Webchat ![npm](https://img.shields.io/npm/v/push-webchat)
 
 A simple webchat widget to connect with Push 💬platform. Originally forked from [rasa-webchat](https://github.com/botfront/rasa-webchat) and [react-chat-widget](https://github.com/Wolox/react-chat-widget) and optimized for [Push](https://push.al).
 ## Features
