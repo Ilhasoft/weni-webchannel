@@ -1,6 +1,6 @@
-# Rasa Webchat ![npm](https://img.shields.io/npm/v/rasa-webchat)
+# Push Webchat ![npm](https://img.shields.io/npm/v/rasa-webchat)
 
-A simple webchat widget to connect with a chatbot 💬platform. Originally forked from [react-chat-widget](https://github.com/Wolox/react-chat-widget) and optimized for [Rasa](https://github.com/rasaHQ/rasa) and [Botfront](https://github.com/botfront/botfront).
+A simple webchat widget to connect with Push 💬platform. Originally forked from [rasa-webchat](https://github.com/botfront/rasa-webchat) and [react-chat-widget](https://github.com/Wolox/react-chat-widget) and optimized for [Push](https://push.al).
 ## Features
 
 - Text Messages
@@ -21,14 +21,13 @@ A simple webchat widget to connect with a chatbot 💬platform. Originally forke
 In your `<body/>`:
 ```javascript
 <div id="webchat"/>
-<script src="https://storage.googleapis.com/mrbot-cdn/webchat-latest.js"></script>
+<script src="https://ilhasoft-webchat.s3-eu-west-1.amazonaws.com/webchat-latest.js"></script>
 // Or you can replace latest with a specific version
 <script>
   WebChat.default.init({
     selector: "#webchat",
-    initPayload: "/get_started",
-    customData: {"language": "en"}, // arbitrary custom data. Stay minimal as this will be added to the socket
-    socketUrl: "http://localhost:5500",
+    initPayload: "Hello",
+    socketUrl: "https://socket.push.al",
     title: "Title",
     subtitle: "Subtitle",
   })
@@ -44,20 +43,19 @@ is also available and is updated continuously with the latest version.
 
 Install the package from GitHub by running:
 ```bash
-npm install rasa-webchat
+npm install push-webchat
 ```
 
 Then once it is installed it can be implemented as follows.
 
 ```javascript
-import { Widget } from 'rasa-webchat';
+import { Widget } from 'push-webchat';
 
 function CustomWidget = () => {
   return (
     <Widget
       initPayload={"/get_started"}
-      socketUrl={"http://localhost:5500"}
-      customData={{"language": "en"}} // arbitrary custom data. Stay minimal as this will be added to the socket
+      socketUrl={"https://socket.push.al"}
       title={"Title"}
     />
   )
@@ -71,7 +69,7 @@ set to `true` if you don't want to see the launcher.
 ## Parameters
 | Prop / Param                 | Default value          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 |------------------------|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `initPayload`          | `null`             | Payload sent to Rasa when conversation starts                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `initPayload`          | `null`             | Payload sent to Push when conversation starts                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `socketUrl`            | `null`             | Socket URL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `customData`           | `null`             | Arbitrary object sent with the socket. If using with Botfront, it must include the language (e.g. `{"language": "en"}`)                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `docViewer`            | `false`            | If you add this prop to the component or to the init script, `docViewer=true` , this will treat links in received messages as links to a document ( `.pdf .doc .xlsx` etc. ) and will open them in a popup using `https://docs.google.com/viewer` service                                                                                                                                                                                                                                                                    |
@@ -107,7 +105,6 @@ set to `true` if you don't want to see the launcher.
 ##### `onSocketEvent`
 ```jsx
 onSocketEvent={{
-  'bot_uttered': () => console.log('the bot said something'),
   'connect': () => console.log('connection established'),
   'disconnect': () => doSomeCleanup(),
 }}
@@ -149,40 +146,23 @@ When reconnecting to an existing chat session, the bot will send a message conta
 | `WebChat.show()`                         | Show the chat widget, send initPayload if the chat is in open state and not initialized                                                                                  |
 | `WebChat.hide()`                         | Hide the chat widget                                                                                                                                                     |
 | `WebChat.isVisible()`                    | Get the shown/hidden state of the widget                                                                                                                                 |
-| `WebChat.send(payload, text: optionnal)` | send a payload (`/intent{"entity":"value"}` to rasa. If `text` is specified, it will be displayed as a user message. If not specified, no user message will be displayed |                                                                       |
+| `WebChat.send(payload, text: optionnal)` | send a payload (`/hello` to Push. If `text` is specified, it will be displayed as a user message. If not specified, no user message will be displayed |                                                                       |
 
 ### Backends
 
-The widget can be used with any backend but is primarily designed to be used with [Rasa](https://github.com/rasaHQ/rasa) or [Botfront](https://github.com/botfront/botfront).
-
-#### Rasa
-
-Use the `socketio` channel: See [instructions in the Rasa documentation](https://rasa.com/docs/core/connectors/#socketio-connector)
-
-If you want to process `customData` in Rasa  you have to [create a new channel](https://rasa.com/docs/core/connectors/#custom-channels). Use channel `rasa_core.channels.socketio` as a template for your new channel. In such channel `customData` can be retrieved via `data['customData']`. Then you can  modify `sender_id`, save `customData` to the database, fill slots or whatever you need to with your additional data.
+The widget can be used with Push socket server. Contact contato@ilhasoft.com.br if you want to use it.
 
 
-#### Botfront
+#### Push
 
-The Rasa Webchat is developped by the [Botfront](https://botfront.io) team and it works with Botfront. Make sure to specificy the language in the `customData` prop. E.g. `customData={{language: 'en'}}`. See in [Botfront docs](https://botfront.io/docs/deployment/frontend/#frontend-configure-the-widget) for more details.
-
-#### Others
-Your backend must expose a socket with [socket.io](http://socket.io)
-
-##### Receiving messages from the chat
-
-```python
-@socketio.on('user_uttered')
-    def handle_message(message):
-        # do something
-```
+The Push Webchat was forked from an open source project [rasa-webchat](https://github.com/botfront/rasa-webchat) team and it works with [Push](https://push.al).
 
 ##### Sending messages from the backend to the chat widget
 
 ###### sending plain text
 
 ```python
-emit('bot_uttered', {"text": "hello"}, room=session_id)
+emit(session_id, {"text": "hello"})
 ```
 
 ###### sending quick replies
@@ -194,7 +174,7 @@ message = {
     {"title":"Yes", "payload":"/affirm"},
     {"title":"No", "payload":"/deny"}
   ]}
-emit('bot_uttered', message, room=socket_id)
+emit(session_id, message)
 ```
 
 ###### sending a link Snippet
@@ -221,7 +201,7 @@ message = {
   }
 }
 }
-emit('bot_uttered', message, room=socket_id)
+emit(session_id, message)
 ```
 
 ###### sending a Video Message
@@ -236,7 +216,7 @@ message = {
     }
   }
 }
-emit('bot_uttered', message, room=socket_id)
+emit(session_id, message)
 ```
 
 ###### sending an Image Message
@@ -251,7 +231,7 @@ message = {
         }
       }
     }
-emit('bot_uttered', message, room=socket_id)
+emit(session_id, message)
 ```
 
 ###### sending a message with custom data
@@ -263,14 +243,14 @@ message = {
         "customField2": 'other custom data, 
       }
     }
-emit('bot_uttered', message, room=socket_id)
+emit(session_id, message)
 ```
 ###### sending a message to be displayed as a tooltip
 
 You first need to set a tooltipPayload in the props of the component, then, for the answer to that payload, you should define a response with a 
 
 object and a property `tooltip = true`. This message will then be displayed as a tooltip before the widget is opened.
-This works with Botfront, but not yet with vanilla Rasa.
+This is not supported by Push yet.
 
 The prop `tooltipDelay` lets you set a delay before calling the payload. It default to 500ms.
 
@@ -334,6 +314,8 @@ hierarchy:
 
 
 ## Contributors
+[@Ilhasoft](https://github.com/Ilhasoft)
+[@johncordeiro](https://github.com/johncordeiro)
 [@PHLF](https://github.com/phlf)
 [@znat](https://github.com/znat)
 [@TheoTomalty](https://github.com/TheoTomalty)
