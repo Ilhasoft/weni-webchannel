@@ -27,6 +27,8 @@ In your `<body/>`:
   WebChat.default.init({
     selector: "#webchat",
     initPayload: "Hello",
+    channelUuid: '37e3fde9-5a54-4d11-9adc-78629ffaa2e3', // External Channel UUID from Push
+    host: 'https://new.push.al', // Host URL from Push
     socketUrl: "https://socket.push.al",
     title: "Title",
     subtitle: "Subtitle",

@@ -1,10 +1,10 @@
 {
-  "name": "rasa-webchat",
+  "name": "push-webchat",
   "version": "0.7.23",
-  "description": "Chat web widget for React apps and Rasa Core chatbots",
+  "description": "Chat web widget for React apps and Push chatbots",
   "module": "module/index.js",
   "main": "lib/index.js",
-  "repository": "git@https://github.com/mrbot-ai/rasa-webchat.git",
+  "repository": "git@https://github.com/push-platform/push-webchat.git",
   "author": "Mr. Bot <human@mrbot.ai>",
   "license": "MIT",
   "scripts": {
