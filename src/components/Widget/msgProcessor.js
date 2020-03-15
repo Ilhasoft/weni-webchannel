@@ -59,12 +59,13 @@ export function getAttachmentFromText(message) {
 }
 
 function createTemplate (title, url) {
+  title = title && title.length > 0 ? title : url;
   return { 
     type: 'template', 
     payload: { 
       template_type: 'generic', 
       elements: [ 
-        { title: title, buttons: [ { title: title, url: url } ] } 
+        { buttons: [ { title: title, url: url } ] }
       ]
     }
   }
