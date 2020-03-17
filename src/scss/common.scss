@@ -144,7 +144,6 @@ $roboto: 'Roboto', serif;
 @mixin replies {
   margin: 10px;
   display: flex;
-  flex-wrap: wrap;
   overflow: auto;
   font-size: 14px;
   font-family: $roboto;
