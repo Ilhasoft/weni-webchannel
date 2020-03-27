@@ -10,6 +10,7 @@ const Header = ({
   title,
   subtitle,
   fullScreenMode,
+  embedded,
   toggleFullScreen,
   toggleChat,
   showCloseButton,
@@ -18,46 +19,50 @@ const Header = ({
   connectingText,
   closeImage,
   profileAvatar
-}) =>
-  <div className="header-and-loading">
-    <div className={`header ${subtitle ? 'with-subtitle' : ''}`}>
-      {
-        profileAvatar && (
-          <img src={profileAvatar} className="avatar" alt="chat avatar" />
-        )
-      }
-      <div className="header-buttons">
+}) => {
+    
+    return(
+      <div className="header-and-loading">
+        <div className={`header ${subtitle ? 'with-subtitle' : ''}`}>
+          {
+            profileAvatar && (
+              <img src={profileAvatar} className="avatar" alt="chat avatar" />
+            )
+          }
+          <div className="header-buttons">
+            {
+              showFullScreenButton &&
+              <button className="toggle-fullscreen-button" onClick={toggleFullScreen}>
+                <img
+                  className={`toggle-fullscreen ${fullScreenMode ? 'fullScreenExitImage' : 'fullScreenImage'}`}
+                  src={fullScreenMode ? fullscreenExit : fullscreen}
+                  alt="toggle fullscreen"
+                />
+              </button>
+            }
+            {
+              showCloseButton &&
+              <button className="close-button" onClick={toggleChat}>
+                <img
+                  className={`close ${closeImage ? '' : 'default'}`}
+                  src={closeImage || close}
+                  alt="close"
+                />
+              </button>
+            }
+          </div>
+          <h4 className={`title ${profileAvatar && 'with-avatar'}`}>{title}</h4>
+          {subtitle && <span className={profileAvatar && 'with-avatar'}>{subtitle}</span>}
+        </div>
         {
-          showFullScreenButton &&
-          <button className="toggle-fullscreen-button" onClick={toggleFullScreen}>
-            <img
-              className={`toggle-fullscreen ${fullScreenMode ? 'fullScreenExitImage' : 'fullScreenImage'}`}
-              src={fullScreenMode ? fullscreenExit : fullscreen}
-              alt="toggle fullscreen"
-            />
-          </button>
-        }
-        {
-          showCloseButton &&
-          <button className="close-button" onClick={toggleChat}>
-            <img
-              className={`close ${closeImage ? '' : 'default'}`}
-              src={closeImage || close}
-              alt="close"
-            />
-          </button>
+          !connected &&
+          <span className="loading">
+            {connectingText}
+          </span>
         }
       </div>
-      <h4 className={`title ${profileAvatar && 'with-avatar'}`}>{title}</h4>
-      {subtitle && <span className={profileAvatar && 'with-avatar'}>{subtitle}</span>}
-    </div>
-    {
-      !connected &&
-      <span className="loading">
-        {connectingText}
-      </span>
-    }
-  </div>;
+    )
+}
 
 Header.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),

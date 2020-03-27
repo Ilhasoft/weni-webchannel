@@ -55,6 +55,7 @@ class Widget extends Component {
     const { connectOn, autoClearCache, storage, dispatch, defaultHighlightAnimation } = this.props;
 
     // add the default highlight css to the document
+    
     const styleNode = document.createElement('style');
     styleNode.innerHTML = defaultHighlightAnimation;
     document.body.appendChild(styleNode);
@@ -95,7 +96,7 @@ class Widget extends Component {
       dispatch(showChat());
       dispatch(openChat());
     }
-    this.applyCustomStyle();
+    //this.applyCustomStyle();
   }
 
   componentWillUnmount() {
@@ -314,7 +315,7 @@ class Widget extends Component {
               const data = JSON.parse(_response);
               if (data.urn) {
                 remoteId = data.urn;
-                
+
                 this.startConnection(sendInitPayload, localId, remoteId);
                 this.subscribeBotMessages(remoteId);
               } else {

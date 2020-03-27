@@ -7,8 +7,8 @@ import Launcher from './components/Launcher';
 import './style.scss';
 
 const WidgetLayout = (props) => {
-  const classes = props.embedded ? ['widget-embedded'] : ['widget-container'];
-  if (props.fullScreenMode) {
+  const classes = ['widget-container'];
+  if (props.fullScreenMode || props.embedded) {
     classes.push('full-screen');
   }
   const showCloseButton =
@@ -16,7 +16,7 @@ const WidgetLayout = (props) => {
   const isVisible = props.isChatVisible && !(props.hideWhenNotConnected && !props.connected);
   const chatShowing = props.isChatOpen || props.embedded;
 
-  if (chatShowing && !props.embedded) {
+  if (chatShowing) {
     classes.push('chat-open');
   }
 

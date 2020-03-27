@@ -1,14 +1,15 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap');
 
-$roboto: 'Roboto', serif;  
+$roboto: 'Roboto', serif;
 
 @mixin message-bubble($color, $textColor, $borderRadius: 15px) {
   background-color: $color;
   color: $textColor;
   border-radius: $borderRadius;
   padding: 11px 15px;
-  text-align: left;
+  text-align: justify;
   font-family: $roboto;
+  font-weight: 300;
 }
 
 @mixin borderless-message-bubble($color, $textColor) {
@@ -25,6 +26,7 @@ $roboto: 'Roboto', serif;
 @mixin widget-container-fs {
   height: 100%;
   margin: 0;
+  padding: 0;
   max-width: none;
   width: 100%;
 }
@@ -33,10 +35,12 @@ $roboto: 'Roboto', serif;
   border-radius: 0;
   flex-shrink: 0;
   position: relative;
+  text-align: center;
 }
 
 @mixin title-fs {
-  //padding: 0 0 15px 0;
+  margin: 0;
+  padding-left: 0;
 }
 
 @mixin header-buttons-fs {
@@ -88,7 +92,31 @@ $roboto: 'Roboto', serif;
 
 @mixin messages-container-fs {
   height: 100%;
+  padding: 3% 15% 0 15%;
   max-height: none;
+  .message {
+
+    display: flex;
+    font-size: 22px;
+    line-height: 1.5;
+    font-family: $roboto;
+    .markdown {
+
+      p {
+        margin: 0;
+      }
+
+
+      @keyframes typing {
+        from { width: 0;  }
+        to { width: 100%; }
+      }
+    }
+
+    .response {
+      background-color: rgba(0,0,0,0)
+    }
+  }
 }
 
 @mixin conversation-container-fs {
@@ -97,6 +125,52 @@ $roboto: 'Roboto', serif;
   height: 100%;
   width: 100%;
   border-radius: 0;
+
+  .sender {
+    align-items: center;
+    display: flex;
+    background-color: $grey-2;
+    height: 25vh;
+    padding: 0 15% 0 15%;
+  }
+
+  .sender a, .sender a:active, .sender a:hover {
+    display: inline;
+    position: absolute;
+    bottom: 1vh;
+    left: 1vh;
+    color: #696969;
+    outline: none;
+    text-decoration: none;
+
+  }
+
+  .new-message {
+    font-size: 2em;
+    font-weight: 300;
+    width: 100%;
+    border: 0;
+    background-color: $grey-2;
+    height: 10vh;
+    padding-left: 15px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .send {
+    background: $grey-2;
+    border: 0;
+
+    .send-icon {
+      height: 7vh;
+      cursor: pointer;
+    }
+  }
+
+
+
 }
 
 @mixin loading-fs {
@@ -142,9 +216,10 @@ $roboto: 'Roboto', serif;
 }
 
 @mixin replies {
+  max-width: 100%;
   margin: 10px;
   display: flex;
-  overflow: auto;
+  flex-wrap:wrap;
   font-size: 14px;
   font-family: $roboto;
 }

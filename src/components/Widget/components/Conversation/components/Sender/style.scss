@@ -9,7 +9,11 @@
     padding: 5px;
     margin-bottom: 0px;
   }
-  
+
+  .sender a {
+    display: none;
+  }
+
   .new-message {
     font-size: 0.9em;
     width: 100%;
@@ -17,29 +21,29 @@
     background-color: $grey-2;
     height: 30px;
     padding-left: 15px;
-  
+
     &:focus {
       outline: none;
     }
   }
-  
-  
+
+
   .send {
     background: $grey-2;
     border: 0;
-    
+
     .send-icon {
       height: 25px;
     }
   }
-  
+
   @media screen and (max-width: 800px)  {
     .sender {
       border-radius: 0;
       flex-shrink: 0;
     }
   }
-  
+
 }
 
 .widget-embedded {

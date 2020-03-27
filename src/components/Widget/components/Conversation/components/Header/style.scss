@@ -43,11 +43,6 @@
     font-size: 20px;
     margin: 0;
     font-family: $roboto;
-    position: absolute;
-    left: 20px;
-    &.with-avatar {
-      left: 58px;
-    }
   }
 
   .header-buttons {
@@ -88,6 +83,14 @@
 
   .header {
     @include header-fs;
+    min-height: 10vh;
+    .avatar {
+      width: 5vh;
+      height: 5vh;
+      position: absolute;
+      top: 2.5vh;
+      left: 3vh;
+    }
   }
 
   .title {
@@ -113,6 +116,10 @@
   .conversation-container {
     .header {
       @include header-fs;
+
+      .avatar {
+        display: none;
+      }
     }
 
     .title {

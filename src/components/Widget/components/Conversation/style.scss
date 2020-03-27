@@ -37,5 +37,24 @@
 @media screen and (max-width: 800px) {
   .conversation-container {
     @include conversation-container-fs;
+
+    .sender {
+      height: 20vh!important;
+    }
+
+    .sender a {
+      font-size: 10px!important;
+    }
+    .new-message {
+      font-size: 0.9em!important;
+    }
+
+    .send {
+
+      .send-icon {
+        height: 3vh!important;
+      }
+    }
+
   }
 }

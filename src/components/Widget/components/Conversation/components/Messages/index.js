@@ -143,6 +143,7 @@ class Messages extends Component {
             }
             <div className="response">
               <div id="wave">
+                <p className="customText">Typing...</p>
                 <span className="dot" />
                 <span className="dot" />
                 <span className="dot" />

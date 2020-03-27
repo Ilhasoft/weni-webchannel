@@ -11,7 +11,9 @@ const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, userInput }) =
     <button type="submit" className="send">
       <img src={send} className="send-icon" alt="send" />
     </button>
-  </form>));
+    {React.createElement('a', {href:"https://push.al"}, "Powered by push.al")}
+  </form>
+));
 const mapStateToProps = state => ({
   inputTextFieldHint: state.behavior.get('inputTextFieldHint'),
   userInput: state.metadata.get('userInput')
