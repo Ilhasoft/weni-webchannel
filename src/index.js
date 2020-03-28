@@ -26,6 +26,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
       this.host = host;
       this.onSocketEvent = onSocketEvent;
       this.socket = null;
+      this.subscribed = null;
       this.onEvents = [];
       this.marker = Math.random();
     }
@@ -43,7 +44,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
     }
 
     subscribe(sessionId, callback) {
-      if (!this.socket.isSubscribed(sessionId)) {
+      if (!this.socket.isSubscribed(sessionId) && !this.subscribed) {
+        this.subscribed = sessionId;
         this.socket.subscribe(sessionId).watch(callback);
       }
     }
