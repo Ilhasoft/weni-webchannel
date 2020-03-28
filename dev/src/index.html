@@ -12,7 +12,7 @@
 <script src="index.js"  type="text/javascript"></script>
 <div id="webchat"></div>
 <script>
-  WebChat.default.init({
+  /*WebChat.default.init({
     selector: "#webchat",
     initPayload: "demo",
     socketUrl: 'https://socket.push.al',
@@ -50,7 +50,21 @@
       storage: "session"
     }
   })
-  WebChat.open();
+  WebChat.open();*/
+  WebChat.default.init({
+    selector: "#webchat",
+    initPayload: "start",
+    channelUuid: 'f4ef120d-0b56-47f3-872d-dcdf73f6ee7d',
+    host: 'https://new.push.al',
+    socketUrl: "https://socket.push.al",
+    title: "Coronavírus",
+    showFullScreenButton: false,
+    showCloseButton: false,
+    embedded: true,
+    inputTextFieldHint: "Escreva aqui...",
+    openLauncherImage: 'https://ilhacloud.com/assets/ceara/sig_ceara.png',
+    profileAvatar: 'https://ilhacloud.com/assets/ceara/sig_ceara.png',
+  })
 </script>
 </body>
 

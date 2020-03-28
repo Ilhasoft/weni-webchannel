@@ -12,6 +12,7 @@
     height: 55px;
     font-family: $roboto;
     position: relative;
+    padding-left: 8.5vh;
     .avatar {
       height: 31px;
       width: 31px;
@@ -41,8 +42,9 @@
 
   .title {
     font-size: 20px;
-    margin: 0;
     font-family: $roboto;
+    text-align: left;
+    margin-left: 8.5vh;
   }
 
   .header-buttons {
@@ -116,7 +118,8 @@
   .conversation-container {
     .header {
       @include header-fs;
-
+      min-height: 5vh!important;
+      padding-left: 0vh!important;
       .avatar {
         display: none;
       }
@@ -124,6 +127,7 @@
 
     .title {
       @include title-fs;
+      text-align: center!important;
     }
 
     .close-button {
