@@ -10,6 +10,7 @@ const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, userInput }) =
     <input type="text" className="new-message" name="message" placeholder={inputTextFieldHint} disabled={disabledInput || userInput === 'disable'} autoFocus autoComplete="off" />
     <button type="submit" className="send">
       <img src={send} className="send-icon" alt="send" />
+
     </button>
     {React.createElement('a', {href:"https://push.al"}, "Powered by push.al")}
   </form>

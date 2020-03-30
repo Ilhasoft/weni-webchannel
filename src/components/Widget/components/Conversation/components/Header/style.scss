@@ -8,7 +8,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: center;
+    text-align: left;
     height: 55px;
     font-family: $roboto;
     position: relative;
@@ -28,14 +28,15 @@
       top: 20px;
     }
     .title {
-      top:11px;
     }
     span {
-      bottom: 12px;
+      top: 46px;
+      font-weight: 300;
+      font-size: 13px;
       position: absolute;
-      left: 22px;
+
       &.with-avatar {
-        left: 60px;
+
       }
     }
   }
@@ -44,7 +45,6 @@
     font-size: 20px;
     font-family: $roboto;
     text-align: left;
-    margin-left: 8.5vh;
   }
 
   .header-buttons {
@@ -122,6 +122,14 @@
       padding-left: 0vh!important;
       .avatar {
         display: none;
+      }
+
+      span.with-avatar {
+        text-align: center!important;
+        position: relative;
+        top: 3px;
+        padding: 0;
+        margin: 0;
       }
     }
 
