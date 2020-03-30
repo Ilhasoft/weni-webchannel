@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { PROP_TYPES } from 'constants';
-import { addUserMessage, emitUserMessage, setQuickReply, toggleInputDisabled, changeInputFieldHint } from 'actions';
+import { addUserMessage, emitUserMessage, setQuickReply, setUserInput, toggleInputDisabled, changeInputFieldHint } from 'actions';
 import Message from '../Message/index';
 
 import './styles.scss';
@@ -30,13 +30,37 @@ class QuickReply extends PureComponent {
   handleClick(reply) {
     const {
       chooseReply,
-      id
+      id,
+      userInput,
+      setUserInput,
     } = this.props;
-
     const payload = reply.get('payload');
     const title = reply.get('title');
-    chooseReply(payload, title, id);
-    // this.props.changeInputFieldHint('Type a message...');
+    const verify = this.verifyType(title);
+    if(verify === 'regular') {
+      chooseReply(payload, title, id);
+      // this.props.changeInputFieldHint('Type a message...');
+    } else {
+      var value = userInput;
+
+      if(value !== '') {
+        value = value.concat(", ",title.replace("[] ",""));
+        setUserInput(value);
+      } else {
+        value = value.concat(title.replace("[] ",""));
+        setUserInput(value);
+      }
+    }
+
+  }
+
+  verifyType(title) {
+    var response = title.indexOf("[]");
+    if(response !== -1) {
+      return 'checkbox';
+    } else {
+      return 'regular';
+    }
   }
 
   render() {
@@ -66,7 +90,7 @@ class QuickReply extends PureComponent {
                     rel="noopener noreferrer"
                     className={'reply'}
                   >
-                    {reply.get('title')}
+                    {reply.get('title').replace("[] ","")}
                   </a>
                 );
               }
@@ -77,7 +101,7 @@ class QuickReply extends PureComponent {
                   className={'reply'}
                   onClick={() => this.handleClick(reply)}
                 >
-                  {reply.get('title')}
+                  {reply.get('title').replace("[] ","")}
                 </div>
               );
             })}
@@ -92,12 +116,14 @@ class QuickReply extends PureComponent {
 const mapStateToProps = state => ({
   getChosenReply: id => state.messages.get(id).get('chosenReply'),
   inputState: state.behavior.get('disabledInput'),
-  linkTarget: state.metadata.get('linkTarget')
+  linkTarget: state.metadata.get('linkTarget'),
+  userInput: state.metadata.get('userInput'),
 });
 
 const mapDispatchToProps = dispatch => ({
   toggleInputDisabled: () => dispatch(toggleInputDisabled()),
   changeInputFieldHint: hint => dispatch(changeInputFieldHint(hint)),
+  setUserInput: (value) => dispatch(setUserInput(value)),
   chooseReply: (payload, title, id) => {
     dispatch(setQuickReply(id, title));
     dispatch(addUserMessage(title));
@@ -112,7 +138,9 @@ QuickReply.propTypes = {
   id: PropTypes.number,
   isLast: PropTypes.bool,
   message: PROP_TYPES.QUICK_REPLY,
-  linkTarget: PropTypes.string
+  linkTarget: PropTypes.string,
+  setUserInput: PropTypes.func,
+  userInput: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuickReply);
