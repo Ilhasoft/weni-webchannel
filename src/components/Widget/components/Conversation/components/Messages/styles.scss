@@ -113,11 +113,13 @@ div#wave {
 	height:13px;
 	margin-left: auto;
 	margin-right: auto;
+
   .customText {
     display: none;
     animation: wave 1.6s linear infinite;
     color:#939393;
   }
+
 	.dot {
 		display:inline-block;
 		width:5px;

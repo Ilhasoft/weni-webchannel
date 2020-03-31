@@ -12,7 +12,7 @@
 <script src="index.js"  type="text/javascript"></script>
 <div id="webchat"></div>
 <script>
-  /*WebChat.default.init({
+  WebChat.default.init({
     selector: "#webchat",
     initPayload: "demo",
     socketUrl: 'https://socket.push.al',
@@ -26,6 +26,8 @@
     docViewer: true,
     showFullScreenButton: true,
     hideWhenNotConnected: true,
+    openLauncherImage: 'https://ilhacloud.com/assets/ceara/sig_ceara.png',
+    profileAvatar: 'https://ilhacloud.com/assets/ceara/sig_ceara.png',
     defaultHighlightAnimation: `@keyframes default-botfront-blinker-animation {
       from {
       outline-style: none;
@@ -50,22 +52,7 @@
       storage: "session"
     }
   })
-  WebChat.open();*/
-  WebChat.default.init({
-    selector: "#webchat",
-    initPayload: "start",
-    channelUuid: '47c8becc-3e19-4685-9910-1fb911c608fb',
-    host: 'https://new.push.al',
-    socketUrl: "https://socket.push.al",
-    title: "Plantão Coronavírus",
-    subtitle: 'Faça sua triagem e tire dúvidas',
-    showFullScreenButton: true,
-    showCloseButton: true,
-    embedded: false,
-    inputTextFieldHint: "Escreva aqui...",
-    openLauncherImage: 'https://ilhacloud.com/assets/ceara/sig_ceara.png',
-    profileAvatar: 'https://ilhacloud.com/assets/ceara/sig_ceara.png',
-  })
+  WebChat.open();
 </script>
 </body>
 

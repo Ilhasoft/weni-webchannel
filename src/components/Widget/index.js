@@ -54,8 +54,6 @@ class Widget extends Component {
   componentDidMount() {
     const { connectOn, autoClearCache, storage, dispatch, defaultHighlightAnimation } = this.props;
 
-    // add the default highlight css to the document
-    
     const styleNode = document.createElement('style');
     styleNode.innerHTML = defaultHighlightAnimation;
     document.body.appendChild(styleNode);
@@ -96,7 +94,7 @@ class Widget extends Component {
       dispatch(showChat());
       dispatch(openChat());
     }
-    //this.applyCustomStyle();
+
   }
 
   componentWillUnmount() {
