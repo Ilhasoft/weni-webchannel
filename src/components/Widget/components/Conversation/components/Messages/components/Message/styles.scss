@@ -33,7 +33,6 @@
   .response {
     @include message-bubble(#000, #292929, 0 15px 15px 15px);
     overflow-wrap: break-word;
-    background-color: rgba(0,0,0,0)!important;
   }
 
   /* For markdown elements created with default styles */
