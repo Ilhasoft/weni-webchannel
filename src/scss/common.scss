@@ -9,7 +9,7 @@ $roboto: 'Roboto', serif;
   padding: 11px 15px;
   text-align: left;
   font-family: $roboto;
-  font-weight: 300;
+
 }
 
 @mixin borderless-message-bubble($color, $textColor) {
@@ -100,6 +100,7 @@ $roboto: 'Roboto', serif;
     font-size: 22px;
     line-height: 1.5;
     font-family: $roboto;
+    font-weight: 300;
     .markdown {
 
       p {
