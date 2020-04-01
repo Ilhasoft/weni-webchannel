@@ -3,16 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setUserInput } from 'actions';
 import send from 'assets/send_button.svg';
+import send2 from 'assets/send_button2.svg';
 import './style.scss';
 
 
 const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, userInput, setUserInput }) => (userInput === 'hide' ? <div /> : (
   <form className="sender" onSubmit={sendMessage}>
     <input type="text" className="new-message" name="message" value={userInput} onChange={(value) => setUserInput(value.target.value)} placeholder={inputTextFieldHint} disabled={disabledInput || userInput === 'disable'} autoFocus autoComplete="off" />
-    <button type="submit" className="send">
-      <img src={send} className="send-icon" alt="send" />
-
-    </button>
+    {(userInput === '' || userInput === null) &&
+        <button type="submit" className="send">
+          <img src={send} className="send-icon" alt="send message" />
+        </button>}
+        {userInput !== '' &&
+            <button type="submit" className="send">
+              <img src={send2} className="send-icon" alt="send message" />
+            </button>}
     {React.createElement('a', {href:"https://push.al"}, "Powered by push.al")}
   </form>
 ));
