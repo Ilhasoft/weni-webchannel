@@ -18,7 +18,6 @@ const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, userInput, set
             <button type="submit" className="send">
               <img src={send2} className="send-icon" alt="send message" />
             </button>}
-    {React.createElement('a', {href:"https://push.al", className:"poweredby-container"}, "Powered by push.al")}
   </form>
 ));
 const mapStateToProps = state => ({
