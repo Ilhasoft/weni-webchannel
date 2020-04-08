@@ -14,6 +14,7 @@ const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, userInput, set
         inputEl.current.focus()
     }, 100)
   }
+  
   return (userInput === 'hide' ? <div /> : (
   <form className="sender" onSubmit={sendMessage}>
     <input type="text" className="new-message" ref={inputEl} name="message" onBlur={() => focusInput()} value={userInput} onChange={(value) => setUserInput(value.target.value)} placeholder={inputTextFieldHint} disabled={disabledInput || userInput === 'disable'} autoFocus autoComplete="off" />
