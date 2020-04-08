@@ -40,7 +40,7 @@ class QuickReply extends PureComponent {
     if(verify === 'regular') {
       chooseReply(payload, title, id);
       // this.props.changeInputFieldHint('Type a message...');
-    } else if(verify === 'checkbox') {
+    } else {
       var value = userInput;
 
       if(value !== '') {
@@ -50,31 +50,7 @@ class QuickReply extends PureComponent {
         value = value.concat(title.replace("[] ",""));
         setUserInput(value);
       }
-    } else if(verify === 'location') {
-      if(navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const value = 'Minha localização é: ['+position.coords.latitude+','+position.coords.longitude+']';
-        chooseReply(value, value, id);
-      }, (error) => {
-        switch(error.code) {
-    case error.PERMISSION_DENIED:
-      chooseReply("Você bloqueou a sua localização.", "Você bloqueou a sua localização." ,id)
-      break;
-    case error.POSITION_UNAVAILABLE:
-      chooseReply("A sua localização não foi validada.", "A sua localização não foi validada." ,id)
-      break;
-    case error.TIMEOUT:
-      chooseReply("Não conseguimos recuperar sua localização.", "Não conseguimos recuperar sua localização." ,id)
-      break;
-    case error.UNKNOWN_ERROR:
-      chooseReply("Ocorreu um erro desconhecido.", "Ocorreu um erro desconhecido." ,id)
-      break;
-  }
-      });
-    } else {
-      chooseReply("Ocorreu um erro desconhecido.", "Ocorreu um erro desconhecido." ,id);
     }
-  }
 
   }
 
@@ -83,12 +59,7 @@ class QuickReply extends PureComponent {
     if(response !== -1) {
       return 'checkbox';
     } else {
-      response = title.indexOf("[Loc]");
-      if(response !== -1) {
-        return 'location';
-      } else {
-        return 'regular';
-      }
+      return 'regular';
     }
   }
 
@@ -119,7 +90,7 @@ class QuickReply extends PureComponent {
                     rel="noopener noreferrer"
                     className={'reply'}
                   >
-                    {reply.get('title').replace("[] ","").replace("[Loc] ","")}
+                    {reply.get('title').replace("[] ","")}
                   </a>
                 );
               }
@@ -130,7 +101,7 @@ class QuickReply extends PureComponent {
                   className={'reply'}
                   onClick={() => this.handleClick(reply)}
                 >
-                  {reply.get('title').replace("[] ","").replace("[Loc] ","")}
+                  {reply.get('title').replace("[] ","")}
                 </div>
               );
             })}
