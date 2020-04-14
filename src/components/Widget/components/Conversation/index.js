@@ -31,6 +31,7 @@ const Conversation = props =>
       sendMessage={props.sendMessage}
       disabledInput={props.disabledInput}
     />
+    {React.createElement('a', {href:"https://push.al", className:"poweredby-container", target:"_blank"}, "Powered by Push Platform")}
   </div>;
 
 Conversation.propTypes = {

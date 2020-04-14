@@ -10,6 +10,20 @@
   width: 370px;
 }
 
+.poweredby-container {
+    width: 100%;
+    justify-content: center;
+    align-items: flex-end;
+    bottom: 0;
+    font: 11px Roboto, Arial, Verdana, sans-serif !important;
+    color: #a2a5a8;
+    pointer-events: all;
+    display: flex;
+    padding: 5px 0 5px 0;
+    background-color: #e8eaeb;
+    opacity: inherit;
+}
+
 .slide-out {
   @include animation(0, 0.5s, slide-out);
 }
