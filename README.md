@@ -90,7 +90,7 @@ set to `true` if you don't want to see the launcher.
 | `storage`              | `"local"`          | Specifies the storage location of the conversation state in the browser. `"session"` defines the state to be stored in the session storage. The session storage persists on reload of the page, and is cleared after the browser or tab is closed, or when `sessionStorage.clear()`is called. `"local"` defines the state to be stored in the local stoage. The local storage persists after the the browser is closed, and is cleared when the cookies of the browser are cleared, or when `localStorage.clear()`is called. |
 | `customComponent`      | `null`             | Custom component to be used with custom responses. E.g.: `customComponent={ (messageData) => (<div>Custom React component</div>)` }                                                                                                                                                                                                                                                                                                                                                                                          |
 | `onWidgetEvent`        | `{}`             | call custom code on a specific widget event ( onChatOpen, onChatClose, onChatHidden, are available for now ), add a function to the desired object property in the props to have it react to the event. |
-| `marginBottom`        | See below             | Specifies a custom value for margin-bottom CSS property for `.conversation-container` class .
+| `marginBottom`        | See below             | Specifies a custom value for `margin-bottom` CSS property for `.conversation-container` class, this changes how much the container will appear above the close button.
 
 ### Additional Examples
 
@@ -128,7 +128,7 @@ params={{
 
 ##### `marginBottom`
 
-The `marginBottom` props only allows to specify custom value for `.conversation-container` `margin-bottom` CSS property:
+The `marginBottom` props specifies a custom value for `margin-bottom` CSS property for `.conversation-container` class, this changes how much the container will appear above the close button.
 ```css
 marginBottom: `.conversation-container {
     margin-bottom: inherit;
