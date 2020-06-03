@@ -617,7 +617,7 @@ Widget.propTypes = {
   defaultHighlightAnimation: PropTypes.string,
   defaultHighlightCss: PropTypes.string,
   defaultHighlightClassname: PropTypes.string,
-  heightTest: PropTypes.string
+  marginBottom: PropTypes.string
 };
 
 Widget.defaultProps = {
@@ -641,7 +641,10 @@ Widget.defaultProps = {
       outline-style: solid;
       outline-color: green;
     }
-  }`
+  }`,
+  marginBottom: `.conversation-container {
+    margin-bottom: inherit;
+  }`,
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);

@@ -186,7 +186,8 @@ ConnectedWidget.propTypes = {
   }),
   disableTooltips: PropTypes.bool,
   defaultHighlightCss: PropTypes.string,
-  defaultHighlightAnimation: PropTypes.string
+  defaultHighlightAnimation: PropTypes.string,
+  marginBottom: PropTypes.string
 };
 
 ConnectedWidget.defaultProps = {
