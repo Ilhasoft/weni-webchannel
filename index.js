@@ -41,6 +41,7 @@ const plugin = {
         defaultHighlightCss={args.defaultHighlightCss}
         defaultHighlightAnimation={args.defaultHighlightAnimation}
         defaultHighlightClassname={args.defaultHighlightClassname}
+        marginBottom={args.marginBottom}
       />, document.querySelector(args.selector)
     );
   }

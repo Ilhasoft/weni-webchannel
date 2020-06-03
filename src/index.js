@@ -139,6 +139,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         defaultHighlightCss={props.defaultHighlightCss}
         defaultHighlightAnimation={props.defaultHighlightAnimation}
         defaultHighlightClassname={props.defaultHighlightClassname}
+        marginBottom={props.marginBottom}
       />
     </Provider>
   );

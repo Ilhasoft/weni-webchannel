@@ -52,12 +52,16 @@ class Widget extends Component {
 
 
   componentDidMount() {
-    const { connectOn, autoClearCache, storage, dispatch, defaultHighlightAnimation } = this.props;
+    const { connectOn, autoClearCache, storage, dispatch, defaultHighlightAnimation, marginBottom } = this.props;
 
     const styleNode = document.createElement('style');
     styleNode.innerHTML = defaultHighlightAnimation;
     document.body.appendChild(styleNode);
 
+    const marginBottomCss = document.createElement('style');
+    marginBottomCss.innerHTML = marginBottom;
+    document.body.appendChild(marginBottomCss);
+    
     this.intervalId = setInterval(() => dispatch(evalUrl(window.location.href)), 500);
     if (connectOn === 'mount') {
       this.initializeWidget();
@@ -612,7 +616,8 @@ Widget.propTypes = {
   disableTooltips: PropTypes.bool,
   defaultHighlightAnimation: PropTypes.string,
   defaultHighlightCss: PropTypes.string,
-  defaultHighlightClassname: PropTypes.string
+  defaultHighlightClassname: PropTypes.string,
+  heightTest: PropTypes.string
 };
 
 Widget.defaultProps = {
