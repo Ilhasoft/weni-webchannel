@@ -1,9 +1,9 @@
 @import "variables.scss";
 @import "common.scss";
 
-.conversation-container {
+.push-conversation-container {
 
-  .message {
+  .push-message {
     margin: 10px;
     display: flex;
     font-size: 14px;
@@ -11,15 +11,15 @@
     font-family: $roboto;
 
 
-    .markdown {
+    .push-markdown {
       p {
         margin: 0 auto;
       }
     }
   }
 
-  .client {
-    @include message-bubble($blue-1, #fff);
+  .push-client {
+    @include push-message-bubble($blue-1, #fff);
     margin-left: auto;
     overflow-wrap: break-word;
 
@@ -28,15 +28,15 @@
     }
   }
 
-  .response {
-    @include message-bubble(#000, #292929, 0 15px 15px 15px);
+  .push-response {
+    @include push-message-bubble(#000, #292929, 0 15px 15px 15px);
     overflow-wrap: break-word;
   }
 
   /* For markdown elements created with default styles */
-  .message-text {
+  .push-message-text {
     margin: 0;
-    .markdown{
+    .push-markdown{
       p{
         margin-bottom: 1em;
         &:last-child{

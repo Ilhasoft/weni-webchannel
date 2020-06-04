@@ -2,7 +2,7 @@
 
 $roboto: 'Roboto', serif;
 
-@mixin message-bubble($color, $textColor, $borderRadius: 15px) {
+@mixin push-message-bubble($color, $textColor, $borderRadius: 15px) {
   background-color: $color;
   color: $textColor;
   border-radius: $borderRadius;
@@ -12,7 +12,7 @@ $roboto: 'Roboto', serif;
 
 }
 
-@mixin borderless-message-bubble($color, $textColor) {
+@mixin push-borderless-message-bubble($color, $textColor) {
     border-color: $color;
     border-radius: 15px;
     color: $textColor;
@@ -23,7 +23,7 @@ $roboto: 'Roboto', serif;
     font-family: $roboto;
   }
 
-@mixin widget-container-fs {
+@mixin push-widget-container-fs {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -31,27 +31,27 @@ $roboto: 'Roboto', serif;
   width: 100%;
 }
 
-@mixin header-fs {
+@mixin push-header-fs {
   border-radius: 0;
   flex-shrink: 0;
   position: relative;
   text-align: center;
 }
 
-@mixin title-fs {
+@mixin push-title-fs {
   margin: 0;
   padding-left: 0;
 }
 
-@mixin header-buttons-fs {
+@mixin push-header-buttons-fs {
   position: absolute;
   right: 10px;
   display: flex;
   flex-direction: row;
 }
 
-@mixin header-button-fs {
-  @include center;
+@mixin push-header-button-fs {
+  @include push-center;
   display: inline-block;
   background-color: $blue-1;
   border: 0;
@@ -67,8 +67,8 @@ $roboto: 'Roboto', serif;
   }
 }
 
-@mixin header-icon-fs {
-  &.default {
+@mixin push-header-icon-fs {
+  &.push-default {
     width: 20px;
     height: 20px;
 
@@ -90,44 +90,44 @@ $roboto: 'Roboto', serif;
   }
 }
 
-@mixin messages-container-fs {
+@mixin push-messages-container-fs {
   height: 100%;
   padding: 3% 15% 0 15%;
   max-height: none;
-  .message {
+  .push-message {
 
     display: flex;
     font-size: 22px;
     line-height: 1.5;
     font-family: $roboto;
     font-weight: 300;
-    .markdown {
+    .push-markdown {
 
       p {
         margin: 0;
       }
 
 
-      @keyframes typing {
+      @keyframes push-typing {
         from { width: 0;  }
         to { width: 100%; }
       }
     }
 
-    .response {
+    .push-response {
       background-color: rgba(0,0,0,0)
     }
   }
 }
 
-@mixin conversation-container-fs {
+@mixin push-conversation-container-fs {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
   border-radius: 0;
 
-  .sender {
+  .push-sender {
     align-items: center;
     display: flex;
     background-color: $grey-2;
@@ -135,7 +135,7 @@ $roboto: 'Roboto', serif;
     padding: 0 15% 0 15%;
   }
 
-  .sender a, .sender a:active, .sender a:hover {
+  .push-sender a, .push-sender a:active, .push-sender a:hover {
     display: inline;
     position: absolute;
     bottom: 1vh;
@@ -145,7 +145,7 @@ $roboto: 'Roboto', serif;
     text-decoration: none;
   }
 
-  .new-message {
+  .push-new-message {
     font-size: 2em;
     font-weight: 300;
     width: 100%;
@@ -159,11 +159,11 @@ $roboto: 'Roboto', serif;
     }
   }
 
-  .send {
+  .push-send {
     background: $grey-2;
     border: 0;
 
-    .send-icon {
+    .push-send-icon {
       height: 4.7vh;
       cursor: pointer;
     }
@@ -173,23 +173,23 @@ $roboto: 'Roboto', serif;
 
 }
 
-@mixin loading-fs {
+@mixin push-loading-fs {
   border-radius: 0;
   flex-shrink: 0;
   position: relative;
 }
 
-@mixin launcher-fs {
+@mixin push-launcher-fs {
   margin: 0 20px 20px 0;
 }
 
-@mixin center {
+@mixin push-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-@mixin reply {
+@mixin push-reply {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -217,7 +217,7 @@ $roboto: 'Roboto', serif;
   margin: 0.25em;
 }
 
-@mixin replies {
+@mixin push-replies {
   max-width: 100%;
   margin: 10px;
   display: flex;

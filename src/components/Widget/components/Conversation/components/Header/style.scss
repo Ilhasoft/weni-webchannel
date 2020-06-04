@@ -1,8 +1,8 @@
 @import "variables.scss";
 @import "common.scss";
 
-.conversation-container {
-  .header {
+.push-conversation-container {
+  .push-header {
     background-color: $blue-1;
     color: $white;
     display: flex;
@@ -13,7 +13,7 @@
     font-family: $roboto;
     position: relative;
     padding-left: 8.5vh;
-    .avatar {
+    .push-avatar {
       height: 31px;
       width: 31px;
       position: absolute;
@@ -22,12 +22,13 @@
     }
   }
 
-  .header.with-subtitle {
+  .push-header.push-with-subtitle {
     height: 70px;
-    .avatar {
+    .push-avatar {
       top: 20px;
     }
-    .title {
+    .push-title {
+      color: red
     }
     span {
       top: 46px;
@@ -35,35 +36,35 @@
       font-size: 13px;
       position: absolute;
 
-      &.with-avatar {
-
+      &.push-with-avatar {
+        top: 65%
       }
     }
   }
 
-  .title {
+  .push-title {
     font-size: 20px;
     font-family: $roboto;
     text-align: left;
   }
 
-  .header-buttons {
-    @include header-buttons-fs;
+  .push-header-buttons {
+    @include push-header-buttons-fs;
   }
 
-  .close-button {
+  .push-close-button {
     display: none;
   }
 
-  .toggle-fullscreen-button {
-    @include header-button-fs;
+  .push-toggle-fullscreen-button {
+    @include push-header-button-fs;
   }
 
-  .toggle-fullscreen {
-    @include header-icon-fs;
+  .push-toggle-fullscreen {
+    @include push-header-icon-fs;
   }
 
-  .loading {
+  .push-loading {
     background-color: $grey-3;
     color: $white;
     display: flex;
@@ -75,18 +76,18 @@
   }
 }
 
-.widget-embedded {
-  .header {
+.push-widget-embedded {
+  .push-header {
     display: none;
   }
 }
 
-.full-screen {
+.push-full-screen {
 
-  .header {
-    @include header-fs;
+  .push-header {
+    @include push-header-fs;
     min-height: 10vh;
-    .avatar {
+    .push-avatar {
       width: 5vh;
       height: 5vh;
       position: absolute;
@@ -95,36 +96,36 @@
     }
   }
 
-  .title {
-    @include title-fs;
+  .push-title {
+    @include push-title-fs;
   }
 
-  .close-button,
-  .toggle-fullscreen-button {
-    @include header-button-fs;
+  .push-close-button,
+  .push-toggle-fullscreen-button {
+    @include push-header-button-fs;
   }
 
-  .close,
-  .toggle-fullscreen {
-    @include header-icon-fs;
+  .push-close,
+  .push-toggle-fullscreen {
+    @include push-header-icon-fs;
   }
 
-  .loading {
-    @include loading-fs;
+  .push-loading {
+    @include push-loading-fs;
   }
 }
 
 @media screen and (max-width: 800px) {
-  .conversation-container {
-    .header {
-      @include header-fs;
+  .push-conversation-container {
+    .push-header {
+      @include push-header-fs;
       min-height: 5vh!important;
       padding-left: 0vh!important;
-      .avatar {
+      .push-avatar {
         display: none;
       }
 
-      span.with-avatar {
+      span.push-with-avatar {
         text-align: center!important;
         position: relative;
         top: 3px;
@@ -133,25 +134,25 @@
       }
     }
 
-    .title {
-      @include title-fs;
+    .push-title {
+      @include push-title-fs;
       text-align: center!important;
     }
 
-    .close-button {
-      @include header-button-fs;
+    .push-close-button {
+      @include push-header-button-fs;
     }
 
-    .close {
-      @include header-icon-fs;
+    .push-close {
+      @include push-header-icon-fs;
     }
 
-    .toggle-fullscreen-button, .toggle-fullscreen {
+    .push-toggle-fullscreen-button, .push-toggle-fullscreen {
       display: none;
     }
 
-    .loading {
-      @include loading-fs;
+    .push-loading {
+      @include push-loading-fs;
     }
   }
 }
