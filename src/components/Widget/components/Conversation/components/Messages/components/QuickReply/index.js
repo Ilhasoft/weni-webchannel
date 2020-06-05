@@ -109,7 +109,7 @@ class QuickReply extends PureComponent {
         <Message message={message} />
         {isLast && (
           <div className="push-replies">
-            {message.get('push-quick_replies').map((reply, index) => {
+            {message.get('quick_replies').map((reply, index) => {
               if (reply.get('type') === 'web_url') {
                 return (
                   <a
