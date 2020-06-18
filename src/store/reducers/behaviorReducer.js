@@ -73,6 +73,9 @@ export default function (
       case actionTypes.INITIALIZE: {
         return storeParams(state.set('initialized', true));
       }
+      case actionTypes.RELOAD: {
+        return storeParams(state.update('initialized', initialized => !initialized));
+      }
       case actionTypes.NEW_UNREAD_MESSAGE: {
         return storeParams(state.set('unreadCount', state.get('unreadCount', 0) + 1));
       }

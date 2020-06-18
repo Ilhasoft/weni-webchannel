@@ -13,6 +13,10 @@ export function initialize() {
   store.dispatch(actions.initialize());
 }
 
+export function reload() {
+  store.dispatch(actions.reload());
+}
+
 export function connect() {
   store.dispatch(actions.connect());
 }

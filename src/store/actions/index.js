@@ -265,3 +265,8 @@ export function setCustomCss(customCss) {
   };
 }
 
+export function reload() {
+  return {
+    type: actions.RELOAD
+  };
+}
