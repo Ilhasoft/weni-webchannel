@@ -22,7 +22,7 @@
     @include message-bubble($blue-1, #fff);
     margin-left: auto;
     overflow-wrap: break-word;
-
+    overflow: auto;
     a {
       color: $turqois-1;
     }

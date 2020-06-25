@@ -3,6 +3,10 @@
 
 .conversation-container {
 
+  .quickReplies-container {
+    overflow: auto;
+  }
+
   .replies {
     @include replies;
   }
