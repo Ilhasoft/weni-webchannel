@@ -31,6 +31,7 @@
   .response {
     @include message-bubble(#000, #292929, 0 15px 15px 15px);
     overflow-wrap: break-word;
+    overflow: auto;
   }
 
   /* For markdown elements created with default styles */
