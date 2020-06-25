@@ -41,4 +41,4 @@ Sender.propTypes = {
   setUserInput: PropTypes.func,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sender);
+export default connect(mapDispatchToProps)(Sender);
