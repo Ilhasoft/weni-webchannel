@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.34](https://https///compare/v0.7.33...v0.7.34) (2020-06-26)
+
+
+### Bug Fixes
+
+* removed bug line ([a181f06](https://https///commit/a181f065cbefb4743b57268fac0d7665f004bb82))
+* userInput now is not deleted on bot message ([d2df1e7](https://https///commit/d2df1e752603f4a58f56fa3e5363a5c4d30bc367))
+
 ### [0.7.33](https://https///compare/v0.7.32...v0.7.33) (2020-04-14)
 
 ### [0.7.32](https://https///compare/v0.7.31...v0.7.32) (2020-04-08)
