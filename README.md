@@ -315,6 +315,16 @@ hierarchy:
 | .videoFrame             | a container for sending video                                       |
 
 
+## Distributing
+
+If you want to fork this repository to create your own distribution, you can reuse some build files and enable Google Cloudbuild to do so. Just follow these steps:
+
+1. Create a project in Google Cloud Console and follow [these instructions](https://cloud.google.com/cloud-build/docs/quickstart-build#before-you-begin);
+2. Once you've connected and selected the right project in your terminal for Google Cloud project, just setup your npm user by running `npm adduser`;
+3. Update `package.json` file and `cloudbuild.yaml` with proper name of your app;
+4. Once everything is ready, you can just run `gcloud builds submit --config=cloudbuild.yaml --substitutions=TAG_NAME="replace_with_tag_name"`
+
+
 ## Contributors
 [@Ilhasoft](https://github.com/Ilhasoft)
 [@johncordeiro](https://github.com/johncordeiro)
