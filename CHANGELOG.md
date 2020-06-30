@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.35](https://https///compare/v0.7.34...v0.7.35) (2020-06-30)
+
+
+### Bug Fixes
+
+* text overflow ([7086230](https://https///commit/7086230f8cc8beee1eadacda955af2639dc615b8))
+* text overflow on client and quickReplies ([f7f8525](https://https///commit/f7f85253c964930901db6fc23d4a35a34f9dcb66))
+
 ### [0.7.34](https://https///compare/v0.7.33...v0.7.34) (2020-06-26)
 
 
