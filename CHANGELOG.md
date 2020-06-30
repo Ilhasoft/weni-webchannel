@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.36](https://https///compare/v0.7.35...v0.7.36) (2020-06-30)
+
+
+### Bug Fixes
+
+* error after merge ([cbb51e6](https://https///commit/cbb51e67ed12e458f1852d94ba455dabfeb5eff6))
+* inputTextFieldHint prop added to missing places ([de00559](https://https///commit/de00559164536747373ce64f895b2f98ed6f50ea))
+* removed line ([0121fc1](https://https///commit/0121fc1657bda31e4d8b39500a894b504a88b03c))
+
 ### [0.7.35](https://https///compare/v0.7.34...v0.7.35) (2020-06-30)
 
 
