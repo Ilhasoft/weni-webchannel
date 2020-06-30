@@ -30,6 +30,7 @@ const Conversation = props =>
     <Sender
       sendMessage={props.sendMessage}
       disabledInput={props.disabledInput}
+      inputTextFieldHint={props.inputTextFieldHint}
     />
     {React.createElement('a', {href:"https://push.al", className:"poweredby-container", target:"_blank"}, "Powered by Push Platform")}
   </div>;
@@ -50,7 +51,8 @@ Conversation.propTypes = {
   connectingText: PropTypes.string,
   closeImage: PropTypes.string,
   customComponent: PropTypes.func,
-  showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])
+  showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+  inputTextFieldHint: PropTypes.string
 };
 
 export default Conversation;
