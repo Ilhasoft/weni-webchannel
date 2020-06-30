@@ -22,7 +22,7 @@
     @include message-bubble($blue-1, #fff);
     margin-left: auto;
     overflow-wrap: break-word;
-
+    overflow: auto;
     a {
       color: $turqois-1;
     }
@@ -31,6 +31,7 @@
   .response {
     @include message-bubble(#000, #292929, 0 15px 15px 15px);
     overflow-wrap: break-word;
+    overflow: auto;
   }
 
   /* For markdown elements created with default styles */
