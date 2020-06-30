@@ -561,6 +561,7 @@ class Widget extends Component {
         displayUnreadCount={this.props.displayUnreadCount}
         showMessageDate={this.props.showMessageDate}
         tooltipPayload={this.props.tooltipPayload}
+        customizeWidget={this.props.customizeWidget}
       />
     );
   }
@@ -636,7 +637,10 @@ Widget.defaultProps = {
       outline-style: solid;
       outline-color: green;
     }
-  }`
+  }`,
+  customizeWidget: {
+    // headerBackgroundColor: null,
+  }
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);

@@ -60,9 +60,10 @@
 
 
 .push-messages-container {
-  background-color: $white;
-  height: 50vh;
-  max-height: 425px;
+  background-color: var(--chatBackgroundColor);
+  height: 100%;
+  // height: 50vh;
+  // max-height: 425px;
   overflow-y: auto;
   padding-top: 10px;
   .push-avatar {

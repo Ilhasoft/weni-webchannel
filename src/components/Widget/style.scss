@@ -5,13 +5,15 @@
   bottom: 0;
   display: flex;
   flex-direction: column;
-  margin: 0 20px 20px 0;
+  padding: 0 20px 20px 0;
   position: fixed;
   right: 0;
-  width: auto;
+  width: var(--widgetWidth);
+  height: var(--widgetHeight);
   z-index: 9999;
   align-items: flex-end;
   justify-content: flex-end;
+  
 
   &.push-full-screen.push-chat-open {
     @include push-widget-container-fs;

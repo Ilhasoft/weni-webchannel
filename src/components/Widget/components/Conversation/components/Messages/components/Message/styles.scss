@@ -19,9 +19,10 @@
   }
 
   .push-client {
-    @include push-message-bubble($blue-1, #fff);
+    @include push-message-bubble(var(--userMessageBubbleColor), var(--userMessageTextColor));
     margin-left: auto;
     overflow-wrap: break-word;
+    overflow: auto;
 
     a {
       color: $turqois-1;
@@ -29,8 +30,9 @@
   }
 
   .push-response {
-    @include push-message-bubble(#000, #292929, 0 15px 15px 15px);
+    @include push-message-bubble(var(--botMessageBubbleColor), var(--botMessageTextColor), 0 15px 15px 15px);
     overflow-wrap: break-word;
+    overflow: auto;
   }
 
   /* For markdown elements created with default styles */

@@ -9,11 +9,11 @@ import './style.scss';
 
 const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, userInput, setUserInput }) => {
   const inputEl = useRef()
-  const focusInput = () => {
-    setTimeout(()=> {
-        inputEl.current.focus()
-    }, 100)
-  }
+  // const focusInput = () => {
+  //   setTimeout(()=> {
+  //       inputEl.current.focus()
+  //   }, 100)
+  // }
   
   return (userInput === 'hide' ? <div /> : (
   <form className="push-sender" onSubmit={sendMessage}>

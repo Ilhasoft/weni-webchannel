@@ -20,11 +20,12 @@
     tooltipPayload: "/tooltip_registered_accounts",
     tooltipDelay: 40000,
     subtitle: 'A subtitle',
-    inputTextFieldHint: "Type a message...",
+    inputTextFieldHint: "Taaaaaaaaype a message...",
     connectingText: "Waiting for server...",
     hideWhenNotConnected: false,
     docViewer: true,
     showFullScreenButton: true,
+    showCloseButton: true,
     hideWhenNotConnected: true,
     defaultHighlightAnimation: `@keyframes default-botfront-blinker-animation {
       from {
@@ -48,6 +49,27 @@
         }
       },
       storage: "session"
+    },
+    customizeWidget: {
+      titleColor: "yellow",
+      headerBackgroundColor: "red",
+      launcherColor: "red",
+      chatBackgroundColor: "blue",
+      inputBackgroundColor: "gold",
+      inputFontColor: "#ff00ff",
+      inputPlaceholderColor: "red",
+      userMessageBubbleColor: "aquamarine",
+      userMessageTextColor: "black",
+      botMessageBubbleColor: "hotpink",
+      botMessageTextColor: "white",
+      widgetHeight: "50vh",
+      widgetWidth: "370px",
+      launcherHeight: "60px",
+      launcherWidth: "60px",
+      quickRepliesFontColor: "yellow",
+      quickRepliesBackgroundColor: "orangered",
+      quickRepliesBorderColor: "white",
+      quickRepliesBorderWidth: "2px"
     }
   })
   WebChat.open();

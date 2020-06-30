@@ -11,9 +11,13 @@
     @include push-reply;
   }
   
-  .push-response {
-    @include push-message-bubble($grey-2, #000, 0 15px 15px 15px);
+  // .push-response {
+  //   @include push-message-bubble($grey-2, #000, 0 15px 15px 15px);
 
+  // }
+
+  .push-quickReplies-container {
+    overflow: auto;
   }
   
   .push-avatar {

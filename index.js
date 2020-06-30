@@ -41,6 +41,7 @@ const plugin = {
         defaultHighlightCss={args.defaultHighlightCss}
         defaultHighlightAnimation={args.defaultHighlightAnimation}
         defaultHighlightClassname={args.defaultHighlightClassname}
+        customizeWidget={args.customizeWidget}
       />, document.querySelector(args.selector)
     );
   }

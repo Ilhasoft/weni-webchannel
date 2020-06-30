@@ -3,7 +3,7 @@
 
 .push-conversation-container {
   .push-header {
-    background-color: $blue-1;
+    background-color: var(--headerBackgroundColor);
     color: $white;
     display: flex;
     flex-direction: column;
@@ -27,8 +27,7 @@
     .push-avatar {
       top: 20px;
     }
-    .push-title {
-    }
+
     span {
       top: 46px;
       font-weight: 300;
@@ -45,6 +44,7 @@
     font-size: 20px;
     font-family: $roboto;
     text-align: left;
+    color: var(--titleColor);
   }
 
   .push-header-buttons {

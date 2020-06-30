@@ -4,7 +4,7 @@
   .push-sender {
     align-items: center;
     display: flex;
-    background-color: $grey-2;
+    background-color: var(--inputBackgroundColor);
     height: 45px;
     padding: 5px;
     margin-bottom: 0px;
@@ -18,24 +18,30 @@
     font-size: 0.9em;
     width: 100%;
     border: 0;
-    background-color: $grey-2;
+    background-color: var(--inputBackgroundColor);
+    color: var(--inputFontColor);
     height: 30px;
     padding-left: 15px;
 
     &:focus {
       outline: none;
     }
+
+    &::placeholder {
+      color: var(--inputPlaceholderColor);
+      opacity: 1;
+    }
   }
 
 
   .push-send {
-    background: $grey-2;
+    background: var(--inputBackgroundColor);
     border: 0;
 
     .push-send-icon {
       height: 25px;
       color: black;
-      
+      fill: red;
     }
   }
 

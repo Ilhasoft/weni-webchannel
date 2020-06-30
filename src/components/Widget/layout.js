@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -7,6 +7,14 @@ import Launcher from './components/Launcher';
 import './style.scss';
 
 const WidgetLayout = (props) => {
+
+  useEffect(() => {
+    console.log(props.customizeWidget)
+    Object.keys(props.customizeWidget).map( (key, item) => {
+      document.body.style.setProperty('--'+key, props.customizeWidget[key])
+    })
+  });
+
   const classes = ['push-widget-container'];
   if (props.fullScreenMode || props.embedded) {
     classes.push('push-full-screen');
