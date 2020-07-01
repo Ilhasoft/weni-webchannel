@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.37](https://https///compare/v0.7.36...v0.7.37) (2020-07-01)
+
+
+### Bug Fixes
+
+* fixed typo ([7c36137](https://https///commit/7c36137bbe08cc19faa58af9cfbfd53ec4d7856a))
+* quick-replies selection to userInput now working ([c435351](https://https///commit/c4353515ac63ee92f78154c2cc2c94e768605563))
+
 ### [0.7.36](https://https///compare/v0.7.35...v0.7.36) (2020-06-30)
 
 
