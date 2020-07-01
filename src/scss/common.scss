@@ -43,6 +43,12 @@ $roboto: 'Roboto', serif;
   padding-left: 0;
 }
 
+@mixin push-subtitle-fs {
+  margin: 0;
+  padding-left: 0;
+  padding-top: 1.5vh;
+}
+
 @mixin push-header-buttons-fs {
   position: absolute;
   right: 10px;
@@ -130,7 +136,7 @@ $roboto: 'Roboto', serif;
   .push-sender {
     align-items: center;
     display: flex;
-    background-color: $grey-2;
+    background-color: var(--inputBackgroundColor);
     height: 15.5vh;
     padding: 0 15% 0 15%;
   }
@@ -150,7 +156,7 @@ $roboto: 'Roboto', serif;
     font-weight: 300;
     width: 100%;
     border: 0;
-    background-color: $grey-2;
+    background-color: var(--inputBackgroundColor);
     height: 10vh;
     padding-left: 15px;
 
@@ -160,7 +166,7 @@ $roboto: 'Roboto', serif;
   }
 
   .push-send {
-    background: $grey-2;
+    background: var(--inputBackgroundColor);
     border: 0;
 
     .push-send-icon {
@@ -180,7 +186,7 @@ $roboto: 'Roboto', serif;
 }
 
 @mixin push-launcher-fs {
-  margin: 0 20px 20px 0;
+  margin: 0 0.5vh 0.5vh 0;
 }
 
 @mixin push-center {

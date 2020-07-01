@@ -2,6 +2,11 @@
 @import "variables.scss";
 @import "animation.scss";
 
+.push-open-launcher__container {
+  width: var(--launcherWidth);
+  height: var(--launcherHeight);
+}
+
 .push-launcher {
   @include push-animation(0, 0.5s, push-slide-in);
   display: flex;
@@ -16,6 +21,9 @@
   width: 60px;
   min-height: var(--launcherHeight);
   min-width: var(--launcherWidth);
+  height: var(--launcherHeight);
+  width: var(--launcherWidth);
+  padding: 0;
 
   &:focus {
     outline: none;
@@ -30,8 +38,8 @@
   }
   
   img {
-    width: 70%;
-    max-height: 70%;
+    width: 100%;
+    border-radius: 100px;
     object-fit: contain;
   }
 

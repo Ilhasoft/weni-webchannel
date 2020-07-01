@@ -47,6 +47,10 @@
     color: var(--titleColor);
   }
 
+  .push-subtitle {
+    color: var(--subtitleColor);
+  }
+
   .push-header-buttons {
     @include push-header-buttons-fs;
   }
@@ -97,6 +101,10 @@
 
   .push-title {
     @include push-title-fs;
+  }
+
+  .push-subtitle {
+    @include push-subtitle-fs
   }
 
   .push-close-button,

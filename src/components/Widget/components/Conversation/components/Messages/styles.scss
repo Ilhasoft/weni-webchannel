@@ -62,8 +62,6 @@
 .push-messages-container {
   background-color: var(--chatBackgroundColor);
   height: 100%;
-  // height: 50vh;
-  // max-height: 425px;
   overflow-y: auto;
   padding-top: 10px;
   .push-avatar {
@@ -109,11 +107,12 @@
 
 div#push-wave {
 	position:relative;
-	text-align:center;
+	// text-align:center;
 	width:25px;
-	height:13px;
+	height: 100%;
 	margin-left: auto;
-	margin-right: auto;
+  margin-right: auto;
+  vertical-align: text-top;
 
   .push-customText {
     display: none;

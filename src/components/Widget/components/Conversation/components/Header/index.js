@@ -52,7 +52,7 @@ const Header = ({
             }
           </div>
           <h4 className={`push-title ${profileAvatar && 'push-with-avatar'}`}>{title}</h4>
-          {subtitle && <span className={profileAvatar && 'push-with-avatar'}>{subtitle}</span>}
+          {subtitle && <span className={`push-subtitle ${profileAvatar && 'push-with-avatar'}`}>{subtitle}</span>}
         </div>
         {
           !connected &&

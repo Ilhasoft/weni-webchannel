@@ -136,7 +136,7 @@ class Messages extends Component {
       <div id="push-messages" className="push-messages-container">
         { renderMessages() }
         {displayTypingIndication && (
-          <div className={`push-message typing-indication ${profileAvatar && 'push-with-avatar'}`}>
+          <div className={`push-message push-typing-indication ${profileAvatar && 'push-with-avatar'}`}>
             {
               profileAvatar &&
               <img src={profileAvatar} className="push-avatar" alt="profile" />
