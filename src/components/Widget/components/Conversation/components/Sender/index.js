@@ -29,6 +29,10 @@ const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, userInput, set
   </form>
 ))};
 
+const mapStateToProps = state => ({
+  userInput: state.metadata.get('userInput'),
+});
+
 const mapDispatchToProps = dispatch => ({
   setUserInput: (value) => dispatch(setUserInput(value)),
 });
@@ -41,4 +45,4 @@ Sender.propTypes = {
   setUserInput: PropTypes.func,
 };
 
-export default connect(mapDispatchToProps)(Sender);
+export default connect(mapStateToProps, mapDispatchToProps)(Sender);
