@@ -6,7 +6,6 @@ import { getLocalSession, storeMetadataTo } from './helper';
 export default function (storage) {
   const defaultValues = Map({
     linkTarget: '',
-    userInput: '',
     domHighlight: Map(),
     hintText: '',
     showTooltip: false
