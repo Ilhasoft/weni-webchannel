@@ -41,7 +41,7 @@ const Header = ({
               </button>
             }
             {
-              showCloseButton &&
+              (fullScreenMode ? true : showCloseButton) &&
               <button className="push-close-button" onClick={toggleChat}>
                 <img
                   className={`push-close ${closeImage ? '' : 'push-default'}`}
