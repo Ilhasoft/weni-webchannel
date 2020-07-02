@@ -7,7 +7,7 @@ import Sender from './components/Sender';
 import './style.scss';
 
 const Conversation = props =>
-  <div className="conversation-container">
+  <div className="push-conversation-container">
     <Header
       title={props.title}
       subtitle={props.subtitle}
@@ -32,7 +32,7 @@ const Conversation = props =>
       disabledInput={props.disabledInput}
       inputTextFieldHint={props.inputTextFieldHint}
     />
-    {React.createElement('a', {href:"https://push.al", className:"poweredby-container", target:"_blank"}, "Powered by Push Platform")}
+    {React.createElement('a', {href:"https://push.al", className:"push-poweredby-container", target:"_blank"}, "Powered by Push Platform")}
   </div>;
 
 Conversation.propTypes = {

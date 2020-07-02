@@ -22,7 +22,7 @@ const formatDate = (date) => {
 };
 
 const scrollToBottom = () => {
-  const messagesDiv = document.getElementById('messages');
+  const messagesDiv = document.getElementById('push-messages');
   if (messagesDiv) {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   }
@@ -94,16 +94,16 @@ class Messages extends Component {
         if (!dateRenderer || !timestamp) return null;
         const dateToRender = dateRenderer(message.get('timestamp', message));
         return dateToRender
-          ? <span className="message-date">{dateRenderer(message.get('timestamp'), message)}</span>
+          ? <span className="push-message-date">{dateRenderer(message.get('timestamp'), message)}</span>
           : null;
       };
 
       const renderMessage = (message, index) => (
-        <div className={`message ${profileAvatar && 'with-avatar'}`} key={index}>
+        <div className={`push-message ${profileAvatar && 'push-with-avatar'}`} key={index}>
           {
             profileAvatar &&
             message.get('showAvatar') &&
-            <img src={profileAvatar} className="avatar" alt="profile" />
+            <img src={profileAvatar} className="push-avatar" alt="profile" />
           }
           { this.getComponentToRender(message, index, index === messages.size - 1) }
           { renderMessageDate(message) }
@@ -126,27 +126,27 @@ class Messages extends Component {
       groups.push(group); // finally push last group of messages.
 
       return groups.map((g, index) => (
-        <div className={`group-message from-${g.from}`} key={`group_${index}`}>
+        <div className={`push-group-message push-from-${g.from}`} key={`group_${index}`}>
           {g.messages}
         </div>
       ));
     };
 
     return (
-      <div id="messages" className="messages-container">
+      <div id="push-messages" className="push-messages-container">
         { renderMessages() }
         {displayTypingIndication && (
-          <div className={`message typing-indication ${profileAvatar && 'with-avatar'}`}>
+          <div className={`push-message push-typing-indication ${profileAvatar && 'push-with-avatar'}`}>
             {
               profileAvatar &&
-              <img src={profileAvatar} className="avatar" alt="profile" />
+              <img src={profileAvatar} className="push-avatar" alt="profile" />
             }
-            <div className="response">
-              <div id="wave">
-                <p className="customText">Typing...</p>
-                <span className="dot" />
-                <span className="dot" />
-                <span className="dot" />
+            <div className="push-response">
+              <div id="push-wave">
+                <p className="push-customText">Typing...</p>
+                <span className="push-dot" />
+                <span className="push-dot" />
+                <span className="push-dot" />
               </div>
             </div>
           </div>

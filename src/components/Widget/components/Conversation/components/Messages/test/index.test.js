@@ -125,14 +125,14 @@ describe('<Messages />', () => {
       );
 
     it('should not render message\'s date', () => {
-      expect(createComponent(false).find('.message-date')).toHaveLength(0);
+      expect(createComponent(false).find('.push-message-date')).toHaveLength(0);
     });
 
     it('should render today\'s time', () => {
       mockDate(today);
       const messageToRender = createNewMessage('Response message 1');
       const renderedComponent = createComponent(true, messageToRender);
-      const date = renderedComponent.find('.message-date');
+      const date = renderedComponent.find('.push-message-date');
       expect(date).toHaveLength(1);
       expect(date.text()).toEqual(today.toLocaleTimeString('en-US', { timeStyle: 'short' }));
     });
@@ -143,14 +143,14 @@ describe('<Messages />', () => {
       const messageToRender = createNewMessage('Response message 1');
       mockDate(today);
       const renderedComponent = createComponent(true, messageToRender);
-      const date = renderedComponent.find('.message-date');
+      const date = renderedComponent.find('.push-message-date');
       expect(date).toHaveLength(1);
       expect(date.text()).toEqual(`${twoDaysAgo.toLocaleDateString()} ${twoDaysAgo.toLocaleTimeString('en-US', { timeStyle: 'short' })}`);
     });
 
     it('should render custom date', () => {
       const renderedComponent = createComponent(() => 'custom date');
-      const date = renderedComponent.find('.message-date');
+      const date = renderedComponent.find('.push-message-date');
       expect(date).toHaveLength(1);
       expect(date.text()).toEqual('custom date');
     });

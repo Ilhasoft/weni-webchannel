@@ -6,12 +6,12 @@ import './styles.scss';
 class VidReply extends PureComponent {
   render() {
     return (
-      <div className="video">
-        <b className="video-title">
+      <div className="push-video">
+        <b className="push-video-title">
           { this.props.message.get('title') }
         </b>
-        <div className="video-details">
-          <iframe src={this.props.message.get('video')} className="videoFrame"></iframe>
+        <div className="push-video-details">
+          <iframe src={this.props.message.get('video')} className="push-videoFrame"></iframe>
         </div>
       </div>
     );

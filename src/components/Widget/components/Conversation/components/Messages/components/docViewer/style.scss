@@ -1,6 +1,6 @@
 @import "variables.scss";
 
-.doc-viewer-modal {
+.push-doc-viewer-modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -9,7 +9,7 @@
   display: block;
 }
 
-.doc-viewer-modal-body {
+.push-doc-viewer-modal-body {
   overflow-y: auto;
   border-radius: 5px;
   width: 80vw;
@@ -18,10 +18,10 @@
   height: 90vh;
   top: 0;
   background: white;
-  animation: doc-viewer-slide-down 0.2s ease;
+  animation: push-doc-viewer-slide-down 0.2s ease;
 }
 
-.doc-viewer-open-modal-link {
+.push-doc-viewer-open-modal-link {
   color: $blue-1;
   text-decoration: underline;
   cursor: pointer;
@@ -32,13 +32,13 @@
   font: inherit;
 }
 
-.doc-viewer-modal-iframe {
+.push-doc-viewer-modal-iframe {
   height: 100%;
   width: 100%;
   border: none;
 }
 
-.doc-viewer-modal-fade {
+.push-doc-viewer-modal-fade {
   opacity: 0.5;
   position: fixed;
   top: 0;
@@ -47,17 +47,17 @@
   left: 0;
   z-index: 10000; // to get on top of the chat widget
   background-color: #000;
-  animation: appear 0.2s ease;
+  animation: push-appear 0.2s ease;
 }
 
-.doc-viewer-modal-footer {
+.push-doc-viewer-modal-footer {
   flex: 0 0 auto;
   border: none;
   text-align: center;
   margin-top: 2vh;
 }
 
-.doc-viewer-close-modal {
+.push-doc-viewer-close-modal {
   border-radius: 50%;
   background: #89919b;
   color: white;
@@ -72,7 +72,7 @@
   font-weight: 100;
 }
 
-.doc-viewer-spinner {
+.push-doc-viewer-spinner {
   display: inline-block;
   width: 64px;
   height: 64px;
@@ -80,9 +80,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-32px, -32px);
-  animation: appear .6s ease-in;
+  animation: push-appear .6s ease-in;
 }
-.doc-viewer-spinner:after {
+.push-doc-viewer-spinner:after {
   content: " ";
   display: block;
   width: 46px;
@@ -92,9 +92,9 @@
   border: 5px solid $blue-1;
   border-color: $blue-1 transparent $blue-1 transparent;
   will-change: transform;
-  animation: doc-viewer-spinner 1.2s linear infinite;
+  animation: push-doc-viewer-spinner 1.2s linear infinite;
 }
-@keyframes doc-viewer-spinner {
+@keyframes push-doc-viewer-spinner {
   0% {
     transform: rotate(0deg);
   }
@@ -103,7 +103,7 @@
   }
 }
 
-@keyframes appear {
+@keyframes push-appear {
   0% {
     opacity: 0;
   }
@@ -113,7 +113,7 @@
   }
 }
 
-@keyframes doc-viewer-slide-down {
+@keyframes push-doc-viewer-slide-down {
   0% {
     opacity: 0;
     transform: translateY(-100px);

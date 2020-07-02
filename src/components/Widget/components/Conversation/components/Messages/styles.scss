@@ -1,8 +1,8 @@
 @import "variables.scss";
 @import "common.scss";
 
-.group-message.from-client {
-  span.message-date {
+.push-group-message.push-from-client {
+  span.push-message-date {
     text-align: right;
     flex-basis: 100%;
     margin-left: 0;
@@ -13,8 +13,8 @@
   }
 }
 
-.group-message.from-response {
-  span.message-date {
+.push-group-message.push-from-response {
+  span.push-message-date {
     text-align: left;
     flex-basis: 100%;
     margin-left: 7px;
@@ -23,49 +23,48 @@
     color: #a4a7ab;
   }
   // When we have several messages, the first one of the group
-  .message:first-child:not(:only-child) {
-    .response {
+  .push-message:first-child:not(:only-child) {
+    .push-response {
       border-radius: 0 15px 15px 0;
     }
     margin-bottom: 2px;
   }
   // When we have several messages, messages that are neither the first, nor the last
-  .message:not(:first-child):not(:last-child):not(:last-child) {
-    .response {
+  .push-message:not(:first-child):not(:last-child):not(:last-child) {
+    .push-response {
       border-radius: 0 15px 15px 0;
     }
     margin-top: 2px;
     margin-bottom: 2px;
   }
   // every message in a group that is NOT the first
-  .message:not(:first-child):not(:only-child) {
-    .avatar {
+  .push-message:not(:first-child):not(:only-child) {
+    .push-avatar {
       display: none;
     }
-    &.with-avatar {
+    &.push-with-avatar {
       margin-left: 33px;
     }
   }
   // When we have several messages, the last one of the group
-  .message:last-child:not(:only-child) {
+  .push-message:last-child:not(:only-child) {
     margin-top: 2px;
   }
 }
 
-.message.typing-indication {
-  .response {
+.push-message.push-typing-indication {
+  .push-response {
     height: 16px;
   }
 }
 
 
-.messages-container {
-  background-color: $white;
-  height: 50vh;
-  max-height: 425px;
+.push-messages-container {
+  background-color: var(--chatBackgroundColor);
+  height: 100%;
   overflow-y: auto;
   padding-top: 10px;
-  .avatar {
+  .push-avatar {
     width: 15px;
     height: 15px;
     margin-top: 0;
@@ -74,19 +73,19 @@
 
 }
 
-.widget-embedded {
-  .messages-container {
+.push-widget-embedded {
+  .push-messages-container {
     height: 100%;
     max-height: 100%;
   }
 }
 
-.full-screen {
+.push-full-screen {
 
-  .messages-container {
-    @include messages-container-fs;
+  .push-messages-container {
+    @include push-messages-container-fs;
 
-    .avatar {
+    .push-avatar {
       width: 2em;
       height: 2em;
       margin: 0.5em 0 0 -1em;
@@ -96,38 +95,39 @@
 }
 
 @media screen and (max-width: 800px)  {
-  .messages-container {
-    @include messages-container-fs;
+  .push-messages-container {
+    @include push-messages-container-fs;
     padding: 3% 4% 0 4%!important;
 
-    .message {
+    .push-message {
         font-size: 14px!important;
     }
   }
 }
 
-div#wave {
+div#push-wave {
 	position:relative;
-	text-align:center;
+	// text-align:center;
 	width:25px;
-	height:13px;
+	height: 100%;
 	margin-left: auto;
-	margin-right: auto;
+  margin-right: auto;
+  vertical-align: text-top;
 
-  .customText {
+  .push-customText {
     display: none;
-    animation: wave 1.6s linear infinite;
+    animation: push-wave 1.6s linear infinite;
     color:#939393;
   }
 
-	.dot {
+	.push-dot {
 		display:inline-block;
 		width:5px;
 		height:5px;
 		border-radius:50%;
 		margin-right:3px;
-		background:#939393;
-		animation: wave 1.6s linear infinite;
+		background:#918585;
+		animation: push-wave 1.6s linear infinite;
 
 		&:nth-child(2) {
 			animation-delay: -1.4s;
@@ -139,7 +139,7 @@ div#wave {
 	}
 }
 
-@keyframes wave {
+@keyframes push-wave {
 	0%, 60%, 100% {
 		transform: initial;
 	}

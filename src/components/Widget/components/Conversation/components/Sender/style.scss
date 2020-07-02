@@ -1,46 +1,52 @@
 @import "variables.scss";
 
-.conversation-container {
-  .sender {
+.push-conversation-container {
+  .push-sender {
     align-items: center;
     display: flex;
-    background-color: $grey-2;
+    background-color: var(--inputBackgroundColor);
     height: 45px;
     padding: 5px;
     margin-bottom: 0px;
   }
 
-  .sender a {
+  .push-sender a {
     display: none;
   }
 
-  .new-message {
+  .push-new-message {
     font-size: 0.9em;
     width: 100%;
     border: 0;
-    background-color: $grey-2;
+    background-color: var(--inputBackgroundColor);
+    color: var(--inputFontColor);
     height: 30px;
     padding-left: 15px;
 
     &:focus {
       outline: none;
     }
+
+    &::placeholder {
+      color: var(--inputPlaceholderColor);
+      opacity: 1;
+    }
   }
 
 
-  .send {
-    background: $grey-2;
+  .push-send {
+    background: var(--inputBackgroundColor);
     border: 0;
 
-    .send-icon {
+    .push-send-icon {
       height: 25px;
       color: black;
-      
+      fill: red;
     }
   }
 
   @media screen and (max-width: 800px)  {
-    .sender {
+    .push-sender {
       border-radius: 0;
       flex-shrink: 0;
     }
@@ -48,8 +54,8 @@
 
 }
 
-.widget-embedded {
-  .sender {
+.push-widget-embedded {
+  .push-sender {
     flex: 0, 0, auto;
     height: 60px;
   }
