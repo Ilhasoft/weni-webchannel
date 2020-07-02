@@ -88,9 +88,9 @@ set to `true` if you don't want to see the launcher.
 | `customMessageDelay`   | See below          | This prop is a function, the function take a message string as an argument. The defined function will be called everytime a message is received and the returned value will be used as a milliseconds delay before displaying a new message.                                                                                                                                                                                                                                                                                 |
 | `params`               | See below          | Essentially used to customize the image size.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `storage`              | `"local"`          | Specifies the storage location of the conversation state in the browser. `"session"` defines the state to be stored in the session storage. The session storage persists on reload of the page, and is cleared after the browser or tab is closed, or when `sessionStorage.clear()`is called. `"local"` defines the state to be stored in the local stoage. The local storage persists after the the browser is closed, and is cleared when the cookies of the browser are cleared, or when `localStorage.clear()`is called. |
-| `customComponent`      | `null`             | Custom component to be used with custom responses. E.g.: `customComponent={ (messageData) => (<div>Custom React component</div>)` }                                                                                                                                                                                                                                                                                                                                                                                          |
-
-| `onWidgetEvent`        | `{}`             | call custom code on a specific widget event ( onChatOpen, onChatClose, onChatHidden, are available for now ), add a function to the desired object property in the props to have it react to the event.
+| `customComponent`      | `null`             | Custom component to be used with custom responses. E.g.: `customComponent={ (messageData) => (<div>Custom React component</div>)` }   |
+| `onWidgetEvent`        | `{}`             | call custom code on a specific widget event ( onChatOpen, onChatClose, onChatHidden, are available for now ), add a function to the desired object property in the props to have it react to the event. |
+| `customizeWidget` | See below | Specifies a set of custom css parameters for the widget style |
 
 ### Additional Examples
 
@@ -126,6 +126,34 @@ params={{
       }}
 ```
 
+##### `customizeWidget`
+
+- All colors are specified using predefined [color names](https://www.w3schools.com/colors/colors_names.asp), or RGB, HEX, HSL, RGBA, HSLA values.
+- All `width` and `height` values can be any of the [standard css lenght unit types](https://www.w3schools.com/cssref/css_units.asp).
+
+| Prop / Param                  | Default value  | Description |
+| ----------------------------- |----------------| ----------- |
+| `titleColor`                  | `#fff`         | Set the widget Title color | 
+| `subtitleColor`               | `#fff`         | Set the widget Subtitle color |
+| `headerBackgroundColor`       | `#003a9b`      | Set the widget Header background-color |
+| `launcherColor`               | `#003a9b`      | Set the widget Launcher color |
+| `chatBackgroundColor`         | `#fff`         | Set the widget Chat background-color |
+| `inputBackgroundColor`        | `#f4f7f9`      | Set the widget Input background-color |
+| `inputFontColor`              | `#000`         | Set the widget Input font color |
+| `inputPlaceholderColor`       | `#b5b5b5`      | Set the widget Input placeholder color |
+| `userMessageBubbleColor`      | `#003a9b`      | Set the user message bubble color |
+| `userMessageTextColor`        | `#fff`         | Set the user message text color |
+| `botMessageBubbleColor`       | `#f4f7f9`      | Set the bot message bubble color |
+| `botMessageTextColor`         | `#000`         | Set the bot message text color |
+| `widgetHeight`                | `65vh`         | Set the widget Height |
+| `widgetWidth`                 | `370px`        | Set the widget Width |
+| `launcherHeight`              | `60px`         | Set the Launcher Height |
+| `launcherWidth`               | `60px`         | Set the Launcher Width |
+| `quickRepliesFontColor`       | `#0084ff`      | Set the Quick-Replies font color |
+| `quickRepliesBackgroundColor` | `none`         | Set the Quick-Replies background-color |
+| `quickRepliesBorderColor`     | `#0084ff`      | Set the Quick-Replies border color |
+| `quickRepliesBorderWidth`     | `1px`          | Set the Quick-Replies border width |
+
 ### Other features
 
 #### Tooltip
@@ -148,7 +176,8 @@ When reconnecting to an existing chat session, the bot will send a message conta
 | `WebChat.show()`                         | Show the chat widget, send initPayload if the chat is in open state and not initialized                                                                                  |
 | `WebChat.hide()`                         | Hide the chat widget                                                                                                                                                     |
 | `WebChat.isVisible()`                    | Get the shown/hidden state of the widget                                                                                                                                 |
-| `WebChat.send(payload, text: optionnal)` | send a payload (`/hello` to Push. If `text` is specified, it will be displayed as a user message. If not specified, no user message will be displayed |                                                                       |
+| `WebChat.send(payload, text: optionnal)` | send a payload (`/hello` to Push. If `text` is specified, it will be displayed as a user message. If not specified, no user message will be displayed |
+| `WebChat.reload()` | Reload the chat widget |
 
 ### Backends
 
@@ -271,48 +300,48 @@ emit('bot_uttered', message, room=socket_id)
 
 hierarchy:
 ```
-.conversation-container
-  |-- .header
-        |-- .title
-        |-- .close-function
-        |-- .loading
-  |-- .messages-container
-        |-- .message
-              |-- .client
-              |-- .response
-        |-- .replies
-              |-- .reply
-              |-- .response
-        |-- .snippet
-              |-- .snippet-title
-              |-- .snippet-details
-              |-- .link
-        |-- .imageFrame
-        |-- .videoFrame
-  |-- .sender
-        |-- .new-message
-        |-- .send
+.push-conversation-container
+  |-- .push-header
+        |-- .push-title
+        |-- .push-close-function
+        |-- .push-loading
+  |-- .push-messages-container
+        |-- .push-message
+              |-- .push-client
+              |-- .push-response
+        |-- .push-replies
+              |-- .push-reply
+              |-- .push-response
+        |-- .push-snippet
+              |-- .push-snippet-title
+              |-- .push-snippet-details
+              |-- .push-link
+        |-- .push-imageFrame
+        |-- .push-videoFrame
+  |-- .push-sender
+        |-- .push-new-message
+        |-- .push-send
 ```
 
 | Class                   |  Description                                                        |
 |-------------------------|---------------------------------------------------------------------|
-| .widget-container       | The div containing the chatbox of the default version               |
-| .widget-embedded        | div of the embedded chatbox (using embedded prop)                   |
-| .full-screen            | div of the fullscreen chatbox (using fullScreenMode prop)           |
-| .conversation-container | the parent div containing the header, message-container and sender  |
-| .messages-container     | the central area where the messages appear                          |
-| .sender                 | div of the bottom area which prompts user input                     |
-| .new-message            | the text input element of sender                                    |
-| .send                   | the send icon element of sender                                     |
-| .header                 | div of the top area with the chatbox header                         |
-| .title                  | the title element of the header                                     |
-| .close-button           | the close icon of the header                                        |
-| .loading                | the loading status element of the header                            |
-| .message                | the boxes holding the messages of client and response               |
-| .replies                | the area that gives quick reply options                             |
-| .snippet                | a component for describing links                                    |
-| .imageFrame             | a container for sending images                                      |
-| .videoFrame             | a container for sending video                                       |
+| `.push-widget-container`       | The div containing the chatbox of the default version               |
+| `.push-widget-embedded`        | div of the embedded chatbox (using embedded prop)                   |
+| `.push-full-screen`            | div of the fullscreen chatbox (using fullScreenMode prop)           |
+| `.push-conversation-container` | the parent div containing the header, message-container and sender  |
+| `.push-messages-container`     | the central area where the messages appear                          |
+| `.push-sender`                 | div of the bottom area which prompts user input                     |
+| `.push-new-message`            | the text input element of sender                                    |
+| `.push-send`                   | the send icon element of sender                                     |
+| `.push-header`                 | div of the top area with the chatbox header                         |
+| `.push-title`                  | the title element of the header                                     |
+| `.push-close-button`           | the close icon of the header                                        |
+| `.push-loading`                | the loading status element of the header                            |
+| `.push-message`                | the boxes holding the messages of client and response               |
+| `.push-replies`                | the area that gives quick reply options                             |
+| `.push-snippet`                | a component for describing links                                    |
+| `.push-imageFrame`             | a container for sending images                                      |
+| `.push-videoFrame`             | a container for sending video                                       |
 
 
 ## Distributing
