@@ -140,6 +140,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         defaultHighlightAnimation={props.defaultHighlightAnimation}
         defaultHighlightClassname={props.defaultHighlightClassname}
         customizeWidget={props.customizeWidget}
+        inputTextFieldHint={props.inputTextFieldHint}
       />
     </Provider>
   );

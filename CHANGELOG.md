@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.36](https://https///compare/v0.7.35...v0.7.36) (2020-06-30)
+
+
+### Bug Fixes
+
+* error after merge ([cbb51e6](https://https///commit/cbb51e67ed12e458f1852d94ba455dabfeb5eff6))
+* inputTextFieldHint prop added to missing places ([de00559](https://https///commit/de00559164536747373ce64f895b2f98ed6f50ea))
+* removed line ([0121fc1](https://https///commit/0121fc1657bda31e4d8b39500a894b504a88b03c))
+
+### [0.7.35](https://https///compare/v0.7.34...v0.7.35) (2020-06-30)
+
+
+### Bug Fixes
+
+* text overflow ([7086230](https://https///commit/7086230f8cc8beee1eadacda955af2639dc615b8))
+* text overflow on client and quickReplies ([f7f8525](https://https///commit/f7f85253c964930901db6fc23d4a35a34f9dcb66))
+
+### [0.7.34](https://https///compare/v0.7.33...v0.7.34) (2020-06-26)
+
+
+### Bug Fixes
+
+* removed bug line ([a181f06](https://https///commit/a181f065cbefb4743b57268fac0d7665f004bb82))
+* userInput now is not deleted on bot message ([d2df1e7](https://https///commit/d2df1e752603f4a58f56fa3e5363a5c4d30bc367))
+
 ### [0.7.33](https://https///compare/v0.7.32...v0.7.33) (2020-04-14)
 
 ### [0.7.32](https://https///compare/v0.7.31...v0.7.32) (2020-04-08)

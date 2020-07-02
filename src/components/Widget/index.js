@@ -562,6 +562,7 @@ class Widget extends Component {
         showMessageDate={this.props.showMessageDate}
         tooltipPayload={this.props.tooltipPayload}
         customizeWidget={this.props.customizeWidget}
+        inputTextFieldHint={this.props.inputTextFieldHint}
       />
     );
   }
@@ -613,7 +614,8 @@ Widget.propTypes = {
   disableTooltips: PropTypes.bool,
   defaultHighlightAnimation: PropTypes.string,
   defaultHighlightCss: PropTypes.string,
-  defaultHighlightClassname: PropTypes.string
+  defaultHighlightClassname: PropTypes.string,
+  inputTextFieldHint: PropTypes.string
 };
 
 Widget.defaultProps = {
@@ -627,7 +629,7 @@ Widget.defaultProps = {
   oldUrl: '',
   disableTooltips: false,
   defaultHighlightClassname: '',
-  defaultHighlightCss: 'animation: 0.5s linear infinite alternate default-botfront-blinker-animation;',
+  defaultHighlightCss: 'push-animation: 0.5s linear infinite alternate default-botfront-blinker-animation;',
   defaultHighlightAnimation: `@keyframes default-botfront-blinker-animation {
     from {
       outline-color: green;
@@ -638,9 +640,7 @@ Widget.defaultProps = {
       outline-color: green;
     }
   }`,
-  customizeWidget: {
-    // headerBackgroundColor: null,
-  }
+  customizeWidget: {}
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);

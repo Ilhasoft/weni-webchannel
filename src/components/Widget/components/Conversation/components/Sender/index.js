@@ -23,8 +23,8 @@ const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, userInput, set
             </button>}
   </form>
 ))};
+
 const mapStateToProps = state => ({
-  inputTextFieldHint: state.behavior.get('inputTextFieldHint'),
   userInput: state.metadata.get('userInput'),
 });
 

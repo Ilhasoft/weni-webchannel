@@ -9,7 +9,6 @@ import './style.scss';
 const WidgetLayout = (props) => {
 
   useEffect(() => {
-    console.log(props.customizeWidget)
     Object.keys(props.customizeWidget).map( (key, item) => {
       document.body.style.setProperty('--'+key, props.customizeWidget[key])
     })
@@ -43,6 +42,7 @@ const WidgetLayout = (props) => {
           disabledInput={props.disabledInput}
           params={props.params}
           showFullScreenButton={props.showFullScreenButton}
+          inputTextFieldHint={props.inputTextFieldHint}
           {...{ showCloseButton }}
           connected={props.connected}
           connectingText={props.connectingText}
@@ -99,7 +99,8 @@ WidgetLayout.propTypes = {
   customComponent: PropTypes.func,
   displayUnreadCount: PropTypes.bool,
   showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  tooltipPayload: PropTypes.string
+  tooltipPayload: PropTypes.string,
+  inputTextFieldHint: PropTypes.string
 };
 
 export default connect(mapStateToProps)(WidgetLayout);

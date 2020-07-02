@@ -42,7 +42,6 @@ class QuickReply extends PureComponent {
       // this.props.changeInputFieldHint('Type a message...');
     } else if(verify === 'checkbox') {
       var value = userInput;
-      console.log("value: ", value)
       if(value !== '') {
         value = value.concat(", ",title.replace("[] ",""));
         setUserInput(value);

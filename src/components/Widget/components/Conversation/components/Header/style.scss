@@ -56,7 +56,11 @@
   }
 
   .push-close-button {
-    display: none;
+    @include push-header-button-fs;
+  }
+
+  .push-close {
+    @include push-header-icon-fs;
   }
 
   .push-toggle-fullscreen-button {
@@ -104,7 +108,8 @@
   }
 
   .push-subtitle {
-    @include push-subtitle-fs
+    @include push-subtitle-fs;
+    top: 50% !important;
   }
 
   .push-close-button,
@@ -132,10 +137,10 @@
         display: none;
       }
 
-      span.push-with-avatar {
+      span.push-with-avatar, span.push-subtitle {
         text-align: center!important;
         position: relative;
-        top: 3px;
+        top: 3px !important;
         padding: 0;
         margin: 0;
       }
