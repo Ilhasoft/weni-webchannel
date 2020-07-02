@@ -20,17 +20,17 @@ class ImgReply extends PureComponent {
 
       <div
         className={customCss && customCss.style === 'class' ?
-          `image ${customCss.css}` :
-          'image'}
+          `push-image ${customCss.css}` :
+          'push-image'}
         style={{ cssText: customCss && customCss.style === 'custom' ?
           customCss.css :
           undefined }}
       >
-        <b className="image-title">
+        <b className="push-image-title">
           { title }
         </b>
-        <div className="image-details" style={{ width, height }}>
-          <img className="image-frame" src={image} />
+        <div className="push-image-details" style={{ width, height }}>
+          <img className="push-image-frame" src={image} />
         </div>
       </div>
     );

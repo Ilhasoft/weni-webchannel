@@ -27,9 +27,9 @@ const Launcher = ({
   lastMessage,
   closeTooltip
 }) => {
-  const className = ['launcher'];
-  if (isChatOpen) className.push('hide-sm');
-  if (fullScreenMode) className.push(`full-screen${isChatOpen ? '  hide' : ''}`);
+  const className = ['push-launcher'];
+  if (isChatOpen) className.push('push-hide-sm');
+  if (fullScreenMode) className.push(`push-full-screen${isChatOpen ? '  push-hide' : ''}`);
 
 
   const getComponentToRender = (message) => {
@@ -53,8 +53,8 @@ const Launcher = ({
 
 
   const renderToolTip = () => (
-    <div className="tooltip-body">
-      <div className="tooltip-close" >
+    <div className="push-tooltip-body">
+      <div className="push-tooltip-close" >
         <button onClick={(e) => { e.stopPropagation(); closeTooltip(); }}>
           <img
             src={closeIcon}
@@ -62,19 +62,19 @@ const Launcher = ({
           />
         </button>
       </div>
-      <div className="tooltip-response">
+      <div className="push-tooltip-response">
         {getComponentToRender(lastMessage)}
       </div>
-      <div className="tooltip-decoration" />
+      <div className="push-tooltip-decoration" />
     </div>
   );
 
   const renderOpenLauncherImage = () => (
-    <div className="open-launcher__container">
+    <div className="push-open-launcher__container">
       {unreadCount > 0 && displayUnreadCount && (
-        <div className="unread-count-pastille">{unreadCount}</div>
+        <div className="push-unread-count-pastille">{unreadCount}</div>
       )}
-      <img src={openLauncherImage || openLauncher} className="open-launcher" alt="" />
+      <img src={openLauncherImage || openLauncher} className="push-open-launcher" alt="" />
       {showTooltip && renderToolTip()}
     </div>
   );
@@ -85,7 +85,7 @@ const Launcher = ({
       {isChatOpen ? (
         <img
           src={closeImage || close}
-          className={`close-launcher ${closeImage ? '' : 'default'}`}
+          className={`push-close-launcher ${closeImage ? '' : 'push-default'}`}
           alt=""
         />
       ) : (

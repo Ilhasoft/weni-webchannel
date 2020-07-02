@@ -2,7 +2,7 @@
 
 $roboto: 'Roboto', serif;
 
-@mixin message-bubble($color, $textColor, $borderRadius: 15px) {
+@mixin push-message-bubble($color, $textColor, $borderRadius: 15px) {
   background-color: $color;
   color: $textColor;
   border-radius: $borderRadius;
@@ -12,7 +12,7 @@ $roboto: 'Roboto', serif;
 
 }
 
-@mixin borderless-message-bubble($color, $textColor) {
+@mixin push-borderless-message-bubble($color, $textColor) {
     border-color: $color;
     border-radius: 15px;
     color: $textColor;
@@ -23,7 +23,7 @@ $roboto: 'Roboto', serif;
     font-family: $roboto;
   }
 
-@mixin widget-container-fs {
+@mixin push-widget-container-fs {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -31,29 +31,35 @@ $roboto: 'Roboto', serif;
   width: 100%;
 }
 
-@mixin header-fs {
+@mixin push-header-fs {
   border-radius: 0;
   flex-shrink: 0;
   position: relative;
   text-align: center;
 }
 
-@mixin title-fs {
+@mixin push-title-fs {
   margin: 0;
   padding-left: 0;
 }
 
-@mixin header-buttons-fs {
+@mixin push-subtitle-fs {
+  margin: 0;
+  padding-left: 0;
+  padding-top: 1.5vh;
+}
+
+@mixin push-header-buttons-fs {
   position: absolute;
   right: 10px;
   display: flex;
   flex-direction: row;
 }
 
-@mixin header-button-fs {
-  @include center;
+@mixin push-header-button-fs {
+  @include push-center;
   display: inline-block;
-  background-color: $blue-1;
+  background-color: var(--headerBackgroundColor);
   border: 0;
   width: 40px;
   cursor: pointer;
@@ -67,8 +73,8 @@ $roboto: 'Roboto', serif;
   }
 }
 
-@mixin header-icon-fs {
-  &.default {
+@mixin push-header-icon-fs {
+  &.push-default {
     width: 20px;
     height: 20px;
 
@@ -90,52 +96,52 @@ $roboto: 'Roboto', serif;
   }
 }
 
-@mixin messages-container-fs {
+@mixin push-messages-container-fs {
   height: 100%;
   padding: 3% 15% 0 15%;
   max-height: none;
-  .message {
+  .push-message {
 
     display: flex;
     font-size: 22px;
     line-height: 1.5;
     font-family: $roboto;
     font-weight: 300;
-    .markdown {
+    .push-markdown {
 
       p {
         margin: 0;
       }
 
 
-      @keyframes typing {
+      @keyframes push-typing {
         from { width: 0;  }
         to { width: 100%; }
       }
     }
 
-    .response {
+    .push-response {
       background-color: rgba(0,0,0,0)
     }
   }
 }
 
-@mixin conversation-container-fs {
+@mixin push-conversation-container-fs {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
   border-radius: 0;
 
-  .sender {
+  .push-sender {
     align-items: center;
     display: flex;
-    background-color: $grey-2;
+    background-color: var(--inputBackgroundColor);
     height: 15.5vh;
     padding: 0 15% 0 15%;
   }
 
-  .sender a, .sender a:active, .sender a:hover {
+  .push-sender a, .push-sender a:active, .push-sender a:hover {
     display: inline;
     position: absolute;
     bottom: 1vh;
@@ -145,12 +151,12 @@ $roboto: 'Roboto', serif;
     text-decoration: none;
   }
 
-  .new-message {
+  .push-new-message {
     font-size: 2em;
     font-weight: 300;
     width: 100%;
     border: 0;
-    background-color: $grey-2;
+    background-color: var(--inputBackgroundColor);
     height: 10vh;
     padding-left: 15px;
 
@@ -159,11 +165,11 @@ $roboto: 'Roboto', serif;
     }
   }
 
-  .send {
-    background: $grey-2;
+  .push-send {
+    background: var(--inputBackgroundColor);
     border: 0;
 
-    .send-icon {
+    .push-send-icon {
       height: 4.7vh;
       cursor: pointer;
     }
@@ -173,23 +179,23 @@ $roboto: 'Roboto', serif;
 
 }
 
-@mixin loading-fs {
+@mixin push-loading-fs {
   border-radius: 0;
   flex-shrink: 0;
   position: relative;
 }
 
-@mixin launcher-fs {
-  margin: 0 20px 20px 0;
+@mixin push-launcher-fs {
+  margin: 0 0.5vh 0.5vh 0;
 }
 
-@mixin center {
+@mixin push-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-@mixin reply {
+@mixin push-reply {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -199,12 +205,13 @@ $roboto: 'Roboto', serif;
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
-  border-color: $blue-2;
+  border-color: var(--quickRepliesBorderColor);
   border-radius: 20px;
   min-width: 20%;
   justify-content: center;
-  border-width: 1px;
-  color: $blue-2;
+  border-width: var(--quickRepliesBorderWidth);
+  background-color: var(--quickRepliesBackgroundColor);
+  color: var(--quickRepliesFontColor);
   border-style: solid;
   padding-right: 8px;
   padding-left: 8px;
@@ -217,7 +224,7 @@ $roboto: 'Roboto', serif;
   margin: 0.25em;
 }
 
-@mixin replies {
+@mixin push-replies {
   max-width: 100%;
   margin: 10px;
   display: flex;

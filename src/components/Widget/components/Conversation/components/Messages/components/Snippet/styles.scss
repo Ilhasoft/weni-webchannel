@@ -1,22 +1,22 @@
 @import "variables.scss";
 @import "common.scss";
 
-.conversation-container {
-  .snippet {
-    @include message-bubble($grey-2, #000);
+.push-conversation-container {
+  .push-snippet {
+    @include push-message-bubble($grey-2, #000);
   }
   
-  .snippet-title {
+  .push-snippet-title {
     margin: 0;
   }
   
-  .snippet-details {
+  .push-snippet-details {
     border-left: 2px solid $green-1;
     margin-top: 5px;
     padding-left: 10px;
   }
   
-  .link {
+  .push-link {
     font-family: $roboto;
   }
 }

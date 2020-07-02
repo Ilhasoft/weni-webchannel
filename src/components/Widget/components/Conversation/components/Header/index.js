@@ -22,41 +22,41 @@ const Header = ({
 }) => {
     
     return(
-      <div className="header-and-loading">
-        <div className={`header ${subtitle ? 'with-subtitle' : ''}`}>
+      <div className="push-header-and-loading">
+        <div className={`push-header ${subtitle ? 'push-with-subtitle' : ''}`}>
           {
             profileAvatar && (
-              <img src={profileAvatar} className="avatar" alt="chat avatar" />
+              <img src={profileAvatar} className="push-avatar" alt="chat avatar" />
             )
           }
-          <div className="header-buttons">
+          <div className="push-header-buttons">
             {
               showFullScreenButton &&
-              <button className="toggle-fullscreen-button" onClick={toggleFullScreen}>
+              <button className="push-toggle-fullscreen-button" onClick={toggleFullScreen}>
                 <img
-                  className={`toggle-fullscreen ${fullScreenMode ? 'fullScreenExitImage' : 'fullScreenImage'}`}
+                  className={`push-toggle-fullscreen ${fullScreenMode ? 'push-fullScreenExitImage' : 'push-fullScreenImage'}`}
                   src={fullScreenMode ? fullscreenExit : fullscreen}
                   alt="toggle fullscreen"
                 />
               </button>
             }
             {
-              showCloseButton &&
-              <button className="close-button" onClick={toggleChat}>
+              (fullScreenMode ? true : showCloseButton) &&
+              <button className="push-close-button" onClick={toggleChat}>
                 <img
-                  className={`close ${closeImage ? '' : 'default'}`}
+                  className={`push-close ${closeImage ? '' : 'push-default'}`}
                   src={closeImage || close}
                   alt="close"
                 />
               </button>
             }
           </div>
-          <h4 className={`title ${profileAvatar && 'with-avatar'}`}>{title}</h4>
-          {subtitle && <span className={profileAvatar && 'with-avatar'}>{subtitle}</span>}
+          <h4 className={`push-title ${profileAvatar && 'push-with-avatar'}`}>{title}</h4>
+          {subtitle && <span className={`push-subtitle ${profileAvatar && 'push-with-avatar'}`}>{subtitle}</span>}
         </div>
         {
           !connected &&
-          <span className="loading">
+          <span className="push-loading">
             {connectingText}
           </span>
         }

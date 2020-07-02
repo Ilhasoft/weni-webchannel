@@ -42,7 +42,6 @@ class QuickReply extends PureComponent {
       // this.props.changeInputFieldHint('Type a message...');
     } else if(verify === 'checkbox') {
       var value = userInput;
-
       if(value !== '') {
         value = value.concat(", ",title.replace("[] ",""));
         setUserInput(value);
@@ -105,10 +104,10 @@ class QuickReply extends PureComponent {
       return <Message message={message} />;
     }
     return (
-      <div className="quickReplies-container">
+      <div className="push-quickReplies-container">
         <Message message={message} />
         {isLast && (
-          <div className="replies">
+          <div className="push-replies">
             {message.get('quick_replies').map((reply, index) => {
               if (reply.get('type') === 'web_url') {
                 return (
@@ -117,7 +116,7 @@ class QuickReply extends PureComponent {
                     href={reply.get('url')}
                     target={linkTarget || '_blank'}
                     rel="noopener noreferrer"
-                    className={'reply'}
+                    className={'push-reply'}
                   >
                     {reply.get('title').replace("[] ","").replace("[Loc] ","")}
                   </a>
@@ -127,7 +126,7 @@ class QuickReply extends PureComponent {
                 // eslint-disable-next-line jsx-a11y/no-static-element-interactions
                 <div
                   key={index}
-                  className={'reply'}
+                  className={'push-reply'}
                   onClick={() => this.handleClick(reply)}
                 >
                   {reply.get('title').replace("[] ","").replace("[Loc] ","")}

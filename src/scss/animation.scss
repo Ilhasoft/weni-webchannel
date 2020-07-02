@@ -1,4 +1,4 @@
-@mixin animation ($delay, $duration, $animation) {
+@mixin push-animation ($delay, $duration, $animation) {
   -webkit-animation-delay: $delay;
   -webkit-animation-duration: $duration;
   -webkit-animation-name: $animation;
@@ -15,7 +15,7 @@
   animation-fill-mode: forwards; /* this prevents the animation from restarting! */
 }
 
-@mixin keyframes ($animation-name) {
+@mixin push-keyframes ($animation-name) {
   @-webkit-keyframes #{$animation-name} {
     @content;
   }
@@ -29,7 +29,7 @@
   }
 }
 
-@include keyframes(rotation-lr) {
+@include push-keyframes(push-rotation-lr) {
   from  {
     transform: rotate(-90deg);
   }
@@ -38,7 +38,7 @@
   }
 }
 
-@include keyframes(rotation-rl) {
+@include push-keyframes(push-rotation-rl) {
   from  {
     transform: rotate(90deg);
   }
@@ -47,7 +47,7 @@
   }
 }
 
-@include keyframes(slide-in) {
+@include push-keyframes(push-slide-in) {
   from {
     opacity: 0;
     transform: translateY(10px);
@@ -58,7 +58,7 @@
   }
 }
 
-@include keyframes(slide-out) {
+@include push-keyframes(push-slide-out) {
   from {
     opacity: 1;
     transform: translateY(0);

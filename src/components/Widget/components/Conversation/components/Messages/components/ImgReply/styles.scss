@@ -1,14 +1,14 @@
 @import "variables.scss";
 @import "common.scss";
 
-.conversation-container {
-  .image-details {
+.push-conversation-container {
+  .push-image-details {
     object-fit: scale-down;
     max-width: 100%;
     margin-top: 10px;
   }
   
-  .image-frame {
+  .push-image-frame {
     object-position: 0 0;
     object-fit: cover;
     width: 100%;

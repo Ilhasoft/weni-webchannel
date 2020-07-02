@@ -561,6 +561,7 @@ class Widget extends Component {
         displayUnreadCount={this.props.displayUnreadCount}
         showMessageDate={this.props.showMessageDate}
         tooltipPayload={this.props.tooltipPayload}
+        customizeWidget={this.props.customizeWidget}
         inputTextFieldHint={this.props.inputTextFieldHint}
       />
     );
@@ -628,7 +629,7 @@ Widget.defaultProps = {
   oldUrl: '',
   disableTooltips: false,
   defaultHighlightClassname: '',
-  defaultHighlightCss: 'animation: 0.5s linear infinite alternate default-botfront-blinker-animation;',
+  defaultHighlightCss: 'push-animation: 0.5s linear infinite alternate default-botfront-blinker-animation;',
   defaultHighlightAnimation: `@keyframes default-botfront-blinker-animation {
     from {
       outline-color: green;
@@ -638,7 +639,8 @@ Widget.defaultProps = {
       outline-style: solid;
       outline-color: green;
     }
-  }`
+  }`,
+  customizeWidget: {}
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);

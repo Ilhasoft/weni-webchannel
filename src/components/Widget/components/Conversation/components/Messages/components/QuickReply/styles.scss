@@ -1,26 +1,25 @@
 @import "variables.scss";
 @import "common.scss";
 
-.conversation-container {
+.push-conversation-container {
 
-  .quickReplies-container {
+  .push-quickReplies-container {
     overflow: auto;
   }
 
-  .replies {
-    @include replies;
+  .push-replies {
+    @include push-replies;
   }
   
-  .reply {
-    @include reply;
+  .push-reply {
+    @include push-reply;
   }
-  
-  .response {
-    @include message-bubble($grey-2, #000, 0 15px 15px 15px);
 
+  .push-quickReplies-container {
+    overflow: auto;
   }
   
-  .avatar {
+  .push-avatar {
     width: 17px;
     height: 17px;
     border-radius: 100%;

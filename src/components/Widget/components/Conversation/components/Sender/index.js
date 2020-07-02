@@ -9,22 +9,17 @@ import './style.scss';
 
 const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, userInput, setUserInput }) => {
   const inputEl = useRef()
-  const focusInput = () => {
-    setTimeout(()=> {
-        inputEl.current.focus()
-    }, 100)
-  }
   
   return (userInput === 'hide' ? <div /> : (
-  <form className="sender" onSubmit={sendMessage}>
-    <input type="text" className="new-message" ref={inputEl} name="message" onBlur={() => focusInput()} value={userInput} onChange={(value) => setUserInput(value.target.value)} placeholder={inputTextFieldHint} disabled={disabledInput || userInput === 'disable'} autoFocus autoComplete="off" />
+  <form className="push-sender" onSubmit={sendMessage}>
+    <input type="text" className="push-new-message" ref={inputEl} name="message" value={userInput} onChange={(value) => setUserInput(value.target.value)} placeholder={inputTextFieldHint} disabled={disabledInput || userInput === 'disable'} autoFocus autoComplete="off" />
     {(userInput === '' || userInput === null) &&
-        <button type="submit" className="send">
-          <img src={send} className="send-icon" alt="send message" />
+        <button type="submit" className="push-send">
+          <img src={send} className="push-send-icon" alt="send message" />
         </button>}
         {userInput !== '' &&
-            <button type="submit" className="send">
-              <img src={send2} className="send-icon" alt="send message" />
+            <button type="submit" className="push-send">
+              <img src={send2} className="push-send-icon" alt="send message" />
             </button>}
   </form>
 ))};

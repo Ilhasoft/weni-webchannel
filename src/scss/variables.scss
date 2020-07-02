@@ -1,3 +1,27 @@
+:root {
+    --titleColor: #fff;
+    --subtitleColor: #fff;
+    --headerBackgroundColor: #003a9b;
+    --launcherColor: #003a9b;
+    --chatBackgroundColor: #fff;
+    --inputBackgroundColor: #f4f7f9;
+    --inputFontColor: #000;
+    --inputPlaceholderColor: #b5b5b5;
+    --userMessageBubbleColor: #003a9b;
+    --userMessageTextColor: #fff;
+    --botMessageBubbleColor: #f4f7f9;
+    --botMessageTextColor: #000;
+    --widgetHeight: 65vh;
+    --widgetWidth: 370px;
+    --launcherHeight: 60px;
+    --launcherWidth: 60px;
+    --quickRepliesFontColor: #0084ff;
+    --quickRepliesBackgroundColor: none;
+    --quickRepliesBorderColor: #0084ff;
+    --quickRepliesBorderWidth: 1px;
+}
+
+
 $green-1: #35e65d;
 $grey-1: #cdd8ec;
 $grey-2: #f4f7f9;
