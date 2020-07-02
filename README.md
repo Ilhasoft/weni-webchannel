@@ -21,7 +21,7 @@ A simple webchat widget to connect with Push 💬platform. Originally forked fro
 In your `<body/>`:
 ```javascript
 <div id="webchat"/>
-<script src="https://storage.googleapis.com/push-webchat/webchat-latest.js"></script>
+<script src="https://storage.googleapis.com/push-webchat/widget-latest.js"></script>
 // Or you can replace latest with a specific version
 <script>
   WebChat.default.init({
@@ -38,7 +38,7 @@ In your `<body/>`:
 
 About images: `width` and `height` define the size in pixels that images in messages are crop-scaled to. If not present, the image will scale to the maximum width of the container and the image.
 
-It is recommended to use a particular version (i.e. "webchat-<version>.js") however the file "webchat-latest.js"
+It is recommended to use a particular version (i.e. "widget-<version>.js") however the file "widget-latest.js"
 is also available and is updated continuously with the latest version.
 
 ### As a React component
