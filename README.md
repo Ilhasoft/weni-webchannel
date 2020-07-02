@@ -126,33 +126,33 @@ params={{
       }}
 ```
 
-##### `customizeWidget`
+##### `Customize the Widget interface`
 
-- All colors are specified using predefined [color names](https://www.w3schools.com/colors/colors_names.asp), or RGB, HEX, HSL, RGBA, HSLA values.
-- All `width` and `height` values can be any of the [standard css lenght unit types](https://www.w3schools.com/cssref/css_units.asp).
+- All `colors` are specified using predefined [color names](https://www.w3schools.com/colors/colors_names.asp), or RGB, HEX, HSL, RGBA, HSLA values.
+- All `dimension` values can be any of the [standard css lenght unit types](https://www.w3schools.com/cssref/css_units.asp).
 
-| Prop / Param                  | Default value  | Description |
-| ----------------------------- |----------------| ----------- |
-| `titleColor`                  | `#fff`         | Set the widget Title color | 
-| `subtitleColor`               | `#fff`         | Set the widget Subtitle color |
-| `headerBackgroundColor`       | `#003a9b`      | Set the widget Header background-color |
-| `launcherColor`               | `#003a9b`      | Set the widget Launcher color |
-| `chatBackgroundColor`         | `#fff`         | Set the widget Chat background-color |
-| `inputBackgroundColor`        | `#f4f7f9`      | Set the widget Input background-color |
-| `inputFontColor`              | `#000`         | Set the widget Input font color |
-| `inputPlaceholderColor`       | `#b5b5b5`      | Set the widget Input placeholder color |
-| `userMessageBubbleColor`      | `#003a9b`      | Set the user message bubble color |
-| `userMessageTextColor`        | `#fff`         | Set the user message text color |
-| `botMessageBubbleColor`       | `#f4f7f9`      | Set the bot message bubble color |
-| `botMessageTextColor`         | `#000`         | Set the bot message text color |
-| `widgetHeight`                | `65vh`         | Set the widget Height |
-| `widgetWidth`                 | `370px`        | Set the widget Width |
-| `launcherHeight`              | `60px`         | Set the Launcher Height |
-| `launcherWidth`               | `60px`         | Set the Launcher Width |
-| `quickRepliesFontColor`       | `#0084ff`      | Set the Quick-Replies font color |
-| `quickRepliesBackgroundColor` | `none`         | Set the Quick-Replies background-color |
-| `quickRepliesBorderColor`     | `#0084ff`      | Set the Quick-Replies border color |
-| `quickRepliesBorderWidth`     | `1px`          | Set the Quick-Replies border width |
+| Prop / Param                  | Default value  | Type        | Description                            |
+| ----------------------------- | -------------- | ----------- | -------------------------------------- |
+| `titleColor`                  | `#fff`         | `color`     | Set the widget Title color             | 
+| `subtitleColor`               | `#fff`         | `color`     | Set the widget Subtitle color          |
+| `headerBackgroundColor`       | `#003a9b`      | `color`     | Set the widget Header background-color |
+| `launcherColor`               | `#003a9b`      | `color`     | Set the widget Launcher color          |
+| `chatBackgroundColor`         | `#fff`         | `color`     | Set the widget Chat background-color   |
+| `inputBackgroundColor`        | `#f4f7f9`      | `color`     | Set the widget Input background-color  |
+| `inputFontColor`              | `#000`         | `color`     | Set the widget Input font color        |
+| `inputPlaceholderColor`       | `#b5b5b5`      | `color`     | Set the widget Input placeholder color |
+| `userMessageBubbleColor`      | `#003a9b`      | `color`     | Set the user message bubble color      |
+| `userMessageTextColor`        | `#fff`         | `color`     | Set the user message text color        |
+| `botMessageBubbleColor`       | `#f4f7f9`      | `color`     | Set the bot message bubble color       |
+| `botMessageTextColor`         | `#000`         | `color`     | Set the bot message text color         |
+| `widgetHeight`                | `65vh`         | `dimension` | Set the widget Height                  |
+| `widgetWidth`                 | `370px`        | `dimension` | Set the widget Width                   |
+| `launcherHeight`              | `60px`         | `dimension` | Set the Launcher Height                |
+| `launcherWidth`               | `60px`         | `dimension` | Set the Launcher Width                 |
+| `quickRepliesFontColor`       | `#0084ff`      | `color`     | Set the Quick-Replies font color       |
+| `quickRepliesBackgroundColor` | `none`         | `color`     | Set the Quick-Replies background-color |
+| `quickRepliesBorderColor`     | `#0084ff`      | `color`     | Set the Quick-Replies border color     |
+| `quickRepliesBorderWidth`     | `1px`          | `dimension` | Set the Quick-Replies border width     |
 
 ### Other features
 
