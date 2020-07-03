@@ -60,7 +60,7 @@ const WidgetLayout = (props) => {
           openLauncherImage={props.openLauncherImage}
           closeImage={props.closeImage}
           displayUnreadCount={props.displayUnreadCount}
-          tooltipPayload={props.tooltipPayload}
+          tooltipMessage={props.tooltipMessage}
         />
       )}
     </div>
@@ -99,7 +99,7 @@ WidgetLayout.propTypes = {
   customComponent: PropTypes.func,
   displayUnreadCount: PropTypes.bool,
   showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  tooltipPayload: PropTypes.string,
+  tooltipMessage: PropTypes.string,
   inputTextFieldHint: PropTypes.string
 };
 

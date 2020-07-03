@@ -133,7 +133,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         socket={sock}
         showMessageDate={props.showMessageDate}
         customMessageDelay={props.customMessageDelay}
-        tooltipPayload={props.tooltipPayload}
+        tooltipMessage={props.tooltipMessage}
         tooltipDelay={props.tooltipDelay}
         disableTooltips={props.disableTooltips}
         defaultHighlightCss={props.defaultHighlightCss}
@@ -177,7 +177,7 @@ ConnectedWidget.propTypes = {
   displayUnreadCount: PropTypes.bool,
   showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   customMessageDelay: PropTypes.func,
-  tooltipPayload: PropTypes.string,
+  tooltipMessage: PropTypes.string,
   tooltipDelay: PropTypes.number,
   onWidgetEvent: PropTypes.shape({
     onChatOpen: PropTypes.func,
@@ -220,7 +220,7 @@ ConnectedWidget.defaultProps = {
     if (delay < 800) delay = 800;
     return delay;
   },
-  tooltipPayload: null,
+  tooltipMessage: null,
   tooltipDelay: 500,
   onWidgetEvent: {
     onChatOpen: () => {},

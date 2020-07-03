@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://https///compare/v0.7.37...v1.0.0) (2020-07-02)
+
+
+### Features
+
+* more custom fields added ([6891f59](https://https///commit/6891f597e8eba38b4187bd7aecbf17d62b731176))
+* new method to force reload the widget - WebChat.reload() ([aa8ca1e](https://https///commit/aa8ca1e932e5d771ab5aeb547f7053019e0a7df9))
+* subtitle color and default customizeWidget params ([7a827fa](https://https///commit/7a827fa7d8346f363075d60aa83232f071f26542))
+
+
+### Bug Fixes
+
+* close button not showing on fullscreen mode ([001bd74](https://https///commit/001bd749755706784e150da25069b498e81e2a32))
+* fixed tests ([9d83b44](https://https///commit/9d83b448b726d8674a4bd60f84b9c27781fd4e85))
+* fixed title color ([575cddd](https://https///commit/575cdddd47597670ea9e07451c12913acf89448c))
+* fixed wrong property name ([e38df92](https://https///commit/e38df92d39a695ab4c91e9c2e64abb6dd4b4b323))
+* removed extra `#` ([d479c25](https://https///commit/d479c25954b5a1bbb248c973a0c39e5a6fd432eb))
+
+### [0.7.37](https://https///compare/v0.7.36...v0.7.37) (2020-07-01)
+
+
+### Bug Fixes
+
+* fixed typo ([7c36137](https://https///commit/7c36137bbe08cc19faa58af9cfbfd53ec4d7856a))
+* quick-replies selection to userInput now working ([c435351](https://https///commit/c4353515ac63ee92f78154c2cc2c94e768605563))
+
 ### [0.7.36](https://https///compare/v0.7.35...v0.7.36) (2020-06-30)
 
 

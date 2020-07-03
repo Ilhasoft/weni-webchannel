@@ -278,10 +278,7 @@ emit(session_id, message)
 ```
 ###### sending a message to be displayed as a tooltip
 
-You first need to set a tooltipPayload in the props of the component, then, for the answer to that payload, you should define a response with a 
-
-object and a property `tooltip = true`. This message will then be displayed as a tooltip before the widget is opened.
-This is not supported by Push yet.
+The prop `tooltipMessage` will define what message should be displayed as a tooltip. 
 
 The prop `tooltipDelay` lets you set a delay before calling the payload. It default to 500ms.
 
