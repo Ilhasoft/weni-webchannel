@@ -91,6 +91,18 @@ set to `true` if you don't want to see the launcher.
 | `customComponent`      | `null`             | Custom component to be used with custom responses. E.g.: `customComponent={ (messageData) => (<div>Custom React component</div>)` }   |
 | `onWidgetEvent`        | `{}`             | call custom code on a specific widget event ( onChatOpen, onChatClose, onChatHidden, are available for now ), add a function to the desired object property in the props to have it react to the event. |
 | `customizeWidget` | See below | Specifies a set of custom css parameters for the widget style |
+| `handleNewUserMessage` | `null` | Call a custom function when the user send a new message |
+| `profileAvatar` | `null` | Image to be displayed on chat Header and with a bot message |
+| `openLauncherImage` | `null` | Image to be displayed on the Launcher while the chat is closed |
+| `closeImage` | `null` | Image to be displayed on the Launcher while the chat is open |
+| `connectingText` | `'Waiting for server...'` | Message displayed while the connection between the widget and socket server is established |
+| `showCloseButton` | `true` | Boolean to define if the close button will be shown |
+| `fullScreenMode` | `false` | Boolean to define if the widget is started on fullscreen mode |
+| `tooltipMessage` | `null` | Message that will be displayed as tooltip |
+| `tooltipDelay` | `500` | Delay for the `tooltipMessage` |
+| `disableTooltips` | `false` | Boolean to define if tooltips should be displayed |
+
+
 
 ### Additional Examples
 
