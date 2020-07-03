@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://https///compare/v1.0.0...v1.0.1) (2020-07-03)
+
+
+### Features
+
+* tooltip message can be defined as a string ([b258564](https://https///commit/b258564a87f65b2b221ab63c3f2fc62739cef35f))
+
 ## [1.0.0](https://https///compare/v0.7.37...v1.0.0) (2020-07-02)
 
 
