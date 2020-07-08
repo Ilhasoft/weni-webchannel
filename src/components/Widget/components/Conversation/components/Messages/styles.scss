@@ -65,8 +65,8 @@
   overflow-y: auto;
   padding-top: 10px;
   .push-avatar {
-    width: 15px;
-    height: 15px;
+    width: 31px;
+    height: 31px;
     margin-top: 0;
     padding-right: 2px;
   }
@@ -86,8 +86,8 @@
     @include push-messages-container-fs;
 
     .push-avatar {
-      width: 2em;
-      height: 2em;
+      width: 2.5em;
+      height: 2.5em;
       margin: 0.5em 0 0 -1em;
       padding: 0;
     }
@@ -101,6 +101,12 @@
 
     .push-message {
         font-size: 14px!important;
+    }
+
+    .push-avatar {
+      width: 3.5em;
+      height: 3.5em;
+      margin: 0.5em 0 0 -1.5em;
     }
   }
 }
