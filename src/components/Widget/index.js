@@ -372,7 +372,7 @@ class Widget extends Component {
       storage,
       dispatch,
       connectOn,
-      tooltipPayload,
+      tooltipMessage,
       tooltipDelay
     } = this.props;
 
@@ -405,9 +405,9 @@ class Widget extends Component {
           dispatch(emitUserMessage(message));
         }
       }
-    } if (connectOn === 'mount' && tooltipPayload) {
+    } if (connectOn === 'mount' && tooltipMessage) {
       this.tooltipTimeout = setTimeout(() => {
-        this.trySendTooltipPayload();
+        this.displayTooltipMessage();
       }, parseInt(tooltipDelay, 10));
     }
   }
@@ -445,26 +445,30 @@ class Widget extends Component {
     }
   }
 
-  trySendTooltipPayload() {
+  displayTooltipMessage() {
     const {
-      tooltipPayload,
-      socket,
-      customData,
+      tooltipMessage,
       connected,
       isChatOpen,
       dispatch,
-      tooltipSent
+      tooltipSent,
+      disableTooltips
     } = this.props;
-
-    if (connected && !isChatOpen && !tooltipSent.get(tooltipPayload)) {
+    if (connected && !isChatOpen && !tooltipSent.get(tooltipMessage)) {
       const sessionId = this.getSessionId();
 
-      if (!sessionId) return;
+      if (!sessionId || disableTooltips) return;
 
-      socket.emit('sendMessageToChannel', { text: tooltipPayload, userUrn: sessionId });
+      this.dispatchMessage({text: tooltipMessage});
+      if (!isChatOpen) {
+        dispatch(newUnreadMessage());
+        dispatch(showTooltip(true));
+      }
+      dispatch(triggerMessageDelayed(false));
+      this.popLastMessage();
 
-      dispatch(triggerTooltipSent(tooltipPayload));
-      dispatch(initialize());
+      dispatch(triggerTooltipSent(tooltipMessage));
+
     }
   }
 
@@ -560,7 +564,7 @@ class Widget extends Component {
         customComponent={this.props.customComponent}
         displayUnreadCount={this.props.displayUnreadCount}
         showMessageDate={this.props.showMessageDate}
-        tooltipPayload={this.props.tooltipPayload}
+        tooltipMessage={this.props.tooltipMessage}
         customizeWidget={this.props.customizeWidget}
         inputTextFieldHint={this.props.inputTextFieldHint}
       />
@@ -606,7 +610,7 @@ Widget.propTypes = {
   displayUnreadCount: PropTypes.bool,
   showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   customMessageDelay: PropTypes.func.isRequired,
-  tooltipPayload: PropTypes.string,
+  tooltipMessage: PropTypes.string,
   tooltipSent: PropTypes.shape({}),
   tooltipDelay: PropTypes.number.isRequired,
   domHighlight: PropTypes.shape({}),
@@ -625,7 +629,7 @@ Widget.defaultProps = {
   connectOn: 'mount',
   autoClearCache: false,
   displayUnreadCount: false,
-  tooltipPayload: null,
+  tooltipMessage: null,
   oldUrl: '',
   disableTooltips: false,
   defaultHighlightClassname: '',
