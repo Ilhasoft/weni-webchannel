@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.3](https://https///compare/v1.0.0...v1.1.3) (2020-07-09)
+
+
+### Features
+
+* tooltip message can be defined as a string ([b258564](https://https///commit/b258564a87f65b2b221ab63c3f2fc62739cef35f))
+
+
+### Bug Fixes
+
+* laucher image size ([5e4dbac](https://https///commit/5e4dbac4744a9043de53a8ea7fcde05fffebe930))
+* merge error ([88f59ef](https://https///commit/88f59ef3afc0f103223aba319f76071d547bfbac))
+* profile avatar with a better size, reduced input size on fullscreen ([9a36cc4](https://https///commit/9a36cc446d17e88d1be1843b53721846b18aa670))
+
 ### [1.0.1](https://https///compare/v1.0.0...v1.0.1) (2020-07-03)
 
 
