@@ -22,7 +22,7 @@
   &:focus {
     outline: none;
   }
-  
+
   &.push-hide {
     display: none
   }
@@ -30,11 +30,11 @@
   &.push-full-screen {
     @include push-launcher-fs;
   }
-  
+
   img {
-    width: 70%;
+    width: 100%;
     border-radius: 100px;
-    max-height: 70%;
+    max-height: 100%;
     object-fit: contain;
   }
 
@@ -83,7 +83,7 @@
       justify-content: center;
       margin-left: 10px;
     }
-    
+
     .push-reply {
       @include push-reply;
     }
@@ -156,4 +156,8 @@
   .push-hide-sm {
     display: none;
   }
+}
+
+.push-open-launcher__container {
+  max-height: var(--launcherHeight);
 }
