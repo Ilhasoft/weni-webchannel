@@ -166,7 +166,7 @@ params={{
 | `quickRepliesBackgroundColor` | `none`         | `color`     | Set the Quick-Replies background-color |
 | `quickRepliesBorderColor`     | `#0084ff`      | `color`     | Set the Quick-Replies border color     |
 | `quickRepliesBorderWidth`     | `1px`          | `dimension` | Set the Quick-Replies border width     |
-| `fullScreenMessageBubbleColor` | `rgba(0,0,0,0)` | `color` | Set the bot message bubble color on fullscreen mode | 
+| `fullScreenBotMessageBubbleColor` | `rgba(0,0,0,0)` | `color` | Set the bot message bubble color on fullscreen mode | 
 
 ### Other features
 
