@@ -101,6 +101,7 @@ set to `true` if you don't want to see the launcher.
 | `tooltipMessage` | `null` | Message that will be displayed as tooltip |
 | `tooltipDelay` | `500` | Delay for the `tooltipMessage` |
 | `disableTooltips` | `false` | Boolean to define if tooltips should be displayed |
+| `showHeaderAvatar` | `true` | Boolean to define if the image provided in `profileAvatar` attribute must be displayed in Header |
 
 
 
@@ -165,6 +166,7 @@ params={{
 | `quickRepliesBackgroundColor` | `none`         | `color`     | Set the Quick-Replies background-color |
 | `quickRepliesBorderColor`     | `#0084ff`      | `color`     | Set the Quick-Replies border color     |
 | `quickRepliesBorderWidth`     | `1px`          | `dimension` | Set the Quick-Replies border width     |
+| `fullScreenMessageBubbleColor` | `rgba(0,0,0,0)` | `color` | Set the bot message bubble color on fullscreen mode | 
 
 ### Other features
 
