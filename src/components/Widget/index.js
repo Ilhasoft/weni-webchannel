@@ -567,6 +567,7 @@ class Widget extends Component {
         tooltipMessage={this.props.tooltipMessage}
         customizeWidget={this.props.customizeWidget}
         inputTextFieldHint={this.props.inputTextFieldHint}
+        showHeaderAvatar={this.props.showHeaderAvatar}
       />
     );
   }
@@ -619,7 +620,8 @@ Widget.propTypes = {
   defaultHighlightAnimation: PropTypes.string,
   defaultHighlightCss: PropTypes.string,
   defaultHighlightClassname: PropTypes.string,
-  inputTextFieldHint: PropTypes.string
+  inputTextFieldHint: PropTypes.string,
+  showHeaderAvatar: PropTypes.bool,
 };
 
 Widget.defaultProps = {
@@ -644,7 +646,8 @@ Widget.defaultProps = {
       outline-color: green;
     }
   }`,
-  customizeWidget: {}
+  customizeWidget: {},
+  showHeaderAvatar: true
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);

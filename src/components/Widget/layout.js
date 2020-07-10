@@ -49,6 +49,7 @@ const WidgetLayout = (props) => {
           closeImage={props.closeImage}
           customComponent={props.customComponent}
           showMessageDate={props.showMessageDate}
+          showHeaderAvatar={props.showHeaderAvatar}
         />
       )}
       {!props.embedded && (
@@ -100,7 +101,8 @@ WidgetLayout.propTypes = {
   displayUnreadCount: PropTypes.bool,
   showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   tooltipMessage: PropTypes.string,
-  inputTextFieldHint: PropTypes.string
+  inputTextFieldHint: PropTypes.string,
+  showHeaderAvatar: PropTypes.bool
 };
 
 export default connect(mapStateToProps)(WidgetLayout);

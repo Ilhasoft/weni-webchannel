@@ -35,7 +35,7 @@ $roboto: 'Roboto', serif;
   border-radius: 0;
   flex-shrink: 0;
   position: relative;
-  text-align: center;
+  text-align: left;
 }
 
 @mixin push-title-fs {
@@ -121,7 +121,7 @@ $roboto: 'Roboto', serif;
     }
 
     .push-response {
-      background-color: rgba(0,0,0,0)
+      background-color: var(--fullScreenBotMessageBubbleColor)
     }
   }
 }

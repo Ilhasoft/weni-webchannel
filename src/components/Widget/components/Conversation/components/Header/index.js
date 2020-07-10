@@ -18,14 +18,15 @@ const Header = ({
   connected,
   connectingText,
   closeImage,
-  profileAvatar
+  profileAvatar,
+  showHeaderAvatar
 }) => {
     
     return(
       <div className="push-header-and-loading">
-        <div className={`push-header ${subtitle ? 'push-with-subtitle' : ''}`}>
+        <div className={`push-header ${subtitle ? 'push-with-subtitle' : ''} ${(showHeaderAvatar && profileAvatar) ? '' : 'push-without-header-avatar'}`}>
           {
-            profileAvatar && (
+            showHeaderAvatar && profileAvatar && (
               <img src={profileAvatar} className="push-avatar" alt="chat avatar" />
             )
           }
@@ -51,8 +52,10 @@ const Header = ({
               </button>
             }
           </div>
-          <h4 className={`push-title ${profileAvatar && 'push-with-avatar'}`}>{title}</h4>
-          {subtitle && <span className={`push-subtitle ${profileAvatar && 'push-with-avatar'}`}>{subtitle}</span>}
+          <div className={'push-title-and-subtitle'}>
+            <h4 className={`push-title ${profileAvatar && 'push-with-avatar'}`}>{title}</h4>
+            {subtitle && <span className={`push-subtitle ${profileAvatar && 'push-with-avatar'}`}>{subtitle}</span>}
+          </div>
         </div>
         {
           !connected &&
@@ -75,7 +78,8 @@ Header.propTypes = {
   connected: PropTypes.bool,
   connectingText: PropTypes.string,
   closeImage: PropTypes.string,
-  profileAvatar: PropTypes.string
+  profileAvatar: PropTypes.string,
+  showHeaderAvatar: PropTypes.bool
 };
 
 export default Header;

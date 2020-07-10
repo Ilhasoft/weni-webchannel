@@ -141,6 +141,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         defaultHighlightClassname={props.defaultHighlightClassname}
         customizeWidget={props.customizeWidget}
         inputTextFieldHint={props.inputTextFieldHint}
+        showHeaderAvatar={props.showHeaderAvatar}
       />
     </Provider>
   );
@@ -187,7 +188,8 @@ ConnectedWidget.propTypes = {
   }),
   disableTooltips: PropTypes.bool,
   defaultHighlightCss: PropTypes.string,
-  defaultHighlightAnimation: PropTypes.string
+  defaultHighlightAnimation: PropTypes.string,
+  showHeaderAvatar: PropTypes.bool,
 };
 
 ConnectedWidget.defaultProps = {
@@ -228,7 +230,8 @@ ConnectedWidget.defaultProps = {
     onChatVisible: () => {},
     onChatHidden: () => {}
   },
-  disableTooltips: false
+  disableTooltips: false,
+  showHeaderAvatar: true,
 };
 
 export default ConnectedWidget;

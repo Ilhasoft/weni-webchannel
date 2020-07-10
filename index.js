@@ -42,6 +42,7 @@ const plugin = {
         defaultHighlightAnimation={args.defaultHighlightAnimation}
         defaultHighlightClassname={args.defaultHighlightClassname}
         customizeWidget={args.customizeWidget}
+        showHeaderAvatar={args.showHeaderAvatar}
       />, document.querySelector(args.selector)
     );
   }
