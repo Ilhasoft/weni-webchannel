@@ -129,7 +129,6 @@ export function storeLocalSession(storage, key, sid) {
 }
 
 export const clearMessages = storage => () => {
-  console.log('clear')
   const localSession = getLocalSession(storage, SESSION_NAME);
   const newSession = {
     // Since immutable List is not a native JS object, store conversation as array
