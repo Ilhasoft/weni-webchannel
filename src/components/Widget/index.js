@@ -127,6 +127,7 @@ class Widget extends Component {
     } else if (when === 'init') {
       dispatch(emitMessageIfFirst(payload, text));
     }
+    dispatch(setUserInput(''))
   }
 
   handleMessageReceived(message) {
@@ -297,6 +298,7 @@ class Widget extends Component {
       dispatch,
       embedded,
       initialized,
+      sessionId
     } = this.props;
 
     if (!socket.isInitialized()) {
@@ -308,7 +310,7 @@ class Widget extends Component {
       const localId = this.getSessionId();
       socket.on('connect', () => {
         if (!localId) {
-          socket.emit('registerUser', {}, (_response) => {
+          socket.emit('registerUser', sessionId ? {id: sessionId} : {}, (_response) => {
               let remoteId;
               const data = JSON.parse(_response);
               if (data.urn) {
@@ -538,6 +540,7 @@ class Widget extends Component {
       this.props.dispatch(emitUserMessage(userUttered));
     }
     event.target.message.value = '';
+    this.props.dispatch(setUserInput(''))
   }
 
   render() {
@@ -582,7 +585,7 @@ const mapStateToProps = state => ({
   tooltipSent: state.metadata.get('tooltipSent'),
   oldUrl: state.behavior.get('oldUrl'),
   pageChangeCallbacks: state.behavior.get('pageChangeCallbacks'),
-  domHighlight: state.metadata.get('domHighlight')
+  domHighlight: state.metadata.get('domHighlight'),
 });
 
 Widget.propTypes = {
@@ -622,6 +625,7 @@ Widget.propTypes = {
   defaultHighlightClassname: PropTypes.string,
   inputTextFieldHint: PropTypes.string,
   showHeaderAvatar: PropTypes.bool,
+  sessionId: PropTypes.string
 };
 
 Widget.defaultProps = {
@@ -647,7 +651,8 @@ Widget.defaultProps = {
     }
   }`,
   customizeWidget: {},
-  showHeaderAvatar: true
+  showHeaderAvatar: true,
+  sessionId: null,
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);

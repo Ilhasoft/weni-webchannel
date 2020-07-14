@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://https///compare/v1.0.0...v1.3.0) (2020-07-14)
+
+
+### Features
+
+* new attribute showHeaderAvatar and fullScreenMessageBubbleColor ([4298c2c](https://https///commit/4298c2c9f98ef386a617f6f4051d88c770a0d561))
+* new method clear() and new attribute sessionId ([ecb9fc6](https://https///commit/ecb9fc62777d6d8d793daf7ee4df6bc05bc8ad00))
+* tooltip message can be defined as a string ([b258564](https://https///commit/b258564a87f65b2b221ab63c3f2fc62739cef35f))
+
+
+### Bug Fixes
+
+* laucher image size ([5e4dbac](https://https///commit/5e4dbac4744a9043de53a8ea7fcde05fffebe930))
+* merge error ([88f59ef](https://https///commit/88f59ef3afc0f103223aba319f76071d547bfbac))
+* modified name to fullScreenBotMessageBubbleColor ([800542f](https://https///commit/800542faf675b956b54fa5a54de1198df357643a))
+* profile avatar with a better size, reduced input size on fullscreen ([9a36cc4](https://https///commit/9a36cc446d17e88d1be1843b53721846b18aa670))
+* removed log and unused variable ([126da36](https://https///commit/126da36e165d56615566e52f915392e11f50fa8a))
+
 ## [1.2.0](https://https///compare/v1.0.0...v1.2.0) (2020-07-10)
 
 

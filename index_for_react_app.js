@@ -18,7 +18,8 @@ import {
   toggleInputDisabled,
   dropMessages,
   send,
-  reload
+  reload,
+  clear,
 } from './src/store/actions/dispatcher';
 
 export {
@@ -41,5 +42,6 @@ export {
   toggleInputDisabled,
   dropMessages,
   send,
-  reload
+  reload,
+  clear,
 };
