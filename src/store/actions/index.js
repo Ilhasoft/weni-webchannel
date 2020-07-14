@@ -270,3 +270,9 @@ export function reload() {
     type: actions.RELOAD
   };
 }
+
+export function clear() {
+  return {
+    type: actions.CLEAR,
+  };
+}

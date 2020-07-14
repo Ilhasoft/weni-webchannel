@@ -1,4 +1,4 @@
-import { Map, fromJS } from 'immutable';
+import { Map, fromJS, List } from 'immutable';
 import { MESSAGES_TYPES, MESSAGE_SENDER, SESSION_NAME } from 'constants';
 
 import { Video, Image, Message, Snippet, QuickReply } from 'messagesComponents';
@@ -126,6 +126,19 @@ export function storeLocalSession(storage, key, sid) {
   }
   // Store updated session to storage
   storage.setItem(key, JSON.stringify(session));
+}
+
+export const clearMessages = storage => () => {
+  console.log('clear')
+  const localSession = getLocalSession(storage, SESSION_NAME);
+  const newSession = {
+    // Since immutable List is not a native JS object, store conversation as array
+    ...localSession,
+    conversation: [],
+    lastUpdate: Date.now()
+  };
+  storage.setItem(SESSION_NAME, JSON.stringify(newSession));
+  return new List([]);
 }
 
 export const storeMessageTo = storage => (conversation) => {

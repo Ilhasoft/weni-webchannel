@@ -39,3 +39,4 @@ export const SET_OLD_URL = 'SET_OLD_URL';
 export const EVAL_URL = 'EVAL_URL';
 export const SET_CUSTOM_CSS = 'SET_CUSTOM_CSS';
 export const RELOAD = 'RELOAD';
+export const CLEAR = 'CLEAR';

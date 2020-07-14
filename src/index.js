@@ -142,6 +142,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         customizeWidget={props.customizeWidget}
         inputTextFieldHint={props.inputTextFieldHint}
         showHeaderAvatar={props.showHeaderAvatar}
+        sessionId={props.sessionId}
       />
     </Provider>
   );
@@ -190,6 +191,7 @@ ConnectedWidget.propTypes = {
   defaultHighlightCss: PropTypes.string,
   defaultHighlightAnimation: PropTypes.string,
   showHeaderAvatar: PropTypes.bool,
+  sessionId: PropTypes.string,
 };
 
 ConnectedWidget.defaultProps = {
@@ -232,6 +234,7 @@ ConnectedWidget.defaultProps = {
   },
   disableTooltips: false,
   showHeaderAvatar: true,
+  sessionId: null,
 };
 
 export default ConnectedWidget;

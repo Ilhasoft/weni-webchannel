@@ -9,7 +9,8 @@ import {
   createImageSnippet,
   createComponentMessage,
   storeMessageTo,
-  getLocalSession
+  getLocalSession,
+  clearMessages
 } from './helper';
 
 import * as actionTypes from '../actions/actionTypes';
@@ -19,6 +20,7 @@ export default function (storage) {
 
   return function reducer(state = initialState, action) {
     const storeMessage = storeMessageTo(storage);
+    const clear = clearMessages(storage);
     switch (action.type) {
       // Each change to the redux store's message list gets recorded to storage
       case actionTypes.ADD_NEW_USER_MESSAGE: {
@@ -50,6 +52,9 @@ export default function (storage) {
       }
       case actionTypes.DROP_MESSAGES: {
         return storeMessage(initialState);
+      }
+      case actionTypes.CLEAR: {
+        return clear();
       }
       case actionTypes.EMIT_MESSAGE_IF_FIRST: {
         if (state.size === 0) {

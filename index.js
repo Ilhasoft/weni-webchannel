@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Widget, toggleChat, openChat, closeChat, showChat, hideChat, isOpen, isVisible, send, reload } from './index_for_react_app';
+import { Widget, toggleChat, openChat, closeChat, showChat, hideChat, isOpen, isVisible, send, reload, clear} from './index_for_react_app';
 
 const plugin = {
   init: (args) => {
@@ -43,6 +43,7 @@ const plugin = {
         defaultHighlightClassname={args.defaultHighlightClassname}
         customizeWidget={args.customizeWidget}
         showHeaderAvatar={args.showHeaderAvatar}
+        sessionId={args.sessionId}
       />, document.querySelector(args.selector)
     );
   }
@@ -59,6 +60,7 @@ export {
   isOpen,
   isVisible,
   send,
-  reload
+  reload,
+  clear,
 };
 
