@@ -103,6 +103,7 @@ set to `true` if you don't want to see the launcher.
 | `tooltipDelay` | `500` | Delay for the `tooltipMessage` |
 | `disableTooltips` | `false` | Boolean to define if tooltips should be displayed |
 | `showHeaderAvatar` | `true` | Boolean to define if the image provided in `profileAvatar` attribute must be displayed in Header |
+| `headerImage` | `null` | If provided, the image will be displayed in place of `profileImage`, `title` and `subtitle` |
 
 
 
