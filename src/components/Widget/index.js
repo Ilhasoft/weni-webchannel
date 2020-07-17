@@ -571,6 +571,7 @@ class Widget extends Component {
         customizeWidget={this.props.customizeWidget}
         inputTextFieldHint={this.props.inputTextFieldHint}
         showHeaderAvatar={this.props.showHeaderAvatar}
+        headerImage={this.props.headerImage}
       />
     );
   }
@@ -625,7 +626,8 @@ Widget.propTypes = {
   defaultHighlightClassname: PropTypes.string,
   inputTextFieldHint: PropTypes.string,
   showHeaderAvatar: PropTypes.bool,
-  sessionId: PropTypes.string
+  sessionId: PropTypes.string,
+  headerImage: PropTypes.string,
 };
 
 Widget.defaultProps = {

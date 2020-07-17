@@ -19,16 +19,19 @@ const Header = ({
   connectingText,
   closeImage,
   profileAvatar,
-  showHeaderAvatar
+  showHeaderAvatar,
+  headerImage
 }) => {
-    
     return(
       <div className="push-header-and-loading">
         <div className={`push-header ${subtitle ? 'push-with-subtitle' : ''} ${(showHeaderAvatar && profileAvatar) ? '' : 'push-without-header-avatar'}`}>
           {
-            showHeaderAvatar && profileAvatar && (
-              <img src={profileAvatar} className="push-avatar" alt="chat avatar" />
-            )
+            headerImage ?
+              <img src={headerImage} className="push-header-image" alt="chat header image" />
+              :
+              showHeaderAvatar && profileAvatar && (
+                <img src={profileAvatar} className="push-avatar" alt="chat avatar" />
+              )
           }
           <div className="push-header-buttons">
             {
@@ -52,10 +55,13 @@ const Header = ({
               </button>
             }
           </div>
-          <div className={'push-title-and-subtitle'}>
-            <h4 className={`push-title ${profileAvatar && 'push-with-avatar'}`}>{title}</h4>
-            {subtitle && <span className={`push-subtitle ${profileAvatar && 'push-with-avatar'}`}>{subtitle}</span>}
-          </div>
+          {
+            !headerImage &&
+              <div className={'push-title-and-subtitle'}>
+                <h4 className={`push-title ${profileAvatar && 'push-with-avatar'}`}>{title}</h4>
+                {subtitle && <span className={`push-subtitle ${profileAvatar && 'push-with-avatar'}`}>{subtitle}</span>}
+              </div>
+          }
         </div>
         {
           !connected &&
@@ -79,7 +85,8 @@ Header.propTypes = {
   connectingText: PropTypes.string,
   closeImage: PropTypes.string,
   profileAvatar: PropTypes.string,
-  showHeaderAvatar: PropTypes.bool
+  showHeaderAvatar: PropTypes.bool,
+  headerImage: PropTypes.string
 };
 
 export default Header;

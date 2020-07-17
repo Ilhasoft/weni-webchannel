@@ -20,6 +20,12 @@
       top: 12px;
       left: 14px;
     }
+    .push-header-image {
+      height: 70%;
+      width: 50%;
+      position: absolute;
+      left: 2px;
+    }
   }
 
   .push-header.push-without-header-avatar {
@@ -108,6 +114,12 @@
       top: 2.5vh;
       left: 3vh;
     }
+    .push-header-image {
+      width: 30vh;
+      height: 8vh;
+      position: absolute;
+      left: 3vh;
+    }
   }
 
   .push-header.push-without-header-avatar {
@@ -149,6 +161,11 @@
       text-align: center !important;
       .push-avatar {
         display: none;
+      }
+      .push-header-image {
+        height: 7vh;
+        width: 24vh;
+        left: 2vh;
       }
 
       span.push-with-avatar, span.push-subtitle {
