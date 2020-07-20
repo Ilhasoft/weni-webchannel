@@ -8,12 +8,14 @@
   padding: 0 1vh 1vh 0;
   position: fixed;
   right: 0;
-  width: var(--widgetWidth);
-  height: var(--widgetHeight);
   z-index: 9999;
   align-items: flex-end;
-  justify-content: flex-end;
-  
+  justify-content: flex-end;  
+
+  &.push-chat-open {
+    width: var(--widgetWidth);
+    height: var(--widgetHeight);
+  }
 
   &.push-full-screen.push-chat-open {
     @include push-widget-container-fs;
