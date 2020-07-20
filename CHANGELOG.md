@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://https///compare/v1.3.0...v1.4.0) (2020-07-20)
+
+
+### Features
+
+* header image support ([1f8604d](https://https///commit/1f8604dc3c6232bdb787ab8a7dedd4a59891fb3b))
+
+
+### Bug Fixes
+
+* div not blocking page interaction ([be327f0](https://https///commit/be327f0536cf6813e71b6384f3f46a1ce5a2891d))
+* messages alignment ([be68136](https://https///commit/be6813677b73dc8fc4d4f8ddec09779c1c5010eb))
+
 ## [1.3.0](https://https///compare/v1.0.0...v1.3.0) (2020-07-14)
 
 
