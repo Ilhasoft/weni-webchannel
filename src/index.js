@@ -143,6 +143,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         inputTextFieldHint={props.inputTextFieldHint}
         showHeaderAvatar={props.showHeaderAvatar}
         sessionId={props.sessionId}
+        headerImage={props.headerImage}
       />
     </Provider>
   );
@@ -192,6 +193,7 @@ ConnectedWidget.propTypes = {
   defaultHighlightAnimation: PropTypes.string,
   showHeaderAvatar: PropTypes.bool,
   sessionId: PropTypes.string,
+  headerImage: PropTypes.string,
 };
 
 ConnectedWidget.defaultProps = {

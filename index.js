@@ -44,6 +44,7 @@ const plugin = {
         customizeWidget={args.customizeWidget}
         showHeaderAvatar={args.showHeaderAvatar}
         sessionId={args.sessionId}
+        headerImage={args.headerImage}
       />, document.querySelector(args.selector)
     );
   }
