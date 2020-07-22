@@ -12,7 +12,7 @@
     height: 55px;
     font-family: $roboto;
     position: relative;
-    padding-left: 13%;
+    padding-left: 15%;
     .push-avatar {
       height: 31px;
       width: 31px;
@@ -106,7 +106,7 @@
   .push-header {
     @include push-header-fs;
     min-height: 10vh;
-    padding-left: 5%;
+    padding-left: 6%;
     .push-avatar {
       width: 5vh;
       height: 5vh;
