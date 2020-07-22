@@ -12,7 +12,7 @@
     height: 55px;
     font-family: $roboto;
     position: relative;
-    padding-left: 6vh;
+    padding-left: 13%;
     .push-avatar {
       height: 31px;
       width: 31px;
@@ -30,7 +30,7 @@
 
   .push-header.push-without-header-avatar {
     .push-title-and-subtitle {
-      margin-left: -4vh;
+      margin-left: -10%;
     }
   }
 
@@ -106,7 +106,7 @@
   .push-header {
     @include push-header-fs;
     min-height: 10vh;
-    padding-left: 10vh;
+    padding-left: 5%;
     .push-avatar {
       width: 5vh;
       height: 5vh;
@@ -124,7 +124,7 @@
 
   .push-header.push-without-header-avatar {
     .push-title-and-subtitle {
-      margin-left: 4vh;
+      margin-left: 3%;
     }
   }
 
