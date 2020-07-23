@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://https///compare/v1.4.0...v1.4.1) (2020-07-22)
+
+
+### Bug Fixes
+
+* header padding now not using a height dependent unit ([c3d1eb2](https://https///commit/c3d1eb2b1905dbe428ca5f03a6f8bf863d27e960))
+
 ## [1.4.0](https://https///compare/v1.3.0...v1.4.0) (2020-07-20)
 
 
