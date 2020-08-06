@@ -144,6 +144,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         showHeaderAvatar={props.showHeaderAvatar}
         sessionId={props.sessionId}
         headerImage={props.headerImage}
+        startFullScreen={props.startFullScreen}
       />
     </Provider>
   );
@@ -194,6 +195,7 @@ ConnectedWidget.propTypes = {
   showHeaderAvatar: PropTypes.bool,
   sessionId: PropTypes.string,
   headerImage: PropTypes.string,
+  startFullScreen: PropTypes.bool,
 };
 
 ConnectedWidget.defaultProps = {
@@ -237,6 +239,7 @@ ConnectedWidget.defaultProps = {
   disableTooltips: false,
   showHeaderAvatar: true,
   sessionId: null,
+  startFullScreen: false,
 };
 
 export default ConnectedWidget;

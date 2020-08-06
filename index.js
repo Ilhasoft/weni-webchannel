@@ -45,6 +45,7 @@ const plugin = {
         showHeaderAvatar={args.showHeaderAvatar}
         sessionId={args.sessionId}
         headerImage={args.headerImage}
+        startFullScreen={args.startFullScreen}
       />, document.querySelector(args.selector)
     );
   }
