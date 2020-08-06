@@ -98,7 +98,7 @@ set to `true` if you don't want to see the launcher.
 | `closeImage` | `null` | Image to be displayed on the Launcher while the chat is open |
 | `connectingText` | `'Waiting for server...'` | Message displayed while the connection between the widget and socket server is established |
 | `showCloseButton` | `true` | Boolean to define if the close button will be shown |
-| `fullScreenMode` | `false` | Boolean to define if the widget is started on fullscreen mode |
+| `startFullScreen` | `false` | Boolean to define if the widget is started on fullscreen mode |
 | `tooltipMessage` | `null` | Message that will be displayed as tooltip |
 | `tooltipDelay` | `500` | Delay for the `tooltipMessage` |
 | `disableTooltips` | `false` | Boolean to define if tooltips should be displayed |

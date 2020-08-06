@@ -52,18 +52,21 @@ class Widget extends Component {
 
 
   componentDidMount() {
-    const { connectOn, autoClearCache, storage, dispatch, defaultHighlightAnimation } = this.props;
+    const { connectOn, autoClearCache, storage, dispatch, defaultHighlightAnimation, startFullScreen } = this.props;
 
     const styleNode = document.createElement('style');
     styleNode.innerHTML = defaultHighlightAnimation;
     document.body.appendChild(styleNode);
+
+    if (startFullScreen) {
+      this.toggleFullScreen();
+    }
 
     this.intervalId = setInterval(() => dispatch(evalUrl(window.location.href)), 500);
     if (connectOn === 'mount') {
       this.initializeWidget();
       return;
     }
-
 
     const localSession = getLocalSession(storage, SESSION_NAME);
     const lastUpdate = localSession ? localSession.lastUpdate : 0;
@@ -628,6 +631,7 @@ Widget.propTypes = {
   showHeaderAvatar: PropTypes.bool,
   sessionId: PropTypes.string,
   headerImage: PropTypes.string,
+  startFullScreen: PropTypes.bool
 };
 
 Widget.defaultProps = {
@@ -655,6 +659,7 @@ Widget.defaultProps = {
   customizeWidget: {},
   showHeaderAvatar: true,
   sessionId: null,
+  startFullScreen: false
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);
