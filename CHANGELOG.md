@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://https///compare/v1.4.1...v1.5.0) (2020-08-06)
+
+
+### Features
+
+* startFullScreen param added ([9a027f2](https://https///commit/9a027f22bdd099f9e930fef64a240a4f29d6cf00))
+
+
+### Bug Fixes
+
+* better spacing ([f2dbcd6](https://https///commit/f2dbcd6b38012d3439df40b284363042c2591338))
+* removed initPayload being called on component updates ([22c6943](https://https///commit/22c6943dcee9dd4cb7f376fe755060398386cd16))
+
 ### [1.4.1](https://https///compare/v1.4.0...v1.4.1) (2020-07-22)
 
 
