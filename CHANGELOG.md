@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://https///compare/v1.5.0...v1.5.1) (2020-08-18)
+
+
+### Bug Fixes
+
+* initPayload not being sent when the chat was manually opened ([88525dd](https://https///commit/88525ddc74cdeb1820c6dd64dd9cd525326b9bcd))
+
 ## [1.5.0](https://https///compare/v1.4.1...v1.5.0) (2020-08-06)
 
 

@@ -90,6 +90,7 @@ class Widget extends Component {
       if (!initialized) {
         this.initializeWidget();
       }
+      this.trySendInitPayload();
     }
 
     if (embedded && initialized) {
