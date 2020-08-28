@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://https///compare/v1.5.1...v1.6.0) (2020-08-28)
+
+
+### Features
+
+* html support enabled on messages ([db9c5b6](https://https///commit/db9c5b663c2c4cd0ba5946b228b3d7b3a050d393))
+
 ### [1.5.1](https://https///compare/v1.5.0...v1.5.1) (2020-08-18)
 
 
