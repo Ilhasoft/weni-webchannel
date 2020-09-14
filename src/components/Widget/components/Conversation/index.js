@@ -33,6 +33,8 @@ const Conversation = props =>
       sendMessage={props.sendMessage}
       disabledInput={props.disabledInput}
       inputTextFieldHint={props.inputTextFieldHint}
+      suggestionsUrl={props.suggestionsUrl}
+      suggestionsRepos={props.suggestionsRepos}
     />
     {React.createElement('a', {href:"https://push.al", className:"push-poweredby-container", target:"_blank"}, "Powered by Push Platform")}
   </div>;
@@ -56,7 +58,9 @@ Conversation.propTypes = {
   showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   inputTextFieldHint: PropTypes.string,
   showHeaderAvatar: PropTypes.bool,
-  headerImage: PropTypes.string
+  headerImage: PropTypes.string,
+  suggestionsUrl: PropTypes.string,
+  suggestionsRepos: PropTypes.array
 };
 
 export default Conversation;

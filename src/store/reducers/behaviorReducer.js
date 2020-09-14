@@ -22,6 +22,7 @@ export default function (
     unreadCount: 0,
     messageDelayed: false,
     oldUrl: '',
+    suggestions: [],
     pageChangeCallbacks: Map()
   });
 
@@ -87,6 +88,9 @@ export default function (
       }
       case actionTypes.SET_PAGECHANGE_CALLBACKS: {
         return storeParams(state.set('pageChangeCallbacks', fromJS(action.pageChangeCallbacks)));
+      }
+      case actionTypes.SET_SUGGESTIONS: {
+        return storeParams(state.set('suggestions', action.suggestions));
       }
       case actionTypes.EVAL_URL: {
         const newUrl = action.url;

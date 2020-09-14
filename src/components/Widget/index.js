@@ -575,6 +575,8 @@ class Widget extends Component {
         inputTextFieldHint={this.props.inputTextFieldHint}
         showHeaderAvatar={this.props.showHeaderAvatar}
         headerImage={this.props.headerImage}
+        suggestionsUrl={this.props.suggestionsUrl}
+        suggestionsRepos={this.props.suggestionsRepos}
       />
     );
   }
@@ -631,7 +633,9 @@ Widget.propTypes = {
   showHeaderAvatar: PropTypes.bool,
   sessionId: PropTypes.string,
   headerImage: PropTypes.string,
-  startFullScreen: PropTypes.bool
+  startFullScreen: PropTypes.bool,
+  suggestionsUrl: PropTypes.string,
+  suggestionsRepos: PropTypes.array,
 };
 
 Widget.defaultProps = {

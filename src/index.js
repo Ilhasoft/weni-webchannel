@@ -145,6 +145,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
         sessionId={props.sessionId}
         headerImage={props.headerImage}
         startFullScreen={props.startFullScreen}
+        suggestionsUrl={props.suggestionsUrl}
+        suggestionsRepos={props.suggestionsRepos}
       />
     </Provider>
   );
@@ -196,6 +198,8 @@ ConnectedWidget.propTypes = {
   sessionId: PropTypes.string,
   headerImage: PropTypes.string,
   startFullScreen: PropTypes.bool,
+  suggestionsUrl: PropTypes.string,
+  suggestionsRepos: PropTypes.array
 };
 
 ConnectedWidget.defaultProps = {
@@ -240,6 +244,8 @@ ConnectedWidget.defaultProps = {
   showHeaderAvatar: true,
   sessionId: null,
   startFullScreen: false,
+  suggestionsUrl: 'https://api-staging.bothub.it/v2/repository/examples/search_repositories_examples/',
+  suggestionsRepos: [],
 };
 
 export default ConnectedWidget;

@@ -214,6 +214,22 @@ export function setLinkTarget(target) {
   };
 }
 
+export function getSuggestions(userInputState, repos, suggestionsUrl) {
+  return {
+    type: actions.GET_SUGGESTIONS,
+    userInputState,
+    repos,
+    suggestionsUrl,
+  }
+}
+
+export function setSuggestions(suggestions) {
+  return {
+    type: actions.SET_SUGGESTIONS,
+    suggestions
+  }
+}
+
 export function setUserInput(userInputState) {
   return {
     type: actions.SET_USER_INPUT,
