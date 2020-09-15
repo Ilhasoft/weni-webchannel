@@ -230,6 +230,13 @@ export function setSuggestions(suggestions) {
   }
 }
 
+export function setSelectedSuggestion(selectedSuggestion) {
+  return {
+    type: actions.SET_SELECTED_SUGGESTION,
+    selectedSuggestion
+  }
+}
+
 export function setUserInput(userInputState) {
   return {
     type: actions.SET_USER_INPUT,

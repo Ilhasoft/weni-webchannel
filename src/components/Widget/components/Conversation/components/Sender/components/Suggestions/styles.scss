@@ -1,0 +1,74 @@
+@import "variables.scss";
+@import "common.scss";
+
+.push-conversation-container {
+
+  .push-suggestion {
+    @include push-reply;
+    white-space: nowrap;
+    border-style: hidden;
+    color: white;
+    min-width: inherit;
+    background-color: grey;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    min-height: 1.5em;
+  }
+
+  .push-suggestions-container {
+    background-color: var(--chatBackgroundColor);
+    border-top: 1px solid #b5b5b5;
+    margin: 0;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  .push-suggestions-button {
+    background: rgba(255, 255, 255, 1);
+    border: 0;
+    padding: 0;
+    outline: none;
+
+    &.right {
+      margin-left: 5px;
+    }
+
+    &.left {
+      margin-right: 5px;
+    }
+
+    .push-next-icon {
+      height: 15px;
+    }
+  }
+
+  .push-suggestions-list {
+    @include push-replies;
+    background-color: var(--chatBackgroundColor);
+    margin: 0;
+    padding: 5px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    scroll-behavior: smooth
+  }
+  
+  .push-hide {
+    display: none;
+  }
+
+  .push-suggestions-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .push-suggestions-list {
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+  }
+
+  .push-suggestions-overflow {
+    overflow-x: auto;
+  }
+
+}

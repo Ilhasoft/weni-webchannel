@@ -130,3 +130,7 @@ export function getSuggestions(input, repos, suggestionsUrl) {
 export function setSuggestions(suggestions) {
   store.dispatch(actions.setSuggestions(suggestions));
 }
+
+export function setSelectedSuggestion(suggestion) {
+  store.dispatch(actions.setSelectedSuggestion(suggestion));
+}
