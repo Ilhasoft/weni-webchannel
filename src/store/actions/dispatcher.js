@@ -123,8 +123,8 @@ export function clear() {
   store.dispatch(actions.clear());
 }
 
-export function getSuggestions(input, repos, suggestionsUrl) {
-  store.dispatch(actions.getSuggestions(input, repos, suggestionsUrl));
+export function getSuggestions(input, repos, suggestionsUrl, suggestionsLanguage) {
+  store.dispatch(actions.getSuggestions(input, repos, suggestionsUrl, suggestionsLanguage));
 }
 
 export function setSuggestions(suggestions) {

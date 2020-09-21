@@ -4,20 +4,28 @@
 .push-conversation-container {
 
   .push-suggestion {
-    @include push-reply;
     white-space: nowrap;
     border-style: hidden;
-    color: white;
-    min-width: inherit;
-    background-color: grey;
-    padding-bottom: 2px;
-    padding-top: 2px;
+    color: grey;
+    min-width: 100%;
+    width: auto;
+    max-width: 100%;
+    border-radius: 0;
+    background-color: transparent;
+    position: relative;
     min-height: 1.5em;
+    max-height: 1.5em;
+    scroll-snap-align: start;
+    z-index: 0;
+    overflow: hidden;
+    align-items: flex-start;  
+    text-align: center;
+    margin-top: 3px;
   }
 
   .push-suggestions-container {
-    background-color: var(--chatBackgroundColor);
-    border-top: 1px solid #b5b5b5;
+    background-color: var(--inputBackgroundColor);
+    border-bottom: 1px solid $grey-4;
     margin: 0;
     padding: 5px;
     display: flex;
@@ -26,7 +34,7 @@
   }
 
   .push-suggestions-button {
-    background: rgba(255, 255, 255, 1);
+    background: transparent;
     border: 0;
     padding: 0;
     outline: none;
@@ -46,16 +54,14 @@
 
   .push-suggestions-list {
     @include push-replies;
-    background-color: var(--chatBackgroundColor);
-    margin: 0;
-    padding: 5px;
+    background-color: var(--inputBackgroundColor);
     flex-direction: row;
     flex-wrap: nowrap;
-    scroll-behavior: smooth
+    margin: 1px;
   }
   
   .push-hide {
-    display: none;
+    visibility: hidden;
   }
 
   .push-suggestions-list::-webkit-scrollbar {
@@ -69,6 +75,8 @@
 
   .push-suggestions-overflow {
     overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
   }
 
 }

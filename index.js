@@ -48,6 +48,7 @@ const plugin = {
         startFullScreen={args.startFullScreen}
         suggestionsUrl={args.suggestionsUrl}
         suggestionsRepos={args.suggestionsRepos}
+        suggestionsLanguage={args.suggestionsLanguage}
       />, document.querySelector(args.selector)
     );
   }

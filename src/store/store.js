@@ -55,13 +55,12 @@ function initStore(
           text: action.userInputState,
           repositories: action.repos,
           suggestionsUrl: action.suggestionsUrl,
+          language: action.suggestionsLanguage,
           userUrn: session_id
         }, (_response) => {
           const data = JSON.parse(_response);
           if (data.result) {
             store.dispatch(setSuggestions(data.result))
-          } else {
-            console.error(data);
           }
         });
         break;

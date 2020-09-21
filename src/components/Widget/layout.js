@@ -53,6 +53,7 @@ const WidgetLayout = (props) => {
           headerImage={props.headerImage}
           suggestionsUrl={props.suggestionsUrl}
           suggestionsRepos={props.suggestionsRepos}
+          suggestionsLanguage={props.suggestionsLanguage}
         />
       )}
       {!props.embedded && (
@@ -109,6 +110,7 @@ WidgetLayout.propTypes = {
   headerImage: PropTypes.string,
   suggestionsUrl: PropTypes.string,
   suggestionsRepos: PropTypes.array,
+  suggestionsLanguage: PropTypes.string,
 };
 
 export default connect(mapStateToProps)(WidgetLayout);

@@ -147,6 +147,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         startFullScreen={props.startFullScreen}
         suggestionsUrl={props.suggestionsUrl}
         suggestionsRepos={props.suggestionsRepos}
+        suggestionsLanguage={props.suggestionsLanguage}
       />
     </Provider>
   );
@@ -199,7 +200,8 @@ ConnectedWidget.propTypes = {
   headerImage: PropTypes.string,
   startFullScreen: PropTypes.bool,
   suggestionsUrl: PropTypes.string,
-  suggestionsRepos: PropTypes.array
+  suggestionsRepos: PropTypes.array,
+  suggestionsLanguage: PropTypes.string,
 };
 
 ConnectedWidget.defaultProps = {
@@ -246,6 +248,7 @@ ConnectedWidget.defaultProps = {
   startFullScreen: false,
   suggestionsUrl: 'https://api-staging.bothub.it/v2/repository/examples/search_repositories_examples/',
   suggestionsRepos: [],
+  suggestionsLanguage: 'pt_br',
 };
 
 export default ConnectedWidget;

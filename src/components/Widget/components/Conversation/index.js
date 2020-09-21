@@ -35,6 +35,7 @@ const Conversation = props =>
       inputTextFieldHint={props.inputTextFieldHint}
       suggestionsUrl={props.suggestionsUrl}
       suggestionsRepos={props.suggestionsRepos}
+      suggestionsLanguage={props.suggestionsLanguage}
     />
     {React.createElement('a', {href:"https://push.al", className:"push-poweredby-container", target:"_blank"}, "Powered by Push Platform")}
   </div>;
@@ -60,7 +61,8 @@ Conversation.propTypes = {
   showHeaderAvatar: PropTypes.bool,
   headerImage: PropTypes.string,
   suggestionsUrl: PropTypes.string,
-  suggestionsRepos: PropTypes.array
+  suggestionsRepos: PropTypes.array,
+  suggestionsLanguage: PropTypes.string,
 };
 
 export default Conversation;

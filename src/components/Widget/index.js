@@ -577,6 +577,7 @@ class Widget extends Component {
         headerImage={this.props.headerImage}
         suggestionsUrl={this.props.suggestionsUrl}
         suggestionsRepos={this.props.suggestionsRepos}
+        suggestionsLanguage={this.props.suggestionsLanguage}
       />
     );
   }
@@ -636,6 +637,7 @@ Widget.propTypes = {
   startFullScreen: PropTypes.bool,
   suggestionsUrl: PropTypes.string,
   suggestionsRepos: PropTypes.array,
+  suggestionsLanguage: PropTypes.string,
 };
 
 Widget.defaultProps = {

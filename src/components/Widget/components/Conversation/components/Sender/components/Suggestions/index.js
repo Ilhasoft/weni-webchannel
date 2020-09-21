@@ -9,37 +9,54 @@ import { connect } from 'react-redux';
 
 import { setSelectedSuggestion } from '../../../../../../../../store/actions';
 
+const reactStringReplace = require('react-string-replace');
+
+
 
 class SuggestionsList extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = { hasOverflow: false, endScroll: false, startScroll: true };
+    this.state = { hasOverflow: false, endScroll: false, startScroll: true, scrollDistance: 300 };
     this.suggestionsListRef = React.createRef();
-    this.scrollDistance = 250;
+  }
+
+  hasOverflow = (element) => {
+    return element.offsetHeight < element.scrollHeight || element.offsetWidth < element.scrollWidth
   }
 
   componentDidMount() {
     const element = this.suggestionsListRef.current;
-    let hasOverflow = element.offsetHeight < element.scrollHeight || element.offsetWidth < element.scrollWidth;
+    let hasOverflow = this.hasOverflow(element);
     this.setState({ hasOverflow })
+    // the + 10 is to add the margin from the prev and next buttons since offsetWidth doesn't include that
+    this.setState({ scrollDistance: element.offsetWidth + 10 })
   }
 
   left = () => {
-    this.suggestionsListRef.current.scrollLeft -= this.scrollDistance;
+    const element = this.suggestionsListRef.current;
+    // the + 10 is to add the margin from the prev and next buttons since offsetWidth doesn't include that
+    element.scrollLeft -= this.state.scrollDistance + 10;
+    this.setState({ scrollDistance: element.offsetWidth + 10 })
   };
   right = () => {
-    this.suggestionsListRef.current.scrollLeft += this.scrollDistance;
+    const element = this.suggestionsListRef.current;
+    // the + 10 is to add the margin from the prev and next buttons since offsetWidth doesn't include that
+    element.scrollLeft += this.state.scrollDistance + 10;
+    this.setState({ scrollDistance: element.offsetWidth + 10 })
   };
 
   handleScroll = () => {
     const element = this.suggestionsListRef.current;
+
+    // if the right arrow should be displayed
     if (element.scrollWidth - element.scrollLeft === element.offsetWidth) {
       this.setState({ endScroll: true })
     } else {
       this.setState({ endScroll: false })
     }
 
+    // if the left arrow should be displayed
     if (element.scrollLeft > 0) {
       this.setState({ startScroll: false })
     } else {
@@ -57,7 +74,7 @@ class SuggestionsList extends PureComponent {
     if (this.props.suggestions !== prevProps.suggestions) {
       const element = this.suggestionsListRef.current;
       element.scrollLeft = 0;
-      let hasOverflow = element.offsetHeight < element.scrollHeight || element.offsetWidth < element.scrollWidth;
+      let hasOverflow = this.hasOverflow(element);
       this.setState({ hasOverflow })
     }
   }
@@ -72,7 +89,12 @@ class SuggestionsList extends PureComponent {
         </button>
         <div className={`push-suggestions-list ${this.state.hasOverflow ? 'push-suggestions-overflow' : ''}`} onScroll={this.handleScroll} ref={this.suggestionsListRef}>
           {suggestions.map(suggestion => {
-            return <div className='push-suggestion' onClick={() => this.handleClick(suggestion)}>{suggestion}</div>
+            const highLighted = suggestion.replaceAll(this.props.userInput, `<b>${this.props.userInput}</b>`)
+            return <div
+              className='push-suggestion'
+              onClick={() => this.handleClick(suggestion)}
+              dangerouslySetInnerHTML={{ __html: highLighted }}>
+            </div>
           })}
         </div>
         <button className={`push-suggestions-button right ${((this.state.endScroll && this.state.hasOverflow) || !this.state.hasOverflow) ? 'push-hide' : ''}`} onClick={this.right} type="button">
