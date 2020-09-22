@@ -104,6 +104,9 @@ set to `true` if you don't want to see the launcher.
 | `disableTooltips` | `false` | Boolean to define if tooltips should be displayed |
 | `showHeaderAvatar` | `true` | Boolean to define if the image provided in `profileAvatar` attribute must be displayed in Header |
 | `headerImage` | `null` | If provided, the image will be displayed in place of `profileImage`, `title` and `subtitle` |
+| `suggestionsUrl` | [`bothub`](https://bothub.it) | Url to define the source for the input suggestions data |
+| `suggestionsRepo` | `[]` | Array that contains the repositories IDs for the input suggestions |
+| `suggestionsUrl` | `pt_br` | The languange sent to the `suggestionsUrl` to define the input suggestions language. |
 
 
 
