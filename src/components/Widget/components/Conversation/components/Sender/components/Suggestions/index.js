@@ -9,10 +9,6 @@ import { connect } from 'react-redux';
 
 import { setSelectedSuggestion } from '../../../../../../../../store/actions';
 
-const reactStringReplace = require('react-string-replace');
-
-
-
 class SuggestionsList extends PureComponent {
 
   constructor(props) {
