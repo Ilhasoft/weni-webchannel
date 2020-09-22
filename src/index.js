@@ -246,7 +246,7 @@ ConnectedWidget.defaultProps = {
   showHeaderAvatar: true,
   sessionId: null,
   startFullScreen: false,
-  suggestionsUrl: 'https://api-staging.bothub.it/v2/repository/examples/search_repositories_examples/',
+  suggestionsUrl: 'https://api.bothub.it/v2/repository/examples/search_repositories_examples/',
   suggestionsRepos: [],
   suggestionsLanguage: 'pt_br',
 };
