@@ -9,14 +9,14 @@ import { connect } from 'react-redux';
 
 import SuggestionsList from './components/Suggestions';
 
-const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, suggestionsUrl, suggestionsRepos, suggestionsLanguage, userInput, suggestions, setUserInput, getSuggestions, selectedSuggestion }) => {
+const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, suggestions, userInput, suggestionsConfig, setUserInput, getSuggestions, selectedSuggestion }) => {
   const inputEl = useRef()
   const [last, setLast] = useState('');
   let typingTimer = null;
   const doneTypingInterval = 3000;
 
   useEffect(() => {
-    if (inputEl.current.value && inputEl.current.value !== last && suggestionsUrl && suggestionsRepos && suggestionsLanguage) {
+    if (inputEl.current.value && inputEl.current.value !== last && suggestionsConfig.url && suggestionsConfig.datasets && suggestionsConfig.language) {
       typingTimer = setTimeout(doneTyping, doneTypingInterval);
     }
     return () => {
@@ -28,7 +28,7 @@ const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, suggestionsUrl
     if (inputEl.current.value === selectedSuggestion) {
       return;
     }
-    getSuggestions(inputEl.current.value, suggestionsRepos, suggestionsUrl, suggestionsLanguage);
+    getSuggestions(inputEl.current.value, suggestionsConfig.datasets, suggestionsConfig.url, suggestionsConfig.language, suggestionsConfig.excludeIntents);
     setLast(inputEl.current.value)
   }
 
@@ -57,7 +57,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setUserInput: (value) => dispatch(setUserInput(value)),
-  getSuggestions: (value, repos, suggestionsUrl, suggestionsLanguage) => dispatch(getSuggestions(value, repos, suggestionsUrl, suggestionsLanguage)),
+  getSuggestions: (value, repos, suggestionsUrl, suggestionsLanguage, excluded) => dispatch(getSuggestions(value, repos, suggestionsUrl, suggestionsLanguage, excluded)),
 });
 
 Sender.propTypes = {

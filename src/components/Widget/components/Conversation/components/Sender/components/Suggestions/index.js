@@ -79,9 +79,10 @@ class SuggestionsList extends PureComponent {
           <img src={leftImage} className="push-next-icon" alt="send message" />
         </button>
         <div className={`push-suggestions-list ${this.state.hasOverflow ? 'push-suggestions-overflow' : ''}`} onScroll={this.handleScroll} ref={this.suggestionsListRef}>
-          {suggestions.map(suggestion => {
+          {suggestions.map((suggestion, index) => {
             const highLighted = suggestion.replaceAll(this.props.userInput, `<b>${this.props.userInput}</b>`)
             return <div
+              key={index}
               className='push-suggestion'
               onClick={() => this.handleClick(suggestion)}
               dangerouslySetInnerHTML={{ __html: highLighted }}>

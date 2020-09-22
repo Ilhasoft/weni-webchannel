@@ -214,13 +214,14 @@ export function setLinkTarget(target) {
   };
 }
 
-export function getSuggestions(userInputState, repos, suggestionsUrl, suggestionsLanguage) {
+export function getSuggestions(userInputState, repos, suggestionsUrl, suggestionsLanguage, excluded) {
   return {
     type: actions.GET_SUGGESTIONS,
     userInputState,
     repos,
     suggestionsUrl,
-    suggestionsLanguage
+    suggestionsLanguage,
+    excluded
   }
 }
 

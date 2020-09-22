@@ -51,9 +51,7 @@ const WidgetLayout = (props) => {
           showMessageDate={props.showMessageDate}
           showHeaderAvatar={props.showHeaderAvatar}
           headerImage={props.headerImage}
-          suggestionsUrl={props.suggestionsUrl}
-          suggestionsRepos={props.suggestionsRepos}
-          suggestionsLanguage={props.suggestionsLanguage}
+          suggestionsConfig={props.suggestionsConfig}
         />
       )}
       {!props.embedded && (
@@ -108,9 +106,7 @@ WidgetLayout.propTypes = {
   inputTextFieldHint: PropTypes.string,
   showHeaderAvatar: PropTypes.bool,
   headerImage: PropTypes.string,
-  suggestionsUrl: PropTypes.string,
-  suggestionsRepos: PropTypes.array,
-  suggestionsLanguage: PropTypes.string,
+  suggestionsConfig: PropTypes.shape({})
 };
 
 export default connect(mapStateToProps)(WidgetLayout);

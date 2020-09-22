@@ -56,6 +56,7 @@ function initStore(
           repositories: action.repos,
           suggestionsUrl: action.suggestionsUrl,
           language: action.suggestionsLanguage,
+          excluded: action.excluded,
           userUrn: session_id
         }, (_response) => {
           const data = JSON.parse(_response);
