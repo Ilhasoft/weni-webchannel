@@ -29,18 +29,13 @@ class SuggestionsList extends PureComponent {
     this.setState({ scrollDistance: element.offsetWidth + 10 })
   }
 
-  left = () => {
+  // direction is +1/-1 and represents right or left
+  scroll = (direction) => {
     const element = this.suggestionsListRef.current;
     // the + 10 is to add the margin from the prev and next buttons since offsetWidth doesn't include that
-    element.scrollLeft -= this.state.scrollDistance + 10;
+    element.scrollLeft += (direction * this.state.scrollDistance) + 10;
     this.setState({ scrollDistance: element.offsetWidth + 10 })
-  };
-  right = () => {
-    const element = this.suggestionsListRef.current;
-    // the + 10 is to add the margin from the prev and next buttons since offsetWidth doesn't include that
-    element.scrollLeft += this.state.scrollDistance + 10;
-    this.setState({ scrollDistance: element.offsetWidth + 10 })
-  };
+  }
 
   handleScroll = () => {
     const element = this.suggestionsListRef.current;
@@ -80,7 +75,7 @@ class SuggestionsList extends PureComponent {
 
     return (
       <div className={`push-suggestions-container ${this.state.hasOverflow ? 'push-suggestions-overflow' : ''}`}>
-        <button className={`push-suggestions-button left ${((this.state.startScroll && this.state.hasOverflow) || !this.state.hasOverflow) ? 'push-hide' : ''}`} onClick={this.left} type="button">
+        <button className={`push-suggestions-button left ${((this.state.startScroll && this.state.hasOverflow) || !this.state.hasOverflow) ? 'push-hide' : ''}`} onClick={() => this.scroll(-1)} type="button">
           <img src={leftImage} className="push-next-icon" alt="send message" />
         </button>
         <div className={`push-suggestions-list ${this.state.hasOverflow ? 'push-suggestions-overflow' : ''}`} onScroll={this.handleScroll} ref={this.suggestionsListRef}>
@@ -93,7 +88,7 @@ class SuggestionsList extends PureComponent {
             </div>
           })}
         </div>
-        <button className={`push-suggestions-button right ${((this.state.endScroll && this.state.hasOverflow) || !this.state.hasOverflow) ? 'push-hide' : ''}`} onClick={this.right} type="button">
+        <button className={`push-suggestions-button right ${((this.state.endScroll && this.state.hasOverflow) || !this.state.hasOverflow) ? 'push-hide' : ''}`} onClick={() => this.scroll(+1)} type="button">
           <img src={rightImage} className="push-next-icon" alt="send message" />
         </button>
       </div>
