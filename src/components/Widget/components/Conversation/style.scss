@@ -49,6 +49,10 @@
     border-radius: 0;
     @include push-conversation-container-fs;
   }
+
+  .push-suggestion {
+    font-size: 20px;
+  }
 }
 
 @media screen and (max-width: 800px) {
@@ -71,6 +75,10 @@
       .push-send-icon {
         height: 3vh!important;
       }
+    }
+
+    .push-suggestion {
+      font-size: 15px;
     }
 
   }
