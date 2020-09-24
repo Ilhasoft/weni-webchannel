@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://https///compare/v1.5.1...v1.6.0) (2020-09-24)
+
+
+### Features
+
+* added exluded parameter ([66fa3d4](https://https///commit/66fa3d4129d408761464a43eab996620d748843b))
+* added suggestions on frontend ([ade40d1](https://https///commit/ade40d1a00e822bc4292dc23f5cc85ccadecf1be))
+* modified style and props format ([45190cc](https://https///commit/45190cc53fdf15e7196665c9f2521658aaad5ccd))
+* support to suggestions ([522185a](https://https///commit/522185a1b49df80dbe3cf38bd69eb6e70a250b18))
+
+
+### Bug Fixes
+
+* fullscreen css behavior ([42bec7e](https://https///commit/42bec7edd36f735853387452d4e5215bd0c70e29))
+* modified default url ([fbac360](https://https///commit/fbac360909188191d2ef2ccee3f7dda4628c50ab))
+* removed unused import ([84a4276](https://https///commit/84a42764914a8476927ed2520a8ed8c7c396ee23))
+
 ### [1.5.1](https://https///compare/v1.5.0...v1.5.1) (2020-08-18)
 
 
