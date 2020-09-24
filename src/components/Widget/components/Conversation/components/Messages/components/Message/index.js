@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from 'react-markdown/with-html';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -33,6 +33,7 @@ class Message extends PureComponent {
             <ReactMarkdown
               className={'push-markdown'}
               source={text}
+              escapeHtml={false}
               linkTarget={(url) => {
                 if (!url.startsWith('mailto') && !url.startsWith('javascript')) return '_blank';
                 return undefined;
