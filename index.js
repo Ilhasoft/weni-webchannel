@@ -46,6 +46,7 @@ const plugin = {
         sessionId={args.sessionId}
         headerImage={args.headerImage}
         startFullScreen={args.startFullScreen}
+        suggestionsConfig={args.suggestionsConfig}
       />, document.querySelector(args.selector)
     );
   }

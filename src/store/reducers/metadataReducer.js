@@ -28,6 +28,9 @@ export default function (storage) {
       case actionTypes.SET_USER_INPUT: {
         return storeMetadata(state.set('userInput', action.userInputState));
       }
+      case actionTypes.SET_SELECTED_SUGGESTION: {
+        return storeMetadata(state.set('selectedSuggestion', action.selectedSuggestion));
+      }
       case actionTypes.TRIGGER_TOOLTIP_SENT: {
         return storeMetadata(state.set('tooltipSent', state.get('tooltipSent').set(action.payloadSent, true)));
       }

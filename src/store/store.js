@@ -8,6 +8,7 @@ import metadata from './reducers/metadataReducer';
 
 import { getLocalSession } from './reducers/helper';
 import * as actionTypes from './actions/actionTypes';
+import { setSuggestions } from './actions';
 
 const cleanURL = (url) => {
   const regexProtocolHostPort = /https?:\/\/(([A-Za-z0-9-])+(\.?))+[a-z]+(:[0-9]+)?/;
@@ -47,6 +48,22 @@ function initStore(
             userUrn: session_id
           });
         }
+        break;
+      }
+      case actionTypes.GET_SUGGESTIONS: {
+        socket.emit('getSuggestions', {
+          text: action.userInputState,
+          repositories: action.repos,
+          suggestionsUrl: action.suggestionsUrl,
+          language: action.suggestionsLanguage,
+          excluded: action.excluded,
+          userUrn: session_id
+        }, (_response) => {
+          const data = JSON.parse(_response);
+          if (data.result) {
+            store.dispatch(setSuggestions(data.result))
+          }
+        });
         break;
       }
       case actionTypes.GET_OPEN_STATE: {

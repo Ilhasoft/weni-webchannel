@@ -145,6 +145,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         sessionId={props.sessionId}
         headerImage={props.headerImage}
         startFullScreen={props.startFullScreen}
+        suggestionsConfig={props.suggestionsConfig}
       />
     </Provider>
   );
@@ -196,6 +197,7 @@ ConnectedWidget.propTypes = {
   sessionId: PropTypes.string,
   headerImage: PropTypes.string,
   startFullScreen: PropTypes.bool,
+  suggestionsConfig: PropTypes.shape({})
 };
 
 ConnectedWidget.defaultProps = {
@@ -240,6 +242,12 @@ ConnectedWidget.defaultProps = {
   showHeaderAvatar: true,
   sessionId: null,
   startFullScreen: false,
+  suggestionsConfig: {
+    url: 'https://api.bothub.it/v2/repository/examples/search_repositories_examples/',
+    datasets: [],
+    language: 'pt_br',
+    excludeIntents: [],
+  }  
 };
 
 export default ConnectedWidget;

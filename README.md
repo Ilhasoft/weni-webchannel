@@ -104,6 +104,7 @@ set to `true` if you don't want to see the launcher.
 | `disableTooltips` | `false` | Boolean to define if tooltips should be displayed |
 | `showHeaderAvatar` | `true` | Boolean to define if the image provided in `profileAvatar` attribute must be displayed in Header |
 | `headerImage` | `null` | If provided, the image will be displayed in place of `profileImage`, `title` and `subtitle` |
+| `suggestionsConfig` | See below | Prop to define the configuration for the source of input suggestions data |
 
 
 
@@ -139,6 +140,27 @@ params={{
           }
         }
       }}
+```
+
+##### `suggestionsConfig`
+
+The `suggestionsConfig` props contains the configuration for the suggestions request made to the given url:
+
+- `url`: The API Url for the requests
+- `datasets`: The datasets IDs for the suggestions
+- `language`: The language that the suggestions should be returned from the API call
+- `excludeIntents`: The intents that should be excluded from the suggestions
+```jsx
+suggestionsConfig = {
+    url: 'https://api.bothub.it/v2/repository/examples/search_repositories_examples/',
+    datasets: [
+      "xxxxxxxx-yyyy-zzzz-wwww-yyyyyyyyyyyy",
+      "yyyyyyyy-xxxx-wwww-zzzz-wwwwwwwwwwww",
+      "aaaaaaaa-cccc-dddd-bbbb-aaaaaaaaaaaa"
+    ],
+    language: "en",
+    excludeIntents: ['bias']
+  }
 ```
 
 ##### `Customize the Widget interface`

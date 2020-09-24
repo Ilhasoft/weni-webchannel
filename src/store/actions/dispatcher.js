@@ -120,5 +120,17 @@ export function send(playload, text = '', customStore) {
 }
 
 export function clear() {
-  store.dispatch(actions.clear())
+  store.dispatch(actions.clear());
+}
+
+export function getSuggestions(input, repos, suggestionsUrl, suggestionsLanguage, excluded) {
+  store.dispatch(actions.getSuggestions(input, repos, suggestionsUrl, suggestionsLanguage, excluded));
+}
+
+export function setSuggestions(suggestions) {
+  store.dispatch(actions.setSuggestions(suggestions));
+}
+
+export function setSelectedSuggestion(suggestion) {
+  store.dispatch(actions.setSelectedSuggestion(suggestion));
 }
