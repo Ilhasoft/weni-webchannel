@@ -30,7 +30,7 @@ class ImgReply extends PureComponent {
           { title }
         </b>
         <div className="push-image-details" style={{ width, height }}>
-          <img className="push-image-frame" src={image} />
+          <img className="push-image-frame" src={image} onClick={() => window.open(image, '_blank')}/>
         </div>
       </div>
     );
