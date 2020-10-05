@@ -34,17 +34,14 @@ const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, suggestions, u
 
   return (userInput === 'hide' ? <div /> : (
     <div>
-      {(suggestions && suggestions.length > 0) ? <SuggestionsList suggestions={suggestions}></SuggestionsList> : <div></div>}
+      {(suggestions && suggestions.length > 0) ? <SuggestionsList suggestions={suggestions} automaticSend={suggestionsConfig.automaticSend}></SuggestionsList> : <div></div>}
       <form className="push-sender" onSubmit={sendMessage}>
         <input type="text" className="push-new-message" ref={inputEl} name="message" value={userInput} onChange={(value) => setUserInput(value.target.value)} placeholder={inputTextFieldHint} disabled={disabledInput || userInput === 'disable'} autoFocus autoComplete="off" />
-        {(userInput === '' || userInput === null) &&
-            <button type="submit" className="push-send">
-              <img src={send} className="push-send-icon" alt="send message" />
-            </button>}
-            {userInput !== '' &&
-                <button type="submit" className="push-send">
-                  <img src={send2} className="push-send-icon" alt="send message" />
-                </button>}
+        {suggestionsConfig.automaticSend ? null :
+          <button type="submit" className="push-send">
+            <img src={(userInput === '' || userInput === null) ? send : send2} className="push-send-icon" alt="send message" />
+          </button>
+        }
       </form>
     </div>
 ))};

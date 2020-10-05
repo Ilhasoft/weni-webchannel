@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { setSelectedSuggestion } from '../../../../../../../../store/actions';
+import { setSelectedSuggestion, addUserMessage, emitUserMessage } from 'actions';
 
 class SuggestionsList extends PureComponent {
 
@@ -21,8 +21,13 @@ class SuggestionsList extends PureComponent {
   }
 
   handleClick = (suggestion) => {
-    const { setUserInput, setSelectedSuggestion } = this.props;
-    setUserInput(suggestion)
+    const { setUserInput, setSelectedSuggestion, automaticSend, chooseSuggestion } = this.props;
+    if (automaticSend) {
+      chooseSuggestion(suggestion);
+      setUserInput('');
+    } else {
+      setUserInput(suggestion);
+    }
     setSelectedSuggestion(suggestion)
     this.setState({isExpanded: false, interval: [0, 1]})
   }
@@ -68,10 +73,15 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setUserInput: (value) => dispatch(setUserInput(value)),
   setSelectedSuggestion: (value) => dispatch(setSelectedSuggestion(value)),
+  chooseSuggestion: (value) => {
+    dispatch(addUserMessage(value));
+    dispatch(emitUserMessage(value));
+  }
 });
 
 SuggestionsList.propTypes = {
-  suggestions: PropTypes.array
+  suggestions: PropTypes.array,
+  automaticSend: PropTypes.bool
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SuggestionsList);

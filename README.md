@@ -150,6 +150,7 @@ The `suggestionsConfig` props contains the configuration for the suggestions req
 - `datasets`: The datasets IDs for the suggestions
 - `language`: The language that the suggestions should be returned from the API call
 - `excludeIntents`: The intents that should be excluded from the suggestions
+- `automaticSend`: If set to true, when the user clicks the suggestion, it will send it automaticaly instead of changing only the input
 ```jsx
 suggestionsConfig = {
     url: 'https://api.bothub.it/v2/repository/examples/search_repositories_examples/',
@@ -159,7 +160,8 @@ suggestionsConfig = {
       "aaaaaaaa-cccc-dddd-bbbb-aaaaaaaaaaaa"
     ],
     language: "en",
-    excludeIntents: ['bias']
+    excludeIntents: ['bias'],
+    automaticSend: false,
   }
 ```
 
