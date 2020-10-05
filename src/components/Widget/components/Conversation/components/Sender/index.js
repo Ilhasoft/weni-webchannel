@@ -13,7 +13,7 @@ const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, suggestions, u
   const inputEl = useRef()
   const [last, setLast] = useState('');
   let typingTimer = null;
-  const doneTypingInterval = 3000;
+  const doneTypingInterval = 500;
 
   useEffect(() => {
     if (inputEl.current.value && inputEl.current.value !== last && suggestionsConfig.url && suggestionsConfig.datasets && suggestionsConfig.language) {
