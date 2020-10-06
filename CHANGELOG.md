@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1](https://https///compare/v1.7.0...v1.7.1) (2020-10-06)
+
+
+### Features
+
+* image click opens a new tab ([e776e64](https://https///commit/e776e646d99f1e82eba99b96c3d3252d448e8a4c))
+
 ## [1.7.0](https://https///compare/v1.6.0...v1.7.0) (2020-10-05)
 
 
