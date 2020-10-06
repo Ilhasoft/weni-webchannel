@@ -247,6 +247,7 @@ ConnectedWidget.defaultProps = {
     datasets: [],
     language: 'pt_br',
     excludeIntents: [],
+    automaticSend: false,
   }  
 };
 
