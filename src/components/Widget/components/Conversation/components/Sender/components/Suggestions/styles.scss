@@ -12,6 +12,7 @@
     max-width: 100%;
     border-radius: 0;
     background-color: transparent;
+    border-bottom: 1px solid $grey-4;
     position: relative;
     min-height: 1.5em;
     max-height: 1.5em;
@@ -21,13 +22,15 @@
     align-items: flex-start;  
     text-align: center;
     margin-top: 3px;
+    margin-bottom: 3px;
+    cursor: pointer;
   }
 
   .push-suggestions-container {
     background-color: var(--inputBackgroundColor);
     border-bottom: 1px solid $grey-4;
     margin: 0;
-    padding: 5px;
+    padding-top: 5px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -39,26 +42,22 @@
     padding: 0;
     outline: none;
 
-    &.right {
+    .push-expand-icon {
+      height: 25px;
       margin-left: 5px;
       padding-right: 15px;
-    }
-
-    &.left {
-      margin-right: 5px;
-    }
-
-    .push-next-icon {
-      height: 15px;
+      cursor: pointer;
     }
   }
 
   .push-suggestions-list {
     @include push-replies;
     background-color: var(--inputBackgroundColor);
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     margin: 1px;
+    width: 100%;
+    display: flex;
   }
   
   .push-hide {
@@ -79,6 +78,10 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
+  }
+
+  .no-border {
+    border: none !important;
   }
 
 }

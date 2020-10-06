@@ -37,6 +37,11 @@
   .push-send {
     background: var(--inputBackgroundColor);
     border: 0;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
 
     .push-send-icon {
       height: 25px;

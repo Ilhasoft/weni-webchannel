@@ -1,72 +1,40 @@
 import './styles.scss';
 
 import { setUserInput } from 'actions';
-import leftImage from 'assets/arrow-left.svg';
-import rightImage from 'assets/arrow-right.svg';
+import arrowUp from 'assets/chevrons-up.svg';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { setSelectedSuggestion } from '../../../../../../../../store/actions';
+import { setSelectedSuggestion, addUserMessage, emitUserMessage } from 'actions';
 
 class SuggestionsList extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = { hasOverflow: false, endScroll: false, startScroll: true, scrollDistance: 300 };
+    this.state = { isExpanded: false, interval: [0, 1] };
     this.suggestionsListRef = React.createRef();
   }
 
-  hasOverflow = (element) => {
-    return element.offsetHeight < element.scrollHeight || element.offsetWidth < element.scrollWidth
-  }
-
-  componentDidMount() {
-    const element = this.suggestionsListRef.current;
-    let hasOverflow = this.hasOverflow(element);
-    this.setState({ hasOverflow })
-    // the + 10 is to add the margin from the prev and next buttons since offsetWidth doesn't include that
-    this.setState({ scrollDistance: element.offsetWidth + 10 })
-  }
-
-  // direction is +1/-1 and represents right or left
-  scroll = (direction) => {
-    const element = this.suggestionsListRef.current;
-    // the + 10 is to add the margin from the prev and next buttons since offsetWidth doesn't include that
-    element.scrollLeft += (direction * this.state.scrollDistance) + 10;
-    this.setState({ scrollDistance: element.offsetWidth + 10 })
-  }
-
-  handleScroll = () => {
-    const element = this.suggestionsListRef.current;
-
-    // if the right arrow should be displayed
-    if (element.scrollWidth - element.scrollLeft === element.offsetWidth) {
-      this.setState({ endScroll: true })
-    } else {
-      this.setState({ endScroll: false })
-    }
-
-    // if the left arrow should be displayed
-    if (element.scrollLeft > 0) {
-      this.setState({ startScroll: false })
-    } else {
-      this.setState({ startScroll: true })
-    }
+  expandSuggestions = () => {
+    this.setState({isExpanded: true, interval: [1, 5]})
   }
 
   handleClick = (suggestion) => {
-    const { setUserInput, setSelectedSuggestion } = this.props;
-    setUserInput(suggestion)
+    const { setUserInput, setSelectedSuggestion, automaticSend, chooseSuggestion } = this.props;
+    if (automaticSend) {
+      chooseSuggestion(suggestion);
+      setUserInput('');
+    } else {
+      setUserInput(suggestion);
+    }
     setSelectedSuggestion(suggestion)
+    this.setState({isExpanded: false, interval: [0, 1]})
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.suggestions !== prevProps.suggestions) {
-      const element = this.suggestionsListRef.current;
-      element.scrollLeft = 0;
-      let hasOverflow = this.hasOverflow(element);
-      this.setState({ hasOverflow })
+      this.setState({ interval: [0, 1], isExpanded: false })
     }
   }
 
@@ -74,24 +42,25 @@ class SuggestionsList extends PureComponent {
     const suggestions = this.props.suggestions;
 
     return (
-      <div className={`push-suggestions-container ${this.state.hasOverflow ? 'push-suggestions-overflow' : ''}`}>
-        <button className={`push-suggestions-button left ${((this.state.startScroll && this.state.hasOverflow) || !this.state.hasOverflow) ? 'push-hide' : ''}`} onClick={() => this.scroll(-1)} type="button">
-          <img src={leftImage} className="push-next-icon" alt="send message" />
-        </button>
-        <div className={`push-suggestions-list ${this.state.hasOverflow ? 'push-suggestions-overflow' : ''}`} onScroll={this.handleScroll} ref={this.suggestionsListRef}>
+      <div className={`push-suggestions-container ${this.state.isExpanded ? 'no-border' : ''}`}>
+        <div className={`push-suggestions-list`} ref={this.suggestionsListRef}>
           {suggestions.map((suggestion, index) => {
             const highLighted = suggestion.replaceAll(this.props.userInput, `<b>${this.props.userInput}</b>`)
-            return <div
-              key={index}
-              className='push-suggestion'
-              onClick={() => this.handleClick(suggestion)}
-              dangerouslySetInnerHTML={{ __html: highLighted }}>
-            </div>
+            if (index >= this.state.interval[0] && index < this.state.interval[1]) {
+              return <div
+                key={index}
+                className={`push-suggestion ${this.state.isExpanded ? '' : 'no-border'}`}
+                onClick={() => this.handleClick(suggestion)}
+                dangerouslySetInnerHTML={{ __html: highLighted }}>
+              </div>
+            }
           })}
         </div>
-        <button className={`push-suggestions-button right ${((this.state.endScroll && this.state.hasOverflow) || !this.state.hasOverflow) ? 'push-hide' : ''}`} onClick={() => this.scroll(+1)} type="button">
-          <img src={rightImage} className="push-next-icon" alt="send message" />
-        </button>
+        {(this.state.isExpanded || (suggestions.length <= 1)) ? '' : 
+          <button className={`push-suggestions-button right`} onClick={() => this.expandSuggestions()} type="button">
+            <img src={arrowUp} className="push-expand-icon" alt="send message" />
+          </button>
+        }
       </div>
     );
   }
@@ -104,10 +73,15 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setUserInput: (value) => dispatch(setUserInput(value)),
   setSelectedSuggestion: (value) => dispatch(setSelectedSuggestion(value)),
+  chooseSuggestion: (value) => {
+    dispatch(addUserMessage(value));
+    dispatch(emitUserMessage(value));
+  }
 });
 
 SuggestionsList.propTypes = {
-  suggestions: PropTypes.array
+  suggestions: PropTypes.array,
+  automaticSend: PropTypes.bool
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SuggestionsList);

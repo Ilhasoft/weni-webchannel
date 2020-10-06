@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://https///compare/v1.6.0...v1.7.0) (2020-10-05)
+
+
+### Features
+
+* automatic send for suggestions ([edd136a](https://https///commit/edd136a1cf35e7aa1667f688dd8a2eea1ec35788))
+
 ## [1.6.0](https://https///compare/v1.5.1...v1.6.0) (2020-09-24)
 
 
