@@ -24,6 +24,10 @@
     padding-top: 3px;
     padding-bottom: 3px;
     cursor: pointer;
+
+    &:hover {
+      color: var(--suggestionsHoverFontColor);
+    }
   }
 
   .push-suggestions-container {

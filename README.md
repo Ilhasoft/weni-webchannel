@@ -172,7 +172,7 @@ suggestionsConfig = {
 
 | Prop / Param                      | Default value   | Type        | Description                                         |
 | --------------------------------- | --------------- | ----------- | --------------------------------------------------- |
-| `titleColor`                      | `#fff`          | `color`     | Set the widget Title color                          | 
+| `titleColor`                      | `#fff`          | `color`     | Set the widget Title color                          |
 | `subtitleColor`                   | `#fff`          | `color`     | Set the widget Subtitle color                       |
 | `headerBackgroundColor`           | `#003a9b`       | `color`     | Set the widget Header background-color              |
 | `launcherColor`                   | `#003a9b`       | `color`     | Set the widget Launcher color                       |
@@ -192,10 +192,11 @@ suggestionsConfig = {
 | `quickRepliesBackgroundColor`     | `none`          | `color`     | Set the Quick-Replies background-color              |
 | `quickRepliesBorderColor`         | `#0084ff`       | `color`     | Set the Quick-Replies border color                  |
 | `quickRepliesBorderWidth`         | `1px`           | `dimension` | Set the Quick-Replies border width                  |
-| `fullScreenBotMessageBubbleColor` | `rgba(0,0,0,0)` | `color`     | Set the bot message bubble color on fullscreen mode | 
-| `suggestionsBackgroundColor`      | `#edf1f3`       | `color`     | Set the suggestions container background color      | 
-| `suggestionsSeparatorColor`       | `#e6e6e6`       | `color`     | Set suggestions line separator color                | 
-| `suggestionsFontColor`            | `grey`          | `color`     | Set the suggestions font color                      | 
+| `fullScreenBotMessageBubbleColor` | `rgba(0,0,0,0)` | `color`     | Set the bot message bubble color on fullscreen mode |
+| `suggestionsBackgroundColor`      | `#edf1f3`       | `color`     | Set the suggestions container background color      |
+| `suggestionsSeparatorColor`       | `#e6e6e6`       | `color`     | Set suggestions line separator color                |
+| `suggestionsFontColor`            | `grey`          | `color`     | Set the suggestions font color                      |
+| `suggestionsHoverFontColor`       | `#03348a`       | `color`     | Set the suggestions font color                      |
 
 ### Other features
 
