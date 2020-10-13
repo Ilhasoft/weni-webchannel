@@ -12,7 +12,7 @@ class SuggestionsList extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = { isExpanded: false, interval: [0, 1] };
+    this.state = { isExpanded: false, interval: [0, 1], showSuggestions: true };
     this.suggestionsListRef = React.createRef();
   }
 
@@ -29,12 +29,12 @@ class SuggestionsList extends PureComponent {
       setUserInput(suggestion);
     }
     setSelectedSuggestion(suggestion)
-    this.setState({isExpanded: false, interval: [0, 1]})
+    this.setState({isExpanded: false, interval: [0, 1], showSuggestions: false})
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.suggestions !== prevProps.suggestions) {
-      this.setState({ interval: [0, 1], isExpanded: false })
+      this.setState({ interval: [0, 1], isExpanded: false, showSuggestions: true })
     }
   }
 
@@ -42,6 +42,7 @@ class SuggestionsList extends PureComponent {
     const suggestions = this.props.suggestions;
 
     return (
+      this.state.showSuggestions ? (
       <div className={`push-suggestions-container ${this.state.isExpanded ? 'no-border' : ''}`}>
         <div className={`push-suggestions-list`} ref={this.suggestionsListRef}>
           {suggestions.map((suggestion, index) => {
@@ -62,6 +63,7 @@ class SuggestionsList extends PureComponent {
           </button>
         }
       </div>
+      ) : <div />
     );
   }
 }
