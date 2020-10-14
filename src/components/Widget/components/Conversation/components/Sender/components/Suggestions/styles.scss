@@ -6,13 +6,13 @@
   .push-suggestion {
     white-space: nowrap;
     border-style: hidden;
-    color: grey;
+    color: var(--suggestionsFontColor);
     min-width: 100%;
     width: auto;
     max-width: 100%;
     border-radius: 0;
     background-color: transparent;
-    border-bottom: 1px solid $grey-4;
+    border-bottom: 1px solid var(--suggestionsSeparatorColor);
     position: relative;
     min-height: 1.5em;
     max-height: 1.5em;
@@ -21,14 +21,18 @@
     overflow: hidden;
     align-items: flex-start;  
     text-align: center;
-    margin-top: 3px;
-    margin-bottom: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
     cursor: pointer;
+
+    &:hover {
+      color: var(--suggestionsHoverFontColor);
+    }
   }
 
   .push-suggestions-container {
-    background-color: var(--inputBackgroundColor);
-    border-bottom: 1px solid $grey-4;
+    background-color: var(--suggestionsBackgroundColor);
+    border-bottom: 1px solid var(--suggestionsSeparatorColor);
     margin: 0;
     padding-top: 5px;
     display: flex;
@@ -52,7 +56,7 @@
 
   .push-suggestions-list {
     @include push-replies;
-    background-color: var(--inputBackgroundColor);
+    background-color: var(--suggestionsBackgroundColor);
     flex-direction: column;
     flex-wrap: nowrap;
     margin: 1px;
