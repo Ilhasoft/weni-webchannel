@@ -105,6 +105,7 @@ set to `true` if you don't want to see the launcher.
 | `showHeaderAvatar` | `true` | Boolean to define if the image provided in `profileAvatar` attribute must be displayed in Header |
 | `headerImage` | `null` | If provided, the image will be displayed in place of `profileImage`, `title` and `subtitle` |
 | `suggestionsConfig` | See below | Prop to define the configuration for the source of input suggestions data |
+| `customAutoComplete` | See below | This prop is a function, the function take the current input string as an argument. The defined function will be called everytime the user modify the input within a delay of 500ms, the function return must be an array of strings that will be used as input suggestions. |
 
 
 
@@ -117,6 +118,14 @@ set to `true` if you don't want to see the launcher.
     if (delay > 2 * 1000) delay = 3 * 1000;
     if (delay < 400) delay = 1000;
     return delay;
+}
+```
+
+##### `customAutoComplete`
+```javascript
+(currentInput) => {
+    // you can gather strings in any manner to use as input suggestions
+    return ['first message', 'second message', 'third message', 'fourth message', 'fifth message'];
 }
 ```
 
