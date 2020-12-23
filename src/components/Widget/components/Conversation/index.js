@@ -34,6 +34,7 @@ const Conversation = props =>
       disabledInput={props.disabledInput}
       inputTextFieldHint={props.inputTextFieldHint}
       suggestionsConfig={props.suggestionsConfig}
+      customAutoComplete={props.customAutoComplete}
     />
     {React.createElement('a', {href:"https://push.al", className:"push-poweredby-container", target:"_blank"}, "Powered by Push Platform")}
   </div>;
@@ -58,7 +59,8 @@ Conversation.propTypes = {
   inputTextFieldHint: PropTypes.string,
   showHeaderAvatar: PropTypes.bool,
   headerImage: PropTypes.string,
-  suggestionsConfig: PropTypes.shape({})
+  suggestionsConfig: PropTypes.shape({}),
+  customAutoComplete: PropTypes.func,
 };
 
 export default Conversation;

@@ -1,6 +1,6 @@
 import './style.scss';
 
-import { getSuggestions, setUserInput } from 'actions';
+import { getSuggestions, setUserInput, setSuggestions } from 'actions';
 import send from 'assets/send_button.svg';
 import send2 from 'assets/send_button2.svg';
 import PropTypes from 'prop-types';
@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 import SuggestionsList from './components/Suggestions';
 
-const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, suggestions, userInput, suggestionsConfig, setUserInput, getSuggestions, selectedSuggestion }) => {
+const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, suggestions, userInput, suggestionsConfig, setUserInput, getSuggestions, setSuggestions, selectedSuggestion, customAutoComplete }) => {
   const inputEl = useRef()
   const [last, setLast] = useState('');
   let typingTimer = null;
@@ -28,7 +28,15 @@ const Sender = ({ sendMessage, inputTextFieldHint, disabledInput, suggestions, u
     if (inputEl.current.value === selectedSuggestion) {
       return;
     }
-    getSuggestions(inputEl.current.value, suggestionsConfig.datasets, suggestionsConfig.url, suggestionsConfig.language, suggestionsConfig.excludeIntents);
+    if (customAutoComplete) {
+      const customSuggestions = customAutoComplete(inputEl.current.value);
+      const isValid = Array.isArray(customSuggestions) && customSuggestions.every((e) => {
+        return (typeof e === 'string' || e instanceof String)
+      })
+      isValid && setSuggestions(customSuggestions);
+    } else {
+      getSuggestions(inputEl.current.value, suggestionsConfig.datasets, suggestionsConfig.url, suggestionsConfig.language, suggestionsConfig.excludeIntents);
+    }
     setLast(inputEl.current.value)
   }
 
@@ -55,6 +63,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setUserInput: (value) => dispatch(setUserInput(value)),
   getSuggestions: (value, repos, suggestionsUrl, suggestionsLanguage, excluded) => dispatch(getSuggestions(value, repos, suggestionsUrl, suggestionsLanguage, excluded)),
+  setSuggestions: (suggestions) => dispatch(setSuggestions(suggestions)),
 });
 
 Sender.propTypes = {
@@ -63,7 +72,8 @@ Sender.propTypes = {
   disabledInput: PropTypes.bool,
   userInput: PropTypes.string,
   setUserInput: PropTypes.func,
-  getSuggestions: PropTypes.func
+  getSuggestions: PropTypes.func,
+  customAutoComplete: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sender);

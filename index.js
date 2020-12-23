@@ -34,6 +34,7 @@ const plugin = {
         displayUnreadCount={args.displayUnreadCount}
         showMessageDate={args.showMessageDate}
         customMessageDelay={args.customMessageDelay}
+        customAutoComplete={args.customAutoComplete}
         tooltipMessage={args.tooltipMessage}
         tooltipDelay={args.tooltipDelay}
         onWidgetEvent={args.onWidgetEvent}
