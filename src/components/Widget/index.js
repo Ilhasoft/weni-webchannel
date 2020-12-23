@@ -576,6 +576,7 @@ class Widget extends Component {
         showHeaderAvatar={this.props.showHeaderAvatar}
         headerImage={this.props.headerImage}
         suggestionsConfig={this.props.suggestionsConfig}
+        customAutoComplete={this.props.customAutoComplete}
       />
     );
   }
@@ -619,6 +620,7 @@ Widget.propTypes = {
   displayUnreadCount: PropTypes.bool,
   showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   customMessageDelay: PropTypes.func.isRequired,
+  customAutoComplete: PropTypes.func,
   tooltipMessage: PropTypes.string,
   tooltipSent: PropTypes.shape({}),
   tooltipDelay: PropTypes.number.isRequired,

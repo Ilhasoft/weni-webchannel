@@ -52,6 +52,7 @@ const WidgetLayout = (props) => {
           showHeaderAvatar={props.showHeaderAvatar}
           headerImage={props.headerImage}
           suggestionsConfig={props.suggestionsConfig}
+          customAutoComplete={props.customAutoComplete}
         />
       )}
       {!props.embedded && (
@@ -106,7 +107,8 @@ WidgetLayout.propTypes = {
   inputTextFieldHint: PropTypes.string,
   showHeaderAvatar: PropTypes.bool,
   headerImage: PropTypes.string,
-  suggestionsConfig: PropTypes.shape({})
+  suggestionsConfig: PropTypes.shape({}),
+  customAutoComplete: PropTypes.func,
 };
 
 export default connect(mapStateToProps)(WidgetLayout);

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://https///compare/v1.7.2...v1.8.0) (2020-12-23)
+
+
+### Features
+
+* new custom auto complete attribute ([043da74](https://https///commit/043da74f7206a00a74b5e9e2a61e5722632bb32d))
+
 ### [1.7.2](https://https///compare/v1.7.1...v1.7.2) (2020-10-13)
 
 

@@ -133,6 +133,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         socket={sock}
         showMessageDate={props.showMessageDate}
         customMessageDelay={props.customMessageDelay}
+        customAutoComplete={props.customAutoComplete}
         tooltipMessage={props.tooltipMessage}
         tooltipDelay={props.tooltipDelay}
         disableTooltips={props.disableTooltips}
@@ -182,6 +183,7 @@ ConnectedWidget.propTypes = {
   displayUnreadCount: PropTypes.bool,
   showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   customMessageDelay: PropTypes.func,
+  customAutoComplete: PropTypes.func,
   tooltipMessage: PropTypes.string,
   tooltipDelay: PropTypes.number,
   onWidgetEvent: PropTypes.shape({
@@ -230,6 +232,7 @@ ConnectedWidget.defaultProps = {
     if (delay < 800) delay = 800;
     return delay;
   },
+  customAutoComplete: null,
   tooltipMessage: null,
   tooltipDelay: 500,
   onWidgetEvent: {
