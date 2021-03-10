@@ -41,7 +41,6 @@ export function createVideoSnippet(video, sender) {
 }
 
 export function createAudioSnippet(audio, sender) {
-  console.log('to dentro do create: ', audio);
   return Map({
     type: MESSAGES_TYPES.AUDIOREPLY.AUDIO,
     component: Audio,

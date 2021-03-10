@@ -123,7 +123,6 @@ export function addVideoSnippet(video) {
 }
 
 export function addAudioSnippet(audio) {
-  console.log('to no index add', audio);
   return {
     type: actions.ADD_NEW_AUDIO_AUDIOREPLY,
     audio

@@ -46,7 +46,6 @@ export function addVideoSnippet(video) {
 }
 
 export function addAudioSnippet(audio) {
-  console.log('to no dispatchet add');
   store.dispatch(actions.addAudioSnippet(audio));
 }
 

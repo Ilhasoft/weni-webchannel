@@ -475,7 +475,6 @@ class Widget extends Component {
         })
       );
     } else if (isAudio(messageClean)) {
-      console.log('ta como audio', messageClean);
       const audioUrl = messageClean.url;
       this.props.dispatch(
         addAudioSnippet({

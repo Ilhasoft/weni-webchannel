@@ -5,7 +5,6 @@ import './styles.scss';
 
 class AudioReply extends PureComponent {
   render() {
-    console.log('dentro do component: ', this.props);
     return (
       <div className="push-audio" >
         <audio controls>
