@@ -1,7 +1,7 @@
 import { Map, fromJS, List } from 'immutable';
 import { MESSAGES_TYPES, MESSAGE_SENDER, SESSION_NAME } from 'constants';
 
-import { Video, Image, Message, Snippet, QuickReply, DocViewer } from 'messagesComponents';
+import { Audio, Video, Image, Message, Snippet, QuickReply, DocViewer } from 'messagesComponents';
 
 export function createNewMessage(text, sender) {
   return Map({
@@ -34,6 +34,18 @@ export function createVideoSnippet(video, sender) {
     component: Video,
     title: video.title,
     video: video.video,
+    sender,
+    showAvatar: true,
+    timestamp: new Date().getTime()
+  });
+}
+
+export function createAudioSnippet(audio, sender) {
+  console.log('to dentro do create: ', audio);
+  return Map({
+    type: MESSAGES_TYPES.AUDIOREPLY.AUDIO,
+    component: Audio,
+    audio: audio.audio,
     sender,
     showAvatar: true,
     timestamp: new Date().getTime()

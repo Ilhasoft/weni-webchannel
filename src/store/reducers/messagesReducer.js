@@ -7,6 +7,7 @@ import {
   createNewMessage,
   createLinkSnippet,
   createVideoSnippet,
+  createAudioSnippet,
   createImageSnippet,
   createComponentMessage,
   storeMessageTo,
@@ -36,6 +37,9 @@ export default function (storage) {
       }
       case actionTypes.ADD_NEW_VIDEO_VIDREPLY: {
         return storeMessage(state.push(createVideoSnippet(action.video, MESSAGE_SENDER.RESPONSE)));
+      }
+      case actionTypes.ADD_NEW_AUDIO_AUDIOREPLY: {
+        return storeMessage(state.push(createAudioSnippet(action.audio, MESSAGE_SENDER.RESPONSE)));
       }
       case actionTypes.ADD_NEW_IMAGE_IMGREPLY: {
         return storeMessage(state.push(createImageSnippet(action.image, MESSAGE_SENDER.RESPONSE)));
