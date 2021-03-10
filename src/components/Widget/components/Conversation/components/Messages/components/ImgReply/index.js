@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { PureComponent } from 'react';
 import { PROP_TYPES } from 'constants';
+import PropTypes from 'prop-types';
 
 import './styles.scss';
 
@@ -29,8 +31,14 @@ class ImgReply extends PureComponent {
         <b className="push-image-title">
           { title }
         </b>
-        <div className="push-image-details" style={{ width, height }}>
-          <img className="push-image-frame" src={image} onClick={() => window.open(image, '_blank')}/>
+        <div className="push-image-details">
+          <img
+            alt=""
+            className="push-image-frame"
+            style={{ maxHeight: height, maxWidth: width }}
+            src={image}
+            onClick={() => window.open(image, '_blank')}
+          />
         </div>
       </div>
     );
@@ -38,7 +46,8 @@ class ImgReply extends PureComponent {
 }
 
 ImgReply.propTypes = {
-  message: PROP_TYPES.IMGREPLY
+  message: PROP_TYPES.IMGREPLY,
+  params: PropTypes.shape({})
 };
 
 ImgReply.defaultProps = {
