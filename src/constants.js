@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-export const SESSION_NAME = "chat_session";
+export const SESSION_NAME = 'chat_session';
+
+// eslint-disable-next-line no-useless-escape
+export const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/g;
 
 export const MESSAGE_SENDER = {
   CLIENT: 'client',
@@ -19,6 +22,9 @@ export const MESSAGES_TYPES = {
   IMGREPLY: {
     IMAGE: 'imgreply'
   },
+  DOCREPLY: {
+    DOCUMENT: 'docreply'
+  },
   QUICK_REPLY: 'quickreply',
   CUSTOM_COMPONENT: 'component'
 };
@@ -33,7 +39,8 @@ export const PROP_TYPES = {
       MESSAGES_TYPES.QUICK_REPLY,
       MESSAGES_TYPES.SNIPPET.LINK,
       MESSAGES_TYPES.IMGREPLY.IMAGE,
-      MESSAGES_TYPES.VIDREPLY.VIDEO
+      MESSAGES_TYPES.VIDREPLY.VIDEO,
+      MESSAGES_TYPES.DOCREPLY.DOCUMENT
     ]),
     id: PropTypes.number,
     text: PropTypes.string,
@@ -87,6 +94,19 @@ export const PROP_TYPES = {
     ])
   }),
 
+  DOCREPLY: ImmutablePropTypes.contains({
+    type: PropTypes.oneOf([
+      MESSAGES_TYPES.TEXT,
+      MESSAGES_TYPES.DOCREPLY.DOCUMENT
+    ]),
+    id: PropTypes.number,
+    src: PropTypes.string,
+    sender: PropTypes.oneOf([
+      MESSAGE_SENDER.CLIENT,
+      MESSAGE_SENDER.RESPONSE
+    ])
+  }),
+
   QUICK_REPLY: ImmutablePropTypes.contains({
     type: PropTypes.oneOf([
       MESSAGES_TYPES.QUICK_REPLY
@@ -95,10 +115,10 @@ export const PROP_TYPES = {
     text: PropTypes.string,
     hint: PropTypes.string,
     quick_replies: ImmutablePropTypes.listOf(
-        PropTypes.shape({
-          title: PropTypes.string,
-          payload: PropTypes.string
-        })),
+      PropTypes.shape({
+        title: PropTypes.string,
+        payload: PropTypes.string
+      })),
     sender: PropTypes.oneOf([
       MESSAGE_SENDER.CLIENT,
       MESSAGE_SENDER.RESPONSE

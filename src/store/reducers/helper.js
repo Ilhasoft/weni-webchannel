@@ -1,7 +1,7 @@
 import { Map, fromJS, List } from 'immutable';
 import { MESSAGES_TYPES, MESSAGE_SENDER, SESSION_NAME } from 'constants';
 
-import { Video, Image, Message, Snippet, QuickReply } from 'messagesComponents';
+import { Video, Image, Message, Snippet, QuickReply, DocViewer } from 'messagesComponents';
 
 export function createNewMessage(text, sender) {
   return Map({
@@ -46,6 +46,17 @@ export function createImageSnippet(image, sender) {
     component: Image,
     title: image.title,
     image: image.image,
+    sender,
+    showAvatar: true,
+    timestamp: new Date().getTime()
+  });
+}
+
+export function createDocumentSnippet(document, sender) {
+  return Map({
+    type: MESSAGES_TYPES.DOCREPLY.DOCUMENT,
+    component: DocViewer,
+    src: document.src,
     sender,
     showAvatar: true,
     timestamp: new Date().getTime()
@@ -138,7 +149,7 @@ export const clearMessages = storage => () => {
   };
   storage.setItem(SESSION_NAME, JSON.stringify(newSession));
   return new List([]);
-}
+};
 
 export const storeMessageTo = storage => (conversation) => {
   // Store a conversation List to storage

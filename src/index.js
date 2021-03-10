@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 
 import Widget from './components/Widget';
 import { initStore } from '../src/store/store';
-import socketCluster from './socketcluster.min.js';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let store = null;
@@ -17,7 +16,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
       protocolOptions,
       channelUuid,
       host,
-      onSocketEvent
+      onSocketEvent,
+      socketUrl
     ) {
       this.url = url;
       this.customData = customData;
@@ -29,10 +29,11 @@ const ConnectedWidget = forwardRef((props, ref) => {
       this.subscribed = null;
       this.onEvents = [];
       this.marker = Math.random();
+      this.socketUrl = socketUrl;
     }
 
     isInitialized() {
-      return this.socket !== null && this.socket.state == 'open';
+      return this.socket ? this.socket.readyState === 1 : false;
     }
 
     on(event, callback) {
@@ -63,24 +64,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
     }
 
     createSocket() {
-      var options = {
-        hostname: this.url.replace(/^(https?:|)\/\//, ''),
-        query: {
-          channelUUID: this.channelUuid,
-          hostApi: this.host,
-        },
-      };
-      options = Object.assign(options, this.protocolOptions);
-      this.socket = socketCluster.connect(options);
-
-      this.onEvents.forEach((event) => {
-        this.socket.on(event.event, event.callback);
-      });
-
-      this.onEvents = [];
-      Object.keys(this.onSocketEvent).forEach((event) => {
-        this.socket.on(event, this.onSocketEvent[event]);
-      });
+      const socketHost = this.socketUrl.replace(/^(https?:|)\/\//, '');
+      this.socket = new WebSocket(`wss://${socketHost}/ws`);
     }
   }
 
@@ -90,7 +75,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
     props.protocolOptions,
     props.channelUuid,
     props.host,
-    props.onSocketEvent
+    props.onSocketEvent,
+    props.socketUrl
   );
 
   const storage =
@@ -147,6 +133,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
         headerImage={props.headerImage}
         startFullScreen={props.startFullScreen}
         suggestionsConfig={props.suggestionsConfig}
+        host={props.host}
+        channelUuid={props.channelUuid}
       />
     </Provider>
   );
@@ -213,7 +201,7 @@ ConnectedWidget.defaultProps = {
   connectOn: 'mount',
   onSocketEvent: {},
   socketUrl: 'https://socket.push.al',
-  protocolOptions: { secure: true, port: 443 },
+  protocolOptions: { secure: true, port: 8080 },
   channelUuid: null,
   host: 'https://new.push.al',
   badge: 0,
@@ -236,10 +224,10 @@ ConnectedWidget.defaultProps = {
   tooltipMessage: null,
   tooltipDelay: 500,
   onWidgetEvent: {
-    onChatOpen: () => {},
-    onChatClose: () => {},
-    onChatVisible: () => {},
-    onChatHidden: () => {}
+    onChatOpen: () => { },
+    onChatClose: () => { },
+    onChatVisible: () => { },
+    onChatHidden: () => { }
   },
   disableTooltips: false,
   showHeaderAvatar: true,
@@ -250,8 +238,8 @@ ConnectedWidget.defaultProps = {
     datasets: [],
     language: 'pt_br',
     excludeIntents: [],
-    automaticSend: false,
-  }  
+    automaticSend: false
+  }
 };
 
 export default ConnectedWidget;

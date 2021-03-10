@@ -13,11 +13,11 @@ import {
   addLinkSnippet,
   addVideoSnippet,
   addImageSnippet,
+  addDocumentSnippet,
   addQuickReply,
   renderCustomComponent,
   initialize,
   connectServer,
-  disconnectServer,
   pullSession,
   newUnreadMessage,
   triggerMessageDelayed,
@@ -35,10 +35,12 @@ import {
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
-import { isSnippet, isVideo, isImage, isQR, isText } from './msgProcessor';
-import { getAttachmentFromText } from './msgProcessor';
+import { isSnippet, isVideo, isImage, isDocument, isQR, isText } from './msgProcessor';
+
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
+
+import { formatMessage, buildQuickReplies } from '../../utils/messages';
 
 class Widget extends Component {
   constructor(props) {
@@ -47,12 +49,17 @@ class Widget extends Component {
     this.onGoingMessageDelay = false;
     this.sendMessage = this.sendMessage.bind(this);
     this.intervalId = null;
-    this.eventListenerCleaner = () => {};
+    this.eventListenerCleaner = () => { };
   }
 
-
   componentDidMount() {
-    const { connectOn, autoClearCache, storage, dispatch, defaultHighlightAnimation, startFullScreen } = this.props;
+    const {
+      connectOn,
+      autoClearCache,
+      storage, dispatch,
+      defaultHighlightAnimation,
+      startFullScreen
+    } = this.props;
 
     const styleNode = document.createElement('style');
     styleNode.innerHTML = defaultHighlightAnimation;
@@ -90,14 +97,12 @@ class Widget extends Component {
       if (!initialized) {
         this.initializeWidget();
       }
-      this.trySendInitPayload();
     }
 
     if (embedded && initialized) {
       dispatch(showChat());
       dispatch(openChat());
     }
-
   }
 
   componentWillUnmount() {
@@ -130,18 +135,22 @@ class Widget extends Component {
     } else if (when === 'init') {
       dispatch(emitMessageIfFirst(payload, text));
     }
-    dispatch(setUserInput(''))
+    dispatch(setUserInput(''));
   }
 
   handleMessageReceived(message) {
     const { dispatch } = this.props;
-    if (!this.onGoingMessageDelay) {
-      this.onGoingMessageDelay = true;
-      dispatch(triggerMessageDelayed(true));
-      this.newMessageTimeout(message);
-    } else {
-      this.messages.push(message);
-    }
+
+    const formatedMessage = formatMessage(message);
+    formatedMessage.forEach((msg) => {
+      if (!this.onGoingMessageDelay) {
+        this.onGoingMessageDelay = true;
+        dispatch(triggerMessageDelayed(true));
+        this.newMessageTimeout(msg);
+      } else {
+        this.messages.push(msg);
+      }
+    });
   }
 
   popLastMessage() {
@@ -209,9 +218,13 @@ class Widget extends Component {
     this.clearCustomStyle();
     this.eventListenerCleaner();
     dispatch(clearMetadata());
-
     if (botUtterance.metadata) this.propagateMetadata(botUtterance.metadata);
-    const newMessage = { ...botUtterance, text: String(botUtterance.text) };
+    const utteranceData = JSON.parse(botUtterance.data);
+    const newMessage = {
+      ...botUtterance,
+      text: String(utteranceData.message.text),
+      quick_replies: buildQuickReplies(utteranceData.message.quick_replies)
+    };
     if (botUtterance.metadata && botUtterance.metadata.customCss) {
       newMessage.customCss = botUtterance.metadata.customCss;
     }
@@ -301,43 +314,44 @@ class Widget extends Component {
       dispatch,
       embedded,
       initialized,
-      sessionId
+      sessionId,
+      host,
+      channelUuid,
+      initPayload
     } = this.props;
 
     if (!socket.isInitialized()) {
       socket.createSocket();
 
+      const socketConnection = socket.socket;
       dispatch(pullSession());
 
       // Request a session from server
       const localId = this.getSessionId();
-      socket.on('connect', () => {
-        if (!localId) {
-          socket.emit('registerUser', sessionId ? {id: sessionId} : {}, (_response) => {
-              let remoteId;
-              const data = JSON.parse(_response);
-              if (data.urn) {
-                remoteId = data.urn;
+      const uniqueFrom = `${channelUuid}-${sessionId || `${Math.floor(Math.random() * 10000) + 1}`}`;
+      const options = {
+        type: 'register',
+        from: localId || uniqueFrom,
+        callback: `${host}/c/ex/${channelUuid}/receive`,
+        trigger: initPayload
+      };
+      socketConnection.onopen = () => {
+        this.startConnection(sendInitPayload, options, localId, uniqueFrom);
+      };
 
-                this.startConnection(sendInitPayload, localId, remoteId);
-                this.subscribeBotMessages(remoteId);
-              } else {
-                console.error(data);
-              }
-          });
-        } else {
-          this.startConnection(sendInitPayload, localId, localId);
-          this.subscribeBotMessages(localId);
-        }
-      });
+      socketConnection.onmessage = (msg) => {
+        this.handleBotUtterance(msg);
+      };
 
-      socket.on('disconnect', (reason) => {
+      socketConnection.onclose = (event) => {
         // eslint-disable-next-line no-console
-        console.log(reason);
-        if (reason !== 'io client disconnect') {
-          dispatch(disconnectServer());
-        }
-      });
+        console.log('SOCKET_ONCLOSE: Socket closed connection:', event);
+      };
+
+      socketConnection.onerror = (err) => {
+        // eslint-disable-next-line no-console
+        console.log('SOCKET_ONERROR: Socket error:', err);
+      };
     }
 
     if (embedded && initialized) {
@@ -346,39 +360,14 @@ class Widget extends Component {
     }
   }
 
-  subscribeBotMessages(localId) {
-    const {
-      socket,
-    } = this.props;
-
-    socket.subscribe(localId, (data) => {
-      if (data.to === localId) {
-        let botUtterance = this.handleMessageData(data);
-        this.handleBotUtterance(botUtterance);
-      }
-    });
-  }
-
-  handleMessageData(data) {
-    var botUtterance = { text: data.text };
-    if (data.quick_replies && data.quick_replies.length > 0) {
-      botUtterance.quick_replies = data.quick_replies.map(reply => ({title: reply, payload: reply}));
-    }
-
-    let attachment = getAttachmentFromText(botUtterance);
-    if (attachment) {
-      botUtterance.attachment = attachment;
-    }
-    return botUtterance;
-  }
-
-  startConnection(sendInitPayload, localId, remoteId) {
+  startConnection(sendInitPayload, options, localId, remoteId) {
     const {
       storage,
       dispatch,
       connectOn,
       tooltipMessage,
-      tooltipDelay
+      tooltipDelay,
+      socket
     } = this.props;
 
     dispatch(connectServer());
@@ -394,9 +383,12 @@ class Widget extends Component {
       storeLocalSession(storage, SESSION_NAME, remoteId);
       dispatch(pullSession());
       if (sendInitPayload) {
-        this.trySendInitPayload();
+        socket.socket.send(JSON.stringify(options));
+        dispatch(initialize());
       }
     } else {
+      delete options.trigger;
+      socket.socket.send(JSON.stringify(options));
       // If this is an existing session, it's possible we changed pages and want to send a
       // user message when we land.
       const nextMessage = window.localStorage.getItem(NEXT_MESSAGE);
@@ -417,39 +409,6 @@ class Widget extends Component {
     }
   }
 
-  // TODO: Need to erase redux store on load if localStorage
-  // is erased. Then behavior on reload can be consistent with
-  // behavior on first load
-
-  trySendInitPayload() {
-    const {
-      initPayload,
-      customData,
-      socket,
-      initialized,
-      isChatOpen,
-      isChatVisible,
-      embedded,
-      connected,
-      dispatch
-    } = this.props;
-
-    // Send initial payload when chat is opened or widget is shown
-    if (!initialized && connected && ((isChatOpen && isChatVisible) || embedded)) {
-      // Only send initial payload if the widget is connected to the server but not yet initialized
-
-      const sessionId = this.getSessionId();
-
-      // check that session_id is confirmed
-      if (!sessionId) return;
-
-      // eslint-disable-next-line no-console
-      console.log('sending init payload', sessionId);
-      socket.emit('sendMessageToChannel', { text: initPayload, userUrn: sessionId });
-      dispatch(initialize());
-    }
-  }
-
   displayTooltipMessage() {
     const {
       tooltipMessage,
@@ -464,7 +423,7 @@ class Widget extends Component {
 
       if (!sessionId || disableTooltips) return;
 
-      this.dispatchMessage({text: tooltipMessage});
+      this.dispatchMessage({ text: tooltipMessage });
       if (!isChatOpen) {
         dispatch(newUnreadMessage());
         dispatch(showTooltip(true));
@@ -473,7 +432,6 @@ class Widget extends Component {
       this.popLastMessage();
 
       dispatch(triggerTooltipSent(tooltipMessage));
-
     }
   }
 
@@ -491,7 +449,7 @@ class Widget extends Component {
     if (Object.keys(message).length === 0) {
       return;
     }
-    const { customCss, ...messageClean } = message;
+    const { customCss, isTrusted, ...messageClean } = message;
 
     if (isText(messageClean)) {
       this.props.dispatch(addResponseMessage(messageClean.text));
@@ -508,19 +466,26 @@ class Widget extends Component {
         })
       );
     } else if (isVideo(messageClean)) {
-      const element = messageClean.attachment.payload;
+      const videoUrl = messageClean.url;
       this.props.dispatch(
         addVideoSnippet({
-          title: element.title,
-          video: element.src
+          title: '',
+          video: videoUrl
         })
       );
     } else if (isImage(messageClean)) {
-      const element = messageClean.attachment.payload;
+      const imageUrl = messageClean.url;
       this.props.dispatch(
         addImageSnippet({
-          title: element.title,
-          image: element.src
+          title: '',
+          image: imageUrl
+        })
+      );
+    } else if (isDocument(messageClean)) {
+      const documentUrl = messageClean.url;
+      this.props.dispatch(
+        addDocumentSnippet({
+          src: documentUrl
         })
       );
     } else {
@@ -543,7 +508,7 @@ class Widget extends Component {
       this.props.dispatch(emitUserMessage(userUttered));
     }
     event.target.message.value = '';
-    this.props.dispatch(setUserInput(''))
+    this.props.dispatch(setUserInput(''));
   }
 
   render() {
@@ -577,6 +542,7 @@ class Widget extends Component {
         headerImage={this.props.headerImage}
         suggestionsConfig={this.props.suggestionsConfig}
         customAutoComplete={this.props.customAutoComplete}
+        showTooltip={this.props.showTooltip}
       />
     );
   }
@@ -591,7 +557,7 @@ const mapStateToProps = state => ({
   tooltipSent: state.metadata.get('tooltipSent'),
   oldUrl: state.behavior.get('oldUrl'),
   pageChangeCallbacks: state.behavior.get('pageChangeCallbacks'),
-  domHighlight: state.metadata.get('domHighlight'),
+  domHighlight: state.metadata.get('domHighlight')
 });
 
 Widget.propTypes = {
@@ -631,11 +597,15 @@ Widget.propTypes = {
   defaultHighlightCss: PropTypes.string,
   defaultHighlightClassname: PropTypes.string,
   inputTextFieldHint: PropTypes.string,
+  customizeWidget: PropTypes.shape({}),
   showHeaderAvatar: PropTypes.bool,
   sessionId: PropTypes.string,
   headerImage: PropTypes.string,
   startFullScreen: PropTypes.bool,
-  suggestionsConfig: PropTypes.shape({})
+  suggestionsConfig: PropTypes.shape({}),
+  host: PropTypes.string,
+  channelUuid: PropTypes.string,
+  showTooltip: PropTypes.bool
 };
 
 Widget.defaultProps = {
@@ -663,7 +633,8 @@ Widget.defaultProps = {
   customizeWidget: {},
   showHeaderAvatar: true,
   sessionId: null,
-  startFullScreen: false
+  startFullScreen: false,
+  showTooltip: false
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);

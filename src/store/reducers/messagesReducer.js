@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { List, fromJS } from 'immutable';
 import { MESSAGE_SENDER, SESSION_NAME } from 'constants';
 
@@ -10,7 +11,8 @@ import {
   createComponentMessage,
   storeMessageTo,
   getLocalSession,
-  clearMessages
+  clearMessages,
+  createDocumentSnippet
 } from './helper';
 
 import * as actionTypes from '../actions/actionTypes';
@@ -37,6 +39,9 @@ export default function (storage) {
       }
       case actionTypes.ADD_NEW_IMAGE_IMGREPLY: {
         return storeMessage(state.push(createImageSnippet(action.image, MESSAGE_SENDER.RESPONSE)));
+      }
+      case actionTypes.ADD_NEW_DOCUMENT_DOCREPLY: {
+        return storeMessage(state.push(createDocumentSnippet(action.document, MESSAGE_SENDER.RESPONSE)));
       }
       case actionTypes.ADD_QUICK_REPLY: {
         return storeMessage(state.push(createQuickReply(action.quickReply, MESSAGE_SENDER.RESPONSE)));

@@ -18,11 +18,11 @@ export function reload() {
 }
 
 export function connect() {
-  store.dispatch(actions.connect());
+  store.dispatch(actions.connectServer());
 }
 
 export function disconnect() {
-  store.dispatch(actions.disconnect());
+  store.dispatch(actions.disconnectServer());
 }
 
 export function addUserMessage(text) {
@@ -47,6 +47,10 @@ export function addVideoSnippet(video) {
 
 export function addImageSnippet(image) {
   store.dispatch(actions.addImageSnippet(image));
+}
+
+export function addDocumentSnippet(image) {
+  store.dispatch(actions.addDocumentSnippet(image));
 }
 
 export function addQuickReply(quickReply) {
@@ -124,7 +128,9 @@ export function clear() {
 }
 
 export function getSuggestions(input, repos, suggestionsUrl, suggestionsLanguage, excluded) {
-  store.dispatch(actions.getSuggestions(input, repos, suggestionsUrl, suggestionsLanguage, excluded));
+  store.dispatch(
+    actions.getSuggestions(input, repos, suggestionsUrl, suggestionsLanguage, excluded)
+  );
 }
 
 export function setSuggestions(suggestions) {

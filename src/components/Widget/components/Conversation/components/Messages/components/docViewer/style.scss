@@ -23,12 +23,13 @@
 
 .push-doc-viewer-open-modal-link {
   color: $blue-1;
-  text-decoration: underline;
+  text-decoration: none;
   cursor: pointer;
   display: inline;
-  background: none !important;
-  border: none;
-  padding: 0 !important;
+  background: aliceblue !important;
+  border: 1px solid rgba($blue-1, 0.2);
+  border-radius: 8px;
+  padding: 8px !important;
   font: inherit;
 }
 
@@ -59,9 +60,10 @@
 
 .push-doc-viewer-close-modal {
   border-radius: 50%;
-  background: #89919b;
-  color: white;
+  background: aliceblue;
+  color: black;
   font-size: 15px;
+  font-weight: 400;
   width: 45px;
   height: 45px;
   padding: 0;
@@ -69,7 +71,6 @@
   cursor: pointer;
   touch-action: manipulation;
   border: 1px solid transparent;
-  font-weight: 100;
 }
 
 .push-doc-viewer-spinner {
