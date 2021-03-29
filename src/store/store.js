@@ -1,3 +1,10 @@
+/*
+  eslint-disable
+  camelcase,
+  default-case,
+  consistent-return,
+  array-callback-return
+*/
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 
 import { SESSION_NAME } from 'constants';
@@ -35,10 +42,13 @@ function initStore(
       : null;
     switch (action.type) {
       case actionTypes.EMIT_NEW_USER_MESSAGE: {
-        socket.emit('sendMessageToChannel', {
-          text: action.text,
-          userUrn: session_id
-        });
+        const payload = {
+          type: 'message',
+          message: {
+            text: action.text
+          }
+        };
+        socket.socket.send(JSON.stringify(payload));
         break;
       }
       case actionTypes.EMIT_MESSAGE_IF_FIRST: {
@@ -61,7 +71,7 @@ function initStore(
         }, (_response) => {
           const data = JSON.parse(_response);
           if (data.result) {
-            store.dispatch(setSuggestions(data.result))
+            store.dispatch(setSuggestions(data.result));
           }
         });
         break;

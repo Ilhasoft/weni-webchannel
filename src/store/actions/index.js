@@ -129,6 +129,13 @@ export function addImageSnippet(image) {
   };
 }
 
+export function addDocumentSnippet(document) {
+  return {
+    type: actions.ADD_NEW_DOCUMENT_DOCREPLY,
+    document
+  };
+}
+
 export function addQuickReply(quickReply) {
   return {
     type: actions.ADD_QUICK_REPLY,
@@ -214,7 +221,13 @@ export function setLinkTarget(target) {
   };
 }
 
-export function getSuggestions(userInputState, repos, suggestionsUrl, suggestionsLanguage, excluded) {
+export function getSuggestions(
+  userInputState,
+  repos,
+  suggestionsUrl,
+  suggestionsLanguage,
+  excluded
+) {
   return {
     type: actions.GET_SUGGESTIONS,
     userInputState,
@@ -222,21 +235,21 @@ export function getSuggestions(userInputState, repos, suggestionsUrl, suggestion
     suggestionsUrl,
     suggestionsLanguage,
     excluded
-  }
+  };
 }
 
 export function setSuggestions(suggestions) {
   return {
     type: actions.SET_SUGGESTIONS,
     suggestions
-  }
+  };
 }
 
 export function setSelectedSuggestion(selectedSuggestion) {
   return {
     type: actions.SET_SELECTED_SUGGESTION,
     selectedSuggestion
-  }
+  };
 }
 
 export function setUserInput(userInputState) {
@@ -298,6 +311,6 @@ export function reload() {
 
 export function clear() {
   return {
-    type: actions.CLEAR,
+    type: actions.CLEAR
   };
 }

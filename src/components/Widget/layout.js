@@ -7,11 +7,10 @@ import Launcher from './components/Launcher';
 import './style.scss';
 
 const WidgetLayout = (props) => {
-
   useEffect(() => {
-    Object.keys(props.customizeWidget).map( (key, item) => {
-      document.body.style.setProperty('--'+key, props.customizeWidget[key])
-    })
+    Object.keys(props.customizeWidget).forEach((key) => {
+      document.body.style.setProperty(`--${key}`, props.customizeWidget[key]);
+    });
   });
 
   const classes = ['push-widget-container'];
@@ -65,6 +64,7 @@ const WidgetLayout = (props) => {
           closeImage={props.closeImage}
           displayUnreadCount={props.displayUnreadCount}
           tooltipMessage={props.tooltipMessage}
+          showTooltip={props.showTooltip}
         />
       )}
     </div>
@@ -95,7 +95,7 @@ WidgetLayout.propTypes = {
   fullScreenMode: PropTypes.bool,
   badge: PropTypes.number,
   embedded: PropTypes.bool,
-  params: PropTypes.object,
+  params: PropTypes.shape({}),
   connected: PropTypes.bool,
   connectingText: PropTypes.string,
   openLauncherImage: PropTypes.string,
@@ -109,6 +109,8 @@ WidgetLayout.propTypes = {
   headerImage: PropTypes.string,
   suggestionsConfig: PropTypes.shape({}),
   customAutoComplete: PropTypes.func,
+  showTooltip: PropTypes.bool,
+  customizeWidget: PropTypes.shape({})
 };
 
 export default connect(mapStateToProps)(WidgetLayout);

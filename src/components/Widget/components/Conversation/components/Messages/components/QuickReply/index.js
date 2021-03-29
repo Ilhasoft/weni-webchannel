@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -11,20 +12,6 @@ class QuickReply extends PureComponent {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
-
-    const {
-      message,
-      getChosenReply,
-      inputState,
-      id
-    } = this.props;
-
-    const hint = message.get('hint');
-    const chosenReply = getChosenReply(id);
-    if (!chosenReply && !inputState) {
-      // this.props.toggleInputDisabled();
-      // this.props.changeInputFieldHint(hint);
-    }
   }
 
   handleClick(reply) {
@@ -32,63 +19,62 @@ class QuickReply extends PureComponent {
       chooseReply,
       id,
       userInput,
-      setUserInput,
+      setUserInput
     } = this.props;
     const payload = reply.get('payload');
     const title = reply.get('title');
     const verify = this.verifyType(title);
-    if(verify === 'regular') {
+    if (verify === 'regular') {
       chooseReply(payload, title, id);
-      // this.props.changeInputFieldHint('Type a message...');
-    } else if(verify === 'checkbox') {
-      var value = userInput;
-      if(value !== '') {
-        value = value.concat(", ",title.replace("[] ",""));
+    } else if (verify === 'checkbox') {
+      let value = userInput;
+      if (value !== '') {
+        value = value.concat(', ', title.replace('[] ', ''));
         setUserInput(value);
       } else {
-        value = value.concat(title.replace("[] ",""));
+        value = value.concat(title.replace('[] ', ''));
         setUserInput(value);
       }
-    } else if(verify === 'location') {
-      if(navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const value = 'Minha localização é: ['+position.coords.latitude+','+position.coords.longitude+']';
-        chooseReply(value, value, id);
-      }, (error) => {
-        switch(error.code) {
-    case error.PERMISSION_DENIED:
-      chooseReply("Você bloqueou a sua localização.", "Você bloqueou a sua localização." ,id)
-      break;
-    case error.POSITION_UNAVAILABLE:
-      chooseReply("A sua localização não foi validada.", "A sua localização não foi validada." ,id)
-      break;
-    case error.TIMEOUT:
-      chooseReply("Não conseguimos recuperar sua localização.", "Não conseguimos recuperar sua localização." ,id)
-      break;
-    case error.UNKNOWN_ERROR:
-      chooseReply("Ocorreu um erro desconhecido.", "Ocorreu um erro desconhecido." ,id)
-      break;
-  }
-      });
-    } else {
-      chooseReply("Ocorreu um erro desconhecido.", "Ocorreu um erro desconhecido." ,id);
+    } else if (verify === 'location') {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const value = `Minha localização é: [${position.coords.latitude},${position.coords.longitude}]`;
+          chooseReply(value, value, id);
+        }, (error) => {
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              chooseReply('Você bloqueou a sua localização.', 'Você bloqueou a sua localização.', id);
+              break;
+            case error.POSITION_UNAVAILABLE:
+              chooseReply('A sua localização não foi validada.', 'A sua localização não foi validada.', id);
+              break;
+            case error.TIMEOUT:
+              chooseReply('Não conseguimos recuperar sua localização.', 'Não conseguimos recuperar sua localização.', id);
+              break;
+            case error.UNKNOWN_ERROR:
+              chooseReply('Ocorreu um erro desconhecido.', 'Ocorreu um erro desconhecido.', id);
+              break;
+            default:
+              break;
+          }
+        });
+      } else {
+        chooseReply('Ocorreu um erro desconhecido.', 'Ocorreu um erro desconhecido.', id);
+      }
     }
   }
 
-  }
-
+  // eslint-disable-next-line class-methods-use-this
   verifyType(title) {
-    var response = title.indexOf("[]");
-    if(response !== -1) {
+    let response = title.indexOf('[]');
+    if (response !== -1) {
       return 'checkbox';
-    } else {
-      response = title.indexOf("[Loc]");
-      if(response !== -1) {
-        return 'location';
-      } else {
-        return 'regular';
-      }
     }
+    response = title.indexOf('[Loc]');
+    if (response !== -1) {
+      return 'location';
+    }
+    return 'regular';
   }
 
   render() {
@@ -118,7 +104,7 @@ class QuickReply extends PureComponent {
                     rel="noopener noreferrer"
                     className={'push-reply'}
                   >
-                    {reply.get('title').replace("[] ","").replace("[Loc] ","")}
+                    {reply.get('title').replace('[] ', '').replace('[Loc] ', '')}
                   </a>
                 );
               }
@@ -129,7 +115,7 @@ class QuickReply extends PureComponent {
                   className={'push-reply'}
                   onClick={() => this.handleClick(reply)}
                 >
-                  {reply.get('title').replace("[] ","").replace("[Loc] ","")}
+                  {reply.get('title').replace('[] ', '').replace('[Loc] ', '')}
                 </div>
               );
             })}
@@ -145,13 +131,13 @@ const mapStateToProps = state => ({
   getChosenReply: id => state.messages.get(id).get('chosenReply'),
   inputState: state.behavior.get('disabledInput'),
   linkTarget: state.metadata.get('linkTarget'),
-  userInput: state.metadata.get('userInput'),
+  userInput: state.metadata.get('userInput')
 });
 
 const mapDispatchToProps = dispatch => ({
   toggleInputDisabled: () => dispatch(toggleInputDisabled()),
   changeInputFieldHint: hint => dispatch(changeInputFieldHint(hint)),
-  setUserInput: (value) => dispatch(setUserInput(value)),
+  setUserInput: value => dispatch(setUserInput(value)),
   chooseReply: (payload, title, id) => {
     dispatch(setQuickReply(id, title));
     dispatch(addUserMessage(title));
@@ -168,7 +154,7 @@ QuickReply.propTypes = {
   message: PROP_TYPES.QUICK_REPLY,
   linkTarget: PropTypes.string,
   setUserInput: PropTypes.func,
-  userInput: PropTypes.string,
+  userInput: PropTypes.string
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuickReply);

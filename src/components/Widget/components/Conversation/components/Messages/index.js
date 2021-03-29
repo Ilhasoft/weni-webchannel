@@ -4,7 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 
 import { MESSAGES_TYPES } from 'constants';
-import { Video, Image, Message, Snippet, QuickReply } from 'messagesComponents';
+import { Video, Image, Message, Snippet, QuickReply, DocViewer } from 'messagesComponents';
 
 import './styles.scss';
 
@@ -52,6 +52,9 @@ class Messages extends Component {
         }
         case MESSAGES_TYPES.IMGREPLY.IMAGE: {
           return Image;
+        }
+        case MESSAGES_TYPES.DOCREPLY.DOCUMENT: {
+          return DocViewer;
         }
         case MESSAGES_TYPES.QUICK_REPLY: {
           return QuickReply;
@@ -161,7 +164,8 @@ Messages.propTypes = {
   profileAvatar: PropTypes.string,
   customComponent: PropTypes.func,
   showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  displayTypingIndication: PropTypes.bool
+  displayTypingIndication: PropTypes.bool,
+  params: PropTypes.shape({})
 };
 
 Message.defaultTypes = {

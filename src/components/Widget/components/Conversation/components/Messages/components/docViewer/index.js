@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import Portal from 'utils/portal';
 import './style.scss';
+import { PROP_TYPES } from '../../../../../../../../constants';
+
+
+function getIframeLink(src) {
+  return `https://docs.google.com/viewer?url=${src}&embedded=true`;
+}
 
 class DocViewer extends Component {
   constructor() {
     super();
-    this.iframeLoaded = this.iframeLoaded.bind(this);
-    this.updateIframeSrc = this.updateIframeSrc.bind(this);
-    this.handleOpenModal = this.handleOpenModal.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
     this.state = {
       openedModal: false,
       iFrameLoading: true
     };
-  }
-
-  getIframeLink() {
-    return `https://docs.google.com/viewer?url=${this.props.src}&embedded=true`;
+    this.iframeLoaded = this.iframeLoaded.bind(this);
+    this.updateIframeSrc = this.updateIframeSrc.bind(this);
+    this.handleOpenModal = this.handleOpenModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
   iframeLoaded() {
@@ -45,12 +46,12 @@ class DocViewer extends Component {
   }
 
   render() {
-    const iframeSrc = this.getIframeLink();
-
+    const message = this.props.message.toJS();
+    const iframeSrc = getIframeLink(message.src);
     return (
       <span>
         <button onClick={this.handleOpenModal} className="push-doc-viewer-open-modal-link">
-          {this.props.children}
+          View Document
         </button>
         {this.state.openedModal && (
           <Portal>
@@ -83,7 +84,7 @@ class DocViewer extends Component {
 }
 
 DocViewer.propTypes = {
-  src: PropTypes.string.isRequired
+  message: PROP_TYPES.DOCREPLY
 };
 
 export default DocViewer;
