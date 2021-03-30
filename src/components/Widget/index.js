@@ -515,13 +515,14 @@ class Widget extends Component {
       if (userMessage) {
         const textMessage = {
           type: 'message',
+          from: this.getSessionId(),
           message: {
             type: 'text',
             text: userMessage
           }
         };
 
-        this.props.dispatch(addUserMessage(textMessage));
+        this.props.dispatch(addUserMessage(textMessage.message.text));
         this.props.dispatch(emitUserMessage(textMessage));
       }
       event.target.message.value = '';

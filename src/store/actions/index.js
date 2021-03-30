@@ -86,10 +86,10 @@ export function addUserMessage(text) {
   };
 }
 
-export function emitUserMessage(text) {
+export function emitUserMessage(message) {
   return {
     type: actions.EMIT_NEW_USER_MESSAGE,
-    text
+    message
   };
 }
 
