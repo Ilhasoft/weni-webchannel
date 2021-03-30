@@ -509,14 +509,29 @@ class Widget extends Component {
   }
 
   handleMessageSubmit(event) {
-    event.preventDefault();
-    const userUttered = event.target.message.value;
-    if (userUttered) {
-      this.props.dispatch(addUserMessage(userUttered));
-      this.props.dispatch(emitUserMessage(userUttered));
+    if (event.type === 'submit') {
+      event.preventDefault();
+      const userMessage = event.target.message.value;
+      if (userMessage) {
+        const textMessage = {
+          type: 'message',
+          message: {
+            type: 'text',
+            text: userMessage
+          }
+        };
+
+        this.props.dispatch(addUserMessage(textMessage));
+        this.props.dispatch(emitUserMessage(textMessage));
+      }
+      event.target.message.value = '';
+      this.props.dispatch(setUserInput(''));
+    } else if (event.type === 'attachment') {
+      event.files.forEach((file) => {
+        this.props.dispatch(addUserMessage({ type: event.type, ...file }));
+        this.props.dispatch(emitUserMessage({ type: event.type, ...file }));
+      });
     }
-    event.target.message.value = '';
-    this.props.dispatch(setUserInput(''));
   }
 
   render() {

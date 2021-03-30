@@ -1,5 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable indent */
+import { useFilePicker } from 'use-file-picker';
 import { getSuggestions, setUserInput, setSuggestions } from 'actions';
 import send from 'assets/send_button.svg';
 import send2 from 'assets/send_button2.svg';
@@ -27,6 +28,12 @@ function Sender({
   const [last, setLast] = useState('');
   let typingTimer = null;
   const doneTypingInterval = 500;
+
+  const [filesContent, errors, openFileSelector, loading] = useFilePicker({
+    multiple: true,
+    // accept: '.ics,.pdf',
+    accept: ['.json', '.pdf']
+  });
 
   function validateInput(customSuggestions) {
     return (
@@ -65,6 +72,20 @@ function Sender({
     ) {
       typingTimer = setTimeout(doneTyping, doneTypingInterval);
     }
+
+    // file upload handling
+    if (!loading && !errors.length && filesContent.length) {
+      console.log('files', filesContent);
+      const event = {
+        type: 'attachment',
+        files: filesContent
+      };
+      sendMessage(event);
+
+      filesContent.length = 0;
+      console.log('files 1', filesContent);
+    }
+
     return () => {
       clearTimeout(typingTimer);
     };
@@ -83,6 +104,7 @@ function Sender({
         <div />
       )}
       <form className="push-sender" onSubmit={sendMessage}>
+        <button type="button" onClick={() => openFileSelector()}>Files</button>
         <input
           type="text"
           className="push-new-message"
