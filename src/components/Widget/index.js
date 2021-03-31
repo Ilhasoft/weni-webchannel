@@ -529,7 +529,6 @@ class Widget extends Component {
       event.target.message.value = '';
       this.props.dispatch(setUserInput(''));
     } else if (event.type === 'attachment') {
-      console.log('🚀 ~ file: index.js ~ line 533 ~ Widget ~ Array.from ~ event.files', event.files);
       Array.from(event.files).forEach((file) => {
         console.log('file: ', file);
         const [fileType, fileDispatcher] = getAttachmentTypeDispatcher(file.name);
@@ -545,7 +544,7 @@ class Widget extends Component {
 
             console.log('media', media);
 
-            this.props.dispatch(fileDispatcher({ url: media, ...file }));
+            this.props.dispatch(fileDispatcher({ name: file.name, url: media }));
             this.props.dispatch(emitUserMessage(attachmentMessage));
           });
         }

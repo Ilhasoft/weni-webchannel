@@ -32,6 +32,9 @@ export default function (storage) {
       case actionTypes.ADD_NEW_USER_IMAGE: {
         return storeMessage(state.push(createImageSnippet(action.image, MESSAGE_SENDER.CLIENT)));
       }
+      case actionTypes.ADD_NEW_USER_VIDEO: {
+        return storeMessage(state.push(createVideoSnippet(action.video, MESSAGE_SENDER.CLIENT)));
+      }
       case actionTypes.ADD_NEW_RESPONSE_MESSAGE: {
         return storeMessage(state.push(createNewMessage(action.text, MESSAGE_SENDER.RESPONSE)));
       }

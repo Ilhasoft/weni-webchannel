@@ -33,6 +33,10 @@ export function addUserImage(file) {
   store.dispatch(actions.addUserImage(file));
 }
 
+export function addUserVideo(file) {
+  store.dispatch(actions.addUserVideo(file));
+}
+
 export function emitUserMessage(message) {
   store.dispatch(actions.emitUserMessage(message));
 }

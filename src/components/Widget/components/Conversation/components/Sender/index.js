@@ -69,8 +69,6 @@ function Sender({
     }
 
     if (selectedFiles.length) {
-      console.log('selected: ', selectedFiles);
-
       const event = {
         type: 'attachment',
         files: selectedFiles

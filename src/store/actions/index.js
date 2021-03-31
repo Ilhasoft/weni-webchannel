@@ -96,6 +96,16 @@ export function addUserImage(file) {
   };
 }
 
+export function addUserVideo(file) {
+  return {
+    type: actions.ADD_NEW_USER_VIDEO,
+    video: {
+      title: file.name,
+      video: file.url
+    }
+  };
+}
+
 export function emitUserMessage(message) {
   return {
     type: actions.EMIT_NEW_USER_MESSAGE,
