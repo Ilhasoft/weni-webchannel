@@ -106,6 +106,17 @@ export function addUserVideo(file) {
   };
 }
 
+export function addUserAudio(file) {
+  return {
+    type: actions.ADD_NEW_USER_AUDIO,
+    audio: {
+      title: file.name,
+      audio: file.url
+    }
+  };
+}
+
+
 export function emitUserMessage(message) {
   return {
     type: actions.EMIT_NEW_USER_MESSAGE,

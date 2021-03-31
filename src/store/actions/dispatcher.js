@@ -37,6 +37,10 @@ export function addUserVideo(file) {
   store.dispatch(actions.addUserVideo(file));
 }
 
+export function addUserAudio(file) {
+  store.dispatch(actions.addUserAudio(file));
+}
+
 export function emitUserMessage(message) {
   store.dispatch(actions.emitUserMessage(message));
 }

@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 import { MESSAGES_TYPES, MESSAGE_SENDER } from 'constants';
 import { URL_REGEX } from '../constants';
-import { addUserImage, addUserVideo } from '../store/actions';
+import { addUserAudio, addUserImage, addUserVideo } from '../store/actions';
 
 export function createComponentMessage(component, props, showAvatar) {
   return Map({
@@ -71,7 +71,7 @@ export function getAttachmentTypeDispatcher(fileName) {
         return 'document';
       case 'mp3':
       case 'wav':
-        return 'audio';
+        return ['audio', addUserAudio];
       case 'mp4':
       case 'mov':
         return ['video', addUserVideo];
