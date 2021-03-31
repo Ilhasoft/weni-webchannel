@@ -6,6 +6,7 @@ import send2 from 'assets/send_button2.svg';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 import './style.scss';
 import SuggestionsList from './components/Suggestions';
@@ -103,7 +104,7 @@ function Sender({
             type="file"
             onChange={e => setSelectedFiles(e.target.files)}
           />
-          Arquivo
+          <AttachFileIcon />
         </label>
         <input
           type="text"
