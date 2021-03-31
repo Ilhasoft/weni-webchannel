@@ -41,7 +41,7 @@ import { isSnippet, isVideo, isAudio, isImage, isDocument, isQR, isText } from '
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
-import { formatMessage, buildQuickReplies } from '../../utils/messages';
+import { formatMessage, buildQuickReplies, getAttachmentTypeDispatcher, toBase64 } from '../../utils/messages';
 
 class Widget extends Component {
   constructor(props) {
@@ -509,6 +509,7 @@ class Widget extends Component {
   }
 
   handleMessageSubmit(event) {
+    console.log('to no submit');
     if (event.type === 'submit') {
       event.preventDefault();
       const userMessage = event.target.message.value;
@@ -528,9 +529,26 @@ class Widget extends Component {
       event.target.message.value = '';
       this.props.dispatch(setUserInput(''));
     } else if (event.type === 'attachment') {
-      event.files.forEach((file) => {
-        this.props.dispatch(addUserMessage({ type: event.type, ...file }));
-        this.props.dispatch(emitUserMessage({ type: event.type, ...file }));
+      console.log('🚀 ~ file: index.js ~ line 533 ~ Widget ~ Array.from ~ event.files', event.files);
+      Array.from(event.files).forEach((file) => {
+        console.log('file: ', file);
+        const [fileType, fileDispatcher] = getAttachmentTypeDispatcher(file.name);
+        if (fileType) {
+          Promise.resolve(toBase64(file)).then((media) => {
+            const attachmentMessage = {
+              type: 'message',
+              message: {
+                type: fileType,
+                media
+              }
+            };
+
+            console.log('media', media);
+
+            this.props.dispatch(fileDispatcher({ url: media, ...file }));
+            this.props.dispatch(emitUserMessage(attachmentMessage));
+          });
+        }
       });
     }
   }

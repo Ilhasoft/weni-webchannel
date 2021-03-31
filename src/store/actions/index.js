@@ -86,6 +86,16 @@ export function addUserMessage(text) {
   };
 }
 
+export function addUserImage(file) {
+  return {
+    type: actions.ADD_NEW_USER_IMAGE,
+    image: {
+      title: file.name,
+      image: file.url
+    }
+  };
+}
+
 export function emitUserMessage(message) {
   return {
     type: actions.EMIT_NEW_USER_MESSAGE,

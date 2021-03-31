@@ -29,6 +29,10 @@ export function addUserMessage(text) {
   store.dispatch(actions.addUserMessage(text));
 }
 
+export function addUserImage(file) {
+  store.dispatch(actions.addUserImage(file));
+}
+
 export function emitUserMessage(message) {
   store.dispatch(actions.emitUserMessage(message));
 }

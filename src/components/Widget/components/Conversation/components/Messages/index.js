@@ -109,6 +109,7 @@ class Messages extends Component {
           {
             profileAvatar &&
             message.get('showAvatar') &&
+            message.get('sender') === 'response' &&
             <img src={profileAvatar} className="push-avatar" alt="profile" />
           }
           { this.getComponentToRender(message, index, index === messages.size - 1) }

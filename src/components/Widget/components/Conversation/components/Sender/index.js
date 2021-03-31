@@ -1,6 +1,5 @@
 /* eslint-disable no-shadow */
 /* eslint-disable indent */
-import { useFilePicker } from 'use-file-picker';
 import { getSuggestions, setUserInput, setSuggestions } from 'actions';
 import send from 'assets/send_button.svg';
 import send2 from 'assets/send_button2.svg';
@@ -29,11 +28,7 @@ function Sender({
   let typingTimer = null;
   const doneTypingInterval = 500;
 
-  const [filesContent, errors, openFileSelector, loading] = useFilePicker({
-    multiple: true,
-    // accept: '.ics,.pdf',
-    accept: ['.json', '.pdf']
-  });
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
   function validateInput(customSuggestions) {
     return (
@@ -73,17 +68,15 @@ function Sender({
       typingTimer = setTimeout(doneTyping, doneTypingInterval);
     }
 
-    // file upload handling
-    if (!loading && !errors.length && filesContent.length) {
-      console.log('files', filesContent);
+    if (selectedFiles.length) {
+      console.log('selected: ', selectedFiles);
+
       const event = {
         type: 'attachment',
-        files: filesContent
+        files: selectedFiles
       };
       sendMessage(event);
-
-      filesContent.length = 0;
-      console.log('files 1', filesContent);
+      setSelectedFiles([]);
     }
 
     return () => {
@@ -104,7 +97,16 @@ function Sender({
         <div />
       )}
       <form className="push-sender" onSubmit={sendMessage}>
-        <button type="button" onClick={() => openFileSelector()}>Files</button>
+        <label htmlFor="push-file-upload">
+          <input
+            multiple
+            style={{ display: 'none' }}
+            id="push-file-upload"
+            type="file"
+            onChange={e => setSelectedFiles(e.target.files)}
+          />
+          Arquivo
+        </label>
         <input
           type="text"
           className="push-new-message"

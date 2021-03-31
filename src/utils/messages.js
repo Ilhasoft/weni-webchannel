@@ -1,6 +1,7 @@
 import { Map } from 'immutable';
 import { MESSAGES_TYPES, MESSAGE_SENDER } from 'constants';
 import { URL_REGEX } from '../constants';
+import { addUserImage } from '../store/actions';
 
 export function createComponentMessage(component, props, showAvatar) {
   return Map({
@@ -51,4 +52,42 @@ export function formatMessage(message) {
   messages.unshift(message);
 
   return messages;
+}
+
+export function getAttachmentTypeDispatcher(fileName) {
+  const ext = fileName.split('.').pop();
+  console.log('ext', ext);
+  if (ext) {
+    // switch statement to check multiple types
+    switch (ext) {
+      case 'jpeg':
+      case 'jpg':
+      case 'png':
+      case 'svg':
+        return ['image', addUserImage];
+      case 'pdf':
+      case 'docx':
+      case 'xlsx':
+        return 'document';
+      case 'mp3':
+      case 'wav':
+        return 'audio';
+      case 'mp4':
+      case 'mov':
+        return 'video';
+      default:
+        return undefined;
+    }
+  }
+
+  return undefined;
+}
+
+export function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+    reader.readAsDataURL(file);
+  });
 }

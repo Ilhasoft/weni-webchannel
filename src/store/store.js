@@ -44,7 +44,6 @@ function initStore(
       case actionTypes.EMIT_NEW_USER_MESSAGE: {
         const payload = {
           type: action.message.type,
-          from: action.message.from,
           message: action.message.message
         };
         socket.socket.send(JSON.stringify(payload));
