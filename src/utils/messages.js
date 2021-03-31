@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 import { MESSAGES_TYPES, MESSAGE_SENDER } from 'constants';
 import { URL_REGEX } from '../constants';
-import { addUserAudio, addUserImage, addUserVideo } from '../store/actions';
+import { addUserAudio, addUserDocument, addUserImage, addUserVideo } from '../store/actions';
 
 export function createComponentMessage(component, props, showAvatar) {
   return Map({
@@ -67,8 +67,9 @@ export function getAttachmentTypeDispatcher(fileName) {
         return ['image', addUserImage];
       case 'pdf':
       case 'docx':
+      case 'xls':
       case 'xlsx':
-        return 'document';
+        return ['document', addUserDocument];
       case 'mp3':
       case 'wav':
         return ['audio', addUserAudio];
@@ -76,11 +77,11 @@ export function getAttachmentTypeDispatcher(fileName) {
       case 'mov':
         return ['video', addUserVideo];
       default:
-        return undefined;
+        return [undefined, undefined];
     }
   }
 
-  return undefined;
+  return [undefined, undefined];
 }
 
 export function toBase64(file) {

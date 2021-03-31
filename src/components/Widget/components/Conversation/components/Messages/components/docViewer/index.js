@@ -4,11 +4,6 @@ import Portal from 'utils/portal';
 import './style.scss';
 import { PROP_TYPES } from '../../../../../../../../constants';
 
-
-function getIframeLink(src) {
-  return `https://docs.google.com/viewer?url=${src}&embedded=true`;
-}
-
 class DocViewer extends Component {
   constructor() {
     super();
@@ -45,9 +40,9 @@ class DocViewer extends Component {
     this.setState({ openedModal: false, iFrameLoading: true });
   }
 
+  // TODO: Handle only PDF preview
   render() {
     const message = this.props.message.toJS();
-    const iframeSrc = getIframeLink(message.src);
     return (
       <span>
         <button onClick={this.handleOpenModal} className="push-doc-viewer-open-modal-link">
@@ -59,16 +54,16 @@ class DocViewer extends Component {
             <div className="push-doc-viewer-modal">
               <div className="push-doc-viewer-modal-body">
                 {this.state.iFrameLoading && <div className="push-doc-viewer-spinner" />}
-                <iframe
-                  src={iframeSrc}
-                  title="viewer"
-                  className="push-doc-viewer-modal-iframe"
-                  onLoad={this.iframeLoaded}
-                  onError={this.updateIframeSrc}
-                  ref={(iframe) => {
-                    this.iframe = iframe;
-                  }}
-                />
+                <object className="push-doc-viewer-modal-iframe" data={message.src} type="application/pdf">
+                  <iframe
+                    title="viewer"
+                    onLoad={this.iframeLoaded}
+                    onError={this.updateIframeSrc}
+                    ref={(iframe) => {
+                      this.iframe = iframe;
+                    }}
+                  />
+                </object>
               </div>
               <div className="push-doc-viewer-modal-footer">
                 <button type="button" className="push-doc-viewer-close-modal" onClick={this.handleCloseModal}>

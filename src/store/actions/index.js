@@ -116,6 +116,15 @@ export function addUserAudio(file) {
   };
 }
 
+export function addUserDocument(file) {
+  return {
+    type: actions.ADD_NEW_USER_DOCUMENT,
+    document: {
+      title: file.name,
+      src: file.url
+    }
+  };
+}
 
 export function emitUserMessage(message) {
   return {

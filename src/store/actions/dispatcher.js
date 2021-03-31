@@ -41,6 +41,10 @@ export function addUserAudio(file) {
   store.dispatch(actions.addUserAudio(file));
 }
 
+export function addUserDocument(file) {
+  store.dispatch(actions.addUserDocument(file));
+}
+
 export function emitUserMessage(message) {
   store.dispatch(actions.emitUserMessage(message));
 }

@@ -38,6 +38,9 @@ export default function (storage) {
       case actionTypes.ADD_NEW_USER_AUDIO: {
         return storeMessage(state.push(createAudioSnippet(action.audio, MESSAGE_SENDER.CLIENT)));
       }
+      case actionTypes.ADD_NEW_USER_DOCUMENT: {
+        return storeMessage(state.push(createDocumentSnippet(action.document, MESSAGE_SENDER.CLIENT)));
+      }
       case actionTypes.ADD_NEW_RESPONSE_MESSAGE: {
         return storeMessage(state.push(createNewMessage(action.text, MESSAGE_SENDER.RESPONSE)));
       }
