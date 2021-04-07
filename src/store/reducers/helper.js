@@ -44,6 +44,7 @@ export function createAudioSnippet(audio, sender) {
   return Map({
     type: MESSAGES_TYPES.AUDIOREPLY.AUDIO,
     component: Audio,
+    title: audio.title,
     audio: audio.audio,
     sender,
     showAvatar: true,
@@ -67,6 +68,7 @@ export function createDocumentSnippet(document, sender) {
   return Map({
     type: MESSAGES_TYPES.DOCREPLY.DOCUMENT,
     component: DocViewer,
+    title: document.title,
     src: document.src,
     sender,
     showAvatar: true,

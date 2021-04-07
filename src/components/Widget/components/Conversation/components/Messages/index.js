@@ -105,7 +105,13 @@ class Messages extends Component {
       };
 
       const renderMessage = (message, index) => (
-        <div className={`push-message ${profileAvatar && 'push-with-avatar'}`} key={index}>
+        <div
+          className={
+            // eslint-disable-next-line max-len
+            `push-message ${profileAvatar && 'push-with-avatar'} ${message.get('sender') === 'client' ? 'push-client-message' : ''}`
+          }
+          key={index}
+        >
           {
             profileAvatar &&
             message.get('showAvatar') &&

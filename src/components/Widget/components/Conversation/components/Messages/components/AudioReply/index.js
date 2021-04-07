@@ -5,10 +5,15 @@ import './styles.scss';
 
 class AudioReply extends PureComponent {
   render() {
+    const { title, audio } = this.props.message.toJS();
+
     return (
       <div className="push-audio" >
+        <b className="push-audio-title">
+          {title}
+        </b>
         <audio controls>
-          <source src={this.props.message.get('audio')} />
+          <source src={audio} />
         </audio>
       </div >
     );

@@ -142,16 +142,16 @@ class Widget extends Component {
   handleMessageReceived(message) {
     const { dispatch } = this.props;
 
-    const formatedMessage = formatMessage(message);
-    formatedMessage.forEach((msg) => {
-      if (!this.onGoingMessageDelay) {
-        this.onGoingMessageDelay = true;
-        dispatch(triggerMessageDelayed(true));
-        this.newMessageTimeout(msg);
-      } else {
-        this.messages.push(msg);
-      }
-    });
+    // const formatedMessage = formatMessage(message);
+    // formatedMessage.forEach((msg) => {
+    if (!this.onGoingMessageDelay) {
+      this.onGoingMessageDelay = true;
+      dispatch(triggerMessageDelayed(true));
+      this.newMessageTimeout(message);
+    } else {
+      this.messages.push(message);
+    }
+    // });
   }
 
   popLastMessage() {
@@ -163,9 +163,8 @@ class Widget extends Component {
     }
   }
 
-  newMessageTimeout(messageWithMetadata) {
+  newMessageTimeout(message) {
     const { dispatch, isChatOpen, customMessageDelay, disableTooltips } = this.props;
-    const { metadata, ...message } = messageWithMetadata;
     setTimeout(() => {
       this.dispatchMessage(message);
       if (!isChatOpen) {
@@ -219,17 +218,20 @@ class Widget extends Component {
     this.clearCustomStyle();
     this.eventListenerCleaner();
     dispatch(clearMetadata());
-    if (botUtterance.metadata) this.propagateMetadata(botUtterance.metadata);
-    const utteranceData = JSON.parse(botUtterance.data);
-    const newMessage = {
-      ...botUtterance,
-      text: String(utteranceData.message.text),
-      quick_replies: buildQuickReplies(utteranceData.message.quick_replies)
-    };
-    if (botUtterance.metadata && botUtterance.metadata.customCss) {
-      newMessage.customCss = botUtterance.metadata.customCss;
+    // if (botUtterance.metadata) this.propagateMetadata(botUtterance.metadata);
+    const receivedMessage = JSON.parse(botUtterance.data);
+    if (receivedMessage.type === 'message') {
+      const newMessage = {
+        ...receivedMessage.message,
+        quick_replies: buildQuickReplies(receivedMessage.message.quick_replies)
+      };
+      this.handleMessageReceived(newMessage);
+    } else if (receivedMessage.type === 'error') {
+      console.log('received an error:', receivedMessage.error);
     }
-    this.handleMessageReceived(newMessage);
+    // if (botUtterance.metadata && botUtterance.metadata.customCss) {
+    //   newMessage.customCss = botUtterance.metadata.customCss;
+    // }
   }
 
   addCustomsEventListeners(pageEventCallbacks) {
@@ -333,7 +335,7 @@ class Widget extends Component {
       const options = {
         type: 'register',
         from: localId || uniqueFrom,
-        callback: `${host}/c/ex/${channelUuid}/receive`,
+        callback: `${host}/c/wwc/${channelUuid}/receive`,
         trigger: initPayload
       };
       socketConnection.onopen = () => {
@@ -447,64 +449,41 @@ class Widget extends Component {
   }
 
   dispatchMessage(message) {
-    if (Object.keys(message).length === 0) {
-      return;
-    }
-    const { customCss, isTrusted, ...messageClean } = message;
-
-    if (isText(messageClean)) {
-      this.props.dispatch(addResponseMessage(messageClean.text));
-    } else if (isQR(messageClean)) {
-      this.props.dispatch(addQuickReply(messageClean));
-    } else if (isSnippet(messageClean)) {
-      const element = messageClean.attachment.payload.elements[0];
-      this.props.dispatch(
-        addLinkSnippet({
-          title: element.title,
-          content: element.buttons[0].title,
-          link: element.buttons[0].url,
-          target: '_blank'
-        })
-      );
-    } else if (isVideo(messageClean)) {
-      const videoUrl = messageClean.url;
+    console.log('🚀 ~ file: index.js ~ line 452 ~ Widget ~ dispatchMessage ~ message', message);
+    // TODO: add location type
+    // TODO: check quick replies handling on all types
+    if (message.type === 'text') {
+      this.props.dispatch(addResponseMessage(message.text));
+    } else if (message.type === 'video') {
       this.props.dispatch(
         addVideoSnippet({
-          title: '',
-          video: videoUrl
+          title: message.caption || '',
+          video: message.media_url
         })
       );
-    } else if (isAudio(messageClean)) {
-      const audioUrl = messageClean.url;
+    } else if (message.type === 'audio') {
       this.props.dispatch(
         addAudioSnippet({
-          audio: audioUrl
+          title: message.caption || '',
+          audio: message.media_url
         })
       );
-    } else if (isImage(messageClean)) {
-      const imageUrl = messageClean.url;
+    } else if (message.type === 'image') {
       this.props.dispatch(
         addImageSnippet({
-          title: '',
-          image: imageUrl
+          title: message.caption || '',
+          image: message.media_url
         })
       );
-    } else if (isDocument(messageClean)) {
-      const documentUrl = messageClean.url;
+    } else if (message.type === 'file') {
       this.props.dispatch(
         addDocumentSnippet({
-          src: documentUrl
+          title: message.caption || '',
+          src: message.media_url
         })
       );
     } else {
-      // some custom message
-      const props = messageClean;
-      if (this.props.customComponent) {
-        this.props.dispatch(renderCustomComponent(this.props.customComponent, props, true));
-      }
-    }
-    if (customCss) {
-      this.props.dispatch(setCustomCss(message.customCss));
+      console.log('unknow type');
     }
   }
 

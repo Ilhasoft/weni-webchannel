@@ -44,7 +44,10 @@ class DocViewer extends Component {
   render() {
     const message = this.props.message.toJS();
     return (
-      <span>
+      <div className="push-document">
+        <b className="push-document-title">
+          {message.title}
+        </b>
         <button onClick={this.handleOpenModal} className="push-doc-viewer-open-modal-link">
           View Document
         </button>
@@ -73,7 +76,7 @@ class DocViewer extends Component {
             </div>
           </Portal>
         )}
-      </span>
+      </div>
     );
   }
 }
