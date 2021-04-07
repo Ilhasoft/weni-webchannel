@@ -449,7 +449,7 @@ class Widget extends Component {
   }
 
   dispatchMessage(message) {
-    console.log('🚀 ~ file: index.js ~ line 452 ~ Widget ~ dispatchMessage ~ message', message);
+    // console.log('🚀 ~ file: index.js ~ line 452 ~ Widget ~ dispatchMessage ~ message', message);
     // TODO: add location type
     // TODO: check quick replies handling on all types
     if (message.type === 'text') {
@@ -485,6 +485,11 @@ class Widget extends Component {
     } else {
       console.log('unknow type');
     }
+
+    if (message.quick_replies) {
+      console.log('🚀 ~ file: index.js ~ line 490 ~ Widget ~ dispatchMessage ~ message.quick_replies', message.quick_replies);
+      this.props.dispatch(addQuickReply(message));
+    }
   }
 
   handleMessageSubmit(event) {
@@ -495,7 +500,6 @@ class Widget extends Component {
       if (userMessage) {
         const textMessage = {
           type: 'message',
-          from: this.getSessionId(),
           message: {
             type: 'text',
             text: userMessage

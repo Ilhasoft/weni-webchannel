@@ -77,11 +77,11 @@ export function createDocumentSnippet(document, sender) {
 }
 
 export function createQuickReply(quickReply, sender) {
+  console.log('🚀 ~ file: helper.js ~ line 80 ~ createQuickReply ~ quickReply', quickReply);
+
   return Map({
     type: MESSAGES_TYPES.QUICK_REPLY,
     component: QuickReply,
-    text: quickReply.text,
-    hint: quickReply.hint || 'Select an option...',
     quick_replies: fromJS(quickReply.quick_replies),
     sender,
     showAvatar: true,
