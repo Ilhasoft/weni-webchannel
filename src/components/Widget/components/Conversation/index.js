@@ -36,7 +36,7 @@ const Conversation = props =>
       suggestionsConfig={props.suggestionsConfig}
       customAutoComplete={props.customAutoComplete}
     />
-    {React.createElement('a', { href: 'https://push.al', className: 'push-poweredby-container', target: '_blank' }, 'Powered by Push Platform')}
+    {React.createElement('a', { href: 'https://weni.ai', className: 'push-poweredby-container', target: '_blank' }, 'Powered by Weni')}
   </div>;
 
 Conversation.propTypes = {
