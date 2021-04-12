@@ -450,7 +450,7 @@ class Widget extends Component {
 
       if (!sessionId || disableTooltips) return;
 
-      this.dispatchMessage({ text: tooltipMessage });
+      this.dispatchMessage({ type: 'text', text: tooltipMessage });
       if (!isChatOpen) {
         dispatch(newUnreadMessage());
         dispatch(showTooltip(true));
