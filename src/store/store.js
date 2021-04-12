@@ -124,7 +124,6 @@ function initStore(
         break;
       }
     }
-    // console.log('Middleware triggered:', action);
     next(action);
   };
   const reducer = combineReducers({

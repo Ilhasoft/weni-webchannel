@@ -26,7 +26,6 @@ class QuickReply extends PureComponent {
     const verify = this.verifyType(title);
     if (verify === 'regular') {
       chooseReply(payload, title, id);
-      console.log('🚀 ~ file: index.js ~ line 32 ~ QuickReply ~ handleClick ~ payload', payload);
     } else if (verify === 'checkbox') {
       let value = userInput;
       if (value !== '') {

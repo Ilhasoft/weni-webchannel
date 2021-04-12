@@ -473,7 +473,6 @@ class Widget extends Component {
   }
 
   dispatchMessage(message) {
-    // console.log('🚀 ~ file: index.js ~ line 452 ~ Widget ~ dispatchMessage ~ message', message);
     // TODO: add location type
     if (message.type === 'text') {
       this.props.dispatch(addResponseMessage(message.text));
@@ -534,7 +533,6 @@ class Widget extends Component {
       this.props.dispatch(setUserInput(''));
     } else if (event.type === 'attachment') {
       Array.from(event.files).forEach((file) => {
-        console.log('file: ', file);
         const fileType = getAttachmentType(file.name);
         if (fileType) {
           Promise.resolve(toBase64(file)).then((media) => {
@@ -545,9 +543,6 @@ class Widget extends Component {
                 media
               }
             };
-
-            console.log('media', media);
-
             this.props.dispatch(emitUserMessage(attachmentMessage));
           });
         }
