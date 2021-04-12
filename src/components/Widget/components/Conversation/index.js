@@ -28,6 +28,7 @@ const Conversation = props =>
       params={props.params}
       customComponent={props.customComponent}
       showMessageDate={props.showMessageDate}
+      sendMessage={props.sendMessage}
     />
     <Sender
       sendMessage={props.sendMessage}

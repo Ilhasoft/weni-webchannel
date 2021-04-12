@@ -10,6 +10,7 @@ import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 import './style.scss';
 import SuggestionsList from './components/Suggestions';
+import { VALID_FILE_TYPE } from '../../../../../../constants';
 
 function Sender({
   sendMessage,
@@ -74,8 +75,12 @@ function Sender({
         type: 'attachment',
         files: selectedFiles
       };
-      sendMessage(event);
-      setSelectedFiles([]);
+      const maxFileSize = 33554432;
+      const exceeded = Array.from(selectedFiles).some(file => file.size >= maxFileSize);
+      if (!exceeded) {
+        sendMessage(event);
+        setSelectedFiles([]);
+      }
     }
 
     return () => {
@@ -103,6 +108,7 @@ function Sender({
             id="push-file-upload"
             type="file"
             onChange={e => setSelectedFiles(e.target.files)}
+            accept={VALID_FILE_TYPE}
           />
           <AttachFileIcon />
         </label>
