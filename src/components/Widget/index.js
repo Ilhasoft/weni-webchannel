@@ -8,6 +8,10 @@ import {
   closeChat,
   showChat,
   addUserMessage,
+  addUserAudio,
+  addUserDocument,
+  addUserImage,
+  addUserVideo,
   emitUserMessage,
   addResponseMessage,
   addLinkSnippet,
@@ -41,7 +45,7 @@ import { isSnippet, isVideo, isAudio, isImage, isDocument, isQR, isText } from '
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
-import { formatMessage, buildQuickReplies, getAttachmentTypeDispatcher, toBase64 } from '../../utils/messages';
+import { formatMessage, buildQuickReplies, toBase64, getAttachmentType } from '../../utils/messages';
 
 class Widget extends Component {
   constructor(props) {
@@ -226,12 +230,32 @@ class Widget extends Component {
         quick_replies: buildQuickReplies(receivedMessage.message.quick_replies)
       };
       this.handleMessageReceived(newMessage);
+    } else if (receivedMessage.type === 'ack') {
+      this.dispatchAckAttachment(receivedMessage.message);
     } else if (receivedMessage.type === 'error') {
       console.log('received an error:', receivedMessage.error);
     }
     // if (botUtterance.metadata && botUtterance.metadata.customCss) {
     //   newMessage.customCss = botUtterance.metadata.customCss;
     // }
+  }
+
+  dispatchAckAttachment(message) {
+    const attachment = {
+      name: message.caption || '',
+      url: message.media_url
+    };
+    if (message.type === 'video') {
+      this.props.dispatch(addUserVideo(attachment));
+    } else if (message.type === 'audio') {
+      this.props.dispatch(addUserAudio(attachment));
+    } else if (message.type === 'image') {
+      this.props.dispatch(addUserImage(attachment));
+    } else if (message.type === 'file') {
+      this.props.dispatch(addUserDocument(attachment));
+    } else {
+      console.log('unknow type');
+    }
   }
 
   addCustomsEventListeners(pageEventCallbacks) {
@@ -451,7 +475,6 @@ class Widget extends Component {
   dispatchMessage(message) {
     // console.log('🚀 ~ file: index.js ~ line 452 ~ Widget ~ dispatchMessage ~ message', message);
     // TODO: add location type
-    // TODO: check quick replies handling on all types
     if (message.type === 'text') {
       this.props.dispatch(addResponseMessage(message.text));
     } else if (message.type === 'video') {
@@ -487,13 +510,11 @@ class Widget extends Component {
     }
 
     if (message.quick_replies) {
-      console.log('🚀 ~ file: index.js ~ line 490 ~ Widget ~ dispatchMessage ~ message.quick_replies', message.quick_replies);
       this.props.dispatch(addQuickReply(message));
     }
   }
 
   handleMessageSubmit(event) {
-    console.log('to no submit');
     if (event.type === 'submit') {
       event.preventDefault();
       const userMessage = event.target.message.value;
@@ -514,7 +535,7 @@ class Widget extends Component {
     } else if (event.type === 'attachment') {
       Array.from(event.files).forEach((file) => {
         console.log('file: ', file);
-        const [fileType, fileDispatcher] = getAttachmentTypeDispatcher(file.name);
+        const fileType = getAttachmentType(file.name);
         if (fileType) {
           Promise.resolve(toBase64(file)).then((media) => {
             const attachmentMessage = {
@@ -527,7 +548,6 @@ class Widget extends Component {
 
             console.log('media', media);
 
-            this.props.dispatch(fileDispatcher({ name: file.name, url: media }));
             this.props.dispatch(emitUserMessage(attachmentMessage));
           });
         }

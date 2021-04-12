@@ -107,7 +107,7 @@ class Messages extends Component {
       const renderMessage = (message, index) => (
         <div
           className={
-            `push-message ${profileAvatar && 'push-with-avatar'} ${message.get('sender') === 'client' ? 'push-client-message' : ''}`
+            `push-message ${profileAvatar && 'push-with-avatar'} ${message.get('sender') === 'client' ? 'push-from-client' : ''}`
           }
           key={index}
         >

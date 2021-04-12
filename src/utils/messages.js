@@ -1,7 +1,6 @@
 import { Map } from 'immutable';
 import { MESSAGES_TYPES, MESSAGE_SENDER } from 'constants';
 import { URL_REGEX } from '../constants';
-import { addUserAudio, addUserDocument, addUserImage, addUserVideo } from '../store/actions';
 
 export function createComponentMessage(component, props, showAvatar) {
   return Map({
@@ -54,9 +53,8 @@ export function formatMessage(message) {
   return messages;
 }
 
-export function getAttachmentTypeDispatcher(fileName) {
+export function getAttachmentType(fileName) {
   const ext = fileName.split('.').pop();
-  console.log('ext', ext);
   if (ext) {
     // switch statement to check multiple types
     switch (ext) {
@@ -64,24 +62,25 @@ export function getAttachmentTypeDispatcher(fileName) {
       case 'jpg':
       case 'png':
       case 'svg':
-        return ['image', addUserImage];
+        return 'image';
       case 'pdf':
       case 'docx':
       case 'xls':
       case 'xlsx':
-        return ['document', addUserDocument];
+        return 'file';
       case 'mp3':
       case 'wav':
-        return ['audio', addUserAudio];
+      case 'aac':
+        return 'audio';
       case 'mp4':
       case 'mov':
-        return ['video', addUserVideo];
+        return 'video';
       default:
-        return [undefined, undefined];
+        return undefined;
     }
   }
 
-  return [undefined, undefined];
+  return undefined;
 }
 
 export function toBase64(file) {
