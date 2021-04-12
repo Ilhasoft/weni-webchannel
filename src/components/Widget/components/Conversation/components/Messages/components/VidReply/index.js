@@ -14,7 +14,6 @@ class VidReply extends PureComponent {
           <video controls className="push-videoFrame" >
             <source src={this.props.message.get('video')} />
           </video>
-          {/* <iframe src={this.props.message.get('video')} */}
         </div>
       </div>
     );
