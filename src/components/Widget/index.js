@@ -14,13 +14,11 @@ import {
   addUserVideo,
   emitUserMessage,
   addResponseMessage,
-  addLinkSnippet,
   addVideoSnippet,
   addAudioSnippet,
   addImageSnippet,
   addDocumentSnippet,
   addQuickReply,
-  renderCustomComponent,
   initialize,
   connectServer,
   pullSession,
@@ -35,17 +33,15 @@ import {
   setPageChangeCallbacks,
   changeOldUrl,
   setDomHighlight,
-  evalUrl,
-  setCustomCss
+  evalUrl
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
-import { isSnippet, isVideo, isAudio, isImage, isDocument, isQR, isText } from './msgProcessor';
 
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
-import { formatMessage, buildQuickReplies, toBase64, getAttachmentType } from '../../utils/messages';
+import { buildQuickReplies, toBase64, getAttachmentType } from '../../utils/messages';
 
 class Widget extends Component {
   constructor(props) {
