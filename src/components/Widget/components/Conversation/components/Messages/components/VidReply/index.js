@@ -11,7 +11,9 @@ class VidReply extends PureComponent {
           { this.props.message.get('title') }
         </b>
         <div className="push-video-details">
-          <iframe src={this.props.message.get('video')} className="push-videoFrame"></iframe>
+          <video controls className="push-videoFrame" >
+            <source src={this.props.message.get('video')} />
+          </video>
         </div>
       </div>
     );

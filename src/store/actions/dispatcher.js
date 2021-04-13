@@ -45,6 +45,10 @@ export function addVideoSnippet(video) {
   store.dispatch(actions.addVideoSnippet(video));
 }
 
+export function addAudioSnippet(audio) {
+  store.dispatch(actions.addAudioSnippet(audio));
+}
+
 export function addImageSnippet(image) {
   store.dispatch(actions.addImageSnippet(image));
 }

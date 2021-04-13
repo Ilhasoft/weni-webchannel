@@ -122,6 +122,13 @@ export function addVideoSnippet(video) {
   };
 }
 
+export function addAudioSnippet(audio) {
+  return {
+    type: actions.ADD_NEW_AUDIO_AUDIOREPLY,
+    audio
+  };
+}
+
 export function addImageSnippet(image) {
   return {
     type: actions.ADD_NEW_IMAGE_IMGREPLY,

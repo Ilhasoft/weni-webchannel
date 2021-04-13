@@ -13,7 +13,13 @@ export function isSnippet(message) {
 
 export function isVideo(message) {
   return Object.keys(message).includes('attachmentType')
-    && ['mp4', 'flv', 'ogv', 'ogg', 'avi', 'mov', 'wmv', 'mpg', 'mpeg', 'm4v']
+    && ['mp4', 'flv', 'ogv', 'avi', 'mov', 'wmv', 'mpg', 'mpeg', 'm4v']
+      .includes(message.attachmentType);
+}
+
+export function isAudio(message) {
+  return Object.keys(message).includes('attachmentType')
+    && ['mp3', 'wav', 'ogg']
       .includes(message.attachmentType);
 }
 

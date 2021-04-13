@@ -201,7 +201,7 @@ ConnectedWidget.defaultProps = {
   connectOn: 'mount',
   onSocketEvent: {},
   socketUrl: 'https://socket.push.al',
-  protocolOptions: { secure: true, port: 8080 },
+  protocolOptions: { secure: true, port: 8081 },
   channelUuid: null,
   host: 'https://new.push.al',
   badge: 0,

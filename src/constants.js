@@ -19,6 +19,9 @@ export const MESSAGES_TYPES = {
   VIDREPLY: {
     VIDEO: 'vidreply'
   },
+  AUDIOREPLY: {
+    AUDIO: 'audioreply'
+  },
   IMGREPLY: {
     IMAGE: 'imgreply'
   },
@@ -73,6 +76,19 @@ export const PROP_TYPES = {
     ]),
     id: PropTypes.number,
     title: PropTypes.string,
+    src: PropTypes.string,
+    sender: PropTypes.oneOf([
+      MESSAGE_SENDER.CLIENT,
+      MESSAGE_SENDER.RESPONSE
+    ])
+  }),
+
+  AUDIOREPLY: ImmutablePropTypes.contains({
+    type: PropTypes.oneOf([
+      MESSAGES_TYPES.TEXT,
+      MESSAGES_TYPES.AUDIOREPLY.AUDIO
+    ]),
+    id: PropTypes.number,
     src: PropTypes.string,
     sender: PropTypes.oneOf([
       MESSAGE_SENDER.CLIENT,

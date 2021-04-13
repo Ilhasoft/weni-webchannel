@@ -12,6 +12,7 @@ import {
   addResponseMessage,
   addLinkSnippet,
   addVideoSnippet,
+  addAudioSnippet,
   addImageSnippet,
   addDocumentSnippet,
   addQuickReply,
@@ -35,7 +36,7 @@ import {
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
-import { isSnippet, isVideo, isImage, isDocument, isQR, isText } from './msgProcessor';
+import { isSnippet, isVideo, isAudio, isImage, isDocument, isQR, isText } from './msgProcessor';
 
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
@@ -471,6 +472,13 @@ class Widget extends Component {
         addVideoSnippet({
           title: '',
           video: videoUrl
+        })
+      );
+    } else if (isAudio(messageClean)) {
+      const audioUrl = messageClean.url;
+      this.props.dispatch(
+        addAudioSnippet({
+          audio: audioUrl
         })
       );
     } else if (isImage(messageClean)) {
