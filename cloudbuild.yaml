@@ -6,15 +6,15 @@ steps:
   args: ['run','build']
 
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['cp', 'lib/index.js', 'gs://push-webchat/widget-$TAG_NAME.js']
+  args: ['cp', 'lib/index.js', 'gs://push-webchat/wwc-$TAG_NAME.js']
 
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['cp', 'lib/index.js', 'gs://push-webchat/widget-latest.js']
+  args: ['cp', 'lib/index.js', 'gs://push-webchat/wwc-latest.js']
 
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['acl', 'ch', '-u', 'AllUsers:R', 'gs://push-webchat/widget-$TAG_NAME.js']
+  args: ['acl', 'ch', '-u', 'AllUsers:R', 'gs://push-webchat/wwc-$TAG_NAME.js']
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['acl', 'ch', '-u', 'AllUsers:R', 'gs://push-webchat/widget-latest.js']
+  args: ['acl', 'ch', '-u', 'AllUsers:R', 'gs://push-webchat/wwc-latest.js']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
