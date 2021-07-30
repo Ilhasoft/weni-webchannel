@@ -1,6 +1,6 @@
-{
-    "tabWidth": 4,
+module.exports = {
+    "tabWidth": 2,
     "semi": true,
-    "singleQuote": false,
+    "singleQuote": true,
     "printWidth": 100,
 }

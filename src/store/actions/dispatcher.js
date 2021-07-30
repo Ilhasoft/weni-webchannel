@@ -29,8 +29,24 @@ export function addUserMessage(text) {
   store.dispatch(actions.addUserMessage(text));
 }
 
-export function emitUserMessage(text) {
-  store.dispatch(actions.emitUserMessage(text));
+export function addUserImage(file) {
+  store.dispatch(actions.addUserImage(file));
+}
+
+export function addUserVideo(file) {
+  store.dispatch(actions.addUserVideo(file));
+}
+
+export function addUserAudio(file) {
+  store.dispatch(actions.addUserAudio(file));
+}
+
+export function addUserDocument(file) {
+  store.dispatch(actions.addUserDocument(file));
+}
+
+export function emitUserMessage(message) {
+  store.dispatch(actions.emitUserMessage(message));
 }
 
 export function addResponseMessage(text) {

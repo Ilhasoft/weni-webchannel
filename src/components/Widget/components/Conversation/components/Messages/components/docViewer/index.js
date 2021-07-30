@@ -4,11 +4,9 @@ import Portal from 'utils/portal';
 import './style.scss';
 import { PROP_TYPES } from '../../../../../../../../constants';
 
-
 function getIframeLink(src) {
   return `https://docs.google.com/viewer?url=${src}&embedded=true`;
 }
-
 class DocViewer extends Component {
   constructor() {
     super();
@@ -45,11 +43,15 @@ class DocViewer extends Component {
     this.setState({ openedModal: false, iFrameLoading: true });
   }
 
+  // TODO: Handle only PDF preview
   render() {
     const message = this.props.message.toJS();
     const iframeSrc = getIframeLink(message.src);
     return (
-      <span>
+      <div className="push-document">
+        <b className="push-document-title">
+          {message.title}
+        </b>
         <button onClick={this.handleOpenModal} className="push-doc-viewer-open-modal-link">
           View Document
         </button>
@@ -78,7 +80,7 @@ class DocViewer extends Component {
             </div>
           </Portal>
         )}
-      </span>
+      </div>
     );
   }
 }

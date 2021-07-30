@@ -81,46 +81,46 @@ class QuickReply extends PureComponent {
     const {
       message,
       getChosenReply,
-      isLast,
+      // isLast,
       id,
       linkTarget
     } = this.props;
     const chosenReply = getChosenReply(id);
     if (chosenReply) {
-      return <Message message={message} />;
+      return <div />;
     }
     return (
       <div className="push-quickReplies-container">
-        <Message message={message} />
-        {isLast && (
-          <div className="push-replies">
-            {message.get('quick_replies').map((reply, index) => {
-              if (reply.get('type') === 'web_url') {
-                return (
-                  <a
-                    key={index}
-                    href={reply.get('url')}
-                    target={linkTarget || '_blank'}
-                    rel="noopener noreferrer"
-                    className={'push-reply'}
-                  >
-                    {reply.get('title').replace('[] ', '').replace('[Loc] ', '')}
-                  </a>
-                );
-              }
+        {/* <Message message={message} /> */}
+        {/* {isLast && ( */}
+        <div className="push-replies">
+          {message.get('quick_replies').map((reply, index) => {
+            if (reply.get('type') === 'web_url') {
               return (
-                // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-                <div
+                <a
                   key={index}
+                  href={reply.get('url')}
+                  target={linkTarget || '_blank'}
+                  rel="noopener noreferrer"
                   className={'push-reply'}
-                  onClick={() => this.handleClick(reply)}
                 >
                   {reply.get('title').replace('[] ', '').replace('[Loc] ', '')}
-                </div>
+                </a>
               );
-            })}
-          </div>
-        )}
+            }
+            return (
+              // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+              <div
+                key={index}
+                className={'push-reply'}
+                onClick={() => this.handleClick(reply)}
+              >
+                {reply.get('title').replace('[] ', '').replace('[Loc] ', '')}
+              </div>
+            );
+          })}
+        </div>
+        {/* )} */}
       </div>
     );
   }
@@ -139,9 +139,17 @@ const mapDispatchToProps = dispatch => ({
   changeInputFieldHint: hint => dispatch(changeInputFieldHint(hint)),
   setUserInput: value => dispatch(setUserInput(value)),
   chooseReply: (payload, title, id) => {
+    const message = {
+      type: 'message',
+      message: {
+        type: 'text',
+        text: payload
+      }
+    };
+
     dispatch(setQuickReply(id, title));
     dispatch(addUserMessage(title));
-    dispatch(emitUserMessage(payload));
+    dispatch(emitUserMessage(message));
     // dispatch(toggleInputDisabled());
   }
 });

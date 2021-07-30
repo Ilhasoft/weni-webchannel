@@ -43,10 +43,8 @@ function initStore(
     switch (action.type) {
       case actionTypes.EMIT_NEW_USER_MESSAGE: {
         const payload = {
-          type: 'message',
-          message: {
-            text: action.text
-          }
+          type: action.message.type,
+          message: action.message.message
         };
         socket.socket.send(JSON.stringify(payload));
         break;
@@ -126,7 +124,6 @@ function initStore(
         break;
       }
     }
-    // console.log('Middleware triggered:', action);
     next(action);
   };
   const reducer = combineReducers({

@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+export const VALID_FILE_TYPE = '.jpeg,.jpg,.png,.svg,.pdf,.docx,.xls,.xlsx,.mp3,.wav,.mp4,.mov';
+
 export const SESSION_NAME = 'chat_session';
 
 // eslint-disable-next-line no-useless-escape

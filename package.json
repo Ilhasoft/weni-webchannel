@@ -21,15 +21,19 @@
     "javascript"
   ],
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "@stomp/stompjs": "^5.4.2",
     "html-webpack-plugin": "^3.2.0",
     "immutable": "^3.8.2",
     "prop-types": "^15.7.2",
+    "react-dropzone": "^11.3.2",
     "react-geolocated": "^3.0.1",
     "react-immutable-proptypes": "^2.1.0",
     "react-markdown": "^4.2.2",
     "react-redux": "^7.1.3",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "use-file-picker": "^0.2.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",

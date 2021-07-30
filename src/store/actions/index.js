@@ -86,10 +86,50 @@ export function addUserMessage(text) {
   };
 }
 
-export function emitUserMessage(text) {
+export function addUserImage(file) {
+  return {
+    type: actions.ADD_NEW_USER_IMAGE,
+    image: {
+      title: file.name,
+      image: file.url
+    }
+  };
+}
+
+export function addUserVideo(file) {
+  return {
+    type: actions.ADD_NEW_USER_VIDEO,
+    video: {
+      title: file.name,
+      video: file.url
+    }
+  };
+}
+
+export function addUserAudio(file) {
+  return {
+    type: actions.ADD_NEW_USER_AUDIO,
+    audio: {
+      title: file.name,
+      audio: file.url
+    }
+  };
+}
+
+export function addUserDocument(file) {
+  return {
+    type: actions.ADD_NEW_USER_DOCUMENT,
+    document: {
+      title: file.name,
+      src: file.url
+    }
+  };
+}
+
+export function emitUserMessage(message) {
   return {
     type: actions.EMIT_NEW_USER_MESSAGE,
-    text
+    message
   };
 }
 

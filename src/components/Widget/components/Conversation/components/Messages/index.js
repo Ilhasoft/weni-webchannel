@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
+import Dropzone from 'react-dropzone';
+
 
 import { MESSAGES_TYPES } from 'constants';
 import { Video, Image, Message, Snippet, QuickReply, DocViewer, Audio } from 'messagesComponents';
 
 import './styles.scss';
+import { VALID_FILE_TYPE } from '../../../../../../constants';
 
 const isToday = (date) => {
   const today = new Date();
@@ -78,7 +81,7 @@ class Messages extends Component {
   }
 
   render() {
-    const { displayTypingIndication, profileAvatar } = this.props;
+    const { displayTypingIndication, profileAvatar, sendMessage } = this.props;
 
     const renderMessages = () => {
       const {
@@ -105,10 +108,16 @@ class Messages extends Component {
       };
 
       const renderMessage = (message, index) => (
-        <div className={`push-message ${profileAvatar && 'push-with-avatar'}`} key={index}>
+        <div
+          className={
+            `push-message ${profileAvatar && 'push-with-avatar'} ${message.get('sender') === 'client' ? 'push-from-client' : ''}`
+          }
+          key={index}
+        >
           {
             profileAvatar &&
             message.get('showAvatar') &&
+            message.get('sender') === 'response' &&
             <img src={profileAvatar} className="push-avatar" alt="profile" />
           }
           { this.getComponentToRender(message, index, index === messages.size - 1) }
@@ -139,25 +148,41 @@ class Messages extends Component {
     };
 
     return (
-      <div id="push-messages" className="push-messages-container">
-        { renderMessages() }
-        {displayTypingIndication && (
-          <div className={`push-message push-typing-indication ${profileAvatar && 'push-with-avatar'}`}>
-            {
-              profileAvatar &&
-              <img src={profileAvatar} className="push-avatar" alt="profile" />
-            }
-            <div className="push-response">
-              <div id="push-wave">
-                <p className="push-customText">Typing...</p>
-                <span className="push-dot" />
-                <span className="push-dot" />
-                <span className="push-dot" />
-              </div>
-            </div>
+      <Dropzone
+        onDropAccepted={acceptedFiles => sendMessage({
+          type: 'attachment',
+          files: acceptedFiles
+        })}
+        onDragEnter={() => console.log('entrou')}
+        multiple
+        maxSize={33554432}
+        accept={VALID_FILE_TYPE}
+      >
+        {({ getRootProps, getInputProps }) => (
+          <div id="push-messages" className="push-messages-container" {...getRootProps()}>
+            <input className="push-dropzone" {...getInputProps()} />
+            <section>
+              { renderMessages() }
+              {displayTypingIndication && (
+                <div className={`push-message push-typing-indication ${profileAvatar && 'push-with-avatar'}`}>
+                  {
+                    profileAvatar &&
+                      <img src={profileAvatar} className="push-avatar" alt="profile" />
+                  }
+                  <div className="push-response">
+                    <div id="push-wave">
+                      <p className="push-customText">Typing...</p>
+                      <span className="push-dot" />
+                      <span className="push-dot" />
+                      <span className="push-dot" />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </section>
           </div>
         )}
-      </div>
+      </Dropzone>
     );
   }
 }
@@ -168,7 +193,8 @@ Messages.propTypes = {
   customComponent: PropTypes.func,
   showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   displayTypingIndication: PropTypes.bool,
-  params: PropTypes.shape({})
+  params: PropTypes.shape({}),
+  sendMessage: PropTypes.func
 };
 
 Message.defaultTypes = {

@@ -32,6 +32,7 @@ module.exports = {
     "no-param-reassign": "off",
     "no-nested-ternary": "off",
     "no-confusing-arrow": "off",
+    "no-unused-expressions": "off",
     "react/require-default-props": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".js"] }],
     "react/prop-types": [2, { ignore: ["style", "children", "dispatch"] } ],
@@ -43,7 +44,14 @@ module.exports = {
     "import/named": "error",
     "import/default": "error",
     "import/namespace": "error",
-    "import/no-absolute-path": "error"
+    "import/no-absolute-path": "error",
+    "max-len": [2, 120, 4, {
+      ignoreUrls: true,
+      ignoreComments: false,
+      ignoreRegExpLiterals: true,
+      ignoreStrings: false,
+      ignoreTemplateLiterals: false,
+    }],
   },
   "settings": {
     "import/resolver": {

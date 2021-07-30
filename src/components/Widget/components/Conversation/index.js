@@ -28,6 +28,7 @@ const Conversation = props =>
       params={props.params}
       customComponent={props.customComponent}
       showMessageDate={props.showMessageDate}
+      sendMessage={props.sendMessage}
     />
     <Sender
       sendMessage={props.sendMessage}
@@ -36,7 +37,7 @@ const Conversation = props =>
       suggestionsConfig={props.suggestionsConfig}
       customAutoComplete={props.customAutoComplete}
     />
-    {React.createElement('a', {href:"https://push.al", className:"push-poweredby-container", target:"_blank"}, "Powered by Push Platform")}
+    {React.createElement('a', { href: 'https://weni.ai', className: 'push-poweredby-container', target: '_blank' }, 'Powered by Weni')}
   </div>;
 
 Conversation.propTypes = {
@@ -50,7 +51,7 @@ Conversation.propTypes = {
   showCloseButton: PropTypes.bool,
   showFullScreenButton: PropTypes.bool,
   disabledInput: PropTypes.bool,
-  params: PropTypes.object,
+  params: PropTypes.shape({}),
   connected: PropTypes.bool,
   connectingText: PropTypes.string,
   closeImage: PropTypes.string,
@@ -60,7 +61,7 @@ Conversation.propTypes = {
   showHeaderAvatar: PropTypes.bool,
   headerImage: PropTypes.string,
   suggestionsConfig: PropTypes.shape({}),
-  customAutoComplete: PropTypes.func,
+  customAutoComplete: PropTypes.func
 };
 
 export default Conversation;
