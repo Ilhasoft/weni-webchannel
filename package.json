@@ -1,6 +1,6 @@
 {
   "name": "push-webchat",
-  "version": "2.0.0",
+  "version": "2.1.1",
   "description": "Chat web widget for React apps and Push chatbots",
   "module": "module/index.js",
   "main": "lib/index.js",
