@@ -149,26 +149,30 @@ class Messages extends Component {
 
     return (
       <Dropzone
-        onDropAccepted={acceptedFiles => sendMessage({
-          type: 'attachment',
-          files: acceptedFiles
-        })}
-        onDragEnter={() => console.log('entrou')}
+        onDropAccepted={acceptedFiles =>
+          sendMessage({
+            type: 'attachment',
+            files: acceptedFiles
+          })
+        }
         multiple
         maxSize={33554432}
         accept={VALID_FILE_TYPE}
+        noClick
       >
         {({ getRootProps, getInputProps }) => (
           <div id="push-messages" className="push-messages-container" {...getRootProps()}>
             <input className="push-dropzone" {...getInputProps()} />
             <section>
-              { renderMessages() }
+              {renderMessages()}
               {displayTypingIndication && (
-                <div className={`push-message push-typing-indication ${profileAvatar && 'push-with-avatar'}`}>
-                  {
-                    profileAvatar &&
-                      <img src={profileAvatar} className="push-avatar" alt="profile" />
-                  }
+                <div
+                  className={`push-message push-typing-indication ${profileAvatar &&
+                    'push-with-avatar'}`}
+                >
+                  {profileAvatar && (
+                    <img src={profileAvatar} className="push-avatar" alt="profile" />
+                  )}
                   <div className="push-response">
                     <div id="push-wave">
                       <p className="push-customText">Typing...</p>
