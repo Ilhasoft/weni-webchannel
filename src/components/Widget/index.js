@@ -351,7 +351,7 @@ class Widget extends Component {
 
       // Request a session from server
       const localId = this.getSessionId();
-      const uniqueFrom = `${channelUuid}-${sessionId || `${Math.floor(Math.random() * 10000) + 1}`}`;
+      const uniqueFrom = `${sessionId || `${Math.floor(Math.random() * Date.now())}`}`;
       const options = {
         type: 'register',
         from: localId || uniqueFrom,
