@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Sound from 'react-sound';
 import {
   toggleFullScreen,
   toggleChat,
@@ -53,11 +54,16 @@ class Widget extends Component {
     this.eventListenerCleaner = () => { };
   }
 
+  state = {
+    playNotification: Sound.status.STOPPED
+  };
+
   componentDidMount() {
     const {
       connectOn,
       autoClearCache,
-      storage, dispatch,
+      storage,
+      dispatch,
       defaultHighlightAnimation,
       startFullScreen
     } = this.props;
@@ -470,6 +476,7 @@ class Widget extends Component {
 
   dispatchMessage(message) {
     // TODO: add location type
+    let shouldPlay = true;
     if (message.type === 'text') {
       this.props.dispatch(addResponseMessage(message.text));
     } else if (message.type === 'video') {
@@ -502,6 +509,22 @@ class Widget extends Component {
       );
     } else {
       console.log('unknow type');
+      shouldPlay = false;
+    }
+
+    if (document.visibilityState === 'visible' && this.props.isChatOpen) {
+      shouldPlay = false;
+    }
+
+    if (this.props.disableSoundNotification === true) {
+      shouldPlay = false;
+    }
+
+    if (shouldPlay) {
+      this.setState({ playNotification: Sound.status.PLAYING });
+      setTimeout(() => {
+        this.setState({ playNotification: Sound.status.STOPPED });
+      }, 2000);
     }
 
     if (message.quick_replies) {
@@ -548,37 +571,43 @@ class Widget extends Component {
 
   render() {
     return (
-      <WidgetLayout
-        toggleChat={() => this.toggleConversation()}
-        toggleFullScreen={() => this.toggleFullScreen()}
-        onSendMessage={event => this.handleMessageSubmit(event)}
-        title={this.props.title}
-        subtitle={this.props.subtitle}
-        customData={this.props.customData}
-        profileAvatar={this.props.profileAvatar}
-        showCloseButton={this.props.showCloseButton}
-        showFullScreenButton={this.props.showFullScreenButton}
-        hideWhenNotConnected={this.props.hideWhenNotConnected}
-        fullScreenMode={this.props.fullScreenMode}
-        isChatOpen={this.props.isChatOpen}
-        isChatVisible={this.props.isChatVisible}
-        badge={this.props.badge}
-        embedded={this.props.embedded}
-        params={this.props.params}
-        openLauncherImage={this.props.openLauncherImage}
-        closeImage={this.props.closeImage}
-        customComponent={this.props.customComponent}
-        displayUnreadCount={this.props.displayUnreadCount}
-        showMessageDate={this.props.showMessageDate}
-        tooltipMessage={this.props.tooltipMessage}
-        customizeWidget={this.props.customizeWidget}
-        inputTextFieldHint={this.props.inputTextFieldHint}
-        showHeaderAvatar={this.props.showHeaderAvatar}
-        headerImage={this.props.headerImage}
-        suggestionsConfig={this.props.suggestionsConfig}
-        customAutoComplete={this.props.customAutoComplete}
-        showTooltip={this.props.showTooltip}
-      />
+      <div>
+        <WidgetLayout
+          toggleChat={() => this.toggleConversation()}
+          toggleFullScreen={() => this.toggleFullScreen()}
+          onSendMessage={event => this.handleMessageSubmit(event)}
+          title={this.props.title}
+          subtitle={this.props.subtitle}
+          customData={this.props.customData}
+          profileAvatar={this.props.profileAvatar}
+          showCloseButton={this.props.showCloseButton}
+          showFullScreenButton={this.props.showFullScreenButton}
+          hideWhenNotConnected={this.props.hideWhenNotConnected}
+          fullScreenMode={this.props.fullScreenMode}
+          isChatOpen={this.props.isChatOpen}
+          isChatVisible={this.props.isChatVisible}
+          badge={this.props.badge}
+          embedded={this.props.embedded}
+          params={this.props.params}
+          openLauncherImage={this.props.openLauncherImage}
+          closeImage={this.props.closeImage}
+          customComponent={this.props.customComponent}
+          displayUnreadCount={this.props.displayUnreadCount}
+          showMessageDate={this.props.showMessageDate}
+          tooltipMessage={this.props.tooltipMessage}
+          customizeWidget={this.props.customizeWidget}
+          inputTextFieldHint={this.props.inputTextFieldHint}
+          showHeaderAvatar={this.props.showHeaderAvatar}
+          headerImage={this.props.headerImage}
+          suggestionsConfig={this.props.suggestionsConfig}
+          customAutoComplete={this.props.customAutoComplete}
+          showTooltip={this.props.showTooltip}
+        />
+        <Sound
+          url={this.props.customSoundNotification}
+          playStatus={this.state.playNotification}
+        />
+      </div>
     );
   }
 }
@@ -640,7 +669,9 @@ Widget.propTypes = {
   suggestionsConfig: PropTypes.shape({}),
   host: PropTypes.string,
   channelUuid: PropTypes.string,
-  showTooltip: PropTypes.bool
+  showTooltip: PropTypes.bool,
+  disableSoundNotification: PropTypes.bool,
+  customSoundNotification: PropTypes.string
 };
 
 Widget.defaultProps = {

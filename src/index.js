@@ -135,6 +135,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
         suggestionsConfig={props.suggestionsConfig}
         host={props.host}
         channelUuid={props.channelUuid}
+        disableSoundNotification={props.disableSoundNotification}
+        customSoundNotification={props.customSoundNotification}
       />
     </Provider>
   );
@@ -187,7 +189,9 @@ ConnectedWidget.propTypes = {
   sessionId: PropTypes.string,
   headerImage: PropTypes.string,
   startFullScreen: PropTypes.bool,
-  suggestionsConfig: PropTypes.shape({})
+  suggestionsConfig: PropTypes.shape({}),
+  disableSoundNotification: PropTypes.bool,
+  customSoundNotification: PropTypes.string
 };
 
 ConnectedWidget.defaultProps = {
@@ -224,10 +228,10 @@ ConnectedWidget.defaultProps = {
   tooltipMessage: null,
   tooltipDelay: 500,
   onWidgetEvent: {
-    onChatOpen: () => { },
-    onChatClose: () => { },
-    onChatVisible: () => { },
-    onChatHidden: () => { }
+    onChatOpen: () => {},
+    onChatClose: () => {},
+    onChatVisible: () => {},
+    onChatHidden: () => {}
   },
   disableTooltips: false,
   showHeaderAvatar: true,
@@ -239,7 +243,10 @@ ConnectedWidget.defaultProps = {
     language: 'pt_br',
     excludeIntents: [],
     automaticSend: false
-  }
+  },
+  disableSoundNotification: false,
+  customSoundNotification:
+    'https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3'
 };
 
 export default ConnectedWidget;

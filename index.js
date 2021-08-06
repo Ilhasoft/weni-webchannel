@@ -48,6 +48,8 @@ const plugin = {
         headerImage={args.headerImage}
         startFullScreen={args.startFullScreen}
         suggestionsConfig={args.suggestionsConfig}
+        disableSoundNotification={args.disableSoundNotification}
+        customSoundNotification={args.customSoundNotification}
       />, document.querySelector(args.selector)
     );
   }
@@ -65,6 +67,6 @@ export {
   isVisible,
   send,
   reload,
-  clear,
+  clear
 };
 
