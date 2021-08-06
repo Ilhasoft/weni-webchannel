@@ -44,6 +44,7 @@ import { storeLocalSession, getLocalSession } from '../../store/reducers/helper'
 
 import { buildQuickReplies, toBase64, getAttachmentType } from '../../utils/messages';
 
+const MAX_PING_LIMIT = 60;
 class Widget extends Component {
   constructor(props) {
     super(props);
@@ -52,6 +53,7 @@ class Widget extends Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.intervalId = null;
     this.eventListenerCleaner = () => { };
+    this.pingLimit = MAX_PING_LIMIT;
   }
 
   state = {
@@ -224,8 +226,12 @@ class Widget extends Component {
     this.clearCustomStyle();
     this.eventListenerCleaner();
     dispatch(clearMetadata());
-    // if (botUtterance.metadata) this.propagateMetadata(botUtterance.metadata);
     const receivedMessage = JSON.parse(botUtterance.data);
+
+    if (receivedMessage.type !== 'pong') {
+      this.pingLimit = MAX_PING_LIMIT;
+    }
+
     if (receivedMessage.type === 'message') {
       const newMessage = {
         ...receivedMessage.message,
@@ -337,6 +343,18 @@ class Widget extends Component {
     }
   }
 
+  pingSocket() {
+    this.pingLimit -= 1;
+    if (this.pingLimit < 0) {
+      return;
+    }
+    const payload = {
+      type: 'ping',
+      message: {}
+    };
+    this.props.dispatch(emitUserMessage(payload));
+  }
+
   initializeWidget(sendInitPayload = true) {
     const {
       socket,
@@ -366,6 +384,7 @@ class Widget extends Component {
       };
       socketConnection.onopen = () => {
         this.startConnection(sendInitPayload, options, localId, uniqueFrom);
+        setInterval(() => { this.pingSocket(); }, 50000);
       };
 
       socketConnection.onmessage = (msg) => {
@@ -533,6 +552,7 @@ class Widget extends Component {
   }
 
   handleMessageSubmit(event) {
+    this.pingLimit = MAX_PING_LIMIT;
     if (event.type === 'submit') {
       event.preventDefault();
       const userMessage = event.target.message.value;
