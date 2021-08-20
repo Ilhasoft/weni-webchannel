@@ -362,6 +362,7 @@ class Widget extends Component {
       embedded,
       initialized,
       sessionId,
+      clientId,
       host,
       channelUuid,
       initPayload
@@ -375,7 +376,15 @@ class Widget extends Component {
 
       // Request a session from server
       const localId = this.getSessionId();
-      const uniqueFrom = `${sessionId || `${Math.floor(Math.random() * Date.now())}`}`;
+
+      let validClientId;
+      if (clientId === null || clientId.trim() === '') {
+        validClientId = window.location.hostname;
+      } else {
+        validClientId = clientId;
+      }
+
+      const uniqueFrom = `${sessionId || `${Math.floor(Math.random() * Date.now())}`}@${validClientId}`;
       const options = {
         type: 'register',
         from: localId || uniqueFrom,
@@ -691,7 +700,8 @@ Widget.propTypes = {
   channelUuid: PropTypes.string,
   showTooltip: PropTypes.bool,
   disableSoundNotification: PropTypes.bool,
-  customSoundNotification: PropTypes.string
+  customSoundNotification: PropTypes.string,
+  clientId: PropTypes.string
 };
 
 Widget.defaultProps = {

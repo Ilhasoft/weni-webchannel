@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Widget, toggleChat, openChat, closeChat, showChat, hideChat, isOpen, isVisible, send, reload, clear} from './index_for_react_app';
+import { Widget, toggleChat, openChat, closeChat, showChat, hideChat, isOpen, isVisible, send, reload, clear } from './index_for_react_app';
 
 const plugin = {
   init: (args) => {
@@ -50,6 +50,7 @@ const plugin = {
         suggestionsConfig={args.suggestionsConfig}
         disableSoundNotification={args.disableSoundNotification}
         customSoundNotification={args.customSoundNotification}
+        clientId={args.clientId}
       />, document.querySelector(args.selector)
     );
   }
