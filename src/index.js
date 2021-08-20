@@ -137,6 +137,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         channelUuid={props.channelUuid}
         disableSoundNotification={props.disableSoundNotification}
         customSoundNotification={props.customSoundNotification}
+        clientId={props.clientId}
       />
     </Provider>
   );
@@ -191,7 +192,8 @@ ConnectedWidget.propTypes = {
   startFullScreen: PropTypes.bool,
   suggestionsConfig: PropTypes.shape({}),
   disableSoundNotification: PropTypes.bool,
-  customSoundNotification: PropTypes.string
+  customSoundNotification: PropTypes.string,
+  clientId: PropTypes.string
 };
 
 ConnectedWidget.defaultProps = {
@@ -246,7 +248,8 @@ ConnectedWidget.defaultProps = {
   },
   disableSoundNotification: false,
   customSoundNotification:
-    'https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3'
+    'https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3',
+  clientId: window.location.hostname
 };
 
 export default ConnectedWidget;
