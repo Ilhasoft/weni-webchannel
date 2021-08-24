@@ -35,8 +35,8 @@ import {
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
-import { isSnippet, isVideo, isImage, isQR, isText } from './msgProcessor';
-import { getAttachmentFromText } from './msgProcessor';
+import { isSnippet, isVideo, isImage, isQR, isText, getAttachmentFromText } from './msgProcessor';
+
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
@@ -52,7 +52,10 @@ class Widget extends Component {
 
 
   componentDidMount() {
-    const { connectOn, autoClearCache, storage, dispatch, defaultHighlightAnimation, startFullScreen } = this.props;
+    // eslint-disable-next-line max-len
+    const { connectOn, autoClearCache, storage, dispatch, defaultHighlightAnimation, startFullScreen, initPayload } = this.props;
+
+    const sendInit = this.checkInit();
 
     const styleNode = document.createElement('style');
     styleNode.innerHTML = defaultHighlightAnimation;
@@ -64,7 +67,7 @@ class Widget extends Component {
 
     this.intervalId = setInterval(() => dispatch(evalUrl(window.location.href)), 500);
     if (connectOn === 'mount') {
-      this.initializeWidget();
+      this.initializeWidget(sendInit);
       return;
     }
 
@@ -73,31 +76,34 @@ class Widget extends Component {
 
     if (autoClearCache) {
       if (Date.now() - lastUpdate < 30 * 60 * 1000) {
-        this.initializeWidget();
+        this.initializeWidget(sendInit);
       } else {
         localStorage.removeItem(SESSION_NAME);
       }
     } else {
       dispatch(pullSession());
-      if (lastUpdate) this.initializeWidget();
+      if (lastUpdate) this.initializeWidget(sendInit);
     }
   }
 
   componentDidUpdate() {
     const { isChatOpen, dispatch, embedded, initialized } = this.props;
 
+    const sendInit = this.checkInit();
+
     if (isChatOpen) {
       if (!initialized) {
-        this.initializeWidget();
+        this.initializeWidget(sendInit);
       }
-      this.trySendInitPayload();
+      if (this.checkInit()) {
+        this.trySendInitPayload();
+      }
     }
 
     if (embedded && initialized) {
       dispatch(showChat());
       dispatch(openChat());
     }
-
   }
 
   componentWillUnmount() {
@@ -118,6 +124,12 @@ class Widget extends Component {
     return localId;
   }
 
+  checkInit() {
+    const { initPayload } = this.props;
+    const a = initPayload !== null && initPayload.trim() !== '';
+    console.log('check', a);
+    return a;
+  }
   sendMessage(payload, text = '', when = 'always') {
     const { dispatch, initialized } = this.props;
     if (!initialized) {
@@ -130,7 +142,7 @@ class Widget extends Component {
     } else if (when === 'init') {
       dispatch(emitMessageIfFirst(payload, text));
     }
-    dispatch(setUserInput(''))
+    dispatch(setUserInput(''));
   }
 
   handleMessageReceived(message) {
@@ -313,17 +325,17 @@ class Widget extends Component {
       const localId = this.getSessionId();
       socket.on('connect', () => {
         if (!localId) {
-          socket.emit('registerUser', sessionId ? {id: sessionId} : {}, (_response) => {
-              let remoteId;
-              const data = JSON.parse(_response);
-              if (data.urn) {
-                remoteId = data.urn;
+          socket.emit('registerUser', sessionId ? { id: sessionId } : {}, (_response) => {
+            let remoteId;
+            const data = JSON.parse(_response);
+            if (data.urn) {
+              remoteId = data.urn;
 
-                this.startConnection(sendInitPayload, localId, remoteId);
-                this.subscribeBotMessages(remoteId);
-              } else {
-                console.error(data);
-              }
+              this.startConnection(sendInitPayload, localId, remoteId);
+              this.subscribeBotMessages(remoteId);
+            } else {
+              console.error(data);
+            }
           });
         } else {
           this.startConnection(sendInitPayload, localId, localId);
@@ -348,24 +360,24 @@ class Widget extends Component {
 
   subscribeBotMessages(localId) {
     const {
-      socket,
+      socket
     } = this.props;
 
     socket.subscribe(localId, (data) => {
       if (data.to === localId) {
-        let botUtterance = this.handleMessageData(data);
+        const botUtterance = this.handleMessageData(data);
         this.handleBotUtterance(botUtterance);
       }
     });
   }
 
   handleMessageData(data) {
-    var botUtterance = { text: data.text };
+    const botUtterance = { text: data.text };
     if (data.quick_replies && data.quick_replies.length > 0) {
-      botUtterance.quick_replies = data.quick_replies.map(reply => ({title: reply, payload: reply}));
+      botUtterance.quick_replies = data.quick_replies.map(reply => ({ title: reply, payload: reply }));
     }
 
-    let attachment = getAttachmentFromText(botUtterance);
+    const attachment = getAttachmentFromText(botUtterance);
     if (attachment) {
       botUtterance.attachment = attachment;
     }
@@ -464,7 +476,7 @@ class Widget extends Component {
 
       if (!sessionId || disableTooltips) return;
 
-      this.dispatchMessage({text: tooltipMessage});
+      this.dispatchMessage({ text: tooltipMessage });
       if (!isChatOpen) {
         dispatch(newUnreadMessage());
         dispatch(showTooltip(true));
@@ -473,7 +485,6 @@ class Widget extends Component {
       this.popLastMessage();
 
       dispatch(triggerTooltipSent(tooltipMessage));
-
     }
   }
 
@@ -543,7 +554,7 @@ class Widget extends Component {
       this.props.dispatch(emitUserMessage(userUttered));
     }
     event.target.message.value = '';
-    this.props.dispatch(setUserInput(''))
+    this.props.dispatch(setUserInput(''));
   }
 
   render() {
@@ -591,7 +602,7 @@ const mapStateToProps = state => ({
   tooltipSent: state.metadata.get('tooltipSent'),
   oldUrl: state.behavior.get('oldUrl'),
   pageChangeCallbacks: state.behavior.get('pageChangeCallbacks'),
-  domHighlight: state.metadata.get('domHighlight'),
+  domHighlight: state.metadata.get('domHighlight')
 });
 
 Widget.propTypes = {
