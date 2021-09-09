@@ -53,7 +53,7 @@ class Widget extends Component {
 
   componentDidMount() {
     // eslint-disable-next-line max-len
-    const { connectOn, autoClearCache, storage, dispatch, defaultHighlightAnimation, startFullScreen, initPayload } = this.props;
+    const { connectOn, autoClearCache, storage, dispatch, defaultHighlightAnimation, startFullScreen } = this.props;
 
     const sendInit = this.checkInit();
 
@@ -126,8 +126,7 @@ class Widget extends Component {
 
   checkInit() {
     const { initPayload } = this.props;
-    const a = initPayload !== null && initPayload.trim() !== '';
-    console.log('check', a);
+    const a = !!initPayload && initPayload.trim() !== '';
     return a;
   }
   sendMessage(payload, text = '', when = 'always') {
@@ -371,10 +370,14 @@ class Widget extends Component {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   handleMessageData(data) {
     const botUtterance = { text: data.text };
     if (data.quick_replies && data.quick_replies.length > 0) {
-      botUtterance.quick_replies = data.quick_replies.map(reply => ({ title: reply, payload: reply }));
+      botUtterance.quick_replies = data.quick_replies.map(reply => ({
+        title: reply,
+        payload: reply
+      }));
     }
 
     const attachment = getAttachmentFromText(botUtterance);
@@ -436,7 +439,6 @@ class Widget extends Component {
   trySendInitPayload() {
     const {
       initPayload,
-      customData,
       socket,
       initialized,
       isChatOpen,
@@ -646,7 +648,8 @@ Widget.propTypes = {
   sessionId: PropTypes.string,
   headerImage: PropTypes.string,
   startFullScreen: PropTypes.bool,
-  suggestionsConfig: PropTypes.shape({})
+  suggestionsConfig: PropTypes.shape({}),
+  customizeWidget: PropTypes.shape({})
 };
 
 Widget.defaultProps = {
