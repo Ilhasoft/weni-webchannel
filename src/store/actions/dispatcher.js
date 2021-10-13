@@ -133,13 +133,21 @@ export function newUnreadMessage() {
   store.dispatch(actions.newUnreadMessage());
 }
 
-export function send(playload, text = '', customStore) {
+export function send(payload, text = '', customStore) {
+  const message = {
+    type: 'message',
+    message: {
+      type: 'text',
+      text: payload
+    }
+  };
+
   if (customStore) {
-    customStore.dispatch(actions.emitUserMessage(playload));
+    customStore.dispatch(actions.emitUserMessage(message));
     if (text !== '') customStore.dispatch(actions.addUserMessage(text));
     return;
   }
-  store.dispatch(actions.emitUserMessage(playload));
+  store.dispatch(actions.emitUserMessage(message));
   if (text !== '') store.dispatch(actions.addUserMessage(text));
 }
 
