@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { PROP_TYPES } from 'constants';
 import DocViewer from '../docViewer';
 import './styles.scss';
+import { getAttachmentType } from '../../../../../../../../utils/messages';
 
 class Message extends PureComponent {
   render() {
@@ -19,16 +20,19 @@ class Message extends PureComponent {
     }
     return (
       <div
-        className={sender === 'response' && customCss && customCss.style === 'class' ?
-          `push-response ${customCss.css}` :
-          `push-${sender}`}
-        style={{ cssText: sender === 'response' && customCss && customCss.style === 'custom' ?
-          customCss.css :
-          undefined }}
+        className={
+          sender === 'response' && customCss && customCss.style === 'class'
+            ? `push-response ${customCss.css}`
+            : `push-${sender}`
+        }
+        style={{
+          cssText:
+            sender === 'response' && customCss && customCss.style === 'custom'
+              ? customCss.css
+              : undefined
+        }}
       >
-        <div
-          className="push-message-text"
-        >
+        <div className="push-message-text">
           {sender === 'response' ? (
             <ReactMarkdown
               className={'push-markdown'}
@@ -39,12 +43,13 @@ class Message extends PureComponent {
               }}
               transformLinkUri={null}
               renderers={{
-                link: props =>
-                  docViewer ? (
-                    <DocViewer src={props.href}>{props.children}</DocViewer>
-                  ) : (
-                    <a href={props.href} target={linkTarget || '_blank'} rel="noopener noreferrer">{props.children}</a>
-                  )
+                link: props => docViewer && getAttachmentType(props.href) ? (
+                  <DocViewer src={props.href}>{props.children}</DocViewer>
+                ) : (
+                  <a href={props.href} target={linkTarget || '_blank'} rel="noopener noreferrer">
+                    {props.children}
+                  </a>
+                )
               }}
             />
           ) : (
