@@ -44,7 +44,7 @@ import { storeLocalSession, getLocalSession } from '../../store/reducers/helper'
 
 import { buildQuickReplies, toBase64, getAttachmentType } from '../../utils/messages';
 
-const MAX_PING_LIMIT = 60;
+const MAX_PING_LIMIT = 216;
 class Widget extends Component {
   constructor(props) {
     super(props);
@@ -52,8 +52,11 @@ class Widget extends Component {
     this.onGoingMessageDelay = false;
     this.sendMessage = this.sendMessage.bind(this);
     this.intervalId = null;
-    this.eventListenerCleaner = () => { };
+    this.eventListenerCleaner = () => {};
     this.pingLimit = MAX_PING_LIMIT;
+    this.pingIntervalId = null;
+    this.connected = false;
+    this.attemptingReconnection = false;
   }
 
   state = {
@@ -132,6 +135,7 @@ class Widget extends Component {
     return localId;
   }
 
+  // eslint-disable-next-line react/sort-comp
   sendMessage(payload, text = '', when = 'always') {
     const { dispatch, initialized } = this.props;
     if (!initialized) {
@@ -361,14 +365,13 @@ class Widget extends Component {
       dispatch,
       embedded,
       initialized,
-      sessionId,
       clientId,
       host,
       channelUuid,
       initPayload
     } = this.props;
 
-    if (!socket.isInitialized()) {
+    if (!socket.isInitialized() || this.attemptingReconnection) {
       socket.createSocket();
 
       const socketConnection = socket.socket;
@@ -384,7 +387,9 @@ class Widget extends Component {
         validClientId = clientId;
       }
 
-      const uniqueFrom = `${sessionId || `${Math.floor(Math.random() * Date.now())}`}@${validClientId}`;
+      const uniqueFrom =
+        localId || `${Math.floor(Math.random() * Date.now())}@${validClientId}`;
+
       const options = {
         type: 'register',
         from: localId || uniqueFrom,
@@ -392,8 +397,19 @@ class Widget extends Component {
         trigger: initPayload
       };
       socketConnection.onopen = () => {
-        this.startConnection(sendInitPayload, options, localId, uniqueFrom);
-        setInterval(() => { this.pingSocket(); }, 50000);
+        if (!this.connected || this.attemptingReconnection) {
+          this.startConnection(
+            !this.attemptingReconnection && sendInitPayload,
+            options,
+            localId,
+            uniqueFrom
+          );
+          this.pingIntervalId = setInterval(() => {
+            this.pingSocket();
+          }, 50000);
+          this.connected = true;
+          this.attemptingReconnection = false;
+        }
       };
 
       socketConnection.onmessage = (msg) => {
@@ -403,6 +419,9 @@ class Widget extends Component {
       socketConnection.onclose = (event) => {
         // eslint-disable-next-line no-console
         console.log('SOCKET_ONCLOSE: Socket closed connection:', event);
+        this.attemptingReconnection = true;
+        clearInterval(this.pingIntervalId);
+        this.initializeWidget(sendInitPayload);
       };
 
       socketConnection.onerror = (err) => {
