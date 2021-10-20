@@ -104,7 +104,6 @@ class Widget extends Component {
 
   componentDidUpdate() {
     const { isChatOpen, dispatch, embedded, initialized } = this.props;
-
     if (isChatOpen) {
       if (!initialized) {
         this.initializeWidget();
@@ -366,6 +365,7 @@ class Widget extends Component {
       embedded,
       initialized,
       clientId,
+      sessionId,
       host,
       channelUuid,
       initPayload
@@ -378,7 +378,11 @@ class Widget extends Component {
       dispatch(pullSession());
 
       // Request a session from server
-      const localId = this.getSessionId();
+      let localId = this.getSessionId();
+
+      if (sessionId) {
+        localId = sessionId;
+      }
 
       let validClientId;
       if (clientId === null || clientId.trim() === '') {
