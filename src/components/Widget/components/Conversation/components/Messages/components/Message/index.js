@@ -43,8 +43,8 @@ class Message extends PureComponent {
               }}
               transformLinkUri={null}
               renderers={{
-                link: props => docViewer && getAttachmentType(props.href) ? (
-                  <DocViewer src={props.href}>{props.children}</DocViewer>
+                link: props => docViewer && getAttachmentType(props.href) === 'file' ? (
+                  <DocViewer message={this.props.message}>{props.children}</DocViewer>
                 ) : (
                   <a href={props.href} target={linkTarget || '_blank'} rel="noopener noreferrer">
                     {props.children}

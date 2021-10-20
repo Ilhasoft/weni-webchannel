@@ -15,7 +15,6 @@ class DocViewer extends Component {
       iFrameLoading: true
     };
     this.iframeLoaded = this.iframeLoaded.bind(this);
-    this.updateIframeSrc = this.updateIframeSrc.bind(this);
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
   }
@@ -29,14 +28,8 @@ class DocViewer extends Component {
     this.iframeLoaded = this.iframeLoaded.bind(this);
   }
 
-  updateIframeSrc() {
-    if (this.iframe) this.iframe.src = this.getIframeLink();
-    else clearInterval(this.iframeTimeoutId);
-  }
-
   handleOpenModal() {
     this.setState({ openedModal: true });
-    this.iframeTimeoutId = setInterval(this.updateIframeSrc, 1000 * 4);
   }
 
   handleCloseModal() {
@@ -66,7 +59,6 @@ class DocViewer extends Component {
                   title="viewer"
                   className="push-doc-viewer-modal-iframe"
                   onLoad={this.iframeLoaded}
-                  onError={this.updateIframeSrc}
                   ref={(iframe) => {
                     this.iframe = iframe;
                   }}
