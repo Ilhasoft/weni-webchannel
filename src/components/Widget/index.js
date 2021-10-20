@@ -456,6 +456,7 @@ class Widget extends Component {
     If the localId is null or different from the remote_id,
     start a new session.
     */
+    console.log(localId, remoteId);
     if (localId !== remoteId) {
       // storage.clear();
       // Store the received session_id to storage
@@ -467,7 +468,6 @@ class Widget extends Component {
         dispatch(initialize());
       }
     } else {
-      delete options.trigger;
       socket.socket.send(JSON.stringify(options));
       // If this is an existing session, it's possible we changed pages and want to send a
       // user message when we land.
