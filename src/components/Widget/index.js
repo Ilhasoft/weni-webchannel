@@ -103,12 +103,7 @@ class Widget extends Component {
   }
 
   componentDidUpdate() {
-    const { isChatOpen, dispatch, embedded, initialized } = this.props;
-    if (isChatOpen) {
-      if (!initialized) {
-        this.initializeWidget();
-      }
-    }
+    const { dispatch, embedded, initialized } = this.props;
 
     if (embedded && initialized) {
       dispatch(showChat());
@@ -374,7 +369,6 @@ class Widget extends Component {
     if (!socket.isInitialized() || this.attemptingReconnection) {
       socket.createSocket();
 
-      const socketConnection = socket.socket;
       dispatch(pullSession());
 
       // Request a session from server
@@ -400,27 +394,31 @@ class Widget extends Component {
         callback: `${host}/c/wwc/${channelUuid}/receive`,
         trigger: initPayload
       };
-      socketConnection.onopen = () => {
-        if (!this.connected || this.attemptingReconnection) {
-          this.startConnection(
-            !this.attemptingReconnection && sendInitPayload,
+
+      const that = this;
+      // eslint-disable-next-line func-names
+      socket.socket.onopen = function () {
+        if (!that.connected || that.attemptingReconnection) {
+          that.startConnection(
+            this,
+            !that.attemptingReconnection && sendInitPayload,
             options,
             localId,
             uniqueFrom
           );
-          this.pingIntervalId = setInterval(() => {
-            this.pingSocket();
+          that.pingIntervalId = setInterval(() => {
+            that.pingSocket();
           }, 50000);
-          this.connected = true;
-          this.attemptingReconnection = false;
+          that.connected = true;
+          that.attemptingReconnection = false;
         }
       };
 
-      socketConnection.onmessage = (msg) => {
+      socket.socket.onmessage = (msg) => {
         this.handleBotUtterance(msg);
       };
 
-      socketConnection.onclose = (event) => {
+      socket.socket.onclose = (event) => {
         // eslint-disable-next-line no-console
         console.log('SOCKET_ONCLOSE: Socket closed connection:', event);
         this.attemptingReconnection = true;
@@ -428,7 +426,7 @@ class Widget extends Component {
         this.initializeWidget(sendInitPayload);
       };
 
-      socketConnection.onerror = (err) => {
+      socket.socket.onerror = (err) => {
         // eslint-disable-next-line no-console
         console.log('SOCKET_ONERROR: Socket error:', err);
       };
@@ -440,14 +438,13 @@ class Widget extends Component {
     }
   }
 
-  startConnection(sendInitPayload, options, localId, remoteId) {
+  startConnection(websocket, sendInitPayload, options, localId, remoteId) {
     const {
       storage,
       dispatch,
       connectOn,
       tooltipMessage,
-      tooltipDelay,
-      socket
+      tooltipDelay
     } = this.props;
 
     dispatch(connectServer());
@@ -463,12 +460,11 @@ class Widget extends Component {
       storeLocalSession(storage, SESSION_NAME, remoteId);
       dispatch(pullSession());
       if (sendInitPayload) {
-        socket.socket.send(JSON.stringify(options));
+        websocket.send(JSON.stringify(options));
         dispatch(initialize());
       }
     } else {
-      delete options.trigger;
-      socket.socket.send(JSON.stringify(options));
+      websocket.send(JSON.stringify(options));
       // If this is an existing session, it's possible we changed pages and want to send a
       // user message when we land.
       const nextMessage = window.localStorage.getItem(NEXT_MESSAGE);
