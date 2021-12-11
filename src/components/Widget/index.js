@@ -57,6 +57,9 @@ class Widget extends Component {
     this.pingIntervalId = null;
     this.connected = false;
     this.attemptingReconnection = false;
+    this.inactivityTimerId = null;
+    this.inactivityTimerInterval = 120000; // 2 minutes in ms
+    this.checkedHistory = false;
   }
 
   state = {
@@ -146,10 +149,27 @@ class Widget extends Component {
   }
 
   handleMessageReceived(message) {
-    const { dispatch } = this.props;
+    const { dispatch, initPayload } = this.props;
 
-    // const formatedMessage = formatMessage(message);
-    // formatedMessage.forEach((msg) => {
+    // if greater than 15 minutes in sec
+    if (
+      !this.checkedHistory
+      && (new Date().getTime() / 1000) - message.timestamp > 900
+    ) {
+      this.inactivityTimerId = setTimeout(() => {
+        const textMessage = {
+          type: 'message',
+          message: {
+            type: 'text',
+            text: initPayload
+          }
+        };
+
+        this.props.dispatch(emitUserMessage(textMessage));
+      }, this.inactivityTimerInterval);
+    }
+    this.checkedHistory = true;
+
     if (!this.onGoingMessageDelay) {
       this.onGoingMessageDelay = true;
       dispatch(triggerMessageDelayed(true));
@@ -157,7 +177,6 @@ class Widget extends Component {
     } else {
       this.messages.push(message);
     }
-    // });
   }
 
   popLastMessage() {
@@ -580,6 +599,11 @@ class Widget extends Component {
   }
 
   handleMessageSubmit(event) {
+    if (this.inactivityTimerId) {
+      clearTimeout(this.inactivityTimerId);
+      this.inactivityTimerId = null;
+    }
+
     this.pingLimit = MAX_PING_LIMIT;
     if (event.type === 'submit') {
       event.preventDefault();

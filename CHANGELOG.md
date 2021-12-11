@@ -2,6 +2,50 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://https///compare/v1.7.2...v2.5.0) (2021-12-07)
+
+
+### Features
+
+* audio upload ([92f8e25](https://https///commit/92f8e25db1fcadfe90843ea1db42c20a8307e943))
+* basic file selector handling ([c11fd3f](https://https///commit/c11fd3f9987950f10b4abfea8acb5c26d34fe271))
+* change powered by to weni ([541dfd5](https://https///commit/541dfd557424b9a9068158d0db32436a7cf0e3b5))
+* check history for delayed trigger ([c8e2ad9](https://https///commit/c8e2ad942bda60c940ef3d277604687bf3d6db5a))
+* client id attribute ([305ddab](https://https///commit/305ddabbb91a4c8e475fcf9414276645e74fb65e))
+* document upload ([90fb97c](https://https///commit/90fb97c930752c300169a7fa7990172dfabe21e5))
+* dropzone ([abad7fc](https://https///commit/abad7fcf09736da05b970ce4e911ee38953d7925))
+* first weni websocket support, applied lint on modified files ([f86c460](https://https///commit/f86c4605e65df34aec37197e9b98fa8b0fbb8fae))
+* get attachments url from acknowledgment message ([fdd4f72](https://https///commit/fdd4f728b8db2fd81e4025be4b66e15ec76dd0f8))
+* image upload ([a8f3e7a](https://https///commit/a8f3e7a376f4bbb68b691a03b5bc455826216f74))
+* incoming attachments handling ([efd5609](https://https///commit/efd5609c34f8d7d2d629e841c1e5ed394a3bd075))
+* new attachment icon ([a29ea87](https://https///commit/a29ea87ced732e61007772f062f0a46d425efd27))
+* new audio reply component ([a8565b5](https://https///commit/a8565b55a466bf824f41eca58a53dc09e366b45f))
+* new custom auto complete attribute ([043da74](https://https///commit/043da74f7206a00a74b5e9e2a61e5722632bb32d))
+* reconnect socket on error/closure ([4089df6](https://https///commit/4089df64a91a7acf20231c19c23b6e3c73557887))
+* socket ping ([ec81773](https://https///commit/ec8177310e67031d89b63f23404c5909e6289dea))
+* sound notification ([16b981e](https://https///commit/16b981e3e9c44f0e9df3e478c9743ddf437726b9))
+* video upload ([531283e](https://https///commit/531283e61ea3b2297004b53b089b905c6695bbca))
+
+
+### Bug Fixes
+
+* basic text message sending ([2049f44](https://https///commit/2049f44d3dfbe747f2da3e5e1d0231ece892b830))
+* doc handle url without file extension ([e280337](https://https///commit/e280337cb0cf7c07590d9bbb51f75790ef5d2e54))
+* doc viewer accept only files ([1a0d0df](https://https///commit/1a0d0dfa2f78690c3f0f1c8bd781103f8a186430))
+* dropzone click behavior ([82d8c6a](https://https///commit/82d8c6af755eec8eaef03568e5891e3f841f32aa))
+* incorrect send action payload ([d82276f](https://https///commit/d82276f124e4c2808afdbf79dbf869d580d5b5f0))
+* lint ([a9f5c0e](https://https///commit/a9f5c0ee813e89c23c6fc55a4d279922ddadf64c))
+* multiple connections being opened ([4d6de75](https://https///commit/4d6de7546883a23a00a4b399b2e391b5357895fc))
+* powered by ([108e6f4](https://https///commit/108e6f4342aec8b256a3a10914c6d36022403815))
+* quick_replies handling ([400c6d9](https://https///commit/400c6d998555fdf2f96983351600c8007c12fa5d))
+* remove unused imports ([a6aa16c](https://https///commit/a6aa16ca6ea7717341613d2fd9df3d2c4f9c1519))
+* removed channel id from uniqueFrom and let it be more random ([cea6b1d](https://https///commit/cea6b1dc0274011162daa803117ac762d081c860))
+* removed logs ([d55e683](https://https///commit/d55e683da32b8d33b92fd608456cb5a0e12192c7))
+* removed unnecessary logs ([b298ef7](https://https///commit/b298ef7fa1e99da7e04578dc7ec952301fe84cc5))
+* responsive image size ([fc25277](https://https///commit/fc25277c075a7a8cc4425ebce8d3af6e59957425))
+* sessionId not working ([82323e0](https://https///commit/82323e03326e6c9334599aba33e97c38c04a75cb))
+* tooltip format ([1d97830](https://https///commit/1d97830d8f7fcaad56d67913d6121063ac61ec82))
+
 ## [1.8.0](https://https///compare/v1.7.2...v1.8.0) (2020-12-23)
 
 
