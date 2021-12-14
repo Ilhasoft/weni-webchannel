@@ -483,6 +483,9 @@ class Widget extends Component {
         dispatch(initialize());
       }
     } else {
+      if (!sendInitPayload) {
+        delete options.trigger;
+      }
       websocket.send(JSON.stringify(options));
       // If this is an existing session, it's possible we changed pages and want to send a
       // user message when we land.
