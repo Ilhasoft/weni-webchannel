@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.1](https://https///compare/v2.5.0...v2.5.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* remove trigger of register if attempting reconnection ([bc328e0](https://https///commit/bc328e0f5168c2c019edc4a23c9b47991e16383d))
+
 ## [2.5.0](https://https///compare/v1.7.2...v2.5.0) (2021-12-07)
 
 
