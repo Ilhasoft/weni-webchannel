@@ -1,6 +1,6 @@
-# Push Webchat ![npm](https://img.shields.io/npm/v/push-webchat)
+# Weni Webchat ![npm](https://img.shields.io/npm/v/push-webchat)
 
-A simple webchat widget to connect with Push 💬platform. Originally forked from [rasa-webchat](https://github.com/botfront/rasa-webchat) and [react-chat-widget](https://github.com/Wolox/react-chat-widget) and optimized for [Push](https://push.al).
+A simple webchat widget to connect with Weni 💬platform. Originally forked from [rasa-webchat](https://github.com/botfront/rasa-webchat) and [react-chat-widget](https://github.com/Wolox/react-chat-widget) and optimized for [Weni](https://weni.ai).
 ## Features
 
 - Text Messages
@@ -27,9 +27,9 @@ In your `<body/>`:
   WebChat.default.init({
     selector: "#webchat",
     initPayload: "Hello",
-    channelUuid: '37e3fde9-5a54-4d11-9adc-78629ffaa2e3', // External Channel UUID from Push
-    host: 'https://new.push.al', // Host URL from Push
-    socketUrl: "https://socket.push.al",
+    channelUuid: '37e3fde9-5a54-4d11-9adc-78629ffaa2e3', // External Channel UUID from Weni
+    host: 'https://flows.weni.ai', // Host URL from Weni
+    socketUrl: "https://websocket.weni.ai",
     title: "Title",
     subtitle: "Subtitle",
   })
@@ -57,7 +57,7 @@ function CustomWidget = () => {
   return (
     <Widget
       initPayload={"/get_started"}
-      socketUrl={"https://socket.push.al"}
+      socketUrl={"https://websocket.weni.ai"}
       title={"Title"}
     />
   )
