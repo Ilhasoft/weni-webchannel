@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.2](https://https///compare/v2.5.1...v2.5.2) (2022-01-17)
+
+
+### Bug Fixes
+
+* overwrite box-sizing for all webchat classes ([044fbbc](https://https///commit/044fbbcc03f863296231b1f0fafdae624794ba71))
+
 ### [2.5.1](https://https///compare/v2.5.0...v2.5.1) (2021-12-14)
 
 
