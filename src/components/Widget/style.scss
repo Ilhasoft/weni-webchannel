@@ -1,6 +1,10 @@
 @import "animation.scss";
 @import "common.scss";
 
+*[class^="push-"] {
+  box-sizing: unset !important;
+}
+
 .push-widget-container {
   bottom: 0;
   display: flex;
