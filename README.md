@@ -21,13 +21,13 @@ A simple webchat widget to connect with Weni 💬platform. Originally forked fro
 In your `<body/>`:
 ```javascript
 <div id="webchat"/>
-<script src="https://storage.googleapis.com/push-webchat/widget-latest.js"></script>
+<script src="https://storage.googleapis.com/push-webchat/wwc-latest.js"></script>
 // Or you can replace latest with a specific version
 <script>
   WebChat.default.init({
     selector: "#webchat",
     initPayload: "Hello",
-    channelUuid: '37e3fde9-5a54-4d11-9adc-78629ffaa2e3', // External Channel UUID from Weni
+    channelUuid: '05221ba1-e9c5-4ead-82fe-9e1086e54258', // External Channel UUID from Weni
     host: 'https://flows.weni.ai', // Host URL from Weni
     socketUrl: "https://websocket.weni.ai",
     title: "Title",
