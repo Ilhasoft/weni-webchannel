@@ -52,6 +52,9 @@ const WidgetLayout = (props) => {
           headerImage={props.headerImage}
           suggestionsConfig={props.suggestionsConfig}
           customAutoComplete={props.customAutoComplete}
+          openSessionMessageFields={props.openSessionMessageFields}
+          closeAndDisconnect={props.closeAndDisconnect}
+          forceChatConnection={props.forceChatConnection}
         />
       )}
       {!props.embedded && (
@@ -85,6 +88,8 @@ WidgetLayout.propTypes = {
   onSendMessage: PropTypes.func,
   toggleChat: PropTypes.func,
   toggleFullScreen: PropTypes.func,
+  closeAndDisconnect: PropTypes.func,
+  forceChatConnection: PropTypes.func,
   isChatOpen: PropTypes.bool,
   isChatVisible: PropTypes.bool,
   profileAvatar: PropTypes.string,
@@ -110,7 +115,8 @@ WidgetLayout.propTypes = {
   suggestionsConfig: PropTypes.shape({}),
   customAutoComplete: PropTypes.func,
   showTooltip: PropTypes.bool,
-  customizeWidget: PropTypes.shape({})
+  customizeWidget: PropTypes.shape({}),
+  openSessionMessageFields: PropTypes.shape({})
 };
 
 export default connect(mapStateToProps)(WidgetLayout);

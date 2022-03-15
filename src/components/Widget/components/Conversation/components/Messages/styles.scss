@@ -1,5 +1,5 @@
-@import "variables.scss";
-@import "common.scss";
+@import 'variables.scss';
+@import 'common.scss';
 
 .push-group-message.push-from-client {
   span.push-message-date {
@@ -22,30 +22,37 @@
     font-size: 11px;
     color: #a4a7ab;
   }
+
   // When we have several messages, the first one of the group
   .push-message:first-child:not(:only-child) {
     .push-response {
       border-radius: 0 15px 15px 0;
     }
+
     margin-bottom: 2px;
   }
+
   // When we have several messages, messages that are neither the first, nor the last
   .push-message:not(:first-child):not(:last-child):not(:last-child) {
     .push-response {
       border-radius: 0 15px 15px 0;
     }
+
     margin-top: 2px;
     margin-bottom: 2px;
   }
+
   // every message in a group that is NOT the first
   .push-message:not(:first-child):not(:only-child) {
     .push-avatar {
       display: none;
     }
+
     &.push-with-avatar {
       margin-left: 49px;
     }
   }
+
   // When we have several messages, the last one of the group
   .push-message:last-child:not(:only-child) {
     margin-top: 2px;
@@ -62,19 +69,18 @@
   justify-content: flex-end;
 }
 
-
 .push-messages-container {
   background-color: var(--chatBackgroundColor);
   height: 100%;
   overflow-y: auto;
   padding-top: 10px;
+
   .push-avatar {
     width: 31px;
     height: 31px;
     margin-top: 0;
     padding-right: 2px;
   }
-
 }
 
 .push-widget-embedded {
@@ -84,8 +90,60 @@
   }
 }
 
-.push-full-screen {
+.push-open-session {
+  background-color: var(--chatBackgroundColor);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: $unnnic-font-family-secondary;
 
+  &__title {
+    color: #3b414d;
+  }
+
+  &__subtitle {
+    color: #9caccc;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+
+    &-close,
+    &-use {
+      border-radius: 2px;
+      padding: 0px 12px;
+      font-size: 14px;
+      line-height: 22px;
+      font-family: $unnnic-font-family-secondary;
+      cursor: pointer;
+    }
+
+    &-close {
+      border: 1px solid #ececec;
+      background: transparent;
+      &:hover {
+        border: 1px solid transparent;
+      }
+    }
+
+    &-use {
+      border: 0px solid transparent;
+      background: #ececec;
+
+      &:hover {
+        background: #E2E6ED;
+      }
+    }
+  }
+}
+
+.push-full-screen {
   .push-messages-container {
     @include push-messages-container-fs;
 
@@ -106,13 +164,13 @@
   }
 }
 
-@media screen and (max-width: 800px)  {
+@media screen and (max-width: 800px) {
   .push-messages-container {
     @include push-messages-container-fs;
-    padding: 3% 4% 0 4%!important;
+    padding: 3% 4% 0 4% !important;
 
     .push-message {
-        font-size: 14px!important;
+      font-size: 14px !important;
     }
 
     .push-avatar {
@@ -129,49 +187,50 @@
       }
     }
   }
-
 }
 
 div#push-wave {
-	position:relative;
-	// text-align:center;
-	width:25px;
-	height: 100%;
-	margin-left: auto;
+  position: relative;
+  // text-align:center;
+  width: 25px;
+  height: 100%;
+  margin-left: auto;
   margin-right: auto;
   vertical-align: text-top;
 
   .push-customText {
     display: none;
     animation: push-wave 1.6s linear infinite;
-    color:#939393;
+    color: #939393;
   }
 
-	.push-dot {
-		display:inline-block;
-		width:5px;
-		height:5px;
-		border-radius:50%;
-		margin-right:3px;
-		background:#918585;
-		animation: push-wave 1.6s linear infinite;
+  .push-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    margin-right: 3px;
+    background: #918585;
+    animation: push-wave 1.6s linear infinite;
 
-		&:nth-child(2) {
-			animation-delay: -1.4s;
-		}
+    &:nth-child(2) {
+      animation-delay: -1.4s;
+    }
 
-		&:nth-child(3) {
-			animation-delay: -1.2s;
-		}
-	}
+    &:nth-child(3) {
+      animation-delay: -1.2s;
+    }
+  }
 }
 
 @keyframes push-wave {
-	0%, 60%, 100% {
-		transform: initial;
-	}
+  0%,
+  60%,
+  100% {
+    transform: initial;
+  }
 
-	30% {
-		transform: translateY(-5px);
-	}
+  30% {
+    transform: translateY(-5px);
+  }
 }

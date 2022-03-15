@@ -4,18 +4,19 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
 
-
-import { MESSAGES_TYPES } from 'constants';
+import alertCircle from 'assets/alert-circle-1-1.svg';
+import { MESSAGES_TYPES, VALID_FILE_TYPE } from 'constants';
 import { Video, Image, Message, Snippet, QuickReply, DocViewer, Audio } from 'messagesComponents';
 
 import './styles.scss';
-import { VALID_FILE_TYPE } from '../../../../../../constants';
 
 const isToday = (date) => {
   const today = new Date();
-  return date.getDate() === today.getDate() &&
+  return (
+    date.getDate() === today.getDate() &&
     date.getMonth() === today.getMonth() &&
-    date.getFullYear() === today.getFullYear();
+    date.getFullYear() === today.getFullYear()
+  );
 };
 
 const formatDate = (date) => {
@@ -78,50 +79,58 @@ class Messages extends Component {
       return <ComponentToRender id={index} {...message.get('props')} isLast={isLast} />;
     }
     return <ComponentToRender id={index} params={params} message={message} isLast={isLast} />;
-  }
+  };
 
   render() {
-    const { displayTypingIndication, profileAvatar, sendMessage } = this.props;
+    const {
+      displayTypingIndication,
+      profileAvatar,
+      sendMessage,
+      openSessionMessage,
+      openSessionMessageFields,
+      closeAndDisconnect,
+      forceChatConnection
+    } = this.props;
 
     const renderMessages = () => {
-      const {
-        messages,
-        showMessageDate
-      } = this.props;
+      const { messages, showMessageDate } = this.props;
 
       if (messages.isEmpty()) return null;
 
       const groups = [];
       let group = null;
 
-      const dateRenderer = typeof showMessageDate === 'function' ? showMessageDate :
-        showMessageDate === true ? formatDate : null;
+      const dateRenderer =
+        typeof showMessageDate === 'function'
+          ? showMessageDate
+          : showMessageDate === true
+            ? formatDate
+            : null;
 
       const renderMessageDate = (message) => {
         const timestamp = message.get('timestamp');
 
         if (!dateRenderer || !timestamp) return null;
         const dateToRender = dateRenderer(message.get('timestamp', message));
-        return dateToRender
-          ? <span className="push-message-date">{dateRenderer(message.get('timestamp'), message)}</span>
-          : null;
+        return dateToRender ? (
+          <span className="push-message-date">
+            {dateRenderer(message.get('timestamp'), message)}
+          </span>
+        ) : null;
       };
 
       const renderMessage = (message, index) => (
         <div
-          className={
-            `push-message ${profileAvatar && 'push-with-avatar'} ${message.get('sender') === 'client' ? 'push-from-client' : ''}`
-          }
+          className={`push-message ${profileAvatar && 'push-with-avatar'} ${
+            message.get('sender') === 'client' ? 'push-from-client' : ''
+          }`}
           key={index}
         >
-          {
-            profileAvatar &&
-            message.get('showAvatar') &&
-            message.get('sender') === 'response' &&
+          {profileAvatar && message.get('showAvatar') && message.get('sender') === 'response' && (
             <img src={profileAvatar} className="push-avatar" alt="profile" />
-          }
-          { this.getComponentToRender(message, index, index === messages.size - 1) }
-          { renderMessageDate(message) }
+          )}
+          {this.getComponentToRender(message, index, index === messages.size - 1)}
+          {renderMessageDate(message)}
         </div>
       );
 
@@ -147,7 +156,23 @@ class Messages extends Component {
       ));
     };
 
-    return (
+    return openSessionMessage ? (
+      <div className="push-open-session">
+        <div className="push-open-session__icon">
+          <img src={alertCircle} alt="used session info" />
+        </div>
+        <div className="push-open-session__title">{openSessionMessageFields.title}</div>
+        <div className="push-open-session__subtitle">{openSessionMessageFields.subtitle}</div>
+        <div className="push-open-session__buttons">
+          <button className="push-open-session__buttons-close" onClick={closeAndDisconnect}>
+            {openSessionMessageFields.closeText}
+          </button>
+          <button className="push-open-session__buttons-use" onClick={forceChatConnection}>
+            {openSessionMessageFields.useText}
+          </button>
+        </div>
+      </div>
+    ) : (
       <Dropzone
         onDropAccepted={acceptedFiles =>
           sendMessage({
@@ -198,7 +223,11 @@ Messages.propTypes = {
   showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   displayTypingIndication: PropTypes.bool,
   params: PropTypes.shape({}),
-  sendMessage: PropTypes.func
+  sendMessage: PropTypes.func,
+  openSessionMessage: PropTypes.bool,
+  openSessionMessageFields: PropTypes.shape({}),
+  closeAndDisconnect: PropTypes.func,
+  forceChatConnection: PropTypes.func
 };
 
 Message.defaultTypes = {
@@ -207,5 +236,6 @@ Message.defaultTypes = {
 
 export default connect(store => ({
   messages: store.messages,
-  displayTypingIndication: store.behavior.get('messageDelayed')
+  displayTypingIndication: store.behavior.get('messageDelayed'),
+  openSessionMessage: store.behavior.get('openSessionMessage')
 }))(Messages);
