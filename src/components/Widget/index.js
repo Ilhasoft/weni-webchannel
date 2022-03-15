@@ -34,7 +34,10 @@ import {
   setPageChangeCallbacks,
   changeOldUrl,
   setDomHighlight,
-  evalUrl
+  evalUrl,
+  saveSessionToken,
+  openSessionMessage,
+  closeSessionMessage
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
@@ -60,6 +63,7 @@ class Widget extends Component {
     this.inactivityTimerId = null;
     this.inactivityTimerInterval = 120000; // 2 minutes in ms
     this.checkedHistory = false;
+    this.reconnectWithDelay = false;
   }
 
   state = {
@@ -152,10 +156,7 @@ class Widget extends Component {
     const { dispatch, initPayload } = this.props;
 
     // if greater than 15 minutes in sec
-    if (
-      !this.checkedHistory
-      && (new Date().getTime() / 1000) - message.timestamp > 900
-    ) {
+    if (!this.checkedHistory && ((new Date().getTime() / 1000) - message.timestamp) > 900) {
       this.inactivityTimerId = setTimeout(() => {
         const textMessage = {
           type: 'message',
@@ -203,10 +204,9 @@ class Widget extends Component {
   }
 
   propagateMetadata(metadata) {
+    const { dispatch } = this.props;
     const {
-      dispatch
-    } = this.props;
-    const { linkTarget,
+      linkTarget,
       userInput,
       pageChangeCallbacks,
       domHighlight,
@@ -249,6 +249,15 @@ class Widget extends Component {
       this.pingLimit = MAX_PING_LIMIT;
     }
 
+    if (receivedMessage.type === 'message' || receivedMessage.type === 'ack') {
+      this.props.dispatch(closeSessionMessage());
+    }
+
+    if (receivedMessage.type === 'token') {
+      this.props.dispatch(saveSessionToken(receivedMessage.token));
+      return;
+    }
+
     if (receivedMessage.type === 'message') {
       const newMessage = {
         ...receivedMessage.message,
@@ -258,11 +267,15 @@ class Widget extends Component {
     } else if (receivedMessage.type === 'ack') {
       this.dispatchAckAttachment(receivedMessage.message);
     } else if (receivedMessage.type === 'error') {
-      console.log('received an error:', receivedMessage.error);
+      if (receivedMessage.error === 'unable to register: client from already exists') {
+        this.props.dispatch(openSessionMessage());
+      }
+      if (receivedMessage.error === 'Connection closed by request') {
+        this.reconnectWithDelay = true;
+        // eslint-disable-next-line react/prop-types
+        this.props.socket.close();
+      }
     }
-    // if (botUtterance.metadata && botUtterance.metadata.customCss) {
-    //   newMessage.customCss = botUtterance.metadata.customCss;
-    // }
   }
 
   dispatchAckAttachment(message) {
@@ -278,8 +291,6 @@ class Widget extends Component {
       this.props.dispatch(addUserImage(attachment));
     } else if (message.type === 'file') {
       this.props.dispatch(addUserDocument(attachment));
-    } else {
-      console.log('unknow type');
     }
   }
 
@@ -372,6 +383,25 @@ class Widget extends Component {
     this.props.dispatch(emitUserMessage(payload));
   }
 
+  getUniqueFrom() {
+    const { clientId, sessionId } = this.props;
+
+    let localId = this.getSessionId();
+
+    if (sessionId) {
+      localId = sessionId;
+    }
+
+    let validClientId;
+    if (clientId === null || clientId.trim() === '') {
+      validClientId = window.location.hostname;
+    } else {
+      validClientId = clientId;
+    }
+
+    return localId || `${Math.floor(Math.random() * Date.now())}@${validClientId}`;
+  }
+
   initializeWidget(sendInitPayload = true) {
     const {
       socket,
@@ -404,8 +434,7 @@ class Widget extends Component {
         validClientId = clientId;
       }
 
-      const uniqueFrom =
-        localId || `${Math.floor(Math.random() * Date.now())}@${validClientId}`;
+      const uniqueFrom = localId || `${Math.floor(Math.random() * Date.now())}@${validClientId}`;
 
       const options = {
         type: 'register',
@@ -430,6 +459,8 @@ class Widget extends Component {
           }, 50000);
           that.connected = true;
           that.attemptingReconnection = false;
+          this.reconnectWithDelay = false;
+          that.props.dispatch(closeSessionMessage());
         }
       };
 
@@ -440,9 +471,18 @@ class Widget extends Component {
       socket.socket.onclose = (event) => {
         // eslint-disable-next-line no-console
         console.log('SOCKET_ONCLOSE: Socket closed connection:', event);
-        this.attemptingReconnection = true;
-        clearInterval(this.pingIntervalId);
-        this.initializeWidget(sendInitPayload);
+        let delayInterval = 0;
+        if (this.reconnectWithDelay) {
+          delayInterval = 1000;
+        }
+        setTimeout(() => {
+          this.attemptingReconnection = true;
+          this.reconnectWithDelay = false;
+          clearInterval(this.pingIntervalId);
+          this.props.dispatch(closeSessionMessage());
+          this.initializeWidget(sendInitPayload);
+        }, delayInterval
+        );
       };
 
       socket.socket.onerror = (err) => {
@@ -458,13 +498,7 @@ class Widget extends Component {
   }
 
   startConnection(websocket, sendInitPayload, options, localId, remoteId) {
-    const {
-      storage,
-      dispatch,
-      connectOn,
-      tooltipMessage,
-      tooltipDelay
-    } = this.props;
+    const { storage, dispatch, connectOn, tooltipMessage, tooltipDelay } = this.props;
 
     dispatch(connectServer());
     /*
@@ -500,7 +534,8 @@ class Widget extends Component {
           dispatch(emitUserMessage(message));
         }
       }
-    } if (connectOn === 'mount' && tooltipMessage) {
+    }
+    if (connectOn === 'mount' && tooltipMessage) {
       this.tooltipTimeout = setTimeout(() => {
         this.displayTooltipMessage();
       }, parseInt(tooltipDelay, 10));
@@ -577,7 +612,6 @@ class Widget extends Component {
         })
       );
     } else {
-      console.log('unknow type');
       shouldPlay = false;
     }
 
@@ -644,6 +678,28 @@ class Widget extends Component {
     }
   }
 
+  closeAndDisconnect() {
+    const { dispatch, socket } = this.props;
+
+    dispatch(closeChat());
+    socket.socket.close();
+  }
+
+  forceChatConnection() {
+    const { sessionToken, socket } = this.props;
+    const websocket = socket.socket;
+
+    const options = {
+      type: 'close_session',
+      from: this.getUniqueFrom(),
+      token: sessionToken
+    };
+
+    websocket.send(JSON.stringify(options));
+
+    setTimeout(websocket.close(), 1000);
+  }
+
   render() {
     return (
       <div>
@@ -651,6 +707,8 @@ class Widget extends Component {
           toggleChat={() => this.toggleConversation()}
           toggleFullScreen={() => this.toggleFullScreen()}
           onSendMessage={event => this.handleMessageSubmit(event)}
+          closeAndDisconnect={() => this.closeAndDisconnect()}
+          forceChatConnection={() => this.forceChatConnection()}
           title={this.props.title}
           subtitle={this.props.subtitle}
           customData={this.props.customData}
@@ -677,11 +735,9 @@ class Widget extends Component {
           suggestionsConfig={this.props.suggestionsConfig}
           customAutoComplete={this.props.customAutoComplete}
           showTooltip={this.props.showTooltip}
+          openSessionMessageFields={this.props.openSessionMessageFields}
         />
-        <Sound
-          url={this.props.customSoundNotification}
-          playStatus={this.state.playNotification}
-        />
+        <Sound url={this.props.customSoundNotification} playStatus={this.state.playNotification} />
       </div>
     );
   }
@@ -696,7 +752,8 @@ const mapStateToProps = state => ({
   tooltipSent: state.metadata.get('tooltipSent'),
   oldUrl: state.behavior.get('oldUrl'),
   pageChangeCallbacks: state.behavior.get('pageChangeCallbacks'),
-  domHighlight: state.metadata.get('domHighlight')
+  domHighlight: state.metadata.get('domHighlight'),
+  sessionToken: state.behavior.get('token')
 });
 
 Widget.propTypes = {
@@ -747,7 +804,9 @@ Widget.propTypes = {
   showTooltip: PropTypes.bool,
   disableSoundNotification: PropTypes.bool,
   customSoundNotification: PropTypes.string,
-  clientId: PropTypes.string
+  clientId: PropTypes.string,
+  openSessionMessageFields: PropTypes.shape({}),
+  sessionToken: PropTypes.string
 };
 
 Widget.defaultProps = {
@@ -761,7 +820,8 @@ Widget.defaultProps = {
   oldUrl: '',
   disableTooltips: false,
   defaultHighlightClassname: '',
-  defaultHighlightCss: 'push-animation: 0.5s linear infinite alternate default-botfront-blinker-animation;',
+  defaultHighlightCss:
+    'push-animation: 0.5s linear infinite alternate default-botfront-blinker-animation;',
   defaultHighlightAnimation: `@keyframes default-botfront-blinker-animation {
     from {
       outline-color: green;
