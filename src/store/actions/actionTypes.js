@@ -49,3 +49,6 @@ export const EVAL_URL = 'EVAL_URL';
 export const SET_CUSTOM_CSS = 'SET_CUSTOM_CSS';
 export const RELOAD = 'RELOAD';
 export const CLEAR = 'CLEAR';
+export const SAVE_SESSION_TOKEN = 'SAVE_SESSION_TOKEN';
+export const OPEN_SESSION_MESSAGE = 'OPEN_SESSION_MESSAGE';
+export const CLOSE_SESSION_MESSAGE = 'CLOSE_SESSION_MESSAGE';

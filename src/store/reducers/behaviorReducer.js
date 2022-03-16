@@ -23,7 +23,9 @@ export default function (
     messageDelayed: false,
     oldUrl: '',
     suggestions: [],
-    pageChangeCallbacks: Map()
+    pageChangeCallbacks: Map(),
+    openSessionMessage: false,
+    token: ''
   });
 
   return function reducer(state = initialState, action) {
@@ -45,7 +47,18 @@ export default function (
           onWidgetEvent.onChatOpen();
         }
 
-        return storeParams(state.update('isChatOpen', isChatOpen => !isChatOpen).set('unreadCount', 0));
+        return storeParams(
+          state.update('isChatOpen', isChatOpen => !isChatOpen).set('unreadCount', 0)
+        );
+      }
+      case actionTypes.OPEN_SESSION_MESSAGE: {
+        return storeParams(state.update('openSessionMessage', () => true));
+      }
+      case actionTypes.SAVE_SESSION_TOKEN: {
+        return storeParams(state.set('token', action.token));
+      }
+      case actionTypes.CLOSE_SESSION_MESSAGE: {
+        return storeParams(state.update('openSessionMessage', () => false));
       }
       case actionTypes.OPEN_CHAT: {
         if (onWidgetEvent.onChatOpen) onWidgetEvent.onChatOpen();

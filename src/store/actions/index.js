@@ -247,7 +247,6 @@ export function showTooltip(visible) {
   };
 }
 
-
 export function triggerTooltipSent(payloadSent) {
   return {
     type: actions.TRIGGER_TOOLTIP_SENT,
@@ -313,7 +312,6 @@ export function setPageChangeCallbacks(pageChangeCallbacks) {
   };
 }
 
-
 export function setDomHighlight(domHighlight) {
   return {
     type: actions.SET_DOM_HIGHLIGHT,
@@ -327,7 +325,6 @@ export function hintText(hint) {
     hint
   };
 }
-
 
 export function changeOldUrl(url) {
   return {
@@ -359,5 +356,24 @@ export function reload() {
 export function clear() {
   return {
     type: actions.CLEAR
+  };
+}
+
+export function saveSessionToken(token) {
+  return {
+    type: actions.SAVE_SESSION_TOKEN,
+    token
+  };
+}
+
+export function openSessionMessage() {
+  return {
+    type: actions.OPEN_SESSION_MESSAGE
+  };
+}
+
+export function closeSessionMessage() {
+  return {
+    type: actions.CLOSE_SESSION_MESSAGE
   };
 }

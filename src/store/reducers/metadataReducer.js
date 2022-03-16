@@ -32,7 +32,9 @@ export default function (storage) {
         return storeMetadata(state.set('selectedSuggestion', action.selectedSuggestion));
       }
       case actionTypes.TRIGGER_TOOLTIP_SENT: {
-        return storeMetadata(state.set('tooltipSent', state.get('tooltipSent').set(action.payloadSent, true)));
+        return storeMetadata(
+          state.set('tooltipSent', state.get('tooltipSent').set(action.payloadSent, true))
+        );
       }
       case actionTypes.SHOW_TOOLTIP: {
         return storeMetadata(state.set('showTooltip', action.visible));

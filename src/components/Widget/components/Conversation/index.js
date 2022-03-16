@@ -6,7 +6,7 @@ import Messages from './components/Messages';
 import Sender from './components/Sender';
 import './style.scss';
 
-const Conversation = props =>
+const Conversation = props => (
   <div className="push-conversation-container">
     <Header
       title={props.title}
@@ -29,6 +29,9 @@ const Conversation = props =>
       customComponent={props.customComponent}
       showMessageDate={props.showMessageDate}
       sendMessage={props.sendMessage}
+      openSessionMessageFields={props.openSessionMessageFields}
+      closeAndDisconnect={props.closeAndDisconnect}
+      forceChatConnection={props.forceChatConnection}
     />
     <Sender
       sendMessage={props.sendMessage}
@@ -37,8 +40,13 @@ const Conversation = props =>
       suggestionsConfig={props.suggestionsConfig}
       customAutoComplete={props.customAutoComplete}
     />
-    {React.createElement('a', { href: 'https://weni.ai', className: 'push-poweredby-container', target: '_blank' }, 'Powered by Weni Platform')}
-  </div>;
+    {React.createElement(
+      'a',
+      { href: 'https://weni.ai', className: 'push-poweredby-container', target: '_blank' },
+      'Powered by Weni Platform'
+    )}
+  </div>
+);
 
 Conversation.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -46,6 +54,8 @@ Conversation.propTypes = {
   sendMessage: PropTypes.func,
   profileAvatar: PropTypes.string,
   toggleFullScreen: PropTypes.func,
+  closeAndDisconnect: PropTypes.func,
+  forceChatConnection: PropTypes.func,
   fullScreenMode: PropTypes.bool,
   toggleChat: PropTypes.func,
   showCloseButton: PropTypes.bool,
@@ -61,7 +71,8 @@ Conversation.propTypes = {
   showHeaderAvatar: PropTypes.bool,
   headerImage: PropTypes.string,
   suggestionsConfig: PropTypes.shape({}),
-  customAutoComplete: PropTypes.func
+  customAutoComplete: PropTypes.func,
+  openSessionMessageFields: PropTypes.shape({})
 };
 
 export default Conversation;
