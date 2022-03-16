@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://https///compare/v2.5.3...v2.6.0) (2022-03-16)
+
+
+### Features
+
+* alert circle asset ([1792077](https://https///commit/1792077c82d893132ff679baf247413a8125eecd))
+* open session component and props ([a8b70df](https://https///commit/a8b70dfe0bf8e06ef1418e9cf9693d2fb7878c1f))
+* open session socket event handler ([0bd6cc9](https://https///commit/0bd6cc96fbce12552590d16fc4c034c309aa6d8a))
+* open session store actions and reducers ([78d413a](https://https///commit/78d413ae5110b602045c1787438bc481495a6c39))
+
+
+### Bug Fixes
+
+* message type to warning ([670db13](https://https///commit/670db13e7db60242c3ad0863250d7725ff59820a))
+
 ### [2.5.3](https://https///compare/v2.5.2...v2.5.3) (2022-01-31)
 
 
