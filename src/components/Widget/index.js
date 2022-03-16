@@ -156,7 +156,7 @@ class Widget extends Component {
     const { dispatch, initPayload } = this.props;
 
     // if greater than 15 minutes in sec
-    if (!this.checkedHistory && ((new Date().getTime() / 1000) - message.timestamp) > 900) {
+    if (!this.checkedHistory && new Date().getTime() / 1000 - message.timestamp > 900) {
       this.inactivityTimerId = setTimeout(() => {
         const textMessage = {
           type: 'message',
@@ -270,7 +270,8 @@ class Widget extends Component {
       if (receivedMessage.error === 'unable to register: client from already exists') {
         this.props.dispatch(openSessionMessage());
       }
-      if (receivedMessage.error === 'Connection closed by request') {
+    } else if (receivedMessage.type === 'warning') {
+      if (receivedMessage.warning === 'Connection closed by request') {
         this.reconnectWithDelay = true;
         // eslint-disable-next-line react/prop-types
         this.props.socket.close();
@@ -481,8 +482,7 @@ class Widget extends Component {
           clearInterval(this.pingIntervalId);
           this.props.dispatch(closeSessionMessage());
           this.initializeWidget(sendInitPayload);
-        }, delayInterval
-        );
+        }, delayInterval);
       };
 
       socket.socket.onerror = (err) => {
