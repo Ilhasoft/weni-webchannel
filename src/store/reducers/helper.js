@@ -2,6 +2,7 @@ import { Map, fromJS, List } from 'immutable';
 import { MESSAGES_TYPES, MESSAGE_SENDER, SESSION_NAME } from 'constants';
 
 import { Audio, Video, Image, Message, Snippet, QuickReply, DocViewer } from 'messagesComponents';
+import * as actionTypes from '../actions/actionTypes';
 
 export function createNewMessage(text, sender) {
   return Map({
@@ -201,3 +202,14 @@ export const storeMetadataTo = storage => (metadata) => {
   storage.setItem(SESSION_NAME, JSON.stringify(newSession));
   return metadata;
 };
+
+export function sendInitPayload(action, initPayload) {
+  const message = {
+    type: 'message',
+    message: {
+      type: 'text',
+      text: initPayload
+    }
+  };
+  action.asyncDispatch({ type: actionTypes.EMIT_NEW_USER_MESSAGE, message });
+}
