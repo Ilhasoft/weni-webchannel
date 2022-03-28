@@ -37,7 +37,8 @@ import {
   evalUrl,
   saveSessionToken,
   openSessionMessage,
-  closeSessionMessage
+  closeSessionMessage,
+  setInitPayload
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
@@ -77,7 +78,8 @@ class Widget extends Component {
       storage,
       dispatch,
       defaultHighlightAnimation,
-      startFullScreen
+      startFullScreen,
+      initPayload
     } = this.props;
 
     const styleNode = document.createElement('style');
@@ -91,6 +93,8 @@ class Widget extends Component {
     this.intervalId = setInterval(() => dispatch(evalUrl(window.location.href)), 500);
     if (connectOn === 'mount') {
       this.initializeWidget();
+
+      dispatch(setInitPayload(initPayload));
       return;
     }
 
@@ -107,6 +111,8 @@ class Widget extends Component {
       dispatch(pullSession());
       if (lastUpdate) this.initializeWidget();
     }
+
+    dispatch(setInitPayload(initPayload));
   }
 
   componentDidUpdate() {
@@ -412,8 +418,7 @@ class Widget extends Component {
       clientId,
       sessionId,
       host,
-      channelUuid,
-      initPayload
+      channelUuid
     } = this.props;
 
     if (!socket.isInitialized() || this.attemptingReconnection) {
@@ -440,8 +445,7 @@ class Widget extends Component {
       const options = {
         type: 'register',
         from: localId || uniqueFrom,
-        callback: `${host}/c/wwc/${channelUuid}/receive`,
-        trigger: initPayload
+        callback: `${host}/c/wwc/${channelUuid}/receive`
       };
 
       const that = this;
@@ -753,7 +757,8 @@ const mapStateToProps = state => ({
   oldUrl: state.behavior.get('oldUrl'),
   pageChangeCallbacks: state.behavior.get('pageChangeCallbacks'),
   domHighlight: state.metadata.get('domHighlight'),
-  sessionToken: state.behavior.get('token')
+  sessionToken: state.behavior.get('token'),
+  initPayloadSent: state.behavior.get('initPayloadSent')
 });
 
 Widget.propTypes = {
