@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://https///compare/v2.6.0...v2.7.0) (2022-03-28)
+
+
+### Features
+
+* async dispatcher middleware ([eb03e85](https://https///commit/eb03e857086e83f4de0488dddea7c2c658cbf0ff))
+* new initPayload trigger logic ([a54ab09](https://https///commit/a54ab09f4cccb0789b331c54cdb9075c8c1786ff))
+* sendInitPayload helper ([8a7035e](https://https///commit/8a7035e7c49037060d9f2f4b28b3a0180c8e3841))
+* setInitPayload reducer ([da4b5b2](https://https///commit/da4b5b20333b2438b9338702a7ff4417c96700b1))
+
 ## [2.6.0](https://https///compare/v2.5.3...v2.6.0) (2022-03-16)
 
 

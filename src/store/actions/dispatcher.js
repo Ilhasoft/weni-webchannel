@@ -182,3 +182,7 @@ export function setOpenSessionMessage(state) {
     store.dispatch(actions.closeSessionMessage());
   }
 }
+
+export function setInitPayload(initPayload) {
+  store.dispatch(actions.setInitPayload(initPayload));
+}

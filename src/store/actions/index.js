@@ -377,3 +377,11 @@ export function closeSessionMessage() {
     type: actions.CLOSE_SESSION_MESSAGE
   };
 }
+
+export function setInitPayload(initPayload) {
+  return {
+    type: actions.SET_INIT_PAYLOAD,
+    initPayload
+  };
+}
+

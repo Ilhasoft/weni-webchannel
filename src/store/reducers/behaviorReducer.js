@@ -1,7 +1,7 @@
 import { Map, fromJS } from 'immutable';
 import { SESSION_NAME } from 'constants';
 import * as actionTypes from '../actions/actionTypes';
-import { getLocalSession, storeParamsTo } from './helper';
+import { getLocalSession, storeParamsTo, sendInitPayload } from './helper';
 
 export default function (
   inputTextFieldHint,
@@ -25,7 +25,9 @@ export default function (
     suggestions: [],
     pageChangeCallbacks: Map(),
     openSessionMessage: false,
-    token: ''
+    token: '',
+    initPayloadText: null,
+    initPayloadSent: false
   });
 
   return function reducer(state = initialState, action) {
@@ -47,8 +49,16 @@ export default function (
           onWidgetEvent.onChatOpen();
         }
 
+        const initPayload = state.get('initPayloadText', null);
+        if (!state.get('initPayloadSent', false) && initPayload) {
+          sendInitPayload(action, initPayload);
+        }
+
         return storeParams(
-          state.update('isChatOpen', isChatOpen => !isChatOpen).set('unreadCount', 0)
+          state
+            .update('isChatOpen', isChatOpen => !isChatOpen)
+            .set('unreadCount', 0)
+            .set('initPayloadSent', true)
         );
       }
       case actionTypes.OPEN_SESSION_MESSAGE: {
@@ -62,7 +72,18 @@ export default function (
       }
       case actionTypes.OPEN_CHAT: {
         if (onWidgetEvent.onChatOpen) onWidgetEvent.onChatOpen();
-        return storeParams(state.update('isChatOpen', () => true).set('unreadCount', 0));
+
+        const initPayload = state.get('initPayloadText', null);
+        if (!state.get('initPayloadSent', false) && initPayload) {
+          sendInitPayload(action, initPayload);
+        }
+
+        return storeParams(
+          state
+            .update('isChatOpen', () => true)
+            .set('unreadCount', 0)
+            .set('initPayloadSent', true)
+        );
       }
       case actionTypes.CLOSE_CHAT: {
         if (onWidgetEvent.onChatClose) onWidgetEvent.onChatClose();
@@ -104,6 +125,9 @@ export default function (
       }
       case actionTypes.SET_SUGGESTIONS: {
         return storeParams(state.set('suggestions', action.suggestions));
+      }
+      case actionTypes.SET_INIT_PAYLOAD: {
+        return storeParams(state.set('initPayloadText', action.initPayload));
       }
       case actionTypes.EVAL_URL: {
         const newUrl = action.url;

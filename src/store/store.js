@@ -17,6 +17,8 @@ import { getLocalSession } from './reducers/helper';
 import * as actionTypes from './actions/actionTypes';
 import { setSuggestions } from './actions';
 
+import asyncDispatchMiddleware from './middlewares/asyncDispatchMiddleware';
+
 const cleanURL = (url) => {
   const regexProtocolHostPort = /https?:\/\/(([A-Za-z0-9-])+(\.?))+[a-z]+(:[0-9]+)?/;
   const regexLastTrailingSlash = /\/$|\/(?=\?)/;
@@ -138,7 +140,7 @@ function initStore(
 
   return createStore(
     reducer,
-    composeEnhancer(applyMiddleware(customMiddleWare)),
+    composeEnhancer(applyMiddleware(customMiddleWare, asyncDispatchMiddleware))
   );
 }
 
