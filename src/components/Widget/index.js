@@ -38,7 +38,8 @@ import {
   saveSessionToken,
   openSessionMessage,
   closeSessionMessage,
-  setInitPayload
+  setInitPayload,
+  sendInitialPayload
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
@@ -496,6 +497,7 @@ class Widget extends Component {
     }
 
     if (embedded && initialized) {
+      dispatch(sendInitialPayload());
       dispatch(showChat());
       dispatch(openChat());
     }
@@ -525,6 +527,7 @@ class Widget extends Component {
         delete options.trigger;
       }
       websocket.send(JSON.stringify(options));
+      dispatch(initialize());
       // If this is an existing session, it's possible we changed pages and want to send a
       // user message when we land.
       const nextMessage = window.localStorage.getItem(NEXT_MESSAGE);

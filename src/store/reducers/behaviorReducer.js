@@ -89,6 +89,15 @@ export default function (
         if (onWidgetEvent.onChatClose) onWidgetEvent.onChatClose();
         return storeParams(state.update('isChatOpen', () => false));
       }
+      case actionTypes.SEND_INITIAL_PAYLOAD: {
+        const initPayload = state.get('initPayloadText', null);
+        if (initPayload) {
+          sendInitPayload(action, initPayload);
+          return storeParams(state.set('initPayloadSent', true));
+        }
+
+        return storeParams(state.set('initPayloadSent', state.get('initPayloadSent', false)));
+      }
       case actionTypes.TOGGLE_FULLSCREEN: {
         if (onWidgetEvent.onChatFullScreen) onWidgetEvent.onChatFullScreen();
         return storeParams(state.update('fullScreenMode', fullScreenMode => !fullScreenMode));

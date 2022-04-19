@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.7.1](https://https///compare/v2.7.0...v2.7.1) (2022-04-19)
+
+
+### Bug Fixes
+
+* init payload not being sent when sessionId is set ([15434ed](https://https///commit/15434ed58ad84dd6d00d654a5b62663fafc69bd0))
+
 ## [2.7.0](https://https///compare/v2.6.0...v2.7.0) (2022-03-28)
 
 
