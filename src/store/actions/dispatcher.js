@@ -186,3 +186,7 @@ export function setOpenSessionMessage(state) {
 export function setInitPayload(initPayload) {
   store.dispatch(actions.setInitPayload(initPayload));
 }
+
+export function sendInitialPayload() {
+  store.dispatch(actions.sendInitialPayload());
+}

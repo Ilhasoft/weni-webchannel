@@ -385,3 +385,8 @@ export function setInitPayload(initPayload) {
   };
 }
 
+export function sendInitialPayload() {
+  return {
+    type: actions.SEND_INITIAL_PAYLOAD
+  };
+}
