@@ -1,7 +1,7 @@
 import { Map, fromJS } from 'immutable';
 import { SESSION_NAME } from 'constants';
 import * as actionTypes from '../actions/actionTypes';
-import { getLocalSession, storeParamsTo, sendInitPayload } from './helper';
+import { getLocalSession, storeParamsTo, sendInitPayload, storeLocalSession } from './helper';
 
 export default function (
   inputTextFieldHint,
@@ -114,6 +114,9 @@ export default function (
       case actionTypes.DISCONNECT: {
         return storeParams(state.set('connected', false).set('disabledInput', true));
       }
+      case actionTypes.TERMINATE: {
+        return storeParams(state.set('initialized', false));
+      }
       case actionTypes.INITIALIZE: {
         return storeParams(state.set('initialized', true));
       }
@@ -137,6 +140,12 @@ export default function (
       }
       case actionTypes.SET_INIT_PAYLOAD: {
         return storeParams(state.set('initPayloadText', action.initPayload));
+      }
+      case actionTypes.SET_SESSION_ID: {
+        storeLocalSession(storage, SESSION_NAME, action.sessionId);
+        action.asyncDispatch({ type: actionTypes.TERMINATE });
+        action.asyncDispatch({ type: actionTypes.INITIALIZE });
+        return state;
       }
       case actionTypes.EVAL_URL: {
         const newUrl = action.url;

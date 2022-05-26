@@ -190,3 +190,7 @@ export function setInitPayload(initPayload) {
 export function sendInitialPayload() {
   store.dispatch(actions.sendInitialPayload());
 }
+
+export function setSessionId(sessionId) {
+  store.dispatch(actions.setSessionId(sessionId));
+}

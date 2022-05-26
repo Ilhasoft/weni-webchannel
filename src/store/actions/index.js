@@ -390,3 +390,9 @@ export function sendInitialPayload() {
     type: actions.SEND_INITIAL_PAYLOAD
   };
 }
+export function setSessionId(sessionId) {
+  return {
+    type: actions.SET_SESSION_ID,
+    sessionId
+  };
+}

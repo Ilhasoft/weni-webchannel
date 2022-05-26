@@ -44,12 +44,15 @@ import {
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
 
+import { store } from '../../index';
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
 import { buildQuickReplies, toBase64, getAttachmentType } from '../../utils/messages';
 
 const MAX_PING_LIMIT = 216;
+let currentInitialization = null;
+
 class Widget extends Component {
   constructor(props) {
     super(props);
@@ -71,6 +74,10 @@ class Widget extends Component {
   state = {
     playNotification: Sound.status.STOPPED
   };
+
+  componentWillMount() {
+    this.unsubscribe = store.subscribe(this.handleStoreChange);
+  }
 
   componentDidMount() {
     const {
@@ -127,6 +134,8 @@ class Widget extends Component {
 
   componentWillUnmount() {
     const { socket } = this.props;
+
+    this.unsubscribe();
 
     if (socket) {
       socket.close();
@@ -408,6 +417,20 @@ class Widget extends Component {
     }
 
     return localId || `${Math.floor(Math.random() * Date.now())}@${validClientId}`;
+  }
+
+  handleStoreChange = () => {
+    const previousInitialization = currentInitialization;
+    const currentBehaviorStore = Object.fromEntries(store.getState().behavior);
+    currentInitialization = currentBehaviorStore.initialized;
+
+    if (
+      currentInitialization &&
+      previousInitialization !== currentInitialization
+    ) {
+      // eslint-disable-next-line react/prop-types
+      this.props.socket.close();
+    }
   }
 
   initializeWidget(sendInitPayload = true) {
