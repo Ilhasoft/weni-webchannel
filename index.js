@@ -11,7 +11,8 @@ import {
   isVisible,
   send,
   reload,
-  clear
+  clear,
+  setSessionId
 } from './index_for_react_app';
 
 const plugin = {
@@ -82,5 +83,6 @@ export {
   isVisible,
   send,
   reload,
-  clear
+  clear,
+  setSessionId
 };
