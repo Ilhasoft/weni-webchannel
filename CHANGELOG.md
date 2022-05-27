@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.8.0](https://https///compare/v2.7.1...v2.8.0) (2022-05-27)
+
+
+### Features
+
+* setSessionId widget method ([5e01474](https://https///commit/5e01474cbbeae99464e25fe3e6a67464538f0396))
+
 ### [2.7.1](https://https///compare/v2.7.0...v2.7.1) (2022-04-19)
 
 
