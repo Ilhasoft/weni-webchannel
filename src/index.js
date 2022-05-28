@@ -59,7 +59,14 @@ const ConnectedWidget = forwardRef((props, ref) => {
 
     close() {
       if (this.socket) {
-        this.socket.close();
+        if (this.socket.readyState === 0) {
+          const closeRetryDelayMs = 100;
+          setTimeout(() => {
+            this.close();
+          }, closeRetryDelayMs);
+        } else {
+          this.socket.close();
+        }
       }
     }
 
