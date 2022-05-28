@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.1](https://https///compare/v2.8.0...v2.8.1) (2022-05-28)
+
+
+### Bug Fixes
+
+* closing socket connection while connecting ([b2cc04e](https://https///commit/b2cc04e375c17119d6ca47e919f8279bd086ad34))
+
 ## [2.8.0](https://https///compare/v2.7.1...v2.8.0) (2022-05-27)
 
 
