@@ -90,7 +90,17 @@ export function renderCustomComponent(component, props, showAvatar = false) {
 }
 
 export function openChat() {
-  store.dispatch(actions.openChat());
+  const connectedListener = () => {
+    const behaviorState = store.getState().behavior;
+    if (behaviorState.get('connected', false)) {
+      store.dispatch(actions.openChat());
+      return;
+    }
+
+    setTimeout(connectedListener, 100);
+  };
+
+  connectedListener();
 }
 
 export function closeChat() {

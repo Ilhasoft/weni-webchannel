@@ -423,10 +423,12 @@ class Widget extends Component {
     const previousInitialization = currentInitialization;
     const currentBehaviorStore = Object.fromEntries(store.getState().behavior);
     currentInitialization = currentBehaviorStore.initialized;
+    const sessionIdTransactionStatus = currentBehaviorStore.sessionIdTransactionStatus;
 
     if (
       currentInitialization &&
-      previousInitialization !== currentInitialization
+      previousInitialization !== currentInitialization &&
+      sessionIdTransactionStatus
     ) {
       // eslint-disable-next-line react/prop-types
       this.props.socket.close();

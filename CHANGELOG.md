@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.2](https://https///compare/v2.8.1...v2.8.2) (2022-05-30)
+
+
+### Bug Fixes
+
+* open chat action ([89f97cd](https://https///commit/89f97cd114d565dc2e6f8f5e3ce2eb1723109083))
+
 ### [2.8.1](https://https///compare/v2.8.0...v2.8.1) (2022-05-28)
 
 
