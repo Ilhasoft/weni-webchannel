@@ -27,7 +27,8 @@ export default function (
     openSessionMessage: false,
     token: '',
     initPayloadText: null,
-    initPayloadSent: false
+    initPayloadSent: false,
+    sessionIdTransaction: false
   });
 
   return function reducer(state = initialState, action) {
@@ -141,10 +142,15 @@ export default function (
       case actionTypes.SET_INIT_PAYLOAD: {
         return storeParams(state.set('initPayloadText', action.initPayload));
       }
+      case actionTypes.SET_SESSION_ID_TRANSACTION: {
+        return storeParams(state.set('sessionIdTransactionStatus', action.transactionStatus));
+      }
       case actionTypes.SET_SESSION_ID: {
         storeLocalSession(storage, SESSION_NAME, action.sessionId);
+        action.asyncDispatch({ type: actionTypes.SET_SESSION_ID_TRANSACTION, transactionStatus: true });
         action.asyncDispatch({ type: actionTypes.TERMINATE });
         action.asyncDispatch({ type: actionTypes.INITIALIZE });
+        action.asyncDispatch({ type: actionTypes.SET_SESSION_ID_TRANSACTION, transactionStatus: false });
         return state;
       }
       case actionTypes.EVAL_URL: {
