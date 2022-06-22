@@ -221,9 +221,10 @@ export function dropMessages() {
   };
 }
 
-export function pullSession() {
+export function pullSession(sessionType) {
   return {
-    type: actions.PULL_SESSION
+    type: actions.PULL_SESSION,
+    sessionType
   };
 }
 

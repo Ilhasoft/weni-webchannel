@@ -135,8 +135,8 @@ export function dropMessages() {
   store.dispatch(actions.dropMessages());
 }
 
-export function pullSession() {
-  store.dispatch(actions.pullSession());
+export function pullSession(sessionType) {
+  store.dispatch(actions.pullSession(sessionType));
 }
 
 export function newUnreadMessage() {

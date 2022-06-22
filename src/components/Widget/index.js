@@ -90,7 +90,8 @@ class Widget extends Component {
       dispatch,
       defaultHighlightAnimation,
       startFullScreen,
-      initPayload
+      initPayload,
+      params
     } = this.props;
 
     const styleNode = document.createElement('style');
@@ -119,7 +120,7 @@ class Widget extends Component {
         localStorage.removeItem(SESSION_NAME);
       }
     } else {
-      dispatch(pullSession());
+      dispatch(pullSession(params.storage));
       if (lastUpdate) this.initializeWidget();
     }
 
@@ -436,7 +437,7 @@ class Widget extends Component {
       // eslint-disable-next-line react/prop-types
       this.props.socket.close();
     }
-  }
+  };
 
   initializeWidget(sendInitPayload = true) {
     const {
@@ -454,7 +455,7 @@ class Widget extends Component {
     if (!socket.isInitialized() || this.attemptingReconnection) {
       socket.createSocket();
 
-      dispatch(pullSession());
+      dispatch(pullSession(params.storage));
 
       // Request a session from server
       let localId = this.getSessionId();
@@ -534,7 +535,7 @@ class Widget extends Component {
   }
 
   startConnection(websocket, sendInitPayload, options, localId, remoteId) {
-    const { storage, dispatch, connectOn, tooltipMessage, tooltipDelay } = this.props;
+    const { storage, dispatch, connectOn, tooltipMessage, tooltipDelay, params } = this.props;
 
     dispatch(connectServer());
     /*
@@ -547,7 +548,7 @@ class Widget extends Component {
       // Store the received session_id to storage
 
       storeLocalSession(storage, SESSION_NAME, remoteId);
-      dispatch(pullSession());
+      dispatch(pullSession(params.storage));
       if (sendInitPayload) {
         websocket.send(JSON.stringify(options));
         dispatch(initialize());
@@ -559,7 +560,9 @@ class Widget extends Component {
       websocket.send(JSON.stringify(options));
       dispatch(initialize());
 
-      dispatch(getHistory(this.historyLimit, this.historyPage));
+      if (params.storage === 'local') {
+        dispatch(getHistory(this.historyLimit, this.historyPage));
+      }
 
       // If this is an existing session, it's possible we changed pages and want to send a
       // user message when we land.
