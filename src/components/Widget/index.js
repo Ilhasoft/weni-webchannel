@@ -444,7 +444,8 @@ class Widget extends Component {
       clientId,
       sessionId,
       host,
-      channelUuid
+      channelUuid,
+      params
     } = this.props;
 
     if (!socket.isInitialized() || this.attemptingReconnection) {
@@ -471,7 +472,8 @@ class Widget extends Component {
       const options = {
         type: 'register',
         from: localId || uniqueFrom,
-        callback: `${host}/c/wwc/${channelUuid}/receive`
+        callback: `${host}/c/wwc/${channelUuid}/receive`,
+        session_type: params.storage
       };
 
       const that = this;
