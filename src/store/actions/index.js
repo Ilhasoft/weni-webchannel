@@ -404,3 +404,11 @@ export function setSessionIdTransaction(transactionStatus) {
     transactionStatus
   };
 }
+
+export function getHistory(limit, page) {
+  return {
+    type: actions.GET_HISTORY,
+    limit,
+    page
+  };
+}

@@ -39,7 +39,8 @@ import {
   openSessionMessage,
   closeSessionMessage,
   setInitPayload,
-  sendInitialPayload
+  sendInitialPayload,
+  getHistory
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
@@ -69,6 +70,8 @@ class Widget extends Component {
     this.inactivityTimerInterval = 120000; // 2 minutes in ms
     this.checkedHistory = false;
     this.reconnectWithDelay = false;
+    this.historyLimit = 10;
+    this.historyPage = 1;
   }
 
   state = {
@@ -555,6 +558,9 @@ class Widget extends Component {
       }
       websocket.send(JSON.stringify(options));
       dispatch(initialize());
+
+      dispatch(getHistory(this.historyLimit, this.historyPage));
+
       // If this is an existing session, it's possible we changed pages and want to send a
       // user message when we land.
       const nextMessage = window.localStorage.getItem(NEXT_MESSAGE);

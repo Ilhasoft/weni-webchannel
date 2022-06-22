@@ -204,3 +204,7 @@ export function sendInitialPayload() {
 export function setSessionId(sessionId) {
   store.dispatch(actions.setSessionId(sessionId));
 }
+
+export function getHistory(limit, page) {
+  store.dispatch(actions.getHistory(limit, page));
+}
