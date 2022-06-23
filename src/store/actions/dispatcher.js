@@ -85,6 +85,26 @@ export function insertUserMessage(id, text) {
   store.dispatch(actions.insertUserMessage(id, text));
 }
 
+export function insertUserImage(id, file) {
+  store.dispatch(actions.insertUserImage(id, file));
+}
+
+export function insertUserVideo(id, file) {
+  store.dispatch(actions.insertUserVideo(id, file));
+}
+
+export function insertUserAudio(id, file) {
+  store.dispatch(actions.insertUserAudio(id, file));
+}
+
+export function insertUserDocument(id, file) {
+  store.dispatch(actions.insertUserDocument(id, file));
+}
+
+export function insertResponseMessage(id, text) {
+  store.dispatch(actions.insertResponseMessage(id, text));
+}
+
 export function renderCustomComponent(component, props, showAvatar = false) {
   store.dispatch(actions.renderCustomComponent(component, props, showAvatar));
 }
@@ -207,4 +227,8 @@ export function setSessionId(sessionId) {
 
 export function getHistory(limit, page) {
   store.dispatch(actions.getHistory(limit, page));
+}
+
+export function setMessagesScroll(value) {
+  store.dispatch(actions.setMessagesScroll(value));
 }

@@ -26,6 +26,7 @@ module.exports = {
     "__DEV__": true,
   },
   "rules": {
+    "no-restricted-syntax": "off",
     "comma-dangle": ["error", "never"],
     "no-invalid-this": "off",
     "no-return-assign": "off",
