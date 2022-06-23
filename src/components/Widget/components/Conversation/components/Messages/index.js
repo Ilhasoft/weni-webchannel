@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
+import { debounce } from 'lodash';
 
 import alertCircle from 'assets/alert-circle-1-1.svg';
 import { MESSAGES_TYPES, VALID_FILE_TYPE } from 'constants';
 import { Video, Image, Message, Snippet, QuickReply, DocViewer, Audio } from 'messagesComponents';
+
+import { getHistory, setMessagesScroll } from 'actions';
 
 import './styles.scss';
 
@@ -33,12 +36,31 @@ const scrollToBottom = () => {
 };
 
 class Messages extends Component {
+  constructor(props) {
+    super(props);
+    this.historyLimit = 20;
+    this.state = {
+      historyPage: 1
+    };
+  }
+
   componentDidMount() {
     scrollToBottom();
+    const messagesDiv = document.getElementById('push-messages');
+    messagesDiv.addEventListener('scroll', debounce(this.handleScroll, 1000));
   }
 
   componentDidUpdate() {
-    scrollToBottom();
+    const { messagesScroll } = this.props;
+
+    if (messagesScroll || this.state.historyPage === 1) {
+      scrollToBottom();
+    }
+  }
+
+  componentWillUnmount() {
+    const messagesDiv = document.getElementById('push-messages');
+    messagesDiv.removeEventListener('scroll', this.handleScroll);
   }
 
   getComponentToRender = (message, index, isLast) => {
@@ -79,6 +101,17 @@ class Messages extends Component {
       return <ComponentToRender id={index} {...message.get('props')} isLast={isLast} />;
     }
     return <ComponentToRender id={index} params={params} message={message} isLast={isLast} />;
+  };
+
+  handleScroll = (event) => {
+    const { params, dispatch } = this.props;
+    const scrollTop = event.srcElement.scrollTop;
+
+    if (scrollTop === 0 && params.storage === 'local') {
+      dispatch(setMessagesScroll(false));
+      dispatch(getHistory(this.historyLimit, this.state.historyPage + 1));
+      this.setState({ historyPage: this.state.historyPage + 1 });
+    }
   };
 
   render() {
@@ -227,7 +260,8 @@ Messages.propTypes = {
   openSessionMessage: PropTypes.bool,
   openSessionMessageFields: PropTypes.shape({}),
   closeAndDisconnect: PropTypes.func,
-  forceChatConnection: PropTypes.func
+  forceChatConnection: PropTypes.func,
+  messagesScroll: PropTypes.bool
 };
 
 Message.defaultTypes = {
@@ -237,5 +271,6 @@ Message.defaultTypes = {
 export default connect(store => ({
   messages: store.messages,
   displayTypingIndication: store.behavior.get('messageDelayed'),
-  openSessionMessage: store.behavior.get('openSessionMessage')
+  openSessionMessage: store.behavior.get('openSessionMessage'),
+  messagesScroll: store.behavior.get('messagesScroll')
 }))(Messages);
