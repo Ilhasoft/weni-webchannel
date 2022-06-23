@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.9.0](https://https///compare/v2.8.2...v2.9.0) (2022-06-23)
+
+
+### Features
+
+* build history from socket ([d8f9b69](https://https///commit/d8f9b69732e53a17c8dfef6f9e7cecb9c1da7864))
+* call getHistory after initialization ([d0f4bbb](https://https///commit/d0f4bbb162ba1c81f9f3d6e2e1a0093edec4b037))
+* fetch history based on scroll ([55ebde8](https://https///commit/55ebde88958d28906d70fcca8da6818ebd611dde))
+* insert messages actions ([e3d8fec](https://https///commit/e3d8fecc37e3763b3407b1d7eef05d466ac56f26))
+* prevent localStorage history from being loaded ([9434b83](https://https///commit/9434b83b5709c526b5c8773b4e35c48e151b977b))
+* send session type on register ([a9bfa77](https://https///commit/a9bfa774cf3227684400b7a6ba59722a3dcb190f))
+
 ### [2.8.2](https://https///compare/v2.8.1...v2.8.2) (2022-05-30)
 
 
