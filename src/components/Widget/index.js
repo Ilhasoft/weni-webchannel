@@ -40,7 +40,18 @@ import {
   closeSessionMessage,
   setInitPayload,
   sendInitialPayload,
-  getHistory
+  getHistory,
+  setMessagesScroll,
+  insertUserMessage,
+  insertUserImage,
+  insertUserAudio,
+  insertUserVideo,
+  insertUserDocument,
+  insertResponseMessage,
+  insertResponseImage,
+  insertResponseAudio,
+  insertResponseVideo,
+  insertResponseDocument
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
@@ -70,8 +81,26 @@ class Widget extends Component {
     this.inactivityTimerInterval = 120000; // 2 minutes in ms
     this.checkedHistory = false;
     this.reconnectWithDelay = false;
-    this.historyLimit = 10;
+    this.historyLimit = 20;
     this.historyPage = 1;
+    this.clientMessageMap = {
+      text: insertUserMessage,
+      image: insertUserImage,
+      video: insertUserVideo,
+      audio: insertUserAudio,
+      file: insertUserDocument
+    };
+    this.responseMessageMap = {
+      text: insertResponseMessage,
+      image: insertResponseImage,
+      audio: insertResponseAudio,
+      video: insertResponseVideo,
+      file: insertResponseDocument
+    };
+    this.directionMap = {
+      response: this.responseMessageMap,
+      client: this.clientMessageMap
+    };
   }
 
   state = {
@@ -278,13 +307,22 @@ class Widget extends Component {
       return;
     }
 
+    if (receivedMessage.type === 'history') {
+      dispatch(setMessagesScroll(false));
+      if (receivedMessage.history) {
+        this.buildHistory(receivedMessage.history);
+      }
+    }
+
     if (receivedMessage.type === 'message') {
+      dispatch(setMessagesScroll(true));
       const newMessage = {
         ...receivedMessage.message,
         quick_replies: buildQuickReplies(receivedMessage.message.quick_replies)
       };
       this.handleMessageReceived(newMessage);
     } else if (receivedMessage.type === 'ack') {
+      dispatch(setMessagesScroll(true));
       this.dispatchAckAttachment(receivedMessage.message);
     } else if (receivedMessage.type === 'error') {
       if (receivedMessage.error === 'unable to register: client from already exists') {
@@ -295,6 +333,23 @@ class Widget extends Component {
         this.reconnectWithDelay = true;
         // eslint-disable-next-line react/prop-types
         this.props.socket.close();
+      }
+    }
+  }
+
+  buildHistory(history) {
+    const { dispatch } = this.props;
+
+    for (const historyMessage of history) {
+      const sender = historyMessage.direction === 'in' ? 'response' : 'client';
+      const showAvatar = historyMessage.direction === 'in';
+      const newMessage = { ...historyMessage.message, sender, showAvatar };
+
+      const messageHandler = this.directionMap[newMessage.sender][newMessage.type];
+      if (newMessage.type === 'text') {
+        dispatch(messageHandler(0, newMessage.text));
+      } else {
+        dispatch(messageHandler(0, { name: newMessage.caption || '', url: newMessage.media_url }));
       }
     }
   }
