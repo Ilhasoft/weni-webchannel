@@ -30,14 +30,7 @@ const trimQueryString = (url) => {
   return url.replace(regexQueryString, '');
 };
 
-function initStore(
-  hintText,
-  connectingText,
-  socket,
-  storage,
-  docViewer = false,
-  onWidgetEvent,
-) {
+function initStore(hintText, connectingText, socket, storage, docViewer = false, onWidgetEvent) {
   const customMiddleWare = store => next => (action) => {
     const session_id = getLocalSession(storage, SESSION_NAME)
       ? getLocalSession(storage, SESSION_NAME).session_id
@@ -61,19 +54,34 @@ function initStore(
         break;
       }
       case actionTypes.GET_SUGGESTIONS: {
-        socket.emit('getSuggestions', {
-          text: action.userInputState,
-          repositories: action.repos,
-          suggestionsUrl: action.suggestionsUrl,
-          language: action.suggestionsLanguage,
-          excluded: action.excluded,
-          userUrn: session_id
-        }, (_response) => {
-          const data = JSON.parse(_response);
-          if (data.result) {
-            store.dispatch(setSuggestions(data.result));
+        socket.emit(
+          'getSuggestions',
+          {
+            text: action.userInputState,
+            repositories: action.repos,
+            suggestionsUrl: action.suggestionsUrl,
+            language: action.suggestionsLanguage,
+            excluded: action.excluded,
+            userUrn: session_id
+          },
+          (_response) => {
+            const data = JSON.parse(_response);
+            if (data.result) {
+              store.dispatch(setSuggestions(data.result));
+            }
           }
-        });
+        );
+        break;
+      }
+      case actionTypes.GET_HISTORY: {
+        const payload = {
+          type: 'get_history',
+          params: {
+            limit: action.limit,
+            page: action.page
+          }
+        };
+        socket.socket.send(JSON.stringify(payload));
         break;
       }
       case actionTypes.GET_OPEN_STATE: {
@@ -110,7 +118,8 @@ function initStore(
             } else {
               let cleanCurrentUrl = cleanURL(newUrl);
               let cleanCallBackUrl = cleanURL(callback.url);
-              if (!cleanCallBackUrl.match(/\?.+$/)) { // the callback does not have a querystring
+              // the callback does not have a querystring
+              if (!cleanCallBackUrl.match(/\?.+$/)) {
                 cleanCurrentUrl = trimQueryString(cleanCurrentUrl);
                 cleanCallBackUrl = trimQueryString(cleanCallBackUrl);
               }
@@ -134,7 +143,6 @@ function initStore(
     metadata: metadata(storage)
   });
 
-
   // eslint-disable-next-line no-underscore-dangle
   const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -143,6 +151,5 @@ function initStore(
     composeEnhancer(applyMiddleware(customMiddleWare, asyncDispatchMiddleware))
   );
 }
-
 
 export { initStore };

@@ -28,7 +28,8 @@ export default function (
     token: '',
     initPayloadText: null,
     initPayloadSent: false,
-    sessionIdTransaction: false
+    sessionIdTransaction: false,
+    messagesScroll: true
   });
 
   return function reducer(state = initialState, action) {
@@ -145,12 +146,21 @@ export default function (
       case actionTypes.SET_SESSION_ID_TRANSACTION: {
         return storeParams(state.set('sessionIdTransactionStatus', action.transactionStatus));
       }
+      case actionTypes.SET_MESSAGES_SCROLL: {
+        return storeParams(state.set('messagesScroll', action.value));
+      }
       case actionTypes.SET_SESSION_ID: {
         storeLocalSession(storage, SESSION_NAME, action.sessionId);
-        action.asyncDispatch({ type: actionTypes.SET_SESSION_ID_TRANSACTION, transactionStatus: true });
+        action.asyncDispatch({
+          type: actionTypes.SET_SESSION_ID_TRANSACTION,
+          transactionStatus: true
+        });
         action.asyncDispatch({ type: actionTypes.TERMINATE });
         action.asyncDispatch({ type: actionTypes.INITIALIZE });
-        action.asyncDispatch({ type: actionTypes.SET_SESSION_ID_TRANSACTION, transactionStatus: false });
+        action.asyncDispatch({
+          type: actionTypes.SET_SESSION_ID_TRANSACTION,
+          transactionStatus: false
+        });
         return state;
       }
       case actionTypes.EVAL_URL: {

@@ -39,7 +39,19 @@ import {
   openSessionMessage,
   closeSessionMessage,
   setInitPayload,
-  sendInitialPayload
+  sendInitialPayload,
+  getHistory,
+  setMessagesScroll,
+  insertUserMessage,
+  insertUserImage,
+  insertUserAudio,
+  insertUserVideo,
+  insertUserDocument,
+  insertResponseMessage,
+  insertResponseImage,
+  insertResponseAudio,
+  insertResponseVideo,
+  insertResponseDocument
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
@@ -69,6 +81,26 @@ class Widget extends Component {
     this.inactivityTimerInterval = 120000; // 2 minutes in ms
     this.checkedHistory = false;
     this.reconnectWithDelay = false;
+    this.historyLimit = 20;
+    this.historyPage = 1;
+    this.clientMessageMap = {
+      text: insertUserMessage,
+      image: insertUserImage,
+      video: insertUserVideo,
+      audio: insertUserAudio,
+      file: insertUserDocument
+    };
+    this.responseMessageMap = {
+      text: insertResponseMessage,
+      image: insertResponseImage,
+      audio: insertResponseAudio,
+      video: insertResponseVideo,
+      file: insertResponseDocument
+    };
+    this.directionMap = {
+      response: this.responseMessageMap,
+      client: this.clientMessageMap
+    };
   }
 
   state = {
@@ -87,7 +119,8 @@ class Widget extends Component {
       dispatch,
       defaultHighlightAnimation,
       startFullScreen,
-      initPayload
+      initPayload,
+      params
     } = this.props;
 
     const styleNode = document.createElement('style');
@@ -116,7 +149,7 @@ class Widget extends Component {
         localStorage.removeItem(SESSION_NAME);
       }
     } else {
-      dispatch(pullSession());
+      dispatch(pullSession(params.storage));
       if (lastUpdate) this.initializeWidget();
     }
 
@@ -274,13 +307,22 @@ class Widget extends Component {
       return;
     }
 
+    if (receivedMessage.type === 'history') {
+      dispatch(setMessagesScroll(false));
+      if (receivedMessage.history) {
+        this.buildHistory(receivedMessage.history);
+      }
+    }
+
     if (receivedMessage.type === 'message') {
+      dispatch(setMessagesScroll(true));
       const newMessage = {
         ...receivedMessage.message,
         quick_replies: buildQuickReplies(receivedMessage.message.quick_replies)
       };
       this.handleMessageReceived(newMessage);
     } else if (receivedMessage.type === 'ack') {
+      dispatch(setMessagesScroll(true));
       this.dispatchAckAttachment(receivedMessage.message);
     } else if (receivedMessage.type === 'error') {
       if (receivedMessage.error === 'unable to register: client from already exists') {
@@ -291,6 +333,23 @@ class Widget extends Component {
         this.reconnectWithDelay = true;
         // eslint-disable-next-line react/prop-types
         this.props.socket.close();
+      }
+    }
+  }
+
+  buildHistory(history) {
+    const { dispatch } = this.props;
+
+    for (const historyMessage of history) {
+      const sender = historyMessage.direction === 'in' ? 'response' : 'client';
+      const showAvatar = historyMessage.direction === 'in';
+      const newMessage = { ...historyMessage.message, sender, showAvatar };
+
+      const messageHandler = this.directionMap[newMessage.sender][newMessage.type];
+      if (newMessage.type === 'text') {
+        dispatch(messageHandler(0, newMessage.text));
+      } else {
+        dispatch(messageHandler(0, { name: newMessage.caption || '', url: newMessage.media_url }));
       }
     }
   }
@@ -433,7 +492,7 @@ class Widget extends Component {
       // eslint-disable-next-line react/prop-types
       this.props.socket.close();
     }
-  }
+  };
 
   initializeWidget(sendInitPayload = true) {
     const {
@@ -444,13 +503,14 @@ class Widget extends Component {
       clientId,
       sessionId,
       host,
-      channelUuid
+      channelUuid,
+      params
     } = this.props;
 
     if (!socket.isInitialized() || this.attemptingReconnection) {
       socket.createSocket();
 
-      dispatch(pullSession());
+      dispatch(pullSession(params.storage));
 
       // Request a session from server
       let localId = this.getSessionId();
@@ -471,7 +531,8 @@ class Widget extends Component {
       const options = {
         type: 'register',
         from: localId || uniqueFrom,
-        callback: `${host}/c/wwc/${channelUuid}/receive`
+        callback: `${host}/c/wwc/${channelUuid}/receive`,
+        session_type: params.storage
       };
 
       const that = this;
@@ -529,7 +590,7 @@ class Widget extends Component {
   }
 
   startConnection(websocket, sendInitPayload, options, localId, remoteId) {
-    const { storage, dispatch, connectOn, tooltipMessage, tooltipDelay } = this.props;
+    const { storage, dispatch, connectOn, tooltipMessage, tooltipDelay, params } = this.props;
 
     dispatch(connectServer());
     /*
@@ -542,7 +603,7 @@ class Widget extends Component {
       // Store the received session_id to storage
 
       storeLocalSession(storage, SESSION_NAME, remoteId);
-      dispatch(pullSession());
+      dispatch(pullSession(params.storage));
       if (sendInitPayload) {
         websocket.send(JSON.stringify(options));
         dispatch(initialize());
@@ -553,6 +614,11 @@ class Widget extends Component {
       }
       websocket.send(JSON.stringify(options));
       dispatch(initialize());
+
+      if (params.storage === 'local') {
+        dispatch(getHistory(this.historyLimit, this.historyPage));
+      }
+
       // If this is an existing session, it's possible we changed pages and want to send a
       // user message when we land.
       const nextMessage = window.localStorage.getItem(NEXT_MESSAGE);

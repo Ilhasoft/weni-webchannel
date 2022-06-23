@@ -206,6 +206,102 @@ export function insertUserMessage(index, text) {
   };
 }
 
+export function insertUserImage(index, file) {
+  return {
+    type: actions.INSERT_NEW_USER_IMAGE,
+    index,
+    image: {
+      title: file.name,
+      image: file.url
+    }
+  };
+}
+
+export function insertUserVideo(index, file) {
+  return {
+    type: actions.INSERT_NEW_USER_VIDEO,
+    index,
+    video: {
+      title: file.name,
+      video: file.url
+    }
+  };
+}
+
+export function insertUserAudio(index, file) {
+  return {
+    type: actions.INSERT_NEW_USER_AUDIO,
+    index,
+    audio: {
+      title: file.name,
+      audio: file.url
+    }
+  };
+}
+
+export function insertUserDocument(index, file) {
+  return {
+    type: actions.INSERT_NEW_USER_DOCUMENT,
+    index,
+    document: {
+      title: file.name,
+      src: file.url
+    }
+  };
+}
+
+export function insertResponseMessage(index, text) {
+  return {
+    type: actions.INSERT_NEW_RESPONSE_MESSAGE,
+    index,
+    text
+  };
+}
+
+export function insertResponseImage(index, file) {
+  return {
+    type: actions.INSERT_NEW_IMAGE_IMGREPLY,
+    index,
+    image: {
+      title: file.name,
+      image: file.url
+    }
+  };
+}
+
+export function insertResponseVideo(index, file) {
+  return {
+    type: actions.INSERT_NEW_VIDEO_VIDREPLY,
+    index,
+    video: {
+      title: file.name,
+      video: file.url
+    }
+  };
+}
+
+export function insertResponseAudio(index, file) {
+  return {
+    type: actions.INSERT_NEW_AUDIO_AUDIOREPLY,
+    index,
+    audio: {
+      title: file.name,
+      audio: file.url
+    }
+  };
+}
+
+export function insertResponseDocument(index, file) {
+  return {
+    type: actions.INSERT_NEW_DOCUMENT_DOCREPLY,
+    index,
+    document: {
+      title: file.name,
+      src: file.url
+    }
+  };
+}
+
 export function renderCustomComponent(component, props, showAvatar) {
   return {
     type: actions.ADD_COMPONENT_MESSAGE,
@@ -221,9 +317,10 @@ export function dropMessages() {
   };
 }
 
-export function pullSession() {
+export function pullSession(sessionType) {
   return {
-    type: actions.PULL_SESSION
+    type: actions.PULL_SESSION,
+    sessionType
   };
 }
 
@@ -402,5 +499,20 @@ export function setSessionIdTransaction(transactionStatus) {
   return {
     type: actions.SET_SESSION_ID_TRANSACTION,
     transactionStatus
+  };
+}
+
+export function getHistory(limit, page) {
+  return {
+    type: actions.GET_HISTORY,
+    limit,
+    page
+  };
+}
+
+export function setMessagesScroll(value) {
+  return {
+    type: actions.SET_MESSAGES_SCROLL,
+    value
   };
 }
