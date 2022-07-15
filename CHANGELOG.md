@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.10.0](https://https///compare/v2.9.0...v2.10.0) (2022-07-15)
+
+
+### Features
+
+* multiline input and preview ([128cc4d](https://https///commit/128cc4d85d93db357dbec7675d4a95af302258cd))
+
 ## [2.9.0](https://https///compare/v2.8.2...v2.9.0) (2022-06-23)
 
 
