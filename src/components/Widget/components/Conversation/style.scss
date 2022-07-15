@@ -59,10 +59,6 @@
   .push-conversation-container {
     @include push-conversation-container-fs;
 
-    .push-sender {
-      height: 10vh!important;
-    }
-
     .push-sender a {
       font-size: 7px!important;
     }

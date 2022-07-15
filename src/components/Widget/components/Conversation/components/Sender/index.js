@@ -25,6 +25,7 @@ function Sender({
   selectedSuggestion,
   customAutoComplete
 }) {
+  const formEl = useRef();
   const inputEl = useRef();
   const [last, setLast] = useState('');
   let typingTimer = null;
@@ -57,6 +58,13 @@ function Sender({
       );
     }
     setLast(inputEl.current.value);
+  };
+
+  const handlePressed = (e) => {
+    if (e.which === 13 && !e.shiftKey) {
+      e.preventDefault();
+      formEl.current.dispatchEvent(new Event('submit'));
+    }
   };
 
   useEffect(() => {
@@ -100,7 +108,7 @@ function Sender({
       ) : (
         <div />
       )}
-      <form className="push-sender" onSubmit={sendMessage}>
+      <form ref={formEl} className="push-sender" onSubmit={sendMessage}>
         <label htmlFor="push-file-upload">
           <input
             multiple
@@ -112,7 +120,7 @@ function Sender({
           />
           <AttachFileIcon />
         </label>
-        <input
+        <textarea
           type="text"
           className="push-new-message"
           ref={inputEl}
@@ -123,6 +131,7 @@ function Sender({
           disabled={disabledInput || userInput === 'disable'}
           autoFocus
           autoComplete="off"
+          onKeyDown={event => handlePressed(event)}
         />
         {suggestionsConfig.automaticSend ? null : (
           <button type="submit" className="push-send">
