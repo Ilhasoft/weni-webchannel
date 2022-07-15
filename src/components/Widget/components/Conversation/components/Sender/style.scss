@@ -1,4 +1,4 @@
-@import "variables.scss";
+@import 'variables.scss';
 
 .push-conversation-container {
   .push-sender {
@@ -23,6 +23,28 @@
     height: 30px;
     padding-left: 15px;
 
+    resize: none;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+      background: #c2c9d2;
+    }
+
+    ::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      line-height: 30px;
+    }
+    ::-webkit-input-placeholder {
+      /* Webkit */
+      line-height: 30px;
+    }
+
     &:focus {
       outline: none;
     }
@@ -32,7 +54,6 @@
       opacity: 1;
     }
   }
-
 
   .push-send {
     background: var(--inputBackgroundColor);
@@ -50,13 +71,12 @@
     }
   }
 
-  @media screen and (max-width: 800px)  {
+  @media screen and (max-width: 800px) {
     .push-sender {
       border-radius: 0;
       flex-shrink: 0;
     }
   }
-
 }
 
 .push-widget-embedded {

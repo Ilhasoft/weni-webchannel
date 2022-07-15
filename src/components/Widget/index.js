@@ -742,7 +742,7 @@ class Widget extends Component {
     this.pingLimit = MAX_PING_LIMIT;
     if (event.type === 'submit') {
       event.preventDefault();
-      const userMessage = event.target.message.value;
+      const userMessage = event.target.message.value.trim();
       if (userMessage) {
         const textMessage = {
           type: 'message',

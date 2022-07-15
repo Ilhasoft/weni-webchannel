@@ -37,6 +37,8 @@
   /* For markdown elements created with default styles */
   .push-message-text {
     margin: 0;
+    white-space: pre;
+
     .push-markdown{
       p{
         margin-bottom: 1em;
