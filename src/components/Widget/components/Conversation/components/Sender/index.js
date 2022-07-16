@@ -63,7 +63,7 @@ function Sender({
   const handlePressed = (e) => {
     if (e.which === 13 && !e.shiftKey) {
       e.preventDefault();
-      formEl.current.dispatchEvent(new Event('submit'));
+      formEl.current.dispatchEvent(new Event('submit', { cancelable: true }));
     }
   };
 
