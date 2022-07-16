@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.10.1](https://https///compare/v2.10.0...v2.10.1) (2022-07-16)
+
+
+### Bug Fixes
+
+* textarea style and behavior issues ([8fb661d](https://https///commit/8fb661db84141b8a9895ecd07f5f755c7807d290))
+
 ## [2.10.0](https://https///compare/v2.9.0...v2.10.0) (2022-07-15)
 
 
