@@ -37,7 +37,7 @@
   /* For markdown elements created with default styles */
   .push-message-text {
     margin: 0;
-    white-space: pre;
+    white-space: pre-wrap;
 
     .push-markdown{
       p{
