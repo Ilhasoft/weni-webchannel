@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.10.2](https://https///compare/v2.10.1...v2.10.2) (2022-07-21)
+
+
+### Bug Fixes
+
+* added z-index into unread-count ([43fdd1e](https://https///commit/43fdd1e56b59aab9839ee9d3371950fe71657ac0))
+
 ### [2.10.1](https://https///compare/v2.10.0...v2.10.1) (2022-07-16)
 
 
