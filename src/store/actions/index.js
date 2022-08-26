@@ -48,9 +48,10 @@ export function toggleChat() {
   };
 }
 
-export function openChat() {
+export function openChat(customPayload) {
   return {
-    type: actions.OPEN_CHAT
+    type: actions.OPEN_CHAT,
+    customPayload
   };
 }
 

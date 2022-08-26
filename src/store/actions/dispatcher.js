@@ -109,11 +109,11 @@ export function renderCustomComponent(component, props, showAvatar = false) {
   store.dispatch(actions.renderCustomComponent(component, props, showAvatar));
 }
 
-export function openChat() {
+export function openChat(customPayload) {
   const connectedListener = () => {
     const behaviorState = store.getState().behavior;
     if (behaviorState.get('connected', false)) {
-      store.dispatch(actions.openChat());
+      store.dispatch(actions.openChat(customPayload));
       return;
     }
 
