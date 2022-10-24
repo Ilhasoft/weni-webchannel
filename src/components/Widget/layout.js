@@ -52,7 +52,6 @@ const WidgetLayout = (props) => {
           headerImage={props.headerImage}
           suggestionsConfig={props.suggestionsConfig}
           customAutoComplete={props.customAutoComplete}
-          openSessionMessageFields={props.openSessionMessageFields}
           closeAndDisconnect={props.closeAndDisconnect}
           forceChatConnection={props.forceChatConnection}
         />
@@ -115,8 +114,7 @@ WidgetLayout.propTypes = {
   suggestionsConfig: PropTypes.shape({}),
   customAutoComplete: PropTypes.func,
   showTooltip: PropTypes.bool,
-  customizeWidget: PropTypes.shape({}),
-  openSessionMessageFields: PropTypes.shape({})
+  customizeWidget: PropTypes.shape({})
 };
 
 export default connect(mapStateToProps)(WidgetLayout);
