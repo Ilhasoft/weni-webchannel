@@ -833,7 +833,6 @@ class Widget extends Component {
           suggestionsConfig={this.props.suggestionsConfig}
           customAutoComplete={this.props.customAutoComplete}
           showTooltip={this.props.showTooltip}
-          openSessionMessageFields={this.props.openSessionMessageFields}
         />
         <Sound url={this.props.customSoundNotification} playStatus={this.state.playNotification} />
       </div>
@@ -904,7 +903,6 @@ Widget.propTypes = {
   disableSoundNotification: PropTypes.bool,
   customSoundNotification: PropTypes.string,
   clientId: PropTypes.string,
-  openSessionMessageFields: PropTypes.shape({}),
   sessionToken: PropTypes.string
 };
 

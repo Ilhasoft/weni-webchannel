@@ -15,6 +15,8 @@ import {
   setSessionId
 } from './index_for_react_app';
 
+import './src/utils/i18n';
+
 const plugin = {
   init: (args) => {
     ReactDOM.render(
@@ -64,7 +66,6 @@ const plugin = {
         disableSoundNotification={args.disableSoundNotification}
         customSoundNotification={args.customSoundNotification}
         clientId={args.clientId}
-        openSessionMessageFields={args.openSessionMessageFields}
       />,
       document.querySelector(args.selector)
     );

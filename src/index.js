@@ -145,7 +145,6 @@ const ConnectedWidget = forwardRef((props, ref) => {
         disableSoundNotification={props.disableSoundNotification}
         customSoundNotification={props.customSoundNotification}
         clientId={props.clientId}
-        openSessionMessageFields={props.openSessionMessageFields}
       />
     </Provider>
   );
@@ -201,8 +200,7 @@ ConnectedWidget.propTypes = {
   suggestionsConfig: PropTypes.shape({}),
   disableSoundNotification: PropTypes.bool,
   customSoundNotification: PropTypes.string,
-  clientId: PropTypes.string,
-  openSessionMessageFields: PropTypes.shape({})
+  clientId: PropTypes.string
 };
 
 ConnectedWidget.defaultProps = {
@@ -258,13 +256,7 @@ ConnectedWidget.defaultProps = {
   disableSoundNotification: false,
   customSoundNotification:
     'https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3',
-  clientId: window.location.hostname,
-  openSessionMessageFields: {
-    title: 'Você já está logado em outra sessão.',
-    subtitle: 'Clique em "usar aqui" para usar o chat nesta sessão.',
-    closeText: 'Fechar',
-    useText: 'Usar aqui'
-  }
+  clientId: window.location.hostname
 };
 
 export default ConnectedWidget;

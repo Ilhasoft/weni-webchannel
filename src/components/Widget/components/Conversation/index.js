@@ -29,7 +29,6 @@ const Conversation = props => (
       customComponent={props.customComponent}
       showMessageDate={props.showMessageDate}
       sendMessage={props.sendMessage}
-      openSessionMessageFields={props.openSessionMessageFields}
       closeAndDisconnect={props.closeAndDisconnect}
       forceChatConnection={props.forceChatConnection}
     />
@@ -71,8 +70,7 @@ Conversation.propTypes = {
   showHeaderAvatar: PropTypes.bool,
   headerImage: PropTypes.string,
   suggestionsConfig: PropTypes.shape({}),
-  customAutoComplete: PropTypes.func,
-  openSessionMessageFields: PropTypes.shape({})
+  customAutoComplete: PropTypes.func
 };
 
 export default Conversation;

@@ -4,6 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import { debounce } from 'lodash';
+import { withTranslation } from 'react-i18next';
 
 import alertCircle from 'assets/alert-circle-1-1.svg';
 import { MESSAGES_TYPES, VALID_FILE_TYPE } from 'constants';
@@ -47,7 +48,10 @@ class Messages extends Component {
   componentDidMount() {
     scrollToBottom();
     const messagesDiv = document.getElementById('push-messages');
-    messagesDiv.addEventListener('scroll', debounce(this.handleScroll, 1000));
+
+    if (messagesDiv) {
+      messagesDiv.addEventListener('scroll', debounce(this.handleScroll, 1000));
+    }
   }
 
   componentDidUpdate() {
@@ -60,7 +64,9 @@ class Messages extends Component {
 
   componentWillUnmount() {
     const messagesDiv = document.getElementById('push-messages');
-    messagesDiv.removeEventListener('scroll', this.handleScroll);
+    if (messagesDiv) {
+      messagesDiv.removeEventListener('scroll', this.handleScroll);
+    }
   }
 
   getComponentToRender = (message, index, isLast) => {
@@ -120,9 +126,9 @@ class Messages extends Component {
       profileAvatar,
       sendMessage,
       openSessionMessage,
-      openSessionMessageFields,
       closeAndDisconnect,
-      forceChatConnection
+      forceChatConnection,
+      t
     } = this.props;
 
     const renderMessages = () => {
@@ -194,14 +200,14 @@ class Messages extends Component {
         <div className="push-open-session__icon">
           <img src={alertCircle} alt="used session info" />
         </div>
-        <div className="push-open-session__title">{openSessionMessageFields.title}</div>
-        <div className="push-open-session__subtitle">{openSessionMessageFields.subtitle}</div>
+        <div className="push-open-session__title">{t('OpenSessionTitle')}</div>
+        <div className="push-open-session__subtitle">{t('OpenSessionSubtitle')}</div>
         <div className="push-open-session__buttons">
           <button className="push-open-session__buttons-close" onClick={closeAndDisconnect}>
-            {openSessionMessageFields.closeText}
+            {t('OpenSessionCloseText')}
           </button>
           <button className="push-open-session__buttons-use" onClick={forceChatConnection}>
-            {openSessionMessageFields.useText}
+            {t('OpenSessionUseText')}
           </button>
         </div>
       </div>
@@ -258,10 +264,10 @@ Messages.propTypes = {
   params: PropTypes.shape({}),
   sendMessage: PropTypes.func,
   openSessionMessage: PropTypes.bool,
-  openSessionMessageFields: PropTypes.shape({}),
   closeAndDisconnect: PropTypes.func,
   forceChatConnection: PropTypes.func,
-  messagesScroll: PropTypes.bool
+  messagesScroll: PropTypes.bool,
+  t: PropTypes.func
 };
 
 Message.defaultTypes = {
@@ -273,4 +279,4 @@ export default connect(store => ({
   displayTypingIndication: store.behavior.get('messageDelayed'),
   openSessionMessage: store.behavior.get('openSessionMessage'),
   messagesScroll: store.behavior.get('messagesScroll')
-}))(Messages);
+}))(withTranslation()(Messages));
