@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.12.0](https://https///compare/v2.11.0...v2.12.0) (2022-10-28)
+
+
+### Features
+
+* add i18next packages ([072eec5](https://https///commit/072eec5b2a39d616a9fde1b5b12f7f41586466cf))
+* i18n translations into openSession based on browser language ([e70229d](https://https///commit/e70229d5c17ea9a3e3c663052d63052a50cd9e0c))
+* remove unused openSessionMessageFields prop ([61657b7](https://https///commit/61657b74fb352c1986c166e3c1ce8a1768d7b252))
+
 ## [2.11.0](https://https///compare/v2.10.2...v2.11.0) (2022-08-26)
 
 
