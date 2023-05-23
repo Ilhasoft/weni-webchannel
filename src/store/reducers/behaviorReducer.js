@@ -3,7 +3,7 @@ import { SESSION_NAME } from 'constants';
 import * as actionTypes from '../actions/actionTypes';
 import { getLocalSession, storeParamsTo, sendInitPayload, storeLocalSession } from './helper';
 
-export default function(
+export default function (
   inputTextFieldHint,
   connectingText,
   storage,
@@ -66,16 +66,13 @@ export default function(
       case actionTypes.OPEN_SESSION_MESSAGE: {
         return storeParams(state.update('openSessionMessage', () => true));
       }
-      case actionTypes.SAVE_SESSION_TOKEN: {
-        return storeParams(state.set('token', action.token));
-      }
       case actionTypes.CLOSE_SESSION_MESSAGE: {
         return storeParams(state.update('openSessionMessage', () => false));
       }
       case actionTypes.OPEN_CHAT: {
         if (onWidgetEvent.onChatOpen) onWidgetEvent.onChatOpen();
 
-        if(action.customPayload) {
+        if (action.customPayload) {
           sendInitPayload(action, action.customPayload);
         } else {
           const initPayload = state.get('initPayloadText', null);

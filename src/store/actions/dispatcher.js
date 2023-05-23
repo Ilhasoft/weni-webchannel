@@ -199,12 +199,6 @@ export function setSelectedSuggestion(suggestion) {
   store.dispatch(actions.setSelectedSuggestion(suggestion));
 }
 
-export function saveSessionToken(token) {
-  if (token) {
-    store.dispatch(actions.saveSessionToken(token));
-  }
-}
-
 export function setOpenSessionMessage(state) {
   if (state === true) {
     store.dispatch(actions.openSessionMessage());

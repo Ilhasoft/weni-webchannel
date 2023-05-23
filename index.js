@@ -60,6 +60,7 @@ const plugin = {
         customizeWidget={args.customizeWidget}
         showHeaderAvatar={args.showHeaderAvatar}
         sessionId={args.sessionId}
+        sessionToken={args.sessionToken}
         headerImage={args.headerImage}
         startFullScreen={args.startFullScreen}
         suggestionsConfig={args.suggestionsConfig}

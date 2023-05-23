@@ -457,13 +457,6 @@ export function clear() {
   };
 }
 
-export function saveSessionToken(token) {
-  return {
-    type: actions.SAVE_SESSION_TOKEN,
-    token
-  };
-}
-
 export function openSessionMessage() {
   return {
     type: actions.OPEN_SESSION_MESSAGE
