@@ -137,6 +137,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         inputTextFieldHint={props.inputTextFieldHint}
         showHeaderAvatar={props.showHeaderAvatar}
         sessionId={props.sessionId}
+        sessionToken={props.sessionToken}
         headerImage={props.headerImage}
         startFullScreen={props.startFullScreen}
         suggestionsConfig={props.suggestionsConfig}
@@ -195,6 +196,7 @@ ConnectedWidget.propTypes = {
   defaultHighlightAnimation: PropTypes.string,
   showHeaderAvatar: PropTypes.bool,
   sessionId: PropTypes.string,
+  sessionToken: PropTypes.string,
   headerImage: PropTypes.string,
   startFullScreen: PropTypes.bool,
   suggestionsConfig: PropTypes.shape({}),
@@ -245,6 +247,7 @@ ConnectedWidget.defaultProps = {
   disableTooltips: false,
   showHeaderAvatar: true,
   sessionId: null,
+  sessionToken: null,
   startFullScreen: false,
   suggestionsConfig: {
     url: 'https://api.bothub.it/v2/repository/examples/search_repositories_examples/',

@@ -35,7 +35,6 @@ import {
   changeOldUrl,
   setDomHighlight,
   evalUrl,
-  saveSessionToken,
   openSessionMessage,
   closeSessionMessage,
   setInitPayload,
@@ -302,11 +301,6 @@ class Widget extends Component {
       this.props.dispatch(closeSessionMessage());
     }
 
-    if (receivedMessage.type === 'token') {
-      this.props.dispatch(saveSessionToken(receivedMessage.token));
-      return;
-    }
-
     if (receivedMessage.type === 'history') {
       dispatch(setMessagesScroll(false));
       if (receivedMessage.history) {
@@ -504,7 +498,8 @@ class Widget extends Component {
       sessionId,
       host,
       channelUuid,
-      params
+      params,
+      sessionToken
     } = this.props;
 
     if (!socket.isInitialized() || this.attemptingReconnection) {
@@ -534,6 +529,10 @@ class Widget extends Component {
         callback: `${host}/c/wwc/${channelUuid}/receive`,
         session_type: params.storage
       };
+
+      if (sessionToken) {
+        options.token = sessionToken;
+      }
 
       const that = this;
       // eslint-disable-next-line func-names
@@ -789,9 +788,12 @@ class Widget extends Component {
 
     const options = {
       type: 'close_session',
-      from: this.getUniqueFrom(),
-      token: sessionToken
+      from: this.getUniqueFrom()
     };
+
+    if (sessionToken) {
+      options.token = sessionToken;
+    }
 
     websocket.send(JSON.stringify(options));
 
@@ -850,7 +852,6 @@ const mapStateToProps = state => ({
   oldUrl: state.behavior.get('oldUrl'),
   pageChangeCallbacks: state.behavior.get('pageChangeCallbacks'),
   domHighlight: state.metadata.get('domHighlight'),
-  sessionToken: state.behavior.get('token'),
   initPayloadSent: state.behavior.get('initPayloadSent')
 });
 
@@ -932,6 +933,7 @@ Widget.defaultProps = {
   customizeWidget: {},
   showHeaderAvatar: true,
   sessionId: null,
+  sessionToken: null,
   startFullScreen: false,
   showTooltip: false
 };

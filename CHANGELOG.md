@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.13.0](https://https///compare/v2.12.0...v2.13.0) (2023-05-23)
+
+
+### Features
+
+* new close session method based on session_token prop ([02fbe74](https://https///commit/02fbe741f3f1ba9fb60cf09d6a2c888cdd30bb88))
+
 ## [2.12.0](https://https///compare/v2.11.0...v2.12.0) (2022-10-28)
 
 
