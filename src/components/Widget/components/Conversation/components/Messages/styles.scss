@@ -163,6 +163,16 @@
       }
     }
   }
+
+  .push-message.push-typing-indication {
+    .push-response {
+      height: unset;
+      padding-top: unset;
+      padding-bottom: unset;
+      overflow: hidden;
+      font-size: unset;
+    }
+  }
 }
 
 @media screen and (max-width: 800px) {
