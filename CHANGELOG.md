@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.14.0](https://https///compare/v2.13.0...v2.14.0) (2024-04-11)
+
+
+### Bug Fixes
+
+* youtube video rendering and typing indication fullscreen overflow ([9ec8fdd](https://https///commit/9ec8fddf75a99ad238cf8df871397186d756d229))
+
 ## [2.13.0](https://https///compare/v2.12.0...v2.13.0) (2023-05-23)
 
 
