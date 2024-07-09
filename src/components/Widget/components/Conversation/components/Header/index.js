@@ -21,57 +21,55 @@ const Header = ({
   profileAvatar,
   showHeaderAvatar,
   headerImage
-}) => {
-    return(
-      <div className="push-header-and-loading">
-        <div className={`push-header ${subtitle ? 'push-with-subtitle' : ''} ${(showHeaderAvatar && profileAvatar) ? '' : 'push-without-header-avatar'}`}>
-          {
-            headerImage ?
-              <img src={headerImage} className="push-header-image" alt="chat header image" />
-              :
-              showHeaderAvatar && profileAvatar && (
-                <img src={profileAvatar} className="push-avatar" alt="chat avatar" />
-              )
-          }
-          <div className="push-header-buttons">
-            {
-              showFullScreenButton &&
-              <button className="push-toggle-fullscreen-button" onClick={toggleFullScreen}>
-                <img
-                  className={`push-toggle-fullscreen ${fullScreenMode ? 'push-fullScreenExitImage' : 'push-fullScreenImage'}`}
-                  src={fullScreenMode ? fullscreenExit : fullscreen}
-                  alt="toggle fullscreen"
-                />
-              </button>
-            }
-            {
-              (fullScreenMode ? true : showCloseButton) &&
-              <button className="push-close-button" onClick={toggleChat}>
-                <img
-                  className={`push-close ${closeImage ? '' : 'push-default'}`}
-                  src={closeImage || close}
-                  alt="close"
-                />
-              </button>
-            }
-          </div>
-          {
-            !headerImage &&
-              <div className={'push-title-and-subtitle'}>
-                <h4 className={`push-title ${profileAvatar && 'push-with-avatar'}`}>{title}</h4>
-                {subtitle && <span className={`push-subtitle ${profileAvatar && 'push-with-avatar'}`}>{subtitle}</span>}
-              </div>
-          }
-        </div>
+}) => (
+  <div className="push-header-and-loading">
+    <div className={`push-header ${subtitle ? 'push-with-subtitle' : ''} ${(showHeaderAvatar && profileAvatar) ? '' : 'push-without-header-avatar'}`}>
+      {
+        headerImage ?
+          <img src={headerImage} className="push-header-image" alt="chat header image" />
+          :
+          showHeaderAvatar && profileAvatar && (
+            <img src={profileAvatar} className="push-avatar" alt="chat avatar" />
+          )
+      }
+      <div className="push-header-buttons">
         {
-          !connected &&
-          <span className="push-loading">
-            {connectingText}
-          </span>
+          showFullScreenButton &&
+          <button className="push-toggle-fullscreen-button" onClick={toggleFullScreen}>
+            <img
+              className={`push-toggle-fullscreen ${fullScreenMode ? 'push-fullScreenExitImage' : 'push-fullScreenImage'}`}
+              src={fullScreenMode ? fullscreenExit : fullscreen}
+              alt="toggle fullscreen"
+            />
+          </button>
+        }
+        {
+          (fullScreenMode ? true : showCloseButton) &&
+          <button className="push-close-button" onClick={toggleChat}>
+            <img
+              className={`push-close ${closeImage ? '' : 'push-default'}`}
+              src={closeImage || close}
+              alt="close"
+            />
+          </button>
         }
       </div>
-    )
-}
+      {
+        !headerImage &&
+        <div className={'push-title-and-subtitle'}>
+          <h4 className={`push-title ${profileAvatar && 'push-with-avatar'}`}>{title}</h4>
+          {subtitle && <span className={`push-subtitle ${profileAvatar && 'push-with-avatar'}`}>{subtitle}</span>}
+        </div>
+      }
+    </div>
+    {
+      !connected &&
+      <span className="push-loading">
+        {connectingText}
+      </span>
+    }
+  </div>
+);
 
 Header.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),

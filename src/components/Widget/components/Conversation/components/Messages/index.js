@@ -43,6 +43,7 @@ class Messages extends Component {
     this.state = {
       historyPage: 1
     };
+    this.intervalId = null;
   }
 
   componentDidMount() {
@@ -52,6 +53,14 @@ class Messages extends Component {
     if (messagesDiv) {
       messagesDiv.addEventListener('scroll', debounce(this.handleScroll, 1000));
     }
+
+    this.intervalId = setInterval(this.getHistory, 60000);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        this.getHistory();
+      }
+    });
   }
 
   componentDidUpdate() {
@@ -109,14 +118,21 @@ class Messages extends Component {
     return <ComponentToRender id={index} params={params} message={message} isLast={isLast} />;
   };
 
+
+  getHistory = () => {
+    const { dispatch, messages } = this.props;
+    dispatch(getHistory(this.historyLimit, this.state.historyPage + 1));
+    this.setState({ historyPage: this.state.historyPage + 1 });
+    console.log('histórico atualizado', messages);
+  }
+
   handleScroll = (event) => {
     const { params, dispatch } = this.props;
     const scrollTop = event.srcElement.scrollTop;
 
     if (scrollTop === 0 && params.storage === 'local') {
       dispatch(setMessagesScroll(false));
-      dispatch(getHistory(this.historyLimit, this.state.historyPage + 1));
-      this.setState({ historyPage: this.state.historyPage + 1 });
+      this.getHistory();
     }
   };
 
