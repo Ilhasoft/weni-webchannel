@@ -123,9 +123,11 @@ class Messages extends Component {
 
   getHistory = () => {
     const { dispatch, messages } = this.props;
-    console.log(messages.size);
-    dispatch(getHistory(this.historyLimit, this.state.historyPage + 1));
-    this.setState({ historyPage: this.state.historyPage + 1 });
+    this.setState({ next: messages.size % this.historyLimit === 0 || this.state.historyPage === 0 });
+    if (this.state.next) {
+      dispatch(getHistory(this.historyLimit, this.state.historyPage + 1));
+      this.setState({ historyPage: this.state.historyPage + 1 });
+    }
   }
 
 
