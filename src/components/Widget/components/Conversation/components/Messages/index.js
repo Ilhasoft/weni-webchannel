@@ -41,7 +41,8 @@ class Messages extends Component {
     super(props);
     this.historyLimit = 20;
     this.state = {
-      historyPage: 1
+      historyPage: 1,
+      next: true
     };
     this.intervalId = null;
   }
@@ -58,6 +59,7 @@ class Messages extends Component {
 
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
+        this.setState({ historyPage: 0 });
         this.getHistory();
       }
     });
@@ -121,11 +123,11 @@ class Messages extends Component {
 
   getHistory = () => {
     const { dispatch, messages } = this.props;
-
-    dispatch(getHistory(this.historyLimit, 1));
+    console.log(messages.size);
+    dispatch(getHistory(this.historyLimit, this.state.historyPage + 1));
     this.setState({ historyPage: this.state.historyPage + 1 });
-    console.log('histórico atualizado', messages);
   }
+
 
   handleScroll = (event) => {
     const { params, dispatch } = this.props;

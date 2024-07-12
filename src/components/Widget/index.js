@@ -333,8 +333,9 @@ class Widget extends Component {
 
   buildHistory(history) {
     const { dispatch } = this.props;
-    this.addHistory(history);
-    for (const historyMessage of history) {
+    const newItems = this.getUniqueNewItems(history);
+    this.addUniqueItemsToHistory(newItems);
+    for (const historyMessage of newItems) {
       const sender = historyMessage.direction === 'in' ? 'response' : 'client';
       const showAvatar = historyMessage.direction === 'in';
       const newMessage = { ...historyMessage.message, sender, showAvatar };
@@ -348,32 +349,31 @@ class Widget extends Component {
     }
   }
 
-  addHistory = (newItems) => {
-    // Retrieve the existing history from localStorage
+  getUniqueNewItems = (newItems) => {
     let history = localStorage.getItem('history');
 
-    // Check if 'history' exists in localStorage and parse it, or initialize as empty array
     history = history ? JSON.parse(history) : [];
 
-    // Add new items to the history array
-    history.push(...newItems);
+    const existingIDs = new Set(history.map(item => item.ID));
 
-    // Remove duplicates based on 'ID'
-    const uniqueHistory = history.reduce((accumulator, current) => {
-      if (!accumulator.some(item => item.ID === current.ID)) {
-        accumulator.push(current);
-      }
-      return accumulator;
-    }, []);
+    const uniqueNewItems = newItems.filter(item => !existingIDs.has(item.ID));
 
-    // Convert the updated history array back to a JSON string
-    const updatedHistory = JSON.stringify(uniqueHistory);
+    return uniqueNewItems;
+  }
 
-    // Save the updated history back to localStorage
+  addUniqueItemsToHistory = (newItems) => {
+    let history = localStorage.getItem('history');
+
+    history = history ? JSON.parse(history) : [];
+
+    const existingIDs = new Set(history.map(item => item.ID));
+
+    const uniqueNewItems = newItems.filter(item => !existingIDs.has(item.ID));
+
+    history.push(...uniqueNewItems);
+
+    const updatedHistory = JSON.stringify(history);
     localStorage.setItem('history', updatedHistory);
-
-    // Log the updated history to the console
-    console.log('Updated history:', uniqueHistory);
   }
 
   dispatchAckAttachment(message) {
