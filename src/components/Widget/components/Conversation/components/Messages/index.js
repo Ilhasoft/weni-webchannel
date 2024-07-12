@@ -142,11 +142,10 @@ class Messages extends Component {
 
 
   handleScroll = (event) => {
-    const { params, dispatch } = this.props;
+    const { params } = this.props;
     const scrollTop = event.srcElement.scrollTop;
 
     if (scrollTop === 0 && params.storage === 'local') {
-      dispatch(setMessagesScroll(false));
       this.getHistory();
     }
   };
