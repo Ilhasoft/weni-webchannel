@@ -333,7 +333,7 @@ class Widget extends Component {
 
   buildHistory(history) {
     const { dispatch } = this.props;
-
+    this.addHistory(history);
     for (const historyMessage of history) {
       const sender = historyMessage.direction === 'in' ? 'response' : 'client';
       const showAvatar = historyMessage.direction === 'in';
@@ -346,6 +346,34 @@ class Widget extends Component {
         dispatch(messageHandler(0, { name: newMessage.caption || '', url: newMessage.media_url }));
       }
     }
+  }
+
+  addHistory = (newItems) => {
+    // Retrieve the existing history from localStorage
+    let history = localStorage.getItem('history');
+
+    // Check if 'history' exists in localStorage and parse it, or initialize as empty array
+    history = history ? JSON.parse(history) : [];
+
+    // Add new items to the history array
+    history.push(...newItems);
+
+    // Remove duplicates based on 'ID'
+    const uniqueHistory = history.reduce((accumulator, current) => {
+      if (!accumulator.some(item => item.ID === current.ID)) {
+        accumulator.push(current);
+      }
+      return accumulator;
+    }, []);
+
+    // Convert the updated history array back to a JSON string
+    const updatedHistory = JSON.stringify(uniqueHistory);
+
+    // Save the updated history back to localStorage
+    localStorage.setItem('history', updatedHistory);
+
+    // Log the updated history to the console
+    console.log('Updated history:', uniqueHistory);
   }
 
   dispatchAckAttachment(message) {

@@ -121,7 +121,8 @@ class Messages extends Component {
 
   getHistory = () => {
     const { dispatch, messages } = this.props;
-    dispatch(getHistory(this.historyLimit, this.state.historyPage + 1));
+
+    dispatch(getHistory(this.historyLimit, 1));
     this.setState({ historyPage: this.state.historyPage + 1 });
     console.log('histórico atualizado', messages);
   }
