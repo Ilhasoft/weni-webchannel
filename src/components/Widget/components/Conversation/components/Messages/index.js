@@ -48,6 +48,7 @@ class Messages extends Component {
   }
 
   componentDidMount() {
+    localStorage.clear();
     scrollToBottom();
     const messagesDiv = document.getElementById('push-messages');
 
