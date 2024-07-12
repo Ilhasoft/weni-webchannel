@@ -56,15 +56,15 @@ class Messages extends Component {
       messagesDiv.addEventListener('scroll', debounce(this.handleScroll, 1000));
     }
 
-    this.intervalId = setInterval(this.getHistory, 60000);
+    this.intervalId = setInterval(this.updateHistory, 60000);
 
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
-        this.setState({ historyPage: 0 });
-        this.getHistory();
+        this.updateHistory();
       }
     });
   }
+
 
   componentDidUpdate() {
     const { messagesScroll } = this.props;
@@ -125,10 +125,19 @@ class Messages extends Component {
   getHistory = () => {
     const { dispatch, messages } = this.props;
     this.setState({ next: messages.size % this.historyLimit === 0 || this.state.historyPage === 0 });
+    if (this.state.historyPage !== 0) {
+      this.historyLimit = 20;
+    }
     if (this.state.next) {
       dispatch(getHistory(this.historyLimit, this.state.historyPage + 1));
       this.setState({ historyPage: this.state.historyPage + 1 });
     }
+  }
+
+  updateHistory() {
+    this.setState({ historyPage: 0 });
+    this.historyLimit = 50;
+    this.getHistory();
   }
 
 
