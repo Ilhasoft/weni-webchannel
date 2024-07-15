@@ -76,6 +76,9 @@ $unnnic-font-family-secondary: Lato;
 }
 
 @mixin push-header-icon-fs {
+  width: 30px;
+  height: 30px;
+  padding-top: 3px;
   &.push-default {
     width: 20px;
     height: 20px;
@@ -86,9 +89,6 @@ $unnnic-font-family-secondary: Lato;
     }
   }
 
-  width: 30px;
-  height: 30px;
-  padding-top: 3px;
 
   &:focus, &:active, &:hover {
     width: 34px;
@@ -129,11 +129,13 @@ $unnnic-font-family-secondary: Lato;
 }
 
 @mixin push-conversation-container-fs {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  border-radius: 0;
+  &{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+  }
 
   .push-sender {
     align-items: center;

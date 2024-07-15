@@ -4,7 +4,7 @@
 
 
 .push-launcher {
-  @include push-animation(0, 0.5s, push-slide-in);
+  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,9 +80,9 @@
       margin-bottom: 2px;
     }
     .push-replies {
-      @include push-replies;
       justify-content: center;
       margin-left: 10px;
+      @include push-replies;
     }
 
     .push-reply {
@@ -131,6 +131,7 @@
       padding: 0;
     }
   }
+  @include push-animation(0, 0.5s, push-slide-in);
 }
 
 @keyframes push-slideUp {

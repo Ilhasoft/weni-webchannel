@@ -25,21 +25,21 @@
 
   // When we have several messages, the first one of the group
   .push-message:first-child:not(:only-child) {
+    margin-bottom: 2px;
     .push-response {
       border-radius: 0 15px 15px 0;
     }
 
-    margin-bottom: 2px;
   }
 
   // When we have several messages, messages that are neither the first, nor the last
   .push-message:not(:first-child):not(:last-child):not(:last-child) {
+    margin-top: 2px;
+    margin-bottom: 2px;
     .push-response {
       border-radius: 0 15px 15px 0;
     }
 
-    margin-top: 2px;
-    margin-bottom: 2px;
   }
 
   // every message in a group that is NOT the first
@@ -178,7 +178,9 @@
 @media screen and (max-width: 800px) {
   .push-messages-container {
     @include push-messages-container-fs;
-    padding: 3% 4% 0 4% !important;
+    &{
+      padding: 3% 4% 0 4% !important;
+    }
 
     .push-message {
       font-size: 14px !important;
