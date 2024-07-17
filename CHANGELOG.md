@@ -4,8 +4,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [2.15.1](https://https//github.com/push-platform/push-webchat/compare/v2.15.2...v2.15.1) (2024-07-17)
 
-### [2.15.2](https://https//github.com/push-platform/push-webchat/compare/v2.15.0...v2.15.2) (2024-07-17)
-
 
 ### Bug Fixes
 
