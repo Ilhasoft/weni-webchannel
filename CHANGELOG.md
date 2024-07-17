@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.2](https://https//github.com/push-platform/push-webchat/compare/v2.15.0...v2.15.2) (2024-07-17)
+
+
+### Bug Fixes
+
+* clear history ([0c2f4f5](https://https//github.com/push-platform/push-webchat/commit/0c2f4f54602bdbe6f86257e82168ccc2058bb528))
+
 ## [2.15.0](https://https//github.com/push-platform/push-webchat/compare/v2.14.0...v2.15.0) (2024-07-15)
 
 
@@ -13,19 +20,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 * add new items only ([d33ee48](https://https//github.com/push-platform/push-webchat/commit/d33ee481e68781b800a46f647d9c6996176b4843))
-* animation.scss ([0f7d453](https://https//github.com/push-platform/push-webchat/commit/0f7d45349c43e98ce8a12be029c4bdbd946edafc))
-* clear storage before update ([56982f3](https://https//github.com/push-platform/push-webchat/commit/56982f3dbd6fd4c395493bca712920c95c688b26))
-* disable scroll back down ([98ff9f0](https://https//github.com/push-platform/push-webchat/commit/98ff9f081cef35ff1909a3cb08365bc9ba24eadc))
-* node-sass ([19c01d3](https://https//github.com/push-platform/push-webchat/commit/19c01d33b1fe7ec29e5fb337cdd634c56f9a87c6))
-* node-sass install ([4cea96f](https://https//github.com/push-platform/push-webchat/commit/4cea96f188a864587eeb0a5ea227f2a26bf798fc))
-* node-sass version ([bff010f](https://https//github.com/push-platform/push-webchat/commit/bff010f067500ba072b4592c5f42106abc490e8e))
-* remove duplicated messages ([65e88ec](https://https//github.com/push-platform/push-webchat/commit/65e88ec0e64595a1da5af2cda3a22bcf8757d712))
-* scss deprecation warnings ([164ebba](https://https//github.com/push-platform/push-webchat/commit/164ebbaf5c6fe624f5e49f3eba80139a17e5782e))
 * set update history ([c4ea009](https://https//github.com/push-platform/push-webchat/commit/c4ea00913dbc56f49502998cbb24c6cfa0a32b2d))
-* update dependencies ([fc49be5](https://https//github.com/push-platform/push-webchat/commit/fc49be5210dcd80848f8879e2fe7c7e6566ad1f4))
-* update first page ([e60e029](https://https//github.com/push-platform/push-webchat/commit/e60e02946e600fe33484613677b41eb2ca3066d7))
-* update node-sass ([19c2e15](https://https//github.com/push-platform/push-webchat/commit/19c2e15572cc05d7461667ec6fe194ce8bc8c0d1))
-
 ## [2.14.0](https://https///compare/v2.13.0...v2.14.0) (2024-04-11)
 
 
