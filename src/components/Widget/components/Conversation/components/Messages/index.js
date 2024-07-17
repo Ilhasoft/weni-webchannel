@@ -8,18 +8,20 @@ import { withTranslation } from 'react-i18next';
 
 import alertCircle from 'assets/alert-circle-1-1.svg';
 import { MESSAGES_TYPES, VALID_FILE_TYPE } from 'constants';
-import { Video, Image, Message, Snippet, QuickReply, DocViewer, Audio } from 'messagesComponents';
+import {
+  Video, Image, Message, Snippet, QuickReply, DocViewer, Audio
+} from 'messagesComponents';
 
-import { getHistory, setMessagesScroll } from 'actions';
+import { getHistory } from 'actions';
 
 import './styles.scss';
 
 const isToday = (date) => {
   const today = new Date();
   return (
-    date.getDate() === today.getDate() &&
-    date.getMonth() === today.getMonth() &&
-    date.getFullYear() === today.getFullYear()
+    date.getDate() === today.getDate()
+    && date.getMonth() === today.getMonth()
+    && date.getFullYear() === today.getFullYear()
   );
 };
 
@@ -48,7 +50,8 @@ class Messages extends Component {
   }
 
   componentDidMount() {
-    localStorage.clear();
+    localStorage.removeItem('history');
+    this.updateHistory();
     scrollToBottom();
     const messagesDiv = document.getElementById('push-messages');
 
@@ -65,11 +68,11 @@ class Messages extends Component {
     });
   }
 
-
   componentDidUpdate() {
     const { messagesScroll } = this.props;
+    const { historyPage } = this.state;
 
-    if (messagesScroll || this.state.historyPage === 1) {
+    if (messagesScroll || historyPage === 1) {
       scrollToBottom();
     }
   }
@@ -82,7 +85,7 @@ class Messages extends Component {
   }
 
   getComponentToRender = (message, index, isLast) => {
-    const { params } = this.props;
+    const { params, customComponent } = this.props;
     const ComponentToRender = (() => {
       switch (message.get('type')) {
         case MESSAGES_TYPES.TEXT: {
@@ -108,9 +111,9 @@ class Messages extends Component {
         }
         case MESSAGES_TYPES.CUSTOM_COMPONENT:
           return connect(
-            store => ({ store }),
-            dispatch => ({ dispatch })
-          )(this.props.customComponent);
+            (store) => ({ store }),
+            (dispatch) => ({ dispatch })
+          )(customComponent);
         default:
           return null;
       }
@@ -121,34 +124,33 @@ class Messages extends Component {
     return <ComponentToRender id={index} params={params} message={message} isLast={isLast} />;
   };
 
-
   getHistory = () => {
     const { dispatch, messages } = this.props;
-    this.setState({ next: messages.size % this.historyLimit === 0 || this.state.historyPage === 0 });
-    if (this.state.historyPage !== 0) {
+    const { historyPage, next } = this.state;
+    this.setState({ next: messages.size % this.historyLimit === 0 || historyPage === 0 });
+    if (historyPage !== 0) {
       this.historyLimit = 20;
     }
-    if (this.state.next) {
-      dispatch(getHistory(this.historyLimit, this.state.historyPage + 1));
-      this.setState({ historyPage: this.state.historyPage + 1 });
+    if (next) {
+      dispatch(getHistory(this.historyLimit, historyPage + 1));
+      this.setState({ historyPage: historyPage + 1 });
     }
   }
+
+  handleScroll = (event) => {
+    const { params } = this.props;
+    const { scrollTop } = event.srcElement;
+
+    if (scrollTop === 0 && params.storage === 'local') {
+      this.getHistory();
+    }
+  };
 
   updateHistory() {
     this.setState({ historyPage: 0 });
     this.historyLimit = 50;
     this.getHistory();
   }
-
-
-  handleScroll = (event) => {
-    const { params } = this.props;
-    const scrollTop = event.srcElement.scrollTop;
-
-    if (scrollTop === 0 && params.storage === 'local') {
-      this.getHistory();
-    }
-  };
 
   render() {
     const {
@@ -169,12 +171,11 @@ class Messages extends Component {
       const groups = [];
       let group = null;
 
-      const dateRenderer =
-        typeof showMessageDate === 'function'
-          ? showMessageDate
-          : showMessageDate === true
-            ? formatDate
-            : null;
+      const dateRenderer = typeof showMessageDate === 'function'
+        ? showMessageDate
+        : showMessageDate === true
+          ? formatDate
+          : null;
 
       const renderMessageDate = (message) => {
         const timestamp = message.get('timestamp');
@@ -190,8 +191,7 @@ class Messages extends Component {
 
       const renderMessage = (message, index) => (
         <div
-          className={`push-message ${profileAvatar && 'push-with-avatar'} ${
-            message.get('sender') === 'client' ? 'push-from-client' : ''
+          className={`push-message ${profileAvatar && 'push-with-avatar'} ${message.get('sender') === 'client' ? 'push-from-client' : ''
           }`}
           key={index}
         >
@@ -243,12 +243,10 @@ class Messages extends Component {
       </div>
     ) : (
       <Dropzone
-        onDropAccepted={acceptedFiles =>
-          sendMessage({
-            type: 'attachment',
-            files: acceptedFiles
-          })
-        }
+        onDropAccepted={(acceptedFiles) => sendMessage({
+          type: 'attachment',
+          files: acceptedFiles
+        })}
         multiple
         maxSize={33554432}
         accept={VALID_FILE_TYPE}
@@ -261,8 +259,8 @@ class Messages extends Component {
               {renderMessages()}
               {displayTypingIndication && (
                 <div
-                  className={`push-message push-typing-indication ${profileAvatar &&
-                    'push-with-avatar'}`}
+                  className={`push-message push-typing-indication ${profileAvatar
+                    && 'push-with-avatar'}`}
                 >
                   {profileAvatar && (
                     <img src={profileAvatar} className="push-avatar" alt="profile" />
@@ -304,7 +302,7 @@ Message.defaultTypes = {
   displayTypingIndication: false
 };
 
-export default connect(store => ({
+export default connect((store) => ({
   messages: store.messages,
   displayTypingIndication: store.behavior.get('messageDelayed'),
   openSessionMessage: store.behavior.get('openSessionMessage'),
