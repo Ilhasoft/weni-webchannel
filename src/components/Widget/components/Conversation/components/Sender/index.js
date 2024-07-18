@@ -64,6 +64,10 @@ function Sender({
     if (e.which === 13 && !e.shiftKey) {
       e.preventDefault();
       formEl.current.dispatchEvent(new Event('submit', { cancelable: true }));
+      const messagesDiv = document.getElementById('push-messages');
+      if (messagesDiv) {
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
     }
   };
 

@@ -43,29 +43,29 @@ class Messages extends Component {
     super(props);
     this.historyLimit = 20;
     this.state = {
-      historyPage: 1,
-      next: true
+      historyPage: 0,
+      next: true,
+      previousCount: 0
     };
     this.intervalId = null;
   }
 
   componentDidMount() {
-    localStorage.removeItem('history');
-    this.updateHistory();
     scrollToBottom();
     const messagesDiv = document.getElementById('push-messages');
-
+    
     if (messagesDiv) {
       messagesDiv.addEventListener('scroll', debounce(this.handleScroll, 1000));
     }
-
+    
     this.intervalId = setInterval(this.updateHistory, 60000);
-
+    
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         this.updateHistory();
       }
     });
+    this.updateHistory();
   }
 
   componentDidUpdate() {
@@ -126,14 +126,14 @@ class Messages extends Component {
 
   getHistory = () => {
     const { dispatch, messages } = this.props;
-    const { historyPage, next } = this.state;
+    const { historyPage, next, previousCount } = this.state;
     this.setState({ next: messages.size % this.historyLimit === 0 || historyPage === 0 });
     if (historyPage !== 0) {
       this.historyLimit = 20;
     }
     if (next) {
       dispatch(getHistory(this.historyLimit, historyPage + 1));
-      this.setState({ historyPage: historyPage + 1 });
+      this.setState({ historyPage: historyPage + 1, previousCount: this.props.messages.size });
     }
   }
 
@@ -141,14 +141,14 @@ class Messages extends Component {
     const { params } = this.props;
     const { scrollTop } = event.srcElement;
 
-    if (scrollTop === 0 && params.storage === 'local') {
+    if (scrollTop === 0 ) {
       this.getHistory();
     }
   };
 
   updateHistory() {
     this.setState({ historyPage: 0 });
-    this.historyLimit = 50;
+    this.historyLimit = 20;
     this.getHistory();
   }
 

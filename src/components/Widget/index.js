@@ -350,7 +350,9 @@ class Widget extends Component {
   }
 
   getUniqueNewItems = (newItems) => {
-    let history = localStorage.getItem('history');
+    const storage =
+    this.props.params.storage === 'session' ? sessionStorage : localStorage;
+    let history = storage.getItem('history');
 
     history = history ? JSON.parse(history) : [];
 
@@ -362,7 +364,9 @@ class Widget extends Component {
   }
 
   addUniqueItemsToHistory = (newItems) => {
-    let history = localStorage.getItem('history');
+    const storage =
+    this.props.params.storage === 'session' ? sessionStorage : localStorage;
+    let history = storage.getItem('history');
 
     history = history ? JSON.parse(history) : [];
 
@@ -373,7 +377,7 @@ class Widget extends Component {
     history.push(...uniqueNewItems);
 
     const updatedHistory = JSON.stringify(history);
-    localStorage.setItem('history', updatedHistory);
+    storage.setItem('history', updatedHistory);
   }
 
   dispatchAckAttachment(message) {
