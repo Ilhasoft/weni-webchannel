@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.3](https://https//github.com/push-platform/push-webchat/compare/v2.15.1...v2.15.3) (2024-07-19)
+
+
+### Bug Fixes
+
+* dependencies ([8fa2091](https://https//github.com/push-platform/push-webchat/commit/8fa20917ea0140bf2a78c656afa0f7f3e682cea0))
+* deploy ([eb35085](https://https//github.com/push-platform/push-webchat/commit/eb35085e16de790e877127ed122e964720ac2181))
+* storage type ([79cada6](https://https//github.com/push-platform/push-webchat/commit/79cada6a9e52e639df7231748d3a7427d4ac54da))
+
 ### [2.15.2](https://https//github.com/push-platform/push-webchat/compare/v2.14.0...v2.15.2) (2024-07-17)
 
 
