@@ -166,6 +166,14 @@ class Messages extends Component {
     this.getHistory();
   }
 
+  handleForceChatConnection = () => {
+    const storage =
+    this.props.params.storage === 'session' ? sessionStorage : localStorage;
+    const { forceChatConnection } = this.props;
+    this.clearStorage(storage);
+    forceChatConnection();
+  }
+
   render() {
     const {
       displayTypingIndication,
@@ -173,7 +181,6 @@ class Messages extends Component {
       sendMessage,
       openSessionMessage,
       closeAndDisconnect,
-      forceChatConnection,
       t
     } = this.props;
 
@@ -250,7 +257,7 @@ class Messages extends Component {
           <button className="push-open-session__buttons-close" onClick={closeAndDisconnect}>
             {t('OpenSessionCloseText')}
           </button>
-          <button className="push-open-session__buttons-use" onClick={forceChatConnection}>
+          <button className="push-open-session__buttons-use" onClick={this.handleForceChatConnection}>
             {t('OpenSessionUseText')}
           </button>
         </div>
