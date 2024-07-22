@@ -145,8 +145,8 @@ class Messages extends Component {
   clearStorage(storage) {
     storage.removeItem('history');
     const chatSession = JSON.parse(localStorage.getItem('chat_session'));
-    if (chatSession && chatSession.conversations) {
-      chatSession.conversations = [];
+    if (chatSession && chatSession.conversation) {
+      chatSession.conversation = [];
       localStorage.setItem('chat_session', JSON.stringify(chatSession));
     }
     this.updateHistory();
