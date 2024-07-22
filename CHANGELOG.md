@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.6](https://https//github.com/push-platform/push-webchat/compare/v2.15.5...v2.15.6) (2024-07-22)
+
+
+### Bug Fixes
+
+* force chat connection - reload history ([e82e2ee](https://https//github.com/push-platform/push-webchat/commit/e82e2eef78868ba83f6ec65e3d652756687700f4))
+
 ### [2.15.5](https://https//github.com/push-platform/push-webchat/compare/v2.15.4...v2.15.5) (2024-07-22)
 
 
