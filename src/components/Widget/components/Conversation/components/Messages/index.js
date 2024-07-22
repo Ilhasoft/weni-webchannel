@@ -45,26 +45,33 @@ class Messages extends Component {
     this.state = {
       historyPage: 0,
       next: true,
-      previousCount: 0
+      previousPage: 0
     };
     this.intervalId = null;
   }
 
   componentDidMount() {
+    const storage =
+    this.props.params.storage === 'session' ? sessionStorage : localStorage;
+
+    if (this.props.params.storage === 'local') {
+      this.clearStorage(storage);
+    }
     scrollToBottom();
     const messagesDiv = document.getElementById('push-messages');
-    
+
     if (messagesDiv) {
       messagesDiv.addEventListener('scroll', debounce(this.handleScroll, 1000));
     }
-    
-    this.intervalId = setInterval(this.updateHistory, 60000);
-    
+
+    setInterval(this.updateHistory, 60000);
+
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         this.updateHistory();
       }
     });
+
     this.updateHistory();
   }
 
@@ -111,8 +118,8 @@ class Messages extends Component {
         }
         case MESSAGES_TYPES.CUSTOM_COMPONENT:
           return connect(
-            (store) => ({ store }),
-            (dispatch) => ({ dispatch })
+            store => ({ store }),
+            dispatch => ({ dispatch })
           )(customComponent);
         default:
           return null;
@@ -126,27 +133,34 @@ class Messages extends Component {
 
   getHistory = () => {
     const { dispatch, messages } = this.props;
-    const { historyPage, next, previousCount } = this.state;
+    const { historyPage, next } = this.state;
     this.setState({ next: messages.size % this.historyLimit === 0 || historyPage === 0 });
-    if (historyPage !== 0) {
-      this.historyLimit = 20;
-    }
     if (next) {
-      dispatch(getHistory(this.historyLimit, historyPage + 1));
-      this.setState({ historyPage: historyPage + 1, previousCount: this.props.messages.size });
+      const page = Math.ceil((messages.size / this.historyLimit));
+      dispatch(getHistory(this.historyLimit, historyPage === 0 ? 1 : page + 1));
+      this.setState({ historyPage: page + 1, previousPage: page });
     }
   }
 
+  clearStorage(storage) {
+    storage.removeItem('history');
+    const chatSession = JSON.parse(localStorage.getItem('chat_session'));
+    if (chatSession && chatSession.conversations) {
+      chatSession.conversations = [];
+      localStorage.setItem('chat_session', JSON.stringify(chatSession));
+    }
+    this.updateHistory();
+  }
+
   handleScroll = (event) => {
-    const { params } = this.props;
     const { scrollTop } = event.srcElement;
 
-    if (scrollTop === 0 ) {
+    if (scrollTop === 0) {
       this.getHistory();
     }
   };
 
-  updateHistory() {
+  updateHistory = () => {
     this.setState({ historyPage: 0 });
     this.historyLimit = 20;
     this.getHistory();
@@ -243,7 +257,7 @@ class Messages extends Component {
       </div>
     ) : (
       <Dropzone
-        onDropAccepted={(acceptedFiles) => sendMessage({
+        onDropAccepted={acceptedFiles => sendMessage({
           type: 'attachment',
           files: acceptedFiles
         })}
@@ -302,7 +316,7 @@ Message.defaultTypes = {
   displayTypingIndication: false
 };
 
-export default connect((store) => ({
+export default connect(store => ({
   messages: store.messages,
   displayTypingIndication: store.behavior.get('messageDelayed'),
   openSessionMessage: store.behavior.get('openSessionMessage'),
