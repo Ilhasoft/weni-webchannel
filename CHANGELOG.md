@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.8](https://https//github.com/push-platform/push-webchat/compare/v2.15.7...v2.15.8) (2024-07-24)
+
+
+### Bug Fixes
+
+* remove duplicades function ([fd895bc](https://https//github.com/push-platform/push-webchat/commit/fd895bc943c4bf90124c6bfd89fb27fdd0fde19c))
+
 ### [2.15.7](https://https//github.com/push-platform/push-webchat/compare/v2.15.6...v2.15.7) (2024-07-24)
 
 
