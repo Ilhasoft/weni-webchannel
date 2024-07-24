@@ -334,7 +334,7 @@ class Widget extends Component {
   buildHistory(history) {
     const { dispatch } = this.props;
     const newItems = this.getUniqueNewItems(history);
-    this.addUniqueItemsToHistory(newItems);
+    // this.addUniqueItemsToHistory(newItems);
     for (const historyMessage of newItems) {
       const sender = historyMessage.direction === 'in' ? 'response' : 'client';
       const showAvatar = historyMessage.direction === 'in';
@@ -342,7 +342,6 @@ class Widget extends Component {
 
       const messageHandler = this.directionMap[newMessage.sender][newMessage.type];
       if (newMessage.type === 'text') {
-        console.log('aqui', historyMessage.ID);
         dispatch(messageHandler(0, newMessage.text, historyMessage.ID));
       } else {
         dispatch(messageHandler(0, { name: newMessage.caption || '', url: newMessage.media_url }));
@@ -353,32 +352,15 @@ class Widget extends Component {
   getUniqueNewItems = (newItems) => {
     const storage =
     this.props.params.storage === 'session' ? sessionStorage : localStorage;
-    let history = storage.getItem('history');
+    let chatSession = storage.getItem('chat_session');
 
-    history = history ? JSON.parse(history) : [];
+    chatSession = chatSession ? JSON.parse(chatSession) : [];
 
-    const existingIDs = new Set(history.map(item => item.ID));
+    const existingIDs = new Set(chatSession.conversation.map(item => item.id));
 
     const uniqueNewItems = newItems.filter(item => !existingIDs.has(item.ID));
 
     return uniqueNewItems;
-  }
-
-  addUniqueItemsToHistory = (newItems) => {
-    const storage =
-    this.props.params.storage === 'session' ? sessionStorage : localStorage;
-    let history = storage.getItem('history');
-
-    history = history ? JSON.parse(history) : [];
-
-    const existingIDs = new Set(history.map(item => item.ID));
-
-    const uniqueNewItems = newItems.filter(item => !existingIDs.has(item.ID));
-
-    history.push(...uniqueNewItems);
-
-    const updatedHistory = JSON.stringify(history);
-    storage.setItem('history', updatedHistory);
   }
 
   dispatchAckAttachment(message) {

@@ -77,7 +77,6 @@ export default function (storage) {
         return storeMessage(state.setIn([action.id, 'chosenReply'], action.title));
       }
       case actionTypes.INSERT_NEW_USER_MESSAGE: {
-        console.log('aloo', action);
         return storeMessage(
           state.insert(action.index, createNewMessage(action.text, MESSAGE_SENDER.CLIENT, action.id))
         );
@@ -105,7 +104,7 @@ export default function (storage) {
       }
       case actionTypes.INSERT_NEW_RESPONSE_MESSAGE: {
         return storeMessage(
-          state.insert(action.index, createNewMessage(action.text, MESSAGE_SENDER.RESPONSE))
+          state.insert(action.index, createNewMessage(action.text, MESSAGE_SENDER.RESPONSE, action.id))
         );
       }
       case actionTypes.INSERT_NEW_LINK_SNIPPET: {

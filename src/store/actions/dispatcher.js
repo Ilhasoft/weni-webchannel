@@ -50,7 +50,6 @@ export function emitUserMessage(message) {
 }
 
 export function addResponseMessage(text, id) {
-  console.log('🚀', text, id);
   store.dispatch(actions.addResponseMessage(text, id));
 }
 
@@ -82,7 +81,7 @@ export function setQuickReply(id, title) {
   store.dispatch(actions.setQuickReply(id, title));
 }
 
-export function insertUserMessage(idx, text, id) {
+export function insertUserMessage(idx, text) {
   store.dispatch(actions.insertUserMessage(idx, text));
 }
 
