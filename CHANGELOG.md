@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.9](https://https//github.com/push-platform/push-webchat/compare/v2.15.8...v2.15.9) (2024-07-24)
+
+
+### Bug Fixes
+
+* remove settimeout ([4a17b6f](https://https//github.com/push-platform/push-webchat/commit/4a17b6f1ef098490eb09b0dd57db914beda1dc01))
+
 ### [2.15.8](https://https//github.com/push-platform/push-webchat/compare/v2.15.7...v2.15.8) (2024-07-24)
 
 
