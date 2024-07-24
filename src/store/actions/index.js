@@ -142,10 +142,11 @@ export function emitMessageIfFirst(payload, text = null) {
   };
 }
 
-export function addResponseMessage(text) {
+export function addResponseMessage(text, id) {
   return {
     type: actions.ADD_NEW_RESPONSE_MESSAGE,
-    text
+    text,
+    id
   };
 }
 
@@ -199,11 +200,12 @@ export function setQuickReply(id, title) {
   };
 }
 
-export function insertUserMessage(index, text) {
+export function insertUserMessage(index, text, id) {
   return {
     type: actions.INSERT_NEW_USER_MESSAGE,
     index,
-    text
+    text,
+    id
   };
 }
 
@@ -251,11 +253,12 @@ export function insertUserDocument(index, file) {
   };
 }
 
-export function insertResponseMessage(index, text) {
+export function insertResponseMessage(index, text, id) {
   return {
     type: actions.INSERT_NEW_RESPONSE_MESSAGE,
     index,
-    text
+    text,
+    id
   };
 }
 

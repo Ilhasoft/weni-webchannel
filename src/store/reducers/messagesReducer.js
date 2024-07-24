@@ -44,7 +44,7 @@ export default function (storage) {
         );
       }
       case actionTypes.ADD_NEW_RESPONSE_MESSAGE: {
-        return storeMessage(state.push(createNewMessage(action.text, MESSAGE_SENDER.RESPONSE)));
+        return storeMessage(state.push(createNewMessage(action.text, MESSAGE_SENDER.RESPONSE, action.id)));
       }
       case actionTypes.ADD_NEW_LINK_SNIPPET: {
         return storeMessage(state.push(createLinkSnippet(action.link, MESSAGE_SENDER.RESPONSE)));
@@ -77,8 +77,9 @@ export default function (storage) {
         return storeMessage(state.setIn([action.id, 'chosenReply'], action.title));
       }
       case actionTypes.INSERT_NEW_USER_MESSAGE: {
+        console.log('aloo', action);
         return storeMessage(
-          state.insert(action.index, createNewMessage(action.text, MESSAGE_SENDER.CLIENT))
+          state.insert(action.index, createNewMessage(action.text, MESSAGE_SENDER.CLIENT, action.id))
         );
       }
       case actionTypes.INSERT_NEW_USER_IMAGE: {

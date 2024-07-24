@@ -342,7 +342,8 @@ class Widget extends Component {
 
       const messageHandler = this.directionMap[newMessage.sender][newMessage.type];
       if (newMessage.type === 'text') {
-        dispatch(messageHandler(0, newMessage.text));
+        console.log('aqui', historyMessage.ID);
+        dispatch(messageHandler(0, newMessage.text, historyMessage.ID));
       } else {
         dispatch(messageHandler(0, { name: newMessage.caption || '', url: newMessage.media_url }));
       }
@@ -711,7 +712,7 @@ class Widget extends Component {
     // TODO: add location type
     let shouldPlay = true;
     if (message.type === 'text') {
-      this.props.dispatch(addResponseMessage(message.text));
+      this.props.dispatch(addResponseMessage(message.text, message.id));
     } else if (message.type === 'video') {
       this.props.dispatch(
         addVideoSnippet({

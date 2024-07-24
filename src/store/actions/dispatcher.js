@@ -49,8 +49,9 @@ export function emitUserMessage(message) {
   store.dispatch(actions.emitUserMessage(message));
 }
 
-export function addResponseMessage(text) {
-  store.dispatch(actions.addResponseMessage(text));
+export function addResponseMessage(text, id) {
+  console.log('🚀', text, id);
+  store.dispatch(actions.addResponseMessage(text, id));
 }
 
 export function addLinkSnippet(link) {
@@ -81,8 +82,8 @@ export function setQuickReply(id, title) {
   store.dispatch(actions.setQuickReply(id, title));
 }
 
-export function insertUserMessage(id, text) {
-  store.dispatch(actions.insertUserMessage(id, text));
+export function insertUserMessage(idx, text, id) {
+  store.dispatch(actions.insertUserMessage(idx, text));
 }
 
 export function insertUserImage(id, file) {
