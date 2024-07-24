@@ -163,21 +163,13 @@ class Messages extends Component {
     forceChatConnection();
     setTimeout(() => {
       this.updateHistory();
-    }, 1200);
+    }, 1500);
   }
 
   updateHistory = () => {
     this.setState({ historyPage: 0 });
     this.historyLimit = 20;
     this.getHistory();
-  }
-
-  handleForceChatConnection = () => {
-    const storage =
-    this.props.params.storage === 'session' ? sessionStorage : localStorage;
-    const { forceChatConnection } = this.props;
-    this.clearStorage(storage);
-    forceChatConnection();
   }
 
   render() {
