@@ -161,9 +161,10 @@ class Messages extends Component {
       this.clearStorage();
     }
     forceChatConnection();
-    setTimeout(() => {
+    const intervalId = setInterval(() => {
       this.updateHistory();
-    }, 1500);
+      clearInterval(intervalId);
+    }, 1200);
   }
 
   updateHistory = () => {
