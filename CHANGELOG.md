@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.7](https://https//github.com/push-platform/push-webchat/compare/v2.15.6...v2.15.7) (2024-07-24)
+
+
+### Bug Fixes
+
+* add id to usermessage ([254a37b](https://https//github.com/push-platform/push-webchat/commit/254a37b22a946f66b00ab1f4ed54159b0e610368))
+* update history on session storage ([ac13cd7](https://https//github.com/push-platform/push-webchat/commit/ac13cd75dc563b7a5b26f9549c1717bf95243875))
+
 ### [2.15.6](https://https//github.com/push-platform/push-webchat/compare/v2.15.5...v2.15.6) (2024-07-22)
 
 
