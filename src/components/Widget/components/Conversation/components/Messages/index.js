@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import { debounce } from 'lodash';
 import { withTranslation } from 'react-i18next';
@@ -15,6 +15,7 @@ import {
 import { getHistory } from 'actions';
 
 import './styles.scss';
+
 
 const isToday = (date) => {
   const today = new Date();
@@ -45,19 +46,15 @@ class Messages extends Component {
     this.state = {
       historyPage: 0,
       next: true,
-      previousPage: 0
+      previousPage: 0,
+      intervalId: 0,
+      forceConnection: true
     };
-    this.intervalId = null;
   }
 
   componentDidMount() {
-    const storage =
-    this.props.params.storage === 'session' ? sessionStorage : localStorage;
-
-    if (this.props.params.storage === 'local') {
-      this.clearStorage(storage);
-    }
     scrollToBottom();
+    this.clearStorage();
     const messagesDiv = document.getElementById('push-messages');
 
     if (messagesDiv) {
@@ -71,8 +68,6 @@ class Messages extends Component {
         this.updateHistory();
       }
     });
-
-    this.updateHistory();
   }
 
   componentDidUpdate() {
@@ -142,8 +137,7 @@ class Messages extends Component {
     }
   }
 
-  clearStorage(storage) {
-    storage.removeItem('history');
+  clearStorage() {
     const chatSession = JSON.parse(localStorage.getItem('chat_session'));
     if (chatSession && chatSession.conversation) {
       chatSession.conversation = [];
@@ -159,6 +153,18 @@ class Messages extends Component {
       this.getHistory();
     }
   };
+
+  handleForceChatConnection = () => {
+    const { forceChatConnection, messages } = this.props;
+    this.setState({ forceChatConnection: true });
+    if (!messages.size) {
+      this.clearStorage();
+    }
+    forceChatConnection();
+    setTimeout(() => {
+      this.updateHistory();
+    }, 1200);
+  }
 
   updateHistory = () => {
     this.setState({ historyPage: 0 });

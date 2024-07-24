@@ -44,7 +44,7 @@ export default function (storage) {
         );
       }
       case actionTypes.ADD_NEW_RESPONSE_MESSAGE: {
-        return storeMessage(state.push(createNewMessage(action.text, MESSAGE_SENDER.RESPONSE)));
+        return storeMessage(state.push(createNewMessage(action.text, MESSAGE_SENDER.RESPONSE, action.id)));
       }
       case actionTypes.ADD_NEW_LINK_SNIPPET: {
         return storeMessage(state.push(createLinkSnippet(action.link, MESSAGE_SENDER.RESPONSE)));
@@ -78,7 +78,7 @@ export default function (storage) {
       }
       case actionTypes.INSERT_NEW_USER_MESSAGE: {
         return storeMessage(
-          state.insert(action.index, createNewMessage(action.text, MESSAGE_SENDER.CLIENT))
+          state.insert(action.index, createNewMessage(action.text, MESSAGE_SENDER.CLIENT, action.id))
         );
       }
       case actionTypes.INSERT_NEW_USER_IMAGE: {
@@ -104,7 +104,7 @@ export default function (storage) {
       }
       case actionTypes.INSERT_NEW_RESPONSE_MESSAGE: {
         return storeMessage(
-          state.insert(action.index, createNewMessage(action.text, MESSAGE_SENDER.RESPONSE))
+          state.insert(action.index, createNewMessage(action.text, MESSAGE_SENDER.RESPONSE, action.id))
         );
       }
       case actionTypes.INSERT_NEW_LINK_SNIPPET: {

@@ -4,14 +4,15 @@ import { MESSAGES_TYPES, MESSAGE_SENDER, SESSION_NAME } from 'constants';
 import { Audio, Video, Image, Message, Snippet, QuickReply, DocViewer } from 'messagesComponents';
 import * as actionTypes from '../actions/actionTypes';
 
-export function createNewMessage(text, sender) {
+export function createNewMessage(text, sender, id) {
   return Map({
     type: MESSAGES_TYPES.TEXT,
     component: Message,
     text,
     sender,
     showAvatar: sender === MESSAGE_SENDER.RESPONSE,
-    timestamp: new Date().getTime()
+    timestamp: new Date().getTime(),
+    id
   });
 }
 
