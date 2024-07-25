@@ -80,50 +80,55 @@ export function changeInputFieldHint(hint) {
   };
 }
 
-export function addUserMessage(text) {
+export function addUserMessage(text, id) {
   return {
     type: actions.ADD_NEW_USER_MESSAGE,
-    text
+    text,
+    id
   };
 }
 
-export function addUserImage(file) {
+export function addUserImage(file, id) {
   return {
     type: actions.ADD_NEW_USER_IMAGE,
     image: {
       title: file.name,
       image: file.url
-    }
+    },
+    id
   };
 }
 
-export function addUserVideo(file) {
+export function addUserVideo(file, id) {
   return {
     type: actions.ADD_NEW_USER_VIDEO,
     video: {
       title: file.name,
       video: file.url
-    }
+    },
+    id
   };
 }
 
-export function addUserAudio(file) {
+export function addUserAudio(file, id) {
   return {
     type: actions.ADD_NEW_USER_AUDIO,
     audio: {
       title: file.name,
       audio: file.url
-    }
+    },
+    id
   };
 }
 
-export function addUserDocument(file) {
+export function addUserDocument(file, id) {
   return {
     type: actions.ADD_NEW_USER_DOCUMENT,
     document: {
       title: file.name,
       src: file.url
-    }
+    },
+    id
   };
 }
 
@@ -150,45 +155,51 @@ export function addResponseMessage(text, id) {
   };
 }
 
-export function addLinkSnippet(link) {
+export function addLinkSnippet(link, id) {
   return {
     type: actions.ADD_NEW_LINK_SNIPPET,
-    link
+    link,
+    id
   };
 }
 
-export function addVideoSnippet(video) {
+export function addVideoSnippet(video, id) {
   return {
     type: actions.ADD_NEW_VIDEO_VIDREPLY,
-    video
+    video,
+    id
   };
 }
 
-export function addAudioSnippet(audio) {
+export function addAudioSnippet(audio, id) {
   return {
     type: actions.ADD_NEW_AUDIO_AUDIOREPLY,
-    audio
+    audio,
+    id
   };
 }
 
-export function addImageSnippet(image) {
+export function addImageSnippet(image, id) {
   return {
     type: actions.ADD_NEW_IMAGE_IMGREPLY,
-    image
+    image,
+    id
   };
 }
 
-export function addDocumentSnippet(document) {
+export function addDocumentSnippet(document, id) {
   return {
     type: actions.ADD_NEW_DOCUMENT_DOCREPLY,
-    document
+    document,
+    id
   };
 }
 
-export function addQuickReply(quickReply) {
+export function addQuickReply(quickReply, id) {
   return {
     type: actions.ADD_QUICK_REPLY,
-    quickReply
+    quickReply,
+    id
   };
 }
 
@@ -209,47 +220,51 @@ export function insertUserMessage(index, text, id) {
   };
 }
 
-export function insertUserImage(index, file) {
+export function insertUserImage(index, file, id) {
   return {
     type: actions.INSERT_NEW_USER_IMAGE,
     index,
     image: {
       title: file.name,
       image: file.url
-    }
+    },
+    id
   };
 }
 
-export function insertUserVideo(index, file) {
+export function insertUserVideo(index, file, id) {
   return {
     type: actions.INSERT_NEW_USER_VIDEO,
     index,
     video: {
       title: file.name,
       video: file.url
-    }
+    },
+    id
   };
 }
 
-export function insertUserAudio(index, file) {
+export function insertUserAudio(index, file, id) {
   return {
     type: actions.INSERT_NEW_USER_AUDIO,
     index,
     audio: {
       title: file.name,
       audio: file.url
-    }
+    },
+    id
   };
 }
 
-export function insertUserDocument(index, file) {
+export function insertUserDocument(index, file, id) {
   return {
     type: actions.INSERT_NEW_USER_DOCUMENT,
     index,
     document: {
       title: file.name,
       src: file.url
-    }
+    },
+    id
   };
 }
 
@@ -262,47 +277,51 @@ export function insertResponseMessage(index, text, id) {
   };
 }
 
-export function insertResponseImage(index, file) {
+export function insertResponseImage(index, file, id) {
   return {
     type: actions.INSERT_NEW_IMAGE_IMGREPLY,
     index,
     image: {
       title: file.name,
       image: file.url
-    }
+    },
+    id
   };
 }
 
-export function insertResponseVideo(index, file) {
+export function insertResponseVideo(index, file, id) {
   return {
     type: actions.INSERT_NEW_VIDEO_VIDREPLY,
     index,
     video: {
       title: file.name,
       video: file.url
-    }
+    },
+    id
   };
 }
 
-export function insertResponseAudio(index, file) {
+export function insertResponseAudio(index, file, id) {
   return {
     type: actions.INSERT_NEW_AUDIO_AUDIOREPLY,
     index,
     audio: {
       title: file.name,
       audio: file.url
-    }
+    },
+    id
   };
 }
 
-export function insertResponseDocument(index, file) {
+export function insertResponseDocument(index, file, id) {
   return {
     type: actions.INSERT_NEW_DOCUMENT_DOCREPLY,
     index,
     document: {
       title: file.name,
       src: file.url
-    }
+    },
+    id
   };
 }
 

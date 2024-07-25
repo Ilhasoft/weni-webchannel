@@ -344,7 +344,7 @@ class Widget extends Component {
       if (newMessage.type === 'text') {
         dispatch(messageHandler(0, newMessage.text, historyMessage.ID));
       } else {
-        dispatch(messageHandler(0, { name: newMessage.caption || '', url: newMessage.media_url }));
+        dispatch(messageHandler(0, { name: newMessage.caption || '', url: newMessage.media_url }, historyMessage.ID));
       }
     }
   }

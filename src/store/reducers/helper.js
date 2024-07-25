@@ -16,7 +16,7 @@ export function createNewMessage(text, sender, id) {
   });
 }
 
-export function createLinkSnippet(link, sender) {
+export function createLinkSnippet(link, sender, id) {
   return Map({
     type: MESSAGES_TYPES.SNIPPET.LINK,
     component: Snippet,
@@ -26,11 +26,12 @@ export function createLinkSnippet(link, sender) {
     target: link.target || '_blank',
     sender,
     showAvatar: true,
-    timestamp: new Date().getTime()
+    timestamp: new Date().getTime(),
+    id
   });
 }
 
-export function createVideoSnippet(video, sender) {
+export function createVideoSnippet(video, sender, id) {
   return Map({
     type: MESSAGES_TYPES.VIDREPLY.VIDEO,
     component: Video,
@@ -38,11 +39,12 @@ export function createVideoSnippet(video, sender) {
     video: video.video,
     sender,
     showAvatar: true,
-    timestamp: new Date().getTime()
+    timestamp: new Date().getTime(),
+    id
   });
 }
 
-export function createAudioSnippet(audio, sender) {
+export function createAudioSnippet(audio, sender, id) {
   return Map({
     type: MESSAGES_TYPES.AUDIOREPLY.AUDIO,
     component: Audio,
@@ -50,11 +52,12 @@ export function createAudioSnippet(audio, sender) {
     audio: audio.audio,
     sender,
     showAvatar: true,
-    timestamp: new Date().getTime()
+    timestamp: new Date().getTime(),
+    id
   });
 }
 
-export function createImageSnippet(image, sender) {
+export function createImageSnippet(image, sender, id) {
   return Map({
     type: MESSAGES_TYPES.IMGREPLY.IMAGE,
     component: Image,
@@ -62,11 +65,12 @@ export function createImageSnippet(image, sender) {
     image: image.image,
     sender,
     showAvatar: true,
-    timestamp: new Date().getTime()
+    timestamp: new Date().getTime(),
+    id
   });
 }
 
-export function createDocumentSnippet(document, sender) {
+export function createDocumentSnippet(document, sender, id) {
   return Map({
     type: MESSAGES_TYPES.DOCREPLY.DOCUMENT,
     component: DocViewer,
@@ -74,11 +78,12 @@ export function createDocumentSnippet(document, sender) {
     src: document.src,
     sender,
     showAvatar: true,
-    timestamp: new Date().getTime()
+    timestamp: new Date().getTime(),
+    id
   });
 }
 
-export function createQuickReply(quickReply, sender) {
+export function createQuickReply(quickReply, sender, id) {
   return Map({
     type: MESSAGES_TYPES.QUICK_REPLY,
     component: QuickReply,
@@ -86,18 +91,20 @@ export function createQuickReply(quickReply, sender) {
     sender,
     showAvatar: true,
     chosenReply: null,
-    timestamp: new Date().getTime()
+    timestamp: new Date().getTime(),
+    id
   });
 }
 
-export function createComponentMessage(component, props, showAvatar) {
+export function createComponentMessage(component, props, showAvatar, id) {
   return Map({
     type: MESSAGES_TYPES.CUSTOM_COMPONENT,
     component,
     props,
     sender: MESSAGE_SENDER.RESPONSE,
     showAvatar,
-    timestamp: new Date().getTime()
+    timestamp: new Date().getTime(),
+    id
   });
 }
 
