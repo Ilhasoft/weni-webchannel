@@ -167,7 +167,7 @@ class Messages extends Component {
 
   transformStateToStore = () => {
     const { messages } = this.props;
-    const conversation = [];
+    let conversation = [];
 
     if (messages.size) {
       messages.forEach((item) => {
@@ -179,11 +179,23 @@ class Messages extends Component {
         conversation.push(transform);
       });
     }
+    conversation = this.removeDuplicates(conversation);
     const chatSession = JSON.parse(localStorage.getItem('chat_session'));
     if (chatSession && chatSession.conversation) {
       chatSession.conversation = conversation;
       localStorage.setItem('chat_session', JSON.stringify(chatSession));
     }
+  }
+
+  removeDuplicates = (arr) => {
+    const seenIds = new Set();
+    return arr.filter((item) => {
+      if (seenIds.has(item.id)) {
+        return false;
+      }
+      seenIds.add(item.id);
+      return true;
+    });
   }
 
 

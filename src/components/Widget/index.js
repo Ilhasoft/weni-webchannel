@@ -334,7 +334,6 @@ class Widget extends Component {
   buildHistory(history) {
     const { dispatch } = this.props;
     const newItems = this.getUniqueNewItems(history);
-    // this.addUniqueItemsToHistory(newItems);
     for (const historyMessage of newItems) {
       const sender = historyMessage.direction === 'in' ? 'response' : 'client';
       const showAvatar = historyMessage.direction === 'in';
