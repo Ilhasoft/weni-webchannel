@@ -53,8 +53,11 @@ class Messages extends Component {
   }
 
   componentDidMount() {
+    const { messages } = this.props;
+    if (!messages.size) {
+      this.clearStorage();
+    }
     scrollToBottom();
-    this.clearStorage();
     const messagesDiv = document.getElementById('push-messages');
 
     if (messagesDiv) {
@@ -68,6 +71,8 @@ class Messages extends Component {
         this.updateHistory();
       }
     });
+
+    this.updateHistory();
   }
 
   componentDidUpdate() {
@@ -162,9 +167,10 @@ class Messages extends Component {
     }
     forceChatConnection();
     const intervalId = setInterval(() => {
+      console.log('History Updated');
       this.updateHistory();
       clearInterval(intervalId);
-    }, 1200);
+    }, 1500);
   }
 
   updateHistory = () => {
