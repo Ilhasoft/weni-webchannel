@@ -81,8 +81,8 @@ export function setQuickReply(id, title) {
   store.dispatch(actions.setQuickReply(id, title));
 }
 
-export function insertUserMessage(idx, text) {
-  store.dispatch(actions.insertUserMessage(idx, text));
+export function insertUserMessage(id, text) {
+  store.dispatch(actions.insertUserMessage(id, text));
 }
 
 export function insertUserImage(id, file) {

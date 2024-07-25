@@ -80,10 +80,11 @@ export function changeInputFieldHint(hint) {
   };
 }
 
-export function addUserMessage(text) {
+export function addUserMessage(text, id) {
   return {
     type: actions.ADD_NEW_USER_MESSAGE,
-    text
+    text,
+    id
   };
 }
 
