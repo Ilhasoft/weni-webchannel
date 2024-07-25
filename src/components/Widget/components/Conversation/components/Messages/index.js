@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import { debounce } from 'lodash';
 import { withTranslation } from 'react-i18next';
@@ -53,10 +53,7 @@ class Messages extends Component {
   }
 
   componentDidMount() {
-    const { messages } = this.props;
-    if (!messages.size) {
-      this.clearStorage();
-    }
+    this.transformStateToStore();
     scrollToBottom();
     const messagesDiv = document.getElementById('push-messages');
 
@@ -142,15 +139,6 @@ class Messages extends Component {
     }
   }
 
-  clearStorage() {
-    const chatSession = JSON.parse(localStorage.getItem('chat_session'));
-    if (chatSession && chatSession.conversation) {
-      chatSession.conversation = [];
-      localStorage.setItem('chat_session', JSON.stringify(chatSession));
-    }
-    this.updateHistory();
-  }
-
   handleScroll = (event) => {
     const { scrollTop } = event.srcElement;
 
@@ -163,7 +151,7 @@ class Messages extends Component {
     const { forceChatConnection, messages } = this.props;
     this.setState({ forceChatConnection: true });
     if (!messages.size) {
-      this.clearStorage();
+      this.transformStateToStore();
     }
     forceChatConnection();
     const intervalId = setInterval(() => {
@@ -178,6 +166,28 @@ class Messages extends Component {
     this.historyLimit = 20;
     this.getHistory();
   }
+
+  transformStateToStore = () => {
+    const { messages } = this.props;
+    const conversation = [];
+
+    if (messages.size) {
+      messages.forEach((item) => {
+        const entries = item._root.entries;
+        const transform = entries.reduce((acc, [key, value]) => {
+          acc[key] = value;
+          return acc;
+        }, {});
+        conversation.push(transform);
+      });
+    }
+    const chatSession = JSON.parse(localStorage.getItem('chat_session'));
+    if (chatSession && chatSession.conversation) {
+      chatSession.conversation = conversation;
+      localStorage.setItem('chat_session', JSON.stringify(chatSession));
+    }
+  }
+
 
   render() {
     const {
@@ -328,9 +338,11 @@ Message.defaultTypes = {
   displayTypingIndication: false
 };
 
-export default connect(store => ({
-  messages: store.messages,
-  displayTypingIndication: store.behavior.get('messageDelayed'),
-  openSessionMessage: store.behavior.get('openSessionMessage'),
-  messagesScroll: store.behavior.get('messagesScroll')
-}))(withTranslation()(Messages));
+const mapStateToProps = state => ({
+  messages: state.messages,
+  displayTypingIndication: state.behavior.get('messageDelayed'),
+  openSessionMessage: state.behavior.get('openSessionMessage'),
+  messagesScroll: state.behavior.get('messagesScroll')
+});
+
+export default connect(mapStateToProps)(withTranslation()(Messages));
