@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.15](https://https//github.com/push-platform/push-webchat/compare/v2.15.14...v2.15.15) (2024-07-25)
+
+
+### Bug Fixes
+
+* remove duplicates on redux ([57e9b78](https://https//github.com/push-platform/push-webchat/commit/57e9b78e4a03c9be9bb9567209859383e35c3026))
+
 ### [2.15.14](https://https//github.com/push-platform/push-webchat/compare/v2.15.13...v2.15.14) (2024-07-25)
 
 
