@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.16](https://https//github.com/push-platform/push-webchat/compare/v2.15.15...v2.15.16) (2024-07-25)
+
+
+### Bug Fixes
+
+* add id to new user messages ([658eb99](https://https//github.com/push-platform/push-webchat/commit/658eb99fe98d5d296342c40ea83f4f57a1b8b4aa))
+
 ### [2.15.15](https://https//github.com/push-platform/push-webchat/compare/v2.15.14...v2.15.15) (2024-07-25)
 
 
