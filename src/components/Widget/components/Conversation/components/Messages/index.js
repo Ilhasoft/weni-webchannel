@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { array } from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect, useSelector } from 'react-redux';
 import Dropzone from 'react-dropzone';
@@ -54,7 +54,10 @@ class Messages extends Component {
 
   componentDidMount() {
     scrollToBottom();
-    this.clearStorage();
+    this.getMessagesState();
+    setTimeout(() => {
+      this.updateHistory();
+    }, 1500);
     const messagesDiv = document.getElementById('push-messages');
 
     if (messagesDiv) {
@@ -80,6 +83,7 @@ class Messages extends Component {
   }
 
   componentWillUnmount() {
+    this.setMessageStorage([]);
     const messagesDiv = document.getElementById('push-messages');
     if (messagesDiv) {
       messagesDiv.removeEventListener('scroll', this.handleScroll);
@@ -137,13 +141,14 @@ class Messages extends Component {
     }
   }
 
-  clearStorage() {
-    const chatSession = JSON.parse(localStorage.getItem('chat_session'));
+  setMessageStorage = (arr) => {
+    const storage =
+    this.props.params.storage === 'session' ? sessionStorage : localStorage;
+    const chatSession = JSON.parse(storage.getItem('chat_session'));
     if (chatSession && chatSession.conversation) {
-      chatSession.conversation = [];
-      localStorage.setItem('chat_session', JSON.stringify(chatSession));
+      chatSession.conversation = arr;
+      storage.setItem('chat_session', JSON.stringify(chatSession));
     }
-    this.updateHistory();
   }
 
   handleScroll = (event) => {
@@ -157,19 +162,38 @@ class Messages extends Component {
   handleForceChatConnection = () => {
     const { forceChatConnection, messages } = this.props;
     this.setState({ forceChatConnection: true });
-    if (!messages.size) {
-      this.clearStorage();
-    }
     forceChatConnection();
+    scrollToBottom();
+    this.getMessagesState();
+    this.updateHistory();
     setTimeout(() => {
       this.updateHistory();
-    }, 1200);
+    }, 1500);
   }
 
   updateHistory = () => {
     this.setState({ historyPage: 0 });
     this.historyLimit = 20;
     this.getHistory();
+    this.getMessagesState();
+  }
+
+  getMessagesState = () => {
+    const { messages } = this.props;
+    this.setMessageStorage([]);
+    const messagesArray = [];
+
+    if (messages.size) {
+      const tail = messages._tail.array;
+      tail.forEach((item) => {
+        const teste = item._root.entries.reduce((acc, [key, value]) => {
+          acc[key] = value;
+          return acc;
+        }, {});
+        messagesArray.push(teste);
+      });
+    }
+    this.setMessageStorage(messagesArray);
   }
 
   render() {
