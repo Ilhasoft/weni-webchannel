@@ -148,12 +148,10 @@ class Messages extends Component {
   };
 
   handleForceChatConnection = () => {
-    const { forceChatConnection, messages } = this.props;
+    const { forceChatConnection } = this.props;
     this.setState({ forceChatConnection: true });
-    if (!messages.size) {
-      this.transformStateToStore();
-    }
     forceChatConnection();
+    this.transformStateToStore();
     const intervalId = setInterval(() => {
       console.log('History Updated');
       this.updateHistory();
