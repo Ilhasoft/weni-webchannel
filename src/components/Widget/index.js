@@ -60,6 +60,7 @@ import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
 import { buildQuickReplies, toBase64, getAttachmentType } from '../../utils/messages';
+import { ADD_NEW_RESPONSE_MESSAGE } from '../../store/actions/actionTypes';
 
 const MAX_PING_LIMIT = 216;
 let currentInitialization = null;
@@ -89,6 +90,13 @@ class Widget extends Component {
       audio: insertUserAudio,
       file: insertUserDocument
     };
+    this.clientNewMessage = {
+      text: addUserMessage,
+      image: addUserImage,
+      video: addUserVideo,
+      audio: addUserAudio,
+      file: addUserDocument
+    };
     this.responseMessageMap = {
       text: insertResponseMessage,
       image: insertResponseImage,
@@ -96,9 +104,20 @@ class Widget extends Component {
       video: insertResponseVideo,
       file: insertResponseDocument
     };
+    this.responseNewMessage = {
+      text: addResponseMessage,
+      image: addImageSnippet,
+      audio: addAudioSnippet,
+      video: addVideoSnippet,
+      file: addDocumentSnippet
+    };
     this.directionMap = {
       response: this.responseMessageMap,
       client: this.clientMessageMap
+    };
+    this.verticalAlign = {
+      response: this.responseNewMessage,
+      client: this.clientNewMessage
     };
   }
 
@@ -332,20 +351,45 @@ class Widget extends Component {
   }
 
   buildHistory(history) {
-    const { dispatch } = this.props;
+    const { dispatch, messagesJS } = this.props;
+
+    const newItems = this.getUniqueNewItems(history);
 
     for (const historyMessage of history) {
+      const position = this.findInsertionPosition(historyMessage);
+      const newItem = this.getUniqueNewItems(historyMessage);
       const sender = historyMessage.direction === 'in' ? 'response' : 'client';
       const showAvatar = historyMessage.direction === 'in';
       const newMessage = { ...historyMessage.message, sender, showAvatar };
-
       const messageHandler = this.directionMap[newMessage.sender][newMessage.type];
-      if (newMessage.type === 'text') {
-        dispatch(messageHandler(0, newMessage.text));
-      } else {
-        dispatch(messageHandler(0, { name: newMessage.caption || '', url: newMessage.media_url }));
+      if (!newItem) {
+        if (newMessage.type === 'text') {
+          dispatch(messageHandler(position, newMessage.text, historyMessage.ID));
+        } else {
+          dispatch(messageHandler(position, { name: newMessage.caption || '', url: newMessage.media_url }, historyMessage.ID));
+        }
       }
     }
+  }
+
+  findInsertionPosition = (newObj) => {
+    const { messagesJS } = this.props;
+    let position = 0;
+
+    for (let i = 0; i > messagesJS.length; i++) {
+      if (messagesJS[i].timestamp > newObj.timestamp) {
+        console.log('aqui');
+        position = i;
+        break;
+      }
+    }
+    return position;
+  }
+
+  getUniqueNewItems = (newItem) => {
+    const { messagesJS } = this.props;
+
+    return messagesJS.some(item => item.id === newItem.ID);
   }
 
   dispatchAckAttachment(message) {
@@ -679,7 +723,7 @@ class Widget extends Component {
     // TODO: add location type
     let shouldPlay = true;
     if (message.type === 'text') {
-      this.props.dispatch(addResponseMessage(message.text));
+      this.props.dispatch(addResponseMessage(message.text, message.id));
     } else if (message.type === 'video') {
       this.props.dispatch(
         addVideoSnippet({
@@ -843,6 +887,8 @@ class Widget extends Component {
 }
 
 const mapStateToProps = state => ({
+  messages: state.messages,
+  messagesJS: state.messages.toJS(),
   initialized: state.behavior.get('initialized'),
   connected: state.behavior.get('connected'),
   isChatOpen: state.behavior.get('isChatOpen'),
