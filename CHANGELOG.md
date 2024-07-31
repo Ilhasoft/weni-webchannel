@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.18](https://https///compare/v2.15.17...v2.15.18) (2024-07-31)
+
+
+### Bug Fixes
+
+* add message ids ([d55e44b](https://https///commit/d55e44be2ad08920517ec037d4affd5f0239a83a))
+* add position ([efdacf7](https://https///commit/efdacf7abc542c8b2a05f7201d462db798dbc83d))
+* add timestamp to all messages ([43d2685](https://https///commit/43d26855e0e78f1e43032e21ed7e89c0155df69a))
+* drop messages ([a89ddae](https://https///commit/a89ddae164de4f52bd2cfc325622698776adf2e7))
+* remove console log ([2792ef2](https://https///commit/2792ef2301202a064943a29d88e08eefc41e3de9))
+* timestamp ([dcd1cd0](https://https///commit/dcd1cd04ff049243494b61f66ff0743b52e0e2d7))
+* update history ([8c30737](https://https///commit/8c307376523c4632fd4f04f5cda6b314e884dff1))
+
 ### [2.15.17](https://https//github.com/push-platform/push-webchat/compare/v2.14.0...v2.15.17) (2024-07-25)
 
 
