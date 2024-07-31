@@ -1,3 +1,4 @@
+
 import * as actions from './actionTypes';
 
 export function initialize() {
@@ -80,55 +81,60 @@ export function changeInputFieldHint(hint) {
   };
 }
 
-export function addUserMessage(text, id) {
+export function addUserMessage(text, id, timestamp) {
   return {
     type: actions.ADD_NEW_USER_MESSAGE,
     text,
-    id
+    id,
+    timestamp
   };
 }
 
-export function addUserImage(file, id) {
+export function addUserImage(file, id, timestamp) {
   return {
     type: actions.ADD_NEW_USER_IMAGE,
     image: {
       title: file.name,
       image: file.url
     },
-    id
+    id,
+    timestamp
   };
 }
 
-export function addUserVideo(file, id) {
+export function addUserVideo(file, id, timestamp) {
   return {
     type: actions.ADD_NEW_USER_VIDEO,
     video: {
       title: file.name,
       video: file.url
     },
-    id
+    id,
+    timestamp
   };
 }
 
-export function addUserAudio(file, id) {
+export function addUserAudio(file, id, timestamp) {
   return {
     type: actions.ADD_NEW_USER_AUDIO,
     audio: {
       title: file.name,
       audio: file.url
     },
-    id
+    id,
+    timestamp
   };
 }
 
-export function addUserDocument(file, id) {
+export function addUserDocument(file, id, timestamp) {
   return {
     type: actions.ADD_NEW_USER_DOCUMENT,
     document: {
       title: file.name,
       src: file.url
     },
-    id
+    id,
+    timestamp
   };
 }
 
@@ -147,67 +153,75 @@ export function emitMessageIfFirst(payload, text = null) {
   };
 }
 
-export function addResponseMessage(text, id) {
+export function addResponseMessage(text, id, timestamp) {
   return {
     type: actions.ADD_NEW_RESPONSE_MESSAGE,
     text,
-    id
+    id,
+    timestamp
   };
 }
 
-export function addLinkSnippet(link, id) {
+export function addLinkSnippet(link, id, timestamp) {
   return {
     type: actions.ADD_NEW_LINK_SNIPPET,
     link,
-    id
+    id,
+    timestamp
   };
 }
 
-export function addVideoSnippet(video, id) {
+export function addVideoSnippet(video, id, timestamp) {
   return {
     type: actions.ADD_NEW_VIDEO_VIDREPLY,
     video,
-    id
+    id,
+    timestamp
   };
 }
 
-export function addAudioSnippet(audio, id) {
+export function addAudioSnippet(audio, id, timestamp) {
   return {
     type: actions.ADD_NEW_AUDIO_AUDIOREPLY,
     audio,
-    id
+    id,
+    timestamp
   };
 }
 
-export function addImageSnippet(image, id) {
+export function addImageSnippet(image, id, timestamp) {
   return {
     type: actions.ADD_NEW_IMAGE_IMGREPLY,
     image,
-    id
+    id,
+    timestamp
   };
 }
 
-export function addDocumentSnippet(document, id) {
+export function addDocumentSnippet(document, id, timestamp) {
   return {
     type: actions.ADD_NEW_DOCUMENT_DOCREPLY,
     document,
-    id
+    id,
+    timestamp
   };
 }
 
-export function addQuickReply(quickReply, id) {
+export function addQuickReply(quickReply, id, timestamp) {
   return {
     type: actions.ADD_QUICK_REPLY,
     quickReply,
-    id
+    id,
+    timestamp
   };
 }
 
-export function setQuickReply(id, title) {
+export function setQuickReply(id, title, timestamp) {
   return {
     type: actions.SET_QUICK_REPLY,
     id,
-    title
+    title,
+    timestamp
   };
 }
 
@@ -221,7 +235,7 @@ export function insertUserMessage(index, text, id, timestamp) {
   };
 }
 
-export function insertUserImage(index, file, id) {
+export function insertUserImage(index, file, id, timestamp) {
   return {
     type: actions.INSERT_NEW_USER_IMAGE,
     index,
@@ -229,11 +243,12 @@ export function insertUserImage(index, file, id) {
       title: file.name,
       image: file.url
     },
-    id
+    id,
+    timestamp
   };
 }
 
-export function insertUserVideo(index, file, id) {
+export function insertUserVideo(index, file, id, timestamp) {
   return {
     type: actions.INSERT_NEW_USER_VIDEO,
     index,
@@ -241,11 +256,12 @@ export function insertUserVideo(index, file, id) {
       title: file.name,
       video: file.url
     },
-    id
+    id,
+    timestamp
   };
 }
 
-export function insertUserAudio(index, file, id) {
+export function insertUserAudio(index, file, id, timestamp) {
   return {
     type: actions.INSERT_NEW_USER_AUDIO,
     index,
@@ -253,11 +269,12 @@ export function insertUserAudio(index, file, id) {
       title: file.name,
       audio: file.url
     },
-    id
+    id,
+    timestamp
   };
 }
 
-export function insertUserDocument(index, file, id) {
+export function insertUserDocument(index, file, id, timestamp) {
   return {
     type: actions.INSERT_NEW_USER_DOCUMENT,
     index,
@@ -265,20 +282,22 @@ export function insertUserDocument(index, file, id) {
       title: file.name,
       src: file.url
     },
-    id
+    id,
+    timestamp
   };
 }
 
-export function insertResponseMessage(index, text, id) {
+export function insertResponseMessage(index, text, id, timestamp) {
   return {
     type: actions.INSERT_NEW_RESPONSE_MESSAGE,
     index,
     text,
-    id
+    id,
+    timestamp
   };
 }
 
-export function insertResponseImage(index, file, id) {
+export function insertResponseImage(index, file, id, timestamp) {
   return {
     type: actions.INSERT_NEW_IMAGE_IMGREPLY,
     index,
@@ -286,11 +305,12 @@ export function insertResponseImage(index, file, id) {
       title: file.name,
       image: file.url
     },
-    id
+    id,
+    timestamp
   };
 }
 
-export function insertResponseVideo(index, file, id) {
+export function insertResponseVideo(index, file, id, timestamp) {
   return {
     type: actions.INSERT_NEW_VIDEO_VIDREPLY,
     index,
@@ -298,11 +318,12 @@ export function insertResponseVideo(index, file, id) {
       title: file.name,
       video: file.url
     },
-    id
+    id,
+    timestamp
   };
 }
 
-export function insertResponseAudio(index, file, id) {
+export function insertResponseAudio(index, file, id, timestamp) {
   return {
     type: actions.INSERT_NEW_AUDIO_AUDIOREPLY,
     index,
@@ -310,11 +331,12 @@ export function insertResponseAudio(index, file, id) {
       title: file.name,
       audio: file.url
     },
-    id
+    id,
+    timestamp
   };
 }
 
-export function insertResponseDocument(index, file, id) {
+export function insertResponseDocument(index, file, id, timestamp) {
   return {
     type: actions.INSERT_NEW_DOCUMENT_DOCREPLY,
     index,
@@ -322,7 +344,8 @@ export function insertResponseDocument(index, file, id) {
       title: file.name,
       src: file.url
     },
-    id
+    id,
+    timestamp
   };
 }
 
