@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.19](https://https///compare/v2.15.18...v2.15.19) (2024-07-31)
+
 ### [2.15.18](https://https///compare/v2.15.17...v2.15.18) (2024-07-31)
 
 
