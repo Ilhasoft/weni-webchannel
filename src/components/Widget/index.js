@@ -342,7 +342,6 @@ class Widget extends Component {
     const { dispatch, messagesJS } = this.props;
 
     for (const historyMessage of history) {
-      console.log('❤️', historyMessage.timestamp);
       const position = this.findInsertionPosition(historyMessage);
       const newItem = this.getUniqueNewItems(historyMessage);
       const sender = historyMessage.direction === 'in' ? 'response' : 'client';
