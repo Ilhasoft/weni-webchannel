@@ -77,9 +77,8 @@ export default function (storage) {
         return storeMessage(state.setIn([action.id, 'chosenReply'], action.title));
       }
       case actionTypes.INSERT_NEW_USER_MESSAGE: {
-        console.log('action id:', action.id);
         return storeMessage(
-          state.insert(action.index, createNewMessage(action.text, MESSAGE_SENDER.CLIENT, action.id))
+          state.insert(action.index, createNewMessage(action.text, MESSAGE_SENDER.CLIENT, action.id, action.timestamp))
         );
       }
       case actionTypes.INSERT_NEW_USER_IMAGE: {

@@ -81,9 +81,8 @@ export function setQuickReply(id, title) {
   store.dispatch(actions.setQuickReply(id, title));
 }
 
-export function insertUserMessage(idx, text, id) {
-  console.log('AQUI', id);
-  store.dispatch(actions.insertUserMessage(idx, text, id));
+export function insertUserMessage(idx, text, id, timestamp) {
+  store.dispatch(actions.insertUserMessage(idx, text, id, timestamp));
 }
 
 export function insertUserImage(idx, text, id) {

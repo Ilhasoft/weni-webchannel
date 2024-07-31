@@ -211,12 +211,13 @@ export function setQuickReply(id, title) {
   };
 }
 
-export function insertUserMessage(index, text, id) {
+export function insertUserMessage(index, text, id, timestamp) {
   return {
     type: actions.INSERT_NEW_USER_MESSAGE,
     index,
     text,
-    id
+    id,
+    timestamp
   };
 }
 

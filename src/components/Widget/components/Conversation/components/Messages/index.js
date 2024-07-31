@@ -54,7 +54,6 @@ class Messages extends Component {
 
   componentDidMount() {
     scrollToBottom();
-    this.getMessagesState();
     setTimeout(() => {
       this.updateHistory();
     }, 1500);
@@ -71,6 +70,8 @@ class Messages extends Component {
         this.updateHistory();
       }
     });
+
+    this.updateHistory();
   }
 
   componentDidUpdate() {
@@ -83,7 +84,6 @@ class Messages extends Component {
   }
 
   componentWillUnmount() {
-    this.setMessageStorage([]);
     const messagesDiv = document.getElementById('push-messages');
     if (messagesDiv) {
       messagesDiv.removeEventListener('scroll', this.handleScroll);
@@ -141,16 +141,6 @@ class Messages extends Component {
     }
   }
 
-  setMessageStorage = (arr) => {
-    const storage =
-    this.props.params.storage === 'session' ? sessionStorage : localStorage;
-    const chatSession = JSON.parse(storage.getItem('chat_session'));
-    if (chatSession && chatSession.conversation) {
-      chatSession.conversation = arr;
-      storage.setItem('chat_session', JSON.stringify(chatSession));
-    }
-  }
-
   handleScroll = (event) => {
     const { scrollTop } = event.srcElement;
 
@@ -164,36 +154,15 @@ class Messages extends Component {
     this.setState({ forceChatConnection: true });
     forceChatConnection();
     scrollToBottom();
-    this.getMessagesState();
-    this.updateHistory();
     setTimeout(() => {
       this.updateHistory();
-    }, 1500);
+    }, 2000);
   }
 
   updateHistory = () => {
     this.setState({ historyPage: 0 });
     this.historyLimit = 20;
     this.getHistory();
-    this.getMessagesState();
-  }
-
-  getMessagesState = () => {
-    const { messages } = this.props;
-    this.setMessageStorage([]);
-    const messagesArray = [];
-
-    if (messages.size) {
-      const tail = messages._tail.array;
-      tail.forEach((item) => {
-        const teste = item._root.entries.reduce((acc, [key, value]) => {
-          acc[key] = value;
-          return acc;
-        }, {});
-        messagesArray.push(teste);
-      });
-    }
-    this.setMessageStorage(messagesArray);
   }
 
   render() {

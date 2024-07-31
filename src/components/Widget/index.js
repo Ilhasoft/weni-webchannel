@@ -342,17 +342,19 @@ class Widget extends Component {
     const { dispatch, messagesJS } = this.props;
 
     for (const historyMessage of history) {
+      console.log('❤️', historyMessage.timestamp);
       const position = this.findInsertionPosition(historyMessage);
       const newItem = this.getUniqueNewItems(historyMessage);
       const sender = historyMessage.direction === 'in' ? 'response' : 'client';
       const showAvatar = historyMessage.direction === 'in';
       const newMessage = { ...historyMessage.message, sender, showAvatar };
       const messageHandler = this.directionMap[newMessage.sender][newMessage.type];
+      const timestamp = historyMessage.timestamp || new Date().getTime();
       if (!newItem) {
         if (newMessage.type === 'text') {
-          dispatch(messageHandler(position, newMessage.text, historyMessage.ID));
+          dispatch(messageHandler(position, newMessage.text, historyMessage.ID, timestamp));
         } else {
-          dispatch(messageHandler(position, { name: newMessage.caption || '', url: newMessage.media_url }, historyMessage.ID));
+          dispatch(messageHandler(position, { name: newMessage.caption || '', url: newMessage.media_url }, historyMessage.ID, timestamp));
         }
       }
     }
@@ -360,9 +362,9 @@ class Widget extends Component {
 
   findInsertionPosition = (newObj) => {
     const { messagesJS } = this.props;
-    let position = 0;
+    let position = messagesJS.length; // Posição padrão para o final da lista
 
-    for (let i = 0; i > messagesJS.length; i++) {
+    for (let i = 0; i < messagesJS.length; i++) {
       if (messagesJS[i].timestamp > newObj.timestamp) {
         position = i;
         break;
@@ -370,6 +372,20 @@ class Widget extends Component {
     }
     return position;
   }
+
+
+  // findInsertionPosition = (newObj) => {
+  //   const { messagesJS } = this.props;
+  //   let position = 0;
+
+  //   for (let i = 0; i > messagesJS.length; i++) {
+  //     if (messagesJS[i].timestamp > newObj.timestamp) {
+  //       position = i;
+  //       break;
+  //     }
+  //   }
+  //   return position;
+  // }
 
   getUniqueNewItems = (newItem) => {
     const { messagesJS } = this.props;

@@ -4,14 +4,14 @@ import { MESSAGES_TYPES, MESSAGE_SENDER, SESSION_NAME } from 'constants';
 import { Audio, Video, Image, Message, Snippet, QuickReply, DocViewer } from 'messagesComponents';
 import * as actionTypes from '../actions/actionTypes';
 
-export function createNewMessage(text, sender, id) {
+export function createNewMessage(text, sender, id, timestamp) {
   return Map({
     type: MESSAGES_TYPES.TEXT,
     component: Message,
     text,
     sender,
     showAvatar: sender === MESSAGE_SENDER.RESPONSE,
-    timestamp: new Date().getTime(),
+    timestamp,
     id
   });
 }
@@ -31,7 +31,7 @@ export function createLinkSnippet(link, sender, id) {
   });
 }
 
-export function createVideoSnippet(video, sender, id) {
+export function createVideoSnippet(video, sender, id, timestamp) {
   return Map({
     type: MESSAGES_TYPES.VIDREPLY.VIDEO,
     component: Video,
@@ -39,7 +39,7 @@ export function createVideoSnippet(video, sender, id) {
     video: video.video,
     sender,
     showAvatar: true,
-    timestamp: new Date().getTime(),
+    timestamp,
     id
   });
 }
