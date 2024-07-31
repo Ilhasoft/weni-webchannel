@@ -25,84 +25,85 @@ export function disconnect() {
   store.dispatch(actions.disconnectServer());
 }
 
-export function addUserMessage(text) {
-  store.dispatch(actions.addUserMessage(text));
+export function addUserMessage(text, id) {
+  store.dispatch(actions.addUserMessage(text, id));
 }
 
-export function addUserImage(file) {
-  store.dispatch(actions.addUserImage(file));
+export function addUserImage(file, id) {
+  store.dispatch(actions.addUserImage(file, id));
 }
 
-export function addUserVideo(file) {
-  store.dispatch(actions.addUserVideo(file));
+export function addUserVideo(file, id) {
+  store.dispatch(actions.addUserVideo(file, id));
 }
 
-export function addUserAudio(file) {
-  store.dispatch(actions.addUserAudio(file));
+export function addUserAudio(file, id) {
+  store.dispatch(actions.addUserAudio(file, id));
 }
 
-export function addUserDocument(file) {
-  store.dispatch(actions.addUserDocument(file));
+export function addUserDocument(file, id) {
+  store.dispatch(actions.addUserDocument(file, id));
 }
 
-export function emitUserMessage(message) {
-  store.dispatch(actions.emitUserMessage(message));
+export function emitUserMessage(message, id) {
+  store.dispatch(actions.emitUserMessage(message, id));
 }
 
-export function addResponseMessage(text) {
-  store.dispatch(actions.addResponseMessage(text));
+export function addResponseMessage(text, id) {
+  store.dispatch(actions.addResponseMessage(text, id));
 }
 
-export function addLinkSnippet(link) {
-  store.dispatch(actions.addLinkSnippet(link));
+export function addLinkSnippet(link, id) {
+  store.dispatch(actions.addLinkSnippet(link, id));
 }
 
-export function addVideoSnippet(video) {
-  store.dispatch(actions.addVideoSnippet(video));
+export function addVideoSnippet(video, id) {
+  store.dispatch(actions.addVideoSnippet(video, id));
 }
 
-export function addAudioSnippet(audio) {
-  store.dispatch(actions.addAudioSnippet(audio));
+export function addAudioSnippet(audio, id) {
+  store.dispatch(actions.addAudioSnippet(audio, id));
 }
 
-export function addImageSnippet(image) {
-  store.dispatch(actions.addImageSnippet(image));
+export function addImageSnippet(image, id) {
+  store.dispatch(actions.addImageSnippet(image, id));
 }
 
 export function addDocumentSnippet(image) {
   store.dispatch(actions.addDocumentSnippet(image));
 }
 
-export function addQuickReply(quickReply) {
-  store.dispatch(actions.addQuickReply(quickReply));
+export function addQuickReply(quickReply, id) {
+  store.dispatch(actions.addQuickReply(quickReply, id));
 }
 
 export function setQuickReply(id, title) {
   store.dispatch(actions.setQuickReply(id, title));
 }
 
-export function insertUserMessage(id, text) {
-  store.dispatch(actions.insertUserMessage(id, text));
+export function insertUserMessage(idx, text, id) {
+  console.log('AQUI', id);
+  store.dispatch(actions.insertUserMessage(idx, text, id));
 }
 
-export function insertUserImage(id, file) {
-  store.dispatch(actions.insertUserImage(id, file));
+export function insertUserImage(idx, text, id) {
+  store.dispatch(actions.insertUserImage(idx, text, id));
 }
 
-export function insertUserVideo(id, file) {
-  store.dispatch(actions.insertUserVideo(id, file));
+export function insertUserVideo(idx, text, id) {
+  store.dispatch(actions.insertUserVideo(idx, text, id));
 }
 
-export function insertUserAudio(id, file) {
-  store.dispatch(actions.insertUserAudio(id, file));
+export function insertUserAudio(idx, text, id) {
+  store.dispatch(actions.insertUserAudio(idx, text, id));
 }
 
-export function insertUserDocument(id, file) {
-  store.dispatch(actions.insertUserDocument(id, file));
+export function insertUserDocument(idx, text, id) {
+  store.dispatch(actions.insertUserDocument(idx, text, id));
 }
 
-export function insertResponseMessage(id, text) {
-  store.dispatch(actions.insertResponseMessage(id, text));
+export function insertResponseMessage(idx, text, id) {
+  store.dispatch(actions.insertResponseMessage(idx, text, id));
 }
 
 export function renderCustomComponent(component, props, showAvatar = false) {

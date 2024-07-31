@@ -60,7 +60,6 @@ import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
 import { buildQuickReplies, toBase64, getAttachmentType } from '../../utils/messages';
-import { ADD_NEW_RESPONSE_MESSAGE } from '../../store/actions/actionTypes';
 
 const MAX_PING_LIMIT = 216;
 let currentInitialization = null;
@@ -104,20 +103,9 @@ class Widget extends Component {
       video: insertResponseVideo,
       file: insertResponseDocument
     };
-    this.responseNewMessage = {
-      text: addResponseMessage,
-      image: addImageSnippet,
-      audio: addAudioSnippet,
-      video: addVideoSnippet,
-      file: addDocumentSnippet
-    };
     this.directionMap = {
       response: this.responseMessageMap,
       client: this.clientMessageMap
-    };
-    this.verticalAlign = {
-      response: this.responseNewMessage,
-      client: this.clientNewMessage
     };
   }
 
@@ -353,8 +341,6 @@ class Widget extends Component {
   buildHistory(history) {
     const { dispatch, messagesJS } = this.props;
 
-    const newItems = this.getUniqueNewItems(history);
-
     for (const historyMessage of history) {
       const position = this.findInsertionPosition(historyMessage);
       const newItem = this.getUniqueNewItems(historyMessage);
@@ -378,7 +364,6 @@ class Widget extends Component {
 
     for (let i = 0; i > messagesJS.length; i++) {
       if (messagesJS[i].timestamp > newObj.timestamp) {
-        console.log('aqui');
         position = i;
         break;
       }

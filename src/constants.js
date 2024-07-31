@@ -47,7 +47,7 @@ export const PROP_TYPES = {
       MESSAGES_TYPES.VIDREPLY.VIDEO,
       MESSAGES_TYPES.DOCREPLY.DOCUMENT
     ]),
-    id: PropTypes.number,
+    id: PropTypes.string,
     text: PropTypes.string,
     sender: PropTypes.oneOf([
       MESSAGE_SENDER.CLIENT,
