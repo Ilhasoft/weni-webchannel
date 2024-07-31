@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { array } from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import { debounce } from 'lodash';
 import { withTranslation } from 'react-i18next';
 
 import alertCircle from 'assets/alert-circle-1-1.svg';
 import { MESSAGES_TYPES, VALID_FILE_TYPE } from 'constants';
-import { Video, Image, Message, Snippet, QuickReply, DocViewer, Audio } from 'messagesComponents';
+import {
+  Video, Image, Message, Snippet, QuickReply, DocViewer, Audio
+} from 'messagesComponents';
 
-import { getHistory, setMessagesScroll } from 'actions';
+import { getHistory } from 'actions';
 
 import './styles.scss';
+
 
 const isToday = (date) => {
   const today = new Date();
   return (
-    date.getDate() === today.getDate() &&
-    date.getMonth() === today.getMonth() &&
-    date.getFullYear() === today.getFullYear()
+    date.getDate() === today.getDate()
+    && date.getMonth() === today.getMonth()
+    && date.getFullYear() === today.getFullYear()
   );
 };
 
@@ -41,28 +44,46 @@ class Messages extends Component {
     super(props);
     this.historyLimit = 20;
     this.state = {
-      historyPage: 1
+      historyPage: 0,
+      next: true,
+      previousPage: 0,
+      intervalId: 0,
+      forceConnection: true
     };
   }
 
   componentDidMount() {
     scrollToBottom();
+    this.getMessagesState();
+    setTimeout(() => {
+      this.updateHistory();
+    }, 1500);
     const messagesDiv = document.getElementById('push-messages');
 
     if (messagesDiv) {
       messagesDiv.addEventListener('scroll', debounce(this.handleScroll, 1000));
     }
+
+    setInterval(this.updateHistory, 60000);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        this.updateHistory();
+      }
+    });
   }
 
   componentDidUpdate() {
     const { messagesScroll } = this.props;
+    const { historyPage } = this.state;
 
-    if (messagesScroll || this.state.historyPage === 1) {
+    if (messagesScroll || historyPage === 1) {
       scrollToBottom();
     }
   }
 
   componentWillUnmount() {
+    this.setMessageStorage([]);
     const messagesDiv = document.getElementById('push-messages');
     if (messagesDiv) {
       messagesDiv.removeEventListener('scroll', this.handleScroll);
@@ -70,7 +91,7 @@ class Messages extends Component {
   }
 
   getComponentToRender = (message, index, isLast) => {
-    const { params } = this.props;
+    const { params, customComponent } = this.props;
     const ComponentToRender = (() => {
       switch (message.get('type')) {
         case MESSAGES_TYPES.TEXT: {
@@ -98,7 +119,7 @@ class Messages extends Component {
           return connect(
             store => ({ store }),
             dispatch => ({ dispatch })
-          )(this.props.customComponent);
+          )(customComponent);
         default:
           return null;
       }
@@ -109,16 +130,71 @@ class Messages extends Component {
     return <ComponentToRender id={index} params={params} message={message} isLast={isLast} />;
   };
 
-  handleScroll = (event) => {
-    const { params, dispatch } = this.props;
-    const scrollTop = event.srcElement.scrollTop;
+  getHistory = () => {
+    const { dispatch, messages } = this.props;
+    const { historyPage, next } = this.state;
+    this.setState({ next: messages.size % this.historyLimit === 0 || historyPage === 0 });
+    if (next) {
+      const page = Math.ceil((messages.size / this.historyLimit));
+      dispatch(getHistory(this.historyLimit, historyPage === 0 ? 1 : page + 1));
+      this.setState({ historyPage: page + 1, previousPage: page });
+    }
+  }
 
-    if (scrollTop === 0 && params.storage === 'local') {
-      dispatch(setMessagesScroll(false));
-      dispatch(getHistory(this.historyLimit, this.state.historyPage + 1));
-      this.setState({ historyPage: this.state.historyPage + 1 });
+  setMessageStorage = (arr) => {
+    const storage =
+    this.props.params.storage === 'session' ? sessionStorage : localStorage;
+    const chatSession = JSON.parse(storage.getItem('chat_session'));
+    if (chatSession && chatSession.conversation) {
+      chatSession.conversation = arr;
+      storage.setItem('chat_session', JSON.stringify(chatSession));
+    }
+  }
+
+  handleScroll = (event) => {
+    const { scrollTop } = event.srcElement;
+
+    if (scrollTop === 0) {
+      this.getHistory();
     }
   };
+
+  handleForceChatConnection = () => {
+    const { forceChatConnection, messages } = this.props;
+    this.setState({ forceChatConnection: true });
+    forceChatConnection();
+    scrollToBottom();
+    this.getMessagesState();
+    this.updateHistory();
+    setTimeout(() => {
+      this.updateHistory();
+    }, 1500);
+  }
+
+  updateHistory = () => {
+    this.setState({ historyPage: 0 });
+    this.historyLimit = 20;
+    this.getHistory();
+    this.getMessagesState();
+  }
+
+  getMessagesState = () => {
+    const { messages } = this.props;
+    this.setMessageStorage([]);
+    const messagesArray = [];
+
+    if (messages.size) {
+      const tail = messages._tail.array;
+      tail.forEach((item) => {
+        const teste = item._root.entries.reduce((acc, [key, value]) => {
+          acc[key] = value;
+          return acc;
+        }, {});
+        messagesArray.push(teste);
+      });
+    }
+    this.setMessageStorage(messagesArray);
+  }
 
   render() {
     const {
@@ -127,7 +203,6 @@ class Messages extends Component {
       sendMessage,
       openSessionMessage,
       closeAndDisconnect,
-      forceChatConnection,
       t
     } = this.props;
 
@@ -139,12 +214,11 @@ class Messages extends Component {
       const groups = [];
       let group = null;
 
-      const dateRenderer =
-        typeof showMessageDate === 'function'
-          ? showMessageDate
-          : showMessageDate === true
-            ? formatDate
-            : null;
+      const dateRenderer = typeof showMessageDate === 'function'
+        ? showMessageDate
+        : showMessageDate === true
+          ? formatDate
+          : null;
 
       const renderMessageDate = (message) => {
         const timestamp = message.get('timestamp');
@@ -160,8 +234,7 @@ class Messages extends Component {
 
       const renderMessage = (message, index) => (
         <div
-          className={`push-message ${profileAvatar && 'push-with-avatar'} ${
-            message.get('sender') === 'client' ? 'push-from-client' : ''
+          className={`push-message ${profileAvatar && 'push-with-avatar'} ${message.get('sender') === 'client' ? 'push-from-client' : ''
           }`}
           key={index}
         >
@@ -206,19 +279,17 @@ class Messages extends Component {
           <button className="push-open-session__buttons-close" onClick={closeAndDisconnect}>
             {t('OpenSessionCloseText')}
           </button>
-          <button className="push-open-session__buttons-use" onClick={forceChatConnection}>
+          <button className="push-open-session__buttons-use" onClick={this.handleForceChatConnection}>
             {t('OpenSessionUseText')}
           </button>
         </div>
       </div>
     ) : (
       <Dropzone
-        onDropAccepted={acceptedFiles =>
-          sendMessage({
-            type: 'attachment',
-            files: acceptedFiles
-          })
-        }
+        onDropAccepted={acceptedFiles => sendMessage({
+          type: 'attachment',
+          files: acceptedFiles
+        })}
         multiple
         maxSize={33554432}
         accept={VALID_FILE_TYPE}
@@ -231,8 +302,8 @@ class Messages extends Component {
               {renderMessages()}
               {displayTypingIndication && (
                 <div
-                  className={`push-message push-typing-indication ${profileAvatar &&
-                    'push-with-avatar'}`}
+                  className={`push-message push-typing-indication ${profileAvatar
+                    && 'push-with-avatar'}`}
                 >
                   {profileAvatar && (
                     <img src={profileAvatar} className="push-avatar" alt="profile" />
