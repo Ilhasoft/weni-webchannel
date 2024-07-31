@@ -12,7 +12,7 @@ import {
   Video, Image, Message, Snippet, QuickReply, DocViewer, Audio
 } from 'messagesComponents';
 
-import { getHistory } from 'actions';
+import { getHistory, dropMessages } from 'actions';
 
 import './styles.scss';
 
@@ -53,7 +53,9 @@ class Messages extends Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
     scrollToBottom();
+    dispatch(dropMessages());
     setTimeout(() => {
       this.updateHistory();
     }, 1500);
@@ -150,9 +152,10 @@ class Messages extends Component {
   };
 
   handleForceChatConnection = () => {
-    const { forceChatConnection, messages } = this.props;
+    const { forceChatConnection, dispatch } = this.props;
     this.setState({ forceChatConnection: true });
     forceChatConnection();
+    dispatch(dropMessages());
     scrollToBottom();
     setTimeout(() => {
       this.updateHistory();
