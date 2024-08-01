@@ -138,6 +138,11 @@ export default function (storage) {
       case actionTypes.DROP_MESSAGES: {
         return storeMessage(initialState);
       }
+      case actionTypes.DELETE_MESSAGE: {
+        return storeMessage(
+          state.slice(action.index, 1)
+        );
+      }
       case actionTypes.CLEAR: {
         return clear();
       }

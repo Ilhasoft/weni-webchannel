@@ -50,7 +50,8 @@ import {
   insertResponseImage,
   insertResponseAudio,
   insertResponseVideo,
-  insertResponseDocument
+  insertResponseDocument,
+  deleteMessage
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
@@ -339,7 +340,8 @@ class Widget extends Component {
   }
 
   buildHistory(history) {
-    const { dispatch, messagesJS } = this.props;
+    const { dispatch } = this.props;
+    const teste = this.getPositionsWithoutId();
 
     for (const historyMessage of history) {
       const position = this.findInsertionPosition(historyMessage);
@@ -349,6 +351,11 @@ class Widget extends Component {
       const newMessage = { ...historyMessage.message, sender, showAvatar };
       const messageHandler = this.directionMap[newMessage.sender][newMessage.type];
       const timestamp = historyMessage.timestamp || new Date().getTime();
+
+      teste.forEach((item) => {
+        this.handleDeleteMessage(item)
+      });
+
       if (!newItem) {
         if (newMessage.type === 'text') {
           dispatch(messageHandler(position, newMessage.text, historyMessage.ID, timestamp));
@@ -356,6 +363,13 @@ class Widget extends Component {
           dispatch(messageHandler(position, { name: newMessage.caption || '', url: newMessage.media_url }, historyMessage.ID, timestamp));
         }
       }
+    }
+  }
+
+  handleDeleteMessage = (item, historyMessage) => {
+    const { messagesJS, dispatch } = this.props;
+    if (messagesJS[item].text === historyMessage.text) {
+      dispatch(deleteMessage());
     }
   }
 
@@ -372,19 +386,16 @@ class Widget extends Component {
     return position;
   }
 
-
-  // findInsertionPosition = (newObj) => {
-  //   const { messagesJS } = this.props;
-  //   let position = 0;
-
-  //   for (let i = 0; i > messagesJS.length; i++) {
-  //     if (messagesJS[i].timestamp > newObj.timestamp) {
-  //       position = i;
-  //       break;
-  //     }
-  //   }
-  //   return position;
-  // }
+  getPositionsWithoutId = () => {
+    const { messagesJS } = this.props;
+    const positions = [];
+    for (let i = 0; i < messagesJS.length; i++) {
+      if (messagesJS[i].id === undefined) {
+        positions.push(i);
+      }
+    }
+    return positions;
+  }
 
   getUniqueNewItems = (newItem) => {
     const { messagesJS } = this.props;

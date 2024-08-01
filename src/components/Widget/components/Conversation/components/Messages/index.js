@@ -54,9 +54,7 @@ class Messages extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
     scrollToBottom();
-    dispatch(dropMessages());
     setTimeout(() => {
       this.updateHistory();
     }, 1500);

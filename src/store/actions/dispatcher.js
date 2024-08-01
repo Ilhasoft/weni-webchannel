@@ -155,6 +155,10 @@ export function dropMessages() {
   store.dispatch(actions.dropMessages());
 }
 
+export function deleteMessage(index) {
+  store.dispatch(actions.deleteMessage(index));
+}
+
 export function pullSession(sessionType) {
   store.dispatch(actions.pullSession(sessionType));
 }

@@ -364,6 +364,13 @@ export function dropMessages() {
   };
 }
 
+export function deleteMessage(index) {
+  return {
+    type: actions.DELETE_MESSAGE,
+    index
+  };
+}
+
 export function pullSession(sessionType) {
   return {
     type: actions.PULL_SESSION,
