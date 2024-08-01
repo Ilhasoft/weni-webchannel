@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.21](https://https//github.com/push-platform/push-webchat/compare/v2.15.20...v2.15.21) (2024-08-01)
+
+
+### Bug Fixes
+
+* cloudbuild ([295ed2f](https://https//github.com/push-platform/push-webchat/commit/295ed2f9544100893dbb4a07d5c870eb7e835055))
+
 ### [2.15.20](https://https///compare/v2.15.19...v2.15.20) (2024-07-31)
 
 
