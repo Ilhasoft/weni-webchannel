@@ -228,7 +228,7 @@ ConnectedWidget.defaultProps = {
   showCloseButton: true,
   showFullScreenButton: false,
   displayUnreadCount: false,
-  showMessageDate: false,
+  showMessageDate: true,
   customMessageDelay: (message) => {
     let delay = message.length * 30;
     if (delay > 3 * 1000) delay = 3 * 1000;
