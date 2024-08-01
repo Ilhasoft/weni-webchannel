@@ -27,7 +27,8 @@ const isToday = (date) => {
 };
 
 const formatDate = (date) => {
-  const dateToFormat = new Date(date);
+  const timestamp = typeof date === 'string' ? parseInt(date, 10) * 1000 : date * 1000;
+  const dateToFormat = new Date(timestamp);
   const showDate = isToday(dateToFormat) ? '' : `${dateToFormat.toLocaleDateString()} `;
   return `${showDate}${dateToFormat.toLocaleTimeString('en-US', { timeStyle: 'short' })}`;
 };
