@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.24](https://https//github.com/push-platform/push-webchat/compare/v2.15.23...v2.15.24) (2024-08-02)
+
+
+### Bug Fixes
+
+* date conversion ([df885eb](https://https//github.com/push-platform/push-webchat/commit/df885eb4d7a587c1e6e8aa8fa86005fdda40e06e))
+
 ### [2.15.23](https://https//github.com/push-platform/push-webchat/compare/v2.15.22...v2.15.23) (2024-08-01)
 
 
