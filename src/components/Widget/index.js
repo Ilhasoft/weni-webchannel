@@ -341,7 +341,7 @@ class Widget extends Component {
 
   buildHistory(history) {
     const { dispatch } = this.props;
-    const teste = this.getPositionsWithoutId();
+    const positions = this.getPositionsWithoutId();
 
     for (const historyMessage of history) {
       const position = this.findInsertionPosition(historyMessage);
@@ -352,8 +352,8 @@ class Widget extends Component {
       const messageHandler = this.directionMap[newMessage.sender][newMessage.type];
       const timestamp = historyMessage.timestamp || new Date().getTime();
 
-      teste.forEach((item) => {
-        this.handleDeleteMessage(item)
+      positions.forEach((item) => {
+        this.handleDeleteMessage(item);
       });
 
       if (!newItem) {
@@ -812,6 +812,7 @@ class Widget extends Component {
       event.target.message.value = '';
       this.props.dispatch(setUserInput(''));
     } else if (event.type === 'attachment') {
+      console.log('attachment', event.files);
       Array.from(event.files).forEach((file) => {
         const fileType = getAttachmentType(file.name);
         if (fileType) {
@@ -823,6 +824,17 @@ class Widget extends Component {
                 media
               }
             };
+            const userImage = {
+              name: file.name,
+              url: attachmentMessage.message.media
+            };
+            switch (attachmentMessage.message.type) {
+              case 'image':
+                this.props.dispatch(addUserImage(userImage));
+                break;
+              default:
+                return;
+            }
             this.props.dispatch(emitUserMessage(attachmentMessage));
           });
         }
