@@ -135,12 +135,15 @@ $unnnic-font-family-secondary: Lato;
   width: 100%;
   border-radius: 0;
 
+  .push-camera__container {
+    display: flex;
+    justify-content: center;
+  }
+
   .push-sender {
     align-items: center;
     display: flex;
-    background-color: var(--inputBackgroundColor);
-    height: 15.5vh;
-    padding: 0 15% 0 15%;
+    padding: 16px 15% 16px 15%;
   }
 
   .push-sender a, .push-sender a:active, .push-sender a:hover {
@@ -154,12 +157,9 @@ $unnnic-font-family-secondary: Lato;
   }
 
   .push-new-message {
-    font-size: 1.25em;
-    font-weight: 300;
     width: 100%;
     border: 0;
     background-color: var(--inputBackgroundColor);
-    height: 10vh;
     padding-left: 15px;
 
     &:focus {
@@ -168,11 +168,9 @@ $unnnic-font-family-secondary: Lato;
   }
 
   .push-send {
-    background: var(--inputBackgroundColor);
     border: 0;
 
     .push-send-icon {
-      height: 4.7vh;
       cursor: pointer;
     }
   }
