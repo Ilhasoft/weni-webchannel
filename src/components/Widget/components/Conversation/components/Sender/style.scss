@@ -2,6 +2,14 @@
 @import "common.scss";
 
 .push-conversation-container {
+  .push-camera {
+    &__container {
+      display: flex;
+      background-color: #FFFFFF;
+      padding-top: 8px;
+    }
+  }
+
   .push-sender {
     align-items: center;
     display: flex;
@@ -9,6 +17,11 @@
     height: 45px;
     padding: 16px;
     margin-bottom: 0px;
+
+    .push-camera-switch {
+      cursor: pointer;
+      margin-right: 24px;
+    }
 
     .push-file-upload {
       cursor: pointer;
@@ -20,7 +33,7 @@
         column-gap: 8px;
       }
 
-      &__microphone {
+      &__microphone, &__camera {
         cursor: pointer;
       }
     }

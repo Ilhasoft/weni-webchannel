@@ -3,6 +3,8 @@
 import { getSuggestions, setUserInput, setSuggestions } from 'actions';
 import iconAttachFile from 'assets/attach_file.svg';
 import iconPhotoCamera from 'assets/photo_camera.svg';
+import iconPhotoCameraLight from 'assets/photo_camera_light.svg';
+import iconCameraSwitch from 'assets/cameraswitch.svg';
 import iconMic from 'assets/mic.svg';
 import iconSend from 'assets/send.svg';
 import iconCancel from 'assets/cancel.svg';
@@ -39,8 +41,109 @@ function Sender({
 
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isAudioRecording, setIsAudioRecording] = useState(false);
+  const [isVideoRecording, setIsVideoRecording] = useState(false);
+  const [isVideoPaused, setIsVideoPaused] = useState(false);
+  const [isSwitchingVideo, setIsSwitchingVideo] = useState(false);
+  const [hasMoreThanOneVideo, setHasMoreThanOneVideo] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [audioTimer, setAudioTimer] = useState('');
+
+  function switchCamera() {
+    if (!isSwitchingVideo) {
+      document.querySelector('#wwc-video').dispatchEvent(new Event('switch'));
+    }
+  }
+
+  function startVideoRecording() {
+    const video = document.createElement('video');
+    video.setAttribute('id', 'wwc-video');
+    video.setAttribute('autoplay', 'true');
+    video.setAttribute('style', 'width: 100%;');
+
+    document.querySelector('.push-camera__container').appendChild(video);
+
+
+    let cameras = [];
+    let currentCamera = null;
+
+    function nextCamera() {
+      currentCamera = cameras[(cameras.indexOf(currentCamera) + 1) % cameras.length];
+      return currentCamera;
+    }
+
+    function getAllCameras() {
+      return new Promise((resolve) => {
+        navigator.mediaDevices.getUserMedia({ video: true }).then((videoStream) => {
+          videoStream.getTracks().forEach((track) => {
+            track.stop();
+          });
+
+          navigator.mediaDevices.enumerateDevices().then((devices) => {
+            resolve(devices.filter(device => device.kind === 'videoinput'));
+          });
+        });
+      });
+    }
+
+    function selectCamera(camera) {
+      setIsVideoPaused(false);
+
+      navigator.mediaDevices.getUserMedia({
+        video: { deviceId: { exact: camera.deviceId } }
+      }).then((videoStream) => {
+        setIsSwitchingVideo(false);
+        video.srcObject = videoStream;
+      });
+    }
+
+    getAllCameras().then((items) => {
+      setIsVideoRecording(true);
+
+      cameras = items;
+
+      video.addEventListener('switch', () => {
+        setIsSwitchingVideo(true);
+
+        video.srcObject.getTracks().forEach((track) => {
+          track.stop();
+        });
+
+        selectCamera(nextCamera());
+      });
+
+      selectCamera(nextCamera());
+
+      setHasMoreThanOneVideo(items.length > 1);
+    });
+  }
+
+  function stopVideoRecording(send) {
+    const video = document.querySelector('#wwc-video');
+
+    setIsVideoRecording(false);
+
+    if (send) {
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+
+      fetch(canvas.toDataURL('image/png')).then(res => res.blob()).then((blob) => {
+        const file = new File([blob], 'camera.png', blob);
+
+        setSelectedFiles([file]);
+      });
+    }
+
+    console.log('parentNode', document);
+
+    video.srcObject.getTracks().forEach((track) => {
+      track.stop();
+    });
+
+
+    video.parentNode.removeChild(video);
+  }
 
   function startRecording() {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
@@ -103,6 +206,15 @@ function Sender({
     if (isAudioRecording) {
       event.preventDefault();
       stopRecording(true);
+    } else if (isVideoRecording) {
+      event.preventDefault();
+
+      if (!isVideoPaused) {
+        document.querySelector('#wwc-video').pause();
+        setIsVideoPaused(true);
+      } else {
+        stopVideoRecording(true);
+      }
     } else {
       sendMessage(...args);
     }
@@ -184,6 +296,8 @@ function Sender({
         <div />
       )}
 
+      <section className="push-camera__container" style={{ display: isVideoRecording ? null : 'none' }} />
+
       <form ref={formEl} className="push-sender" onSubmit={sendMessageInterceptor}>
         {isAudioRecording ? (
           <section className="audio-recording">
@@ -195,7 +309,13 @@ function Sender({
           </section>
         ) : null}
 
-        {isAudioRecording ? null : (
+        {isVideoRecording ? (
+          <section className="audio-recording">
+            <img src={iconCancel} alt="Cancel" className="audio-recording__cancel-button" onClick={() => stopVideoRecording(false)} />
+          </section>
+        ) : null}
+
+        {isAudioRecording || isVideoRecording ? null : (
           <label htmlFor="push-file-upload">
             <input
               multiple
@@ -222,18 +342,22 @@ function Sender({
           autoFocus
           autoComplete="off"
           onKeyDown={event => handlePressed(event)}
-          style={{ display: isAudioRecording ? 'none' : null }}
+          style={{ display: isAudioRecording || isVideoRecording ? 'none' : null }}
         />
 
-        {(userInput === '' || userInput === null) && !isAudioRecording ? (
+        {isVideoRecording && hasMoreThanOneVideo ? (
+          <img src={iconCameraSwitch} alt="Camera Switch" className="push-camera-switch" onClick={switchCamera} />
+        ) : null}
+
+        {(userInput === '' || userInput === null) && (!isAudioRecording && !isVideoRecording) ? (
           <section className="camera-and-microphone__container">
-            <img src={iconPhotoCamera} alt="Camera" />
+            <img src={iconPhotoCamera} alt="Camera" className="camera-and-microphone__camera" onClick={startVideoRecording} />
 
             <img src={iconMic} alt="Microphone" className="camera-and-microphone__microphone" onClick={startRecording} />
           </section>
-        ) : suggestionsConfig.automaticSend && !isAudioRecording ? null : (
+        ) : suggestionsConfig.automaticSend && !isAudioRecording && !isVideoRecording ? null : (
           <button type="submit" className="push-send">
-            <img src={iconSend} className="push-send-icon" alt="send message" />
+            <img src={isVideoRecording && !isVideoPaused ? iconPhotoCameraLight : iconSend} className="push-send-icon" alt="send message" />
           </button>
         )}
 
