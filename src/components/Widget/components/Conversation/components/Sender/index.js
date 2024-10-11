@@ -58,7 +58,6 @@ function Sender({
     const video = document.createElement('video');
     video.setAttribute('id', 'wwc-video');
     video.setAttribute('autoplay', 'true');
-    video.setAttribute('style', 'width: 100%;');
 
     document.querySelector('.push-camera__container').appendChild(video);
 
@@ -96,9 +95,9 @@ function Sender({
       });
     }
 
-    getAllCameras().then((items) => {
-      setIsVideoRecording(true);
+    setIsVideoRecording(true);
 
+    getAllCameras().then((items) => {
       cameras = items;
 
       video.addEventListener('switch', () => {
@@ -114,6 +113,8 @@ function Sender({
       selectCamera(nextCamera());
 
       setHasMoreThanOneVideo(items.length > 1);
+    }).catch(() => {
+      setIsVideoRecording(false);
     });
   }
 
@@ -135,8 +136,6 @@ function Sender({
       });
     }
 
-    console.log('parentNode', document);
-
     video.srcObject.getTracks().forEach((track) => {
       track.stop();
     });
@@ -146,9 +145,9 @@ function Sender({
   }
 
   function startRecording() {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      setIsAudioRecording(true);
+    setIsAudioRecording(true);
 
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const audioRecordingStart = new Date().getTime();
 
       function updateTimer() {
@@ -181,6 +180,8 @@ function Sender({
       });
 
       mediaRecorder.start();
+    }).catch(() => {
+      setIsAudioRecording(false);
     });
   }
 
