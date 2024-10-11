@@ -7,6 +7,10 @@
       display: flex;
       background-color: #FFFFFF;
       padding-top: 8px;
+
+      video {
+        max-width: 100%;
+      }
     }
   }
 
