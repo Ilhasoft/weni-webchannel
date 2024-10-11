@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.18.0](https://https//github.com/push-platform/push-webchat/compare/v2.15.26...v2.18.0) (2024-10-11)
+
+
+### Features
+
+* **audio-recorder:** adds audio recorder ([402a658](https://https//github.com/push-platform/push-webchat/commit/402a658c5c7043216bce1505e01c38b3b421ff51))
+* **webcam-capture:** adds responsability ([d5d54ec](https://https//github.com/push-platform/push-webchat/commit/d5d54ec0b3484d1ab94518d75a32c353f52bd139))
+* **webcam-capture:** adds webcam capture ([21a4756](https://https//github.com/push-platform/push-webchat/commit/21a47563b789f68934b7b6a54dfb7a780e1abfd9))
+* **webcam-capture:** fixes camera width ([9210ea6](https://https//github.com/push-platform/push-webchat/commit/9210ea609da3b06e75e014b81ac2f9ec90ddc2a9))
+
+
+### Bug Fixes
+
+* date align ([c93d14e](https://https//github.com/push-platform/push-webchat/commit/c93d14ece24f0d9363a2266d6da7c454c2f6bb8b))
+* **node-sass:** fixes node sass package version ([fbb58f3](https://https//github.com/push-platform/push-webchat/commit/fbb58f37b3d2f091640ab7ca755496fda983d95e))
+* pdf viewer ([77f5847](https://https//github.com/push-platform/push-webchat/commit/77f5847f14891826b2f0790bbbca30a50d1e5845))
+* remove html changes ([a20f9d9](https://https//github.com/push-platform/push-webchat/commit/a20f9d92e798d427b0fef4f73065c6fa880213a2))
+
 ### [2.17.1](https://github.com/Ilhasoft/weni-webchannel/compare/2.17.0...2.17.1) (2024-10-11)
 
 
