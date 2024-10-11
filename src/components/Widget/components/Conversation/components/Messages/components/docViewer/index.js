@@ -29,7 +29,12 @@ class DocViewer extends Component {
   }
 
   handleOpenModal() {
-    this.setState({ openedModal: true });
+    const message = this.props.message.toJS();
+    if (message.src.endsWith('.pdf')) {
+      this.setState({ openedModal: true });
+      return;
+    }
+    window.open(message.src, '_blank');
   }
 
   handleCloseModal() {

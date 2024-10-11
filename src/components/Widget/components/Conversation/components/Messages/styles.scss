@@ -3,9 +3,10 @@
 
 .push-group-message.push-from-client {
   span.push-message-date {
+    display: flex;
+    align-items: center;
     text-align: right;
-    flex-basis: 100%;
-    margin-left: 0;
+    margin-left: 7px;
     margin-right: 4px;
     margin-top: 5px;
     font-size: 11px;
@@ -15,8 +16,9 @@
 
 .push-group-message.push-from-response {
   span.push-message-date {
+    display: flex;
+    align-items: center;
     text-align: left;
-    flex-basis: 100%;
     margin-left: 7px;
     margin-top: 5px;
     font-size: 11px;
