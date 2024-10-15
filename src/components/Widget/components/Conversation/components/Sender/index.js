@@ -350,7 +350,7 @@ function Sender({
           <img src={iconCameraSwitch} alt="Camera Switch" className="push-camera-switch" onClick={switchCamera} />
         ) : null}
 
-        {(userInput === '' || userInput === null) && (!isAudioRecording && !isVideoRecording) ? (
+        {(userInput === '' || userInput === null || userInput === undefined) && (!isAudioRecording && !isVideoRecording) ? (
           <section className="camera-and-microphone__container">
             <img src={iconPhotoCamera} alt="Camera" className="camera-and-microphone__camera" onClick={startVideoRecording} />
 
