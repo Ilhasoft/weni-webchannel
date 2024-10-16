@@ -57,7 +57,9 @@ function Sender({
   function startVideoRecording() {
     const video = document.createElement('video');
     video.setAttribute('id', 'wwc-video');
-    video.setAttribute('autoplay', 'true');
+    video.setAttribute('autoplay', '');
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
 
     document.querySelector('.push-camera__container').appendChild(video);
 
