@@ -138,6 +138,7 @@ $unnnic-font-family-secondary: Lato;
   .push-camera__container {
     display: flex;
     justify-content: center;
+    max-height: 35vh;
   }
 
   .push-sender {
