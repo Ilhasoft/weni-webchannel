@@ -136,6 +136,7 @@ class Widget extends Component {
 
     if (startFullScreen) {
       this.toggleFullScreen();
+      dispatch(showChat());
       dispatch(openChat());
     }
 
