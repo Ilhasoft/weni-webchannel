@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.19.1](https://https//github.com/push-platform/push-webchat/compare/v2.19.0...v2.19.1) (2024-10-24)
+
+
+### Bug Fixes
+
+* dispatch openchat when startfullscreen is true ([bd327ec](https://https//github.com/push-platform/push-webchat/commit/bd327ecc26244c43854cfa20ba05f47d67e5fc50))
+
 ## [2.19.0](https://https//github.com/push-platform/push-webchat/compare/v2.15.26...v2.19.0) (2024-10-24)
 
 
