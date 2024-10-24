@@ -136,6 +136,7 @@ class Widget extends Component {
 
     if (startFullScreen) {
       this.toggleFullScreen();
+      dispatch(openChat());
     }
 
     this.intervalId = setInterval(() => dispatch(evalUrl(window.location.href)), 500);
@@ -353,7 +354,7 @@ class Widget extends Component {
       const timestamp = historyMessage.timestamp || new Date().getTime();
 
       teste.forEach((item) => {
-        this.handleDeleteMessage(item)
+        this.handleDeleteMessage(item);
       });
 
       if (!newItem) {
