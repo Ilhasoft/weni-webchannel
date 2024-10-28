@@ -111,7 +111,8 @@ class Widget extends Component {
   }
 
   state = {
-    playNotification: Sound.status.STOPPED
+    playNotification: Sound.status.STOPPED,
+    attemptReconnection: 0
   };
 
   componentWillMount() {
@@ -623,12 +624,23 @@ class Widget extends Component {
         if (this.reconnectWithDelay) {
           delayInterval = 1000;
         }
-        setTimeout(() => {
-          this.attemptingReconnection = true;
-          this.reconnectWithDelay = false;
-          clearInterval(this.pingIntervalId);
-          this.props.dispatch(closeSessionMessage());
-          this.initializeWidget(sendInitPayload);
+        const attemptingLimit = 30;
+        let attempt = 0;
+
+        const attemptReconnection = setTimeout(() => {
+          attempt = this.state.attemptReconnection;
+          if (attempt <= attemptingLimit) {
+            this.attemptingReconnection = true;
+            this.reconnectWithDelay = false;
+            clearInterval(this.pingIntervalId);
+            this.props.dispatch(closeSessionMessage());
+            this.initializeWidget(sendInitPayload);
+            attempt += 1;
+            this.setState({ attemptReconnection: attempt });
+          } else {
+            this.setState({ attemptReconnection: 0 });
+            clearTimeout(attemptReconnection);
+          }
         }, delayInterval);
       };
 
