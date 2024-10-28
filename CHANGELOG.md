@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.19.2](https://https//github.com/push-platform/push-webchat/compare/v2.19.1...v2.19.2) (2024-10-28)
+
+
+### Bug Fixes
+
+* add default delay of 5 seconds ([60e5640](https://https//github.com/push-platform/push-webchat/commit/60e5640d5454afa8bdc8d88a0f2b647c4fc7a475))
+* limit 30 retries ([56af8b9](https://https//github.com/push-platform/push-webchat/commit/56af8b9639072cee32145908a659ebed4d019bad))
+* set attempt ([d0b89fe](https://https//github.com/push-platform/push-webchat/commit/d0b89fe85f7a53607bb82a2b76f9dbe811116a46))
+
 ### [2.19.1](https://https//github.com/push-platform/push-webchat/compare/v2.19.0...v2.19.1) (2024-10-24)
 
 
