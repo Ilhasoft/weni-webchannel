@@ -625,10 +625,9 @@ class Widget extends Component {
           delayInterval = 1000;
         }
         const attemptingLimit = 30;
-        let attempt = 0;
 
         const attemptReconnection = setTimeout(() => {
-          attempt = this.state.attemptReconnection;
+          let attempt = this.state.attemptReconnection;
           if (attempt <= attemptingLimit) {
             this.attemptingReconnection = true;
             this.reconnectWithDelay = false;
