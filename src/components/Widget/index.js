@@ -619,7 +619,7 @@ class Widget extends Component {
       socket.socket.onclose = (event) => {
         // eslint-disable-next-line no-console
         console.log('SOCKET_ONCLOSE: Socket closed connection:', event);
-        let delayInterval = 0;
+        let delayInterval = 5000;
         if (this.reconnectWithDelay) {
           delayInterval = 1000;
         }
