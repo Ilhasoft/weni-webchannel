@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.19.3](https://https//github.com/push-platform/push-webchat/compare/v2.19.2...v2.19.3) (2024-12-10)
+
+
+### Bug Fixes
+
+* remove unsafe inlines ([69aa5e9](https://https//github.com/push-platform/push-webchat/commit/69aa5e994ee3e9db5f288db8d293d002de0b2c86))
+
 ### [2.19.2](https://https//github.com/push-platform/push-webchat/compare/v2.19.1...v2.19.2) (2024-10-28)
 
 
