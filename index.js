@@ -88,18 +88,3 @@ export {
   clear,
   setSessionId
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-  plugin.init({
-    selector: '#webchat',
-    sessionId: 'test',
-    channelUuid: 'afc97771-7b17-413f-a0fb-8778c07adbf8',
-    socketUrl: 'https://websocket.stg.cloud.weni.ai',
-    host: 'https://flows.stg.cloud.weni.ai'
-  });
-
-  setTimeout(() => {
-    open();
-  }, 100);
-});
-

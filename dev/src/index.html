@@ -11,6 +11,74 @@
   <h1 class="test"> test</h1>
 <script src="index.js"  type="text/javascript"></script>
 <div id="webchat"></div>
+<script>
+  WebChat.default.init({
+    selector: "#webchat",
+    initPayload: null,
+    socketUrl: 'https://websocket.weni.ai',
+    host: "https://flows.weni.ai",
+    sessionId: 'test',
+    channelUuid: 'a3fb259f-18ab-4ffe-ab5e-6131b32cbabb',
+    tooltipMessage: "Tooltip message",
+    tooltipDelay: 40000,
+    subtitle: 'A subtitle',
+    inputTextFieldHint: "Type a message...",
+    connectingText: "Waiting for server...",
+    hideWhenNotConnected: false,
+    docViewer: true,
+    startFullScreen: true,
+    showFullScreenButton: true,
+    showCloseButton: true,
+    hideWhenNotConnected: true,
+    defaultHighlightAnimation: `@keyframes default-botfront-blinker-animation {
+      from {
+      outline-style: none;
+      outline-color: red;
+    }
+    to {
+      outline-style: solid;
+      outline-color: red;
+    }
+  }`,
+    onSocketEvent: {
+      'bot_uttered': () => console.log('bot uttered'),
+    },
+    docViewer: false,
+    params: {
+      images: {
+        dims: {
+          width: 300,
+          height: 200
+        }
+      },
+      storage: "session"
+    },
+    customizeWidget: {
+      titleColor: "#fff",
+      subtitleColor: "#fff",
+      headerBackgroundColor: "#003a9b",
+      launcherColor: "#003a9b",
+      chatBackgroundColor: "#fff",
+      inputBackgroundColor: "#f4f7f9",
+      inputFontColor: "#000",
+      inputPlaceholderColor: "#b5b5b5",
+      userMessageBubbleColor: "#003a9b",
+      userMessageTextColor: "#fff",
+      botMessageBubbleColor: "#f4f7f9",
+      botMessageTextColor: "#000",
+      widgetHeight: "65vh",
+      widgetWidth: "370px",
+      launcherHeight: "60px",
+      launcherWidth: "60px",
+      quickRepliesFontColor: "#0084ff",
+      quickRepliesBackgroundColor: "none",
+      quickRepliesBorderColor: "#0084ff",
+      quickRepliesBorderWidth: "1px",
+      fullScreenBotMessageBubbleColor: "rgba(0, 0, 0, 0)"
+    }
+  })
+  WebChat.open();
+</script>
 </body>
 
 </html>
