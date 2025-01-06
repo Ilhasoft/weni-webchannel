@@ -356,7 +356,7 @@ class Widget extends Component {
       const timestamp = historyMessage.timestamp || new Date().getTime();
 
       teste.forEach((item) => {
-        this.handleDeleteMessage(item);
+        this.handleDeleteMessage(item, historyMessage);
       });
 
       if (!newItem) {
@@ -371,7 +371,7 @@ class Widget extends Component {
 
   handleDeleteMessage = (item, historyMessage) => {
     const { messagesJS, dispatch } = this.props;
-    if (messagesJS[item].text === historyMessage.text) {
+    if (messagesJS && historyMessage && messagesJS[item].text === historyMessage.text) {
       dispatch(deleteMessage());
     }
   }
