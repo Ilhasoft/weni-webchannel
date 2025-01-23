@@ -6,6 +6,7 @@ import {
   toggleFullScreen,
   toggleChat,
   openChat,
+  disconnectServer,
   closeChat,
   showChat,
   addUserMessage,
@@ -81,6 +82,7 @@ class Widget extends Component {
     this.inactivityTimerInterval = 120000; // 2 minutes in ms
     this.checkedHistory = false;
     this.reconnectWithDelay = false;
+    this.canReconnect = true;
     this.historyLimit = 20;
     this.historyPage = 1;
     this.clientMessageMap = {
@@ -339,6 +341,11 @@ class Widget extends Component {
         // eslint-disable-next-line react/prop-types
         this.props.socket.close();
       }
+    } else if (receivedMessage.type === 'forbidden') {
+      this.canReconnect = false;
+      // eslint-disable-next-line react/prop-types
+      this.props.socket.close();
+      store.dispatch(disconnectServer());
     }
   }
 
@@ -620,6 +627,11 @@ class Widget extends Component {
       socket.socket.onclose = (event) => {
         // eslint-disable-next-line no-console
         console.log('SOCKET_ONCLOSE: Socket closed connection:', event);
+
+        if (!this.canReconnect) {
+          return;
+        }
+
         let delayInterval = 5000;
         if (this.reconnectWithDelay) {
           delayInterval = 1000;
