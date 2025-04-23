@@ -46,8 +46,10 @@ export default function (
       }
       case actionTypes.TOGGLE_CHAT: {
         if (state.get('isChatOpen', false) && onWidgetEvent.onChatClose) {
+          window.parent.postMessage({ type: 'chat-close' }, '*');
           onWidgetEvent.onChatClose();
         } else if (onWidgetEvent.onChatOpen) {
+          window.parent.postMessage({ type: 'chat-open' }, '*');
           onWidgetEvent.onChatOpen();
         }
 
