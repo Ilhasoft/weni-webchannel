@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.21.0](https://https//github.com/push-platform/push-webchat/compare/v2.19.4...v2.21.0) (2025-04-24)
+
+
+### Features
+
+* add postMessage for chat open/close events ([d3d7688](https://https//github.com/push-platform/push-webchat/commit/d3d7688f9a43c2742f4b5777210564a868dd83f7))
+* prevent reconnection on forbidden error ([4e639df](https://https//github.com/push-platform/push-webchat/commit/4e639df349699ba98964a49a4d7e029d9aea84d6))
+
 ## [2.20.0](https://https//github.com/push-platform/push-webchat/compare/v2.19.4...v2.20.0) (2025-04-24)
 
 
