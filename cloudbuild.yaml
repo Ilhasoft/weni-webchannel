@@ -1,9 +1,9 @@
 steps:
-- name: node:14.19.2
+- name: node:20.19.3
   entrypoint: npm
   args: ['install']
 
-- name: node:14.19.2
+- name: node:20.19.3
   entrypoint: npm
   args: ['run','build']
 

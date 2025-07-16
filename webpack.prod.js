@@ -10,7 +10,8 @@ module.exports = [{
     path: path.join(__dirname, '/lib'),
     filename: 'index.js',
     library: 'WebChat',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
   },
   resolve: {
     extensions: ['.js', '.jsx']
@@ -31,7 +32,10 @@ module.exports = [{
           {
             loader: 'sass-loader',
             options: {
-              includePaths: [path.resolve(__dirname, 'src/scss/')]
+              implementation: require('sass'),
+              sassOptions: {
+                includePaths: [path.resolve(__dirname, 'src/scss/')]
+              }
             }
           }
         ]
@@ -88,7 +92,10 @@ module.exports = [{
           {
             loader: 'sass-loader',
             options: {
-              includePaths: [path.resolve(__dirname, 'src/scss/')]
+              implementation: require('sass'),
+              sassOptions: {
+                includePaths: [path.resolve(__dirname, 'src/scss/')]
+              }
             }
           }
         ]

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.21.2](https://https//github.com/push-platform/push-webchat/compare/v2.21.0...v2.21.2) (2025-07-15)
+
+### Features
+
+* update Node version to 20.19.3 and Sass version to 1.89.2 ([c7631dd](https://github.com/Ilhasoft/weni-webchannel/commit/c7631dd3273830b64c9594bc1f70539c849ebab8))
+
+### Bug Fixes
+
+* set Webpack build umd named define option for compatibility reasons with require.js  ([186de77](https://github.com/Ilhasoft/weni-webchannel/commit/186de77821dbfbd70254543a622dacbc78f07a5e))
+
 ## [2.21.0](https://https//github.com/push-platform/push-webchat/compare/v2.19.4...v2.21.0) (2025-04-24)
 
 
