@@ -67,6 +67,7 @@ const plugin = {
         disableSoundNotification={args.disableSoundNotification}
         customSoundNotification={args.customSoundNotification}
         clientId={args.clientId}
+        contactTimeout={args.contactTimeout}
       />,
       document.querySelector(args.selector)
     );

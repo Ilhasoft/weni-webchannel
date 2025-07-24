@@ -563,3 +563,16 @@ export function setMessagesScroll(value) {
     value
   };
 }
+
+export function scheduleContactTimeout(contactTimeout) {
+  return {
+    type: actions.SCHEDULE_CONTACT_TIMEOUT,
+    contactTimeout
+  };
+}
+
+export function clearScheduledContactTimeout() {
+  return {
+    type: actions.CLEAR_SCHEDULED_CONTACT_TIMEOUT
+  };
+}
