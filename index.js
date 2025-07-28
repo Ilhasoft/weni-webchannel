@@ -73,12 +73,6 @@ const plugin = {
       />,
       document.querySelector(args.selector)
     );
-  },
-  setContext: (context) => {
-    setContext(context);
-  },
-  getContext: () => {
-    return getContext();
   }
 };
 

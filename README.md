@@ -118,7 +118,7 @@ The widget provides functions to set and get context that will be included in al
 WebChat.setContext('The user is on the cookie product page');
 
 // Get current context
-const currentContext = WebChat.default.getContext();
+const currentContext = WebChat.getContext();
 console.log('Current context:', currentContext);
 ```
 
