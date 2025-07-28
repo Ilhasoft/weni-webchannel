@@ -8,7 +8,8 @@ export default function (storage) {
     linkTarget: '',
     domHighlight: Map(),
     hintText: '',
-    showTooltip: false
+    showTooltip: false,
+    context: ''
   });
 
   const initialState = Map({
@@ -44,6 +45,9 @@ export default function (storage) {
       }
       case actionTypes.SET_HINT_TEXT: {
         return storeMetadata(state.set('hintText', action.hint));
+      }
+      case actionTypes.SET_CONTEXT: {
+        return storeMetadata(state.set('context', action.context));
       }
       case actionTypes.PULL_SESSION: {
         const localSession = getLocalSession(storage, SESSION_NAME);

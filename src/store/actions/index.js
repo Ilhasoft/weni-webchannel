@@ -563,3 +563,10 @@ export function setMessagesScroll(value) {
     value
   };
 }
+
+export function setContext(context) {
+  return {
+    type: actions.SET_CONTEXT,
+    context
+  };
+}

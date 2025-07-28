@@ -44,7 +44,7 @@ export default function (storage) {
         );
       }
       case actionTypes.ADD_NEW_RESPONSE_MESSAGE: {
-        return storeMessage(state.push(createNewMessage(action.text, MESSAGE_SENDER.RESPONSE, action.id, action.timestamp)));
+        return storeMessage(state.push(createNewMessage(action.text + 'hi \nHi there this is the first image https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png and this one is the second image https://images.unsplash.com/photo-1753189198501-307a6accabdf', MESSAGE_SENDER.RESPONSE, action.id, action.timestamp)));
       }
       case actionTypes.ADD_NEW_LINK_SNIPPET: {
         return storeMessage(state.push(createLinkSnippet(action.link, MESSAGE_SENDER.RESPONSE, action.id, action.timestamp)));

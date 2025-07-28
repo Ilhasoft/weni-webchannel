@@ -107,6 +107,33 @@ set to `true` if you don't want to see the launcher.
 | `suggestionsConfig` | See below | Prop to define the configuration for the source of input suggestions data |
 | `customAutoComplete` | See below | This prop is a function, the function take the current input string as an argument. The defined function will be called everytime the user modify the input within a delay of 500ms, the function return must be an array of strings that will be used as input suggestions. |
 
+### Context Management
+
+The widget provides functions to set and get context that will be included in all socket messages sent to the server.
+
+#### Using the plugin object (script tag usage):
+
+```javascript
+// Set context for all subsequent messages
+WebChat.setContext('The user is on the cookie product page');
+
+// Get current context
+const currentContext = WebChat.default.getContext();
+console.log('Current context:', currentContext);
+```
+
+#### Using exported functions (React component usage):
+
+```javascript
+import { setContext, getContext } from 'push-webchat';
+
+// Set context for all subsequent messages
+setContext('The user is on the cookie product page');
+
+// Get current context
+const currentContext = getContext();
+console.log('Current context:', currentContext);
+```
 
 
 ### Additional Examples
