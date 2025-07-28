@@ -230,3 +230,11 @@ export function getHistory(limit, page) {
 export function setMessagesScroll(value) {
   store.dispatch(actions.setMessagesScroll(value));
 }
+
+export function setContext(context) {
+  store.dispatch(actions.setContext(context));
+}
+
+export function getContext() {
+  return store.getState().metadata.get('context') || '';
+}

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.22.1](https://https//github.com/push-platform/push-webchat/compare/v2.21.2...v2.22.1) (2025-07-28)
+
+### Features
+
+* add setContext and getContext to update the context text that is sent along with new user messages ([16d4ccb](https://github.com/Ilhasoft/weni-webchannel/commit/16d4ccb82c6ffbc49ce005bd35d1152f190c5356))
+* add the transformURLsIntoImages configuration attribute to transform each image URL into an image component in the chat ([91f1f78](https://github.com/Ilhasoft/weni-webchannel/commit/91f1f7845f2e092d062448f2e639bd1c7bec0beb))
+
 ## [2.21.2](https://https//github.com/push-platform/push-webchat/compare/v2.21.0...v2.21.2) (2025-07-15)
 
 ### Features

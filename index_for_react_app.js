@@ -20,7 +20,9 @@ import {
   send,
   reload,
   clear,
-  setSessionId
+  setSessionId,
+  setContext,
+  getContext
 } from './src/store/actions/dispatcher';
 
 export {
@@ -45,5 +47,7 @@ export {
   send,
   reload,
   clear,
-  setSessionId
+  setSessionId,
+  setContext,
+  getContext
 };

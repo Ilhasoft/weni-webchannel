@@ -37,18 +37,22 @@ function initStore(hintText, connectingText, socket, storage, docViewer = false,
       : null;
     switch (action.type) {
       case actionTypes.EMIT_NEW_USER_MESSAGE: {
+        const context = store.getState().metadata.get('context') || '';
         const payload = {
           type: action.message.type,
-          message: action.message.message
+          message: action.message.message,
+          context: context,
         };
         socket.socket.send(JSON.stringify(payload));
         break;
       }
       case actionTypes.EMIT_MESSAGE_IF_FIRST: {
         if (store.getState().messages.size === 0) {
+          const context = store.getState().metadata.get('context') || '';
           socket.emit('sendMessageToChannel', {
             text: action.text,
-            userUrn: session_id
+            userUrn: session_id,
+            context: context
           });
         }
         break;
@@ -99,9 +103,11 @@ function initStore(hintText, connectingText, socket, storage, docViewer = false,
 
         const newUrl = action.url;
         const emitMessage = (message) => {
+          const context = store.getState().metadata.get('context') || '';
           socket.emit('sendMessageToChannel', {
             text: message,
-            userUrn: session_id
+            userUrn: session_id,
+            context: context
           });
         };
 

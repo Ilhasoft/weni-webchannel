@@ -12,7 +12,9 @@ import {
   send,
   reload,
   clear,
-  setSessionId
+  setSessionId,
+  setContext,
+  getContext
 } from './index_for_react_app';
 
 import './src/utils/i18n';
@@ -67,6 +69,7 @@ const plugin = {
         disableSoundNotification={args.disableSoundNotification}
         customSoundNotification={args.customSoundNotification}
         clientId={args.clientId}
+        transformURLsIntoImages={args.transformURLsIntoImages}
       />,
       document.querySelector(args.selector)
     );
@@ -86,5 +89,7 @@ export {
   send,
   reload,
   clear,
-  setSessionId
+  setSessionId,
+  setContext,
+  getContext
 };
