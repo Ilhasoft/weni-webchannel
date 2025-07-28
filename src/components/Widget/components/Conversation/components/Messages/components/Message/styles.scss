@@ -46,6 +46,20 @@
           margin-bottom: 0;
         }
       }
+
+      .push-markdown-image {
+        transition: transform 0.2s ease-in-out;
+        max-width: 80%;
+        max-height: 80%;
+        height: auto;
+        border-radius: 8px;
+        display: block;
+        margin: 0.5em auto;
+
+        &:hover {
+          transform: scale(1.01);
+        }
+      }
     }
   }
 

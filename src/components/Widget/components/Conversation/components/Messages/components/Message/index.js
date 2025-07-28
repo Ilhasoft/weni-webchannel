@@ -8,6 +8,27 @@ import DocViewer from '../docViewer';
 import './styles.scss';
 import { getAttachmentType } from '../../../../../../../../utils/messages';
 
+function transformImages(text) {
+  const anyURLRegEx = /\bhttps?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\b/g;
+  
+  return text.replace(anyURLRegEx, (url) => {
+    try {
+      const { pathname } = new URL(url);
+
+      const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp'];
+      const isImage = imageExtensions.some(extension => pathname.endsWith(extension));
+
+      if (isImage) {
+        return `![${pathname}](${url})`;
+      }
+
+      return url;
+    } catch (error) {
+      return url;
+    }
+  });
+}
+
 class Message extends PureComponent {
   render() {
     const { docViewer, linkTarget } = this.props;
@@ -36,7 +57,7 @@ class Message extends PureComponent {
           {sender === 'response' ? (
             <ReactMarkdown
               className={'push-markdown'}
-              source={text}
+              source={this.props.transformURLsIntoImages ? transformImages(text) : text}
               linkTarget={(url) => {
                 if (!url.startsWith('mailto') && !url.startsWith('javascript')) return '_blank';
                 return undefined;
@@ -49,6 +70,16 @@ class Message extends PureComponent {
                   <a href={props.href} target={linkTarget || '_blank'} rel="noopener noreferrer">
                     {props.children}
                   </a>
+                ),
+                image: props => (
+                  <img
+                    {...props}
+                    className="push-markdown-image"
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => window.open(props.src, '_blank')}
+                  />
                 )
               }}
             />
@@ -64,7 +95,8 @@ class Message extends PureComponent {
 Message.propTypes = {
   message: PROP_TYPES.MESSAGE,
   docViewer: PropTypes.bool,
-  linkTarget: PropTypes.string
+  linkTarget: PropTypes.string,
+  transformURLsIntoImages: PropTypes.bool
 };
 
 Message.defaultTypes = {

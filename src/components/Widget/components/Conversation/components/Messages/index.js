@@ -96,7 +96,7 @@ class Messages extends Component {
   }
 
   getComponentToRender = (message, index, isLast) => {
-    const { params, customComponent } = this.props;
+    const { params, customComponent, transformURLsIntoImages } = this.props;
     const ComponentToRender = (() => {
       switch (message.get('type')) {
         case MESSAGES_TYPES.TEXT: {
@@ -130,9 +130,9 @@ class Messages extends Component {
       }
     })();
     if (message.get('type') === 'component') {
-      return <ComponentToRender id={index} {...message.get('props')} isLast={isLast} />;
+      return <ComponentToRender id={index} {...message.get('props')} isLast={isLast} transformURLsIntoImages={transformURLsIntoImages} />;
     }
-    return <ComponentToRender id={index} params={params} message={message} isLast={isLast} />;
+    return <ComponentToRender id={index} params={params} message={message} isLast={isLast} transformURLsIntoImages={transformURLsIntoImages} />;
   };
 
   getHistory = () => {
@@ -313,7 +313,8 @@ Messages.propTypes = {
   closeAndDisconnect: PropTypes.func,
   forceChatConnection: PropTypes.func,
   messagesScroll: PropTypes.bool,
-  t: PropTypes.func
+  t: PropTypes.func,
+  transformURLsIntoImages: PropTypes.bool
 };
 
 Message.defaultTypes = {

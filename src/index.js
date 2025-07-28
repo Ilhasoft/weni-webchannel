@@ -17,7 +17,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
       channelUuid,
       host,
       onSocketEvent,
-      socketUrl
+      socketUrl,
+      transformURLsIntoImages
     ) {
       this.url = url;
       this.customData = customData;
@@ -30,6 +31,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
       this.onEvents = [];
       this.marker = Math.random();
       this.socketUrl = socketUrl;
+      this.transformURLsIntoImages = transformURLsIntoImages;
     }
 
     isInitialized() {
@@ -146,6 +148,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         disableSoundNotification={props.disableSoundNotification}
         customSoundNotification={props.customSoundNotification}
         clientId={props.clientId}
+        transformURLsIntoImages={props.transformURLsIntoImages}
       />
     </Provider>
   );
