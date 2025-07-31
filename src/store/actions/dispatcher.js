@@ -238,3 +238,11 @@ export function scheduleContactTimeout(contactTimeout) {
 export function clearScheduledContactTimeout() {
   store.dispatch(actions.clearScheduledContactTimeout());
 }
+
+export function setContext(context) {
+  store.dispatch(actions.setContext(context));
+}
+
+export function getContext() {
+  return store.getState().metadata.get('context') || '';
+}

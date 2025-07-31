@@ -966,6 +966,7 @@ class Widget extends Component {
           suggestionsConfig={this.props.suggestionsConfig}
           customAutoComplete={this.props.customAutoComplete}
           showTooltip={this.props.showTooltip}
+          transformURLsIntoImages={this.props.transformURLsIntoImages}
         />
         <Sound url={this.props.customSoundNotification} playStatus={this.state.playNotification} />
       </div>
@@ -1038,7 +1039,8 @@ Widget.propTypes = {
   customSoundNotification: PropTypes.string,
   clientId: PropTypes.string,
   sessionToken: PropTypes.string,
-  contactTimeout: PropTypes.number
+  contactTimeout: PropTypes.number,
+  transformURLsIntoImages: PropTypes.bool
 };
 
 Widget.defaultProps = {

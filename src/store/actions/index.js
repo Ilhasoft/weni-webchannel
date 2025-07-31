@@ -576,3 +576,10 @@ export function clearScheduledContactTimeout() {
     type: actions.CLEAR_SCHEDULED_CONTACT_TIMEOUT
   };
 }
+
+export function setContext(context) {
+  return {
+    type: actions.SET_CONTEXT,
+    context
+  };
+}

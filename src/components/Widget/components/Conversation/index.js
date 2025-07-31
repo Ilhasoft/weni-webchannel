@@ -31,6 +31,7 @@ const Conversation = props => (
       sendMessage={props.sendMessage}
       closeAndDisconnect={props.closeAndDisconnect}
       forceChatConnection={props.forceChatConnection}
+      transformURLsIntoImages={props.transformURLsIntoImages}
     />
     <Sender
       sendMessage={props.sendMessage}
@@ -70,7 +71,8 @@ Conversation.propTypes = {
   showHeaderAvatar: PropTypes.bool,
   headerImage: PropTypes.string,
   suggestionsConfig: PropTypes.shape({}),
-  customAutoComplete: PropTypes.func
+  customAutoComplete: PropTypes.func,
+  transformURLsIntoImages: PropTypes.bool
 };
 
 export default Conversation;

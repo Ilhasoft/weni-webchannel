@@ -54,6 +54,7 @@ const WidgetLayout = (props) => {
           customAutoComplete={props.customAutoComplete}
           closeAndDisconnect={props.closeAndDisconnect}
           forceChatConnection={props.forceChatConnection}
+          transformURLsIntoImages={props.transformURLsIntoImages}
         />
       )}
       {!props.embedded && (
@@ -114,7 +115,8 @@ WidgetLayout.propTypes = {
   suggestionsConfig: PropTypes.shape({}),
   customAutoComplete: PropTypes.func,
   showTooltip: PropTypes.bool,
-  customizeWidget: PropTypes.shape({})
+  customizeWidget: PropTypes.shape({}),
+  transformURLsIntoImages: PropTypes.bool
 };
 
 export default connect(mapStateToProps)(WidgetLayout);
