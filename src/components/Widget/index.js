@@ -227,14 +227,21 @@ class Widget extends Component {
     socket.socket.close();
   }
 
+  timeoutContactIfAllowed() {
+    if (this.waitingForTimeoutConfirmation) return;
+
+    // send a verifyContactTimeout message to server to check if the contact can be timed out
+    const { socket } = this.props;
+    this.waitingForTimeoutConfirmation = true;
+    socket.socket.send(JSON.stringify({ type: 'verify_contact_timeout' }));
+  }
+
   startContactTimeoutCheck() {
-    const { dispatch } = this.props;
     this.contactTimeoutIntervalId = setInterval(() => {
       const scheduledContactTimeout = store.getState().behavior.get('scheduledContactTimeout');
       if (scheduledContactTimeout) {
         if (Date.now() > scheduledContactTimeout) {
-          dispatch(clearScheduledContactTimeout());
-          this.forceNewChatSession();
+          this.timeoutContactIfAllowed();
         }
       }
     }, 1000);
@@ -380,6 +387,10 @@ class Widget extends Component {
       // eslint-disable-next-line react/prop-types
       this.props.socket.close();
       store.dispatch(disconnectServer());
+    } else if (receivedMessage.type === 'allow_contact_timeout') {
+      dispatch(clearScheduledContactTimeout());
+      this.forceNewChatSession();
+      this.waitingForTimeoutConfirmation = false;
     }
   }
 
