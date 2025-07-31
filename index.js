@@ -69,6 +69,7 @@ const plugin = {
         disableSoundNotification={args.disableSoundNotification}
         customSoundNotification={args.customSoundNotification}
         clientId={args.clientId}
+        contactTimeout={args.contactTimeout}
         transformURLsIntoImages={args.transformURLsIntoImages}
       />,
       document.querySelector(args.selector)
