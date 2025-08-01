@@ -88,6 +88,7 @@ class Widget extends Component {
     this.historyLimit = 20;
     this.historyPage = 1;
     this.typingTimeoutId = null;
+    this.hasUserOpenedChat = false;
     this.clientMessageMap = {
       text: insertUserMessage,
       image: insertUserImage,
@@ -144,6 +145,7 @@ class Widget extends Component {
       this.toggleFullScreen();
       dispatch(showChat());
       dispatch(openChat());
+      this.hasUserOpenedChat = true;
     }
 
     this.intervalId = setInterval(() => dispatch(evalUrl(window.location.href)), 500);
@@ -177,6 +179,7 @@ class Widget extends Component {
     if (embedded && initialized) {
       dispatch(showChat());
       dispatch(openChat());
+      this.hasUserOpenedChat = true;
     }
   }
 
@@ -261,12 +264,17 @@ class Widget extends Component {
   }
 
   newMessageTimeout(message) {
-    const { dispatch, isChatOpen, customMessageDelay, disableTooltips } = this.props;
+    const { dispatch, isChatOpen, customMessageDelay, disableTooltips, disableMessageTooltips } = this.props;
+    
     setTimeout(() => {
       this.dispatchMessage(message);
       if (!isChatOpen) {
         dispatch(newUnreadMessage());
-        if (!disableTooltips) dispatch(showTooltip(true));
+        const shouldShowTooltip = !this.hasUserOpenedChat || !disableMessageTooltips;
+
+        if (!disableTooltips && shouldShowTooltip) {
+          dispatch(showTooltip(true));
+        }
       }
       dispatch(triggerMessageDelayed(false));
       this.onGoingMessageDelay = false;
@@ -769,6 +777,9 @@ class Widget extends Component {
   toggleConversation() {
     this.props.dispatch(showTooltip(false));
     clearTimeout(this.tooltipTimeout);
+    if (this.props.isChatOpen) {
+      this.hasUserOpenedChat = true;
+    }
     this.props.dispatch(toggleChat());
   }
 
@@ -1015,7 +1026,8 @@ Widget.propTypes = {
   customSoundNotification: PropTypes.string,
   clientId: PropTypes.string,
   sessionToken: PropTypes.string,
-  transformURLsIntoImages: PropTypes.bool
+  transformURLsIntoImages: PropTypes.bool,
+  disableMessageTooltips: PropTypes.bool
 };
 
 Widget.defaultProps = {
@@ -1046,7 +1058,8 @@ Widget.defaultProps = {
   sessionId: null,
   sessionToken: null,
   startFullScreen: false,
-  showTooltip: false
+  showTooltip: false,
+  disableMessageTooltips: false
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);

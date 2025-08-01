@@ -70,6 +70,7 @@ const plugin = {
         customSoundNotification={args.customSoundNotification}
         clientId={args.clientId}
         transformURLsIntoImages={args.transformURLsIntoImages}
+        disableMessageTooltips={args.disableMessageTooltips}
       />,
       document.querySelector(args.selector)
     );
