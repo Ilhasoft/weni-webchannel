@@ -570,3 +570,15 @@ export function setContext(context) {
     context
   };
 }
+
+export function startTyping() {
+  return {
+    type: actions.START_TYPING
+  };
+}
+
+export function stopTyping() {
+  return {
+    type: actions.STOP_TYPING
+  };
+}

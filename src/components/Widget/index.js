@@ -52,7 +52,9 @@ import {
   insertResponseAudio,
   insertResponseVideo,
   insertResponseDocument,
-  deleteMessage
+  deleteMessage,
+  startTyping,
+  stopTyping
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
@@ -85,6 +87,7 @@ class Widget extends Component {
     this.canReconnect = true;
     this.historyLimit = 20;
     this.historyPage = 1;
+    this.typingTimeoutId = null;
     this.clientMessageMap = {
       text: insertUserMessage,
       image: insertUserImage,
@@ -186,6 +189,7 @@ class Widget extends Component {
       socket.close();
     }
     clearTimeout(this.tooltipTimeout);
+    clearTimeout(this.typingTimeoutId);
     clearInterval(this.intervalId);
   }
 
@@ -215,6 +219,12 @@ class Widget extends Component {
 
   handleMessageReceived(message) {
     const { dispatch, initPayload } = this.props;
+
+    if (this.typingTimeoutId) {
+      clearTimeout(this.typingTimeoutId);
+      this.typingTimeoutId = null;
+    }
+    dispatch(stopTyping());
 
     // if greater than 15 minutes in sec
     if (!this.checkedHistory && new Date().getTime() / 1000 - message.timestamp > 900) {
@@ -328,6 +338,17 @@ class Widget extends Component {
         quick_replies: buildQuickReplies(receivedMessage.message.quick_replies)
       };
       this.handleMessageReceived(newMessage);
+    } else if (receivedMessage.type === 'typing_start') {
+      if (this.typingTimeoutId) {
+        clearTimeout(this.typingTimeoutId);
+      }
+      dispatch(startTyping());
+
+      // set a timeout to automatically stop typing after 25 seconds
+      this.typingTimeoutId = setTimeout(() => {
+        dispatch(stopTyping());
+        this.typingTimeoutId = null;
+      }, 25000);
     } else if (receivedMessage.type === 'ack') {
       dispatch(setMessagesScroll(true));
       this.dispatchAckAttachment(receivedMessage.message);
@@ -756,6 +777,12 @@ class Widget extends Component {
   }
 
   dispatchMessage(message) {
+    if (this.typingTimeoutId) {
+      clearTimeout(this.typingTimeoutId);
+      this.typingTimeoutId = null;
+    }
+    this.props.dispatch(stopTyping());
+    
     // TODO: add location type
     let shouldPlay = true;
     if (message.type === 'text') {

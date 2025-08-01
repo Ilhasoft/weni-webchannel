@@ -21,6 +21,7 @@ export default function (
     connectingText,
     unreadCount: 0,
     messageDelayed: false,
+    isTyping: false,
     oldUrl: '',
     suggestions: [],
     pageChangeCallbacks: Map(),
@@ -133,6 +134,12 @@ export default function (
       }
       case actionTypes.TRIGGER_MESSAGE_DELAY: {
         return storeParams(state.set('messageDelayed', action.messageDelayed));
+      }
+      case actionTypes.START_TYPING: {
+        return storeParams(state.set('isTyping', true));
+      }
+      case actionTypes.STOP_TYPING: {
+        return storeParams(state.set('isTyping', false));
       }
       case actionTypes.SET_OLD_URL: {
         return storeParams(state.set('oldUrl', action.url));
