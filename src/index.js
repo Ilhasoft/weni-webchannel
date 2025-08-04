@@ -150,6 +150,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         clientId={props.clientId}
         contactTimeout={props.contactTimeout}
         transformURLsIntoImages={props.transformURLsIntoImages}
+        disableMessageTooltips={props.disableMessageTooltips}
       />
     </Provider>
   );
@@ -207,6 +208,8 @@ ConnectedWidget.propTypes = {
   disableSoundNotification: PropTypes.bool,
   customSoundNotification: PropTypes.string,
   clientId: PropTypes.string,
+  transformURLsIntoImages: PropTypes.bool,
+  disableMessageTooltips: PropTypes.bool,
   contactTimeout: PropTypes.number
 };
 
@@ -265,6 +268,8 @@ ConnectedWidget.defaultProps = {
   customSoundNotification:
     'https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3',
   clientId: window.location.hostname,
+  transformURLsIntoImages: false,
+  disableMessageTooltips: false,
   contactTimeout: 0
 };
 

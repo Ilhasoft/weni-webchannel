@@ -323,7 +323,7 @@ Message.defaultTypes = {
 
 export default connect(store => ({
   messages: store.messages,
-  displayTypingIndication: store.behavior.get('messageDelayed'),
+  displayTypingIndication: store.behavior.get('messageDelayed') || store.behavior.get('isTyping'),
   openSessionMessage: store.behavior.get('openSessionMessage'),
   messagesScroll: store.behavior.get('messagesScroll')
 }))(withTranslation()(Messages));

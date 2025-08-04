@@ -71,6 +71,7 @@ const plugin = {
         clientId={args.clientId}
         contactTimeout={args.contactTimeout}
         transformURLsIntoImages={args.transformURLsIntoImages}
+        disableMessageTooltips={args.disableMessageTooltips}
       />,
       document.querySelector(args.selector)
     );

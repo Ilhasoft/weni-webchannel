@@ -53,6 +53,8 @@ import {
   insertResponseVideo,
   insertResponseDocument,
   deleteMessage,
+  startTyping,
+  stopTyping,
   scheduleContactTimeout,
   clearScheduledContactTimeout
 } from 'actions';
@@ -88,6 +90,8 @@ class Widget extends Component {
     this.canReconnect = true;
     this.historyLimit = 20;
     this.historyPage = 1;
+    this.typingTimeoutId = null;
+    this.hasUserOpenedChat = false;
     this.clientMessageMap = {
       text: insertUserMessage,
       image: insertUserImage,
@@ -148,6 +152,7 @@ class Widget extends Component {
       this.toggleFullScreen();
       dispatch(showChat());
       dispatch(openChat());
+      this.hasUserOpenedChat = true;
     }
 
     this.intervalId = setInterval(() => dispatch(evalUrl(window.location.href)), 500);
@@ -181,6 +186,7 @@ class Widget extends Component {
     if (embedded && initialized) {
       dispatch(showChat());
       dispatch(openChat());
+      this.hasUserOpenedChat = true;
     }
   }
 
@@ -193,6 +199,7 @@ class Widget extends Component {
       socket.close();
     }
     clearTimeout(this.tooltipTimeout);
+    clearTimeout(this.typingTimeoutId);
     clearInterval(this.intervalId);
     clearInterval(this.contactTimeoutIntervalId);
   }
@@ -257,6 +264,12 @@ class Widget extends Component {
   handleMessageReceived(message) {
     const { dispatch, initPayload } = this.props;
 
+    if (this.typingTimeoutId) {
+      clearTimeout(this.typingTimeoutId);
+      this.typingTimeoutId = null;
+    }
+    dispatch(stopTyping());
+
     // if greater than 15 minutes in sec
     if (!this.checkedHistory && new Date().getTime() / 1000 - message.timestamp > 900) {
       this.inactivityTimerId = setTimeout(() => {
@@ -292,12 +305,17 @@ class Widget extends Component {
   }
 
   newMessageTimeout(message) {
-    const { dispatch, isChatOpen, customMessageDelay, disableTooltips } = this.props;
+    const { dispatch, isChatOpen, customMessageDelay, disableTooltips, disableMessageTooltips } = this.props;
+    
     setTimeout(() => {
       this.dispatchMessage(message);
       if (!isChatOpen) {
         dispatch(newUnreadMessage());
-        if (!disableTooltips) dispatch(showTooltip(true));
+        const shouldShowTooltip = !this.hasUserOpenedChat || !disableMessageTooltips;
+
+        if (!disableTooltips && shouldShowTooltip) {
+          dispatch(showTooltip(true));
+        }
       }
       dispatch(triggerMessageDelayed(false));
       this.onGoingMessageDelay = false;
@@ -369,6 +387,17 @@ class Widget extends Component {
         quick_replies: buildQuickReplies(receivedMessage.message.quick_replies)
       };
       this.handleMessageReceived(newMessage);
+    } else if (receivedMessage.type === 'typing_start') {
+      if (this.typingTimeoutId) {
+        clearTimeout(this.typingTimeoutId);
+      }
+      dispatch(startTyping());
+
+      // set a timeout to automatically stop typing after 25 seconds
+      this.typingTimeoutId = setTimeout(() => {
+        dispatch(stopTyping());
+        this.typingTimeoutId = null;
+      }, 25000);
     } else if (receivedMessage.type === 'ack') {
       dispatch(setMessagesScroll(true));
       this.dispatchAckAttachment(receivedMessage.message);
@@ -796,6 +825,9 @@ class Widget extends Component {
   toggleConversation() {
     this.props.dispatch(showTooltip(false));
     clearTimeout(this.tooltipTimeout);
+    if (this.props.isChatOpen) {
+      this.hasUserOpenedChat = true;
+    }
     this.props.dispatch(toggleChat());
   }
 
@@ -804,6 +836,12 @@ class Widget extends Component {
   }
 
   dispatchMessage(message) {
+    if (this.typingTimeoutId) {
+      clearTimeout(this.typingTimeoutId);
+      this.typingTimeoutId = null;
+    }
+    this.props.dispatch(stopTyping());
+    
     // TODO: add location type
     let shouldPlay = true;
     if (message.type === 'text') {
@@ -1039,6 +1077,8 @@ Widget.propTypes = {
   customSoundNotification: PropTypes.string,
   clientId: PropTypes.string,
   sessionToken: PropTypes.string,
+  transformURLsIntoImages: PropTypes.bool,
+  disableMessageTooltips: PropTypes.bool,
   contactTimeout: PropTypes.number,
   transformURLsIntoImages: PropTypes.bool
 };
@@ -1072,6 +1112,7 @@ Widget.defaultProps = {
   sessionToken: null,
   startFullScreen: false,
   showTooltip: false,
+  disableMessageTooltips: false,
   contactTimeout: 0
 };
 
