@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.23.0](https://https//github.com/push-platform/push-webchat/compare/v2.22.1...v2.23.0) (2025-08-04)
+
+### Features
+
+* add the contactTimeout parameter ([424823a](https://github.com/Ilhasoft/weni-webchannel/commit/424823a1d6c3a678abcd23cec10ba672d683f1a4))
+* add the typing_start socket message support to show typing indicator ([0087c48](https://github.com/Ilhasoft/weni-webchannel/commit/0087c48cc5ecbcfade449d8e6b9cdfe0942fa3a6))
+* add the disableMessageTooltips parameter to disable tooltips when the chat is closed after the first interaction ([6c1076e](https://github.com/Ilhasoft/weni-webchannel/commit/6c1076e0974c27ebdc12dadf406e4b78a7a82ebe))
+
 ## [2.22.1](https://https//github.com/push-platform/push-webchat/compare/v2.21.2...v2.22.1) (2025-07-28)
 
 ### Features
