@@ -54,7 +54,9 @@ import {
   insertResponseDocument,
   deleteMessage,
   startTyping,
-  stopTyping
+  stopTyping,
+  scheduleContactTimeout,
+  clearScheduledContactTimeout
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
@@ -75,6 +77,7 @@ class Widget extends Component {
     this.onGoingMessageDelay = false;
     this.sendMessage = this.sendMessage.bind(this);
     this.intervalId = null;
+    this.contactTimeoutIntervalId = null;
     this.eventListenerCleaner = () => {};
     this.pingLimit = MAX_PING_LIMIT;
     this.pingIntervalId = null;
@@ -137,6 +140,10 @@ class Widget extends Component {
       params
     } = this.props;
 
+    dispatch(pullSession(params.storage));
+
+    this.startContactTimeoutCheck();
+
     const styleNode = document.createElement('style');
     styleNode.innerHTML = defaultHighlightAnimation;
     document.body.appendChild(styleNode);
@@ -194,6 +201,7 @@ class Widget extends Component {
     clearTimeout(this.tooltipTimeout);
     clearTimeout(this.typingTimeoutId);
     clearInterval(this.intervalId);
+    clearInterval(this.contactTimeoutIntervalId);
   }
 
   getSessionId() {
@@ -218,6 +226,39 @@ class Widget extends Component {
       dispatch(emitMessageIfFirst(payload, text));
     }
     dispatch(setUserInput(''));
+  }
+
+  forceNewChatSession() {
+    const { socket } = this.props;
+    this.forceNewSession = true;
+    socket.socket.close();
+  }
+
+  timeoutContactIfAllowed() {
+    if (this.waitingForTimeoutConfirmation) return;
+
+    // send a verifyContactTimeout message to server to check if the contact can be timed out
+    const { socket } = this.props;
+    this.waitingForTimeoutConfirmation = true;
+    socket.socket.send(JSON.stringify({ type: 'verify_contact_timeout' }));
+  }
+
+  startContactTimeoutCheck() {
+    this.contactTimeoutIntervalId = setInterval(() => {
+      const scheduledContactTimeout = store.getState().behavior.get('scheduledContactTimeout');
+      if (scheduledContactTimeout) {
+        if (Date.now() > scheduledContactTimeout) {
+          this.timeoutContactIfAllowed();
+        }
+      }
+    }, 1000);
+  }
+
+  scheduleContactTimeout() {
+    const { dispatch, contactTimeout } = this.props;
+    if (contactTimeout) {
+      dispatch(scheduleContactTimeout(contactTimeout));
+    }
   }
 
   handleMessageReceived(message) {
@@ -375,6 +416,10 @@ class Widget extends Component {
       // eslint-disable-next-line react/prop-types
       this.props.socket.close();
       store.dispatch(disconnectServer());
+    } else if (receivedMessage.type === 'allow_contact_timeout') {
+      dispatch(clearScheduledContactTimeout());
+      this.forceNewChatSession();
+      this.waitingForTimeoutConfirmation = false;
     }
   }
 
@@ -582,13 +627,23 @@ class Widget extends Component {
     }
   };
 
+  generateNewUniqueFrom() {
+    const { clientId } = this.props;
+    let validClientId;
+    if (clientId === null || clientId.trim() === '') {
+      validClientId = window.location.hostname;
+    } else {
+      validClientId = clientId;
+    }
+    return `${Math.floor(Math.random() * Date.now())}@${validClientId}`;
+  }
+
   initializeWidget(sendInitPayload = true) {
     const {
       socket,
       dispatch,
       embedded,
       initialized,
-      clientId,
       sessionId,
       host,
       channelUuid,
@@ -608,18 +663,11 @@ class Widget extends Component {
         localId = sessionId;
       }
 
-      let validClientId;
-      if (clientId === null || clientId.trim() === '') {
-        validClientId = window.location.hostname;
-      } else {
-        validClientId = clientId;
-      }
-
-      const uniqueFrom = localId || `${Math.floor(Math.random() * Date.now())}@${validClientId}`;
+      const uniqueFrom = (this.forceNewSession || !localId) ? this.generateNewUniqueFrom() : localId;
 
       const options = {
         type: 'register',
-        from: localId || uniqueFrom,
+        from: uniqueFrom,
         callback: `${host}/c/wwc/${channelUuid}/receive`,
         session_type: params.storage
       };
@@ -634,7 +682,7 @@ class Widget extends Component {
         if (!that.connected || that.attemptingReconnection) {
           that.startConnection(
             this,
-            !that.attemptingReconnection && sendInitPayload,
+            that.forceNewSession || (!that.attemptingReconnection && sendInitPayload),
             options,
             localId,
             uniqueFrom
@@ -661,7 +709,7 @@ class Widget extends Component {
           return;
         }
 
-        let delayInterval = 5000;
+        let delayInterval = 100;
         if (this.reconnectWithDelay) {
           delayInterval = 1000;
         }
@@ -856,6 +904,9 @@ class Widget extends Component {
       this.inactivityTimerId = null;
     }
 
+    // we need to reset the chat if the user is not responding
+    this.scheduleContactTimeout();
+
     this.pingLimit = MAX_PING_LIMIT;
     if (event.type === 'submit') {
       event.preventDefault();
@@ -1027,7 +1078,9 @@ Widget.propTypes = {
   clientId: PropTypes.string,
   sessionToken: PropTypes.string,
   transformURLsIntoImages: PropTypes.bool,
-  disableMessageTooltips: PropTypes.bool
+  disableMessageTooltips: PropTypes.bool,
+  contactTimeout: PropTypes.number,
+  transformURLsIntoImages: PropTypes.bool
 };
 
 Widget.defaultProps = {
@@ -1059,7 +1112,8 @@ Widget.defaultProps = {
   sessionToken: null,
   startFullScreen: false,
   showTooltip: false,
-  disableMessageTooltips: false
+  disableMessageTooltips: false,
+  contactTimeout: 0
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);
