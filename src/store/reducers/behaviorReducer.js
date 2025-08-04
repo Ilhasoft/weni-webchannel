@@ -29,7 +29,8 @@ export default function (
     initPayloadText: null,
     initPayloadSent: false,
     sessionIdTransaction: false,
-    messagesScroll: true
+    messagesScroll: true,
+    scheduledContactTimeout: null
   });
 
   return function reducer(state = initialState, action) {
@@ -151,6 +152,15 @@ export default function (
       }
       case actionTypes.SET_MESSAGES_SCROLL: {
         return storeParams(state.set('messagesScroll', action.value));
+      }
+      case actionTypes.SCHEDULE_CONTACT_TIMEOUT: {
+        // contactTimeout is in minutes, we need to convert it to milliseconds
+        const timeoutInMs = action.contactTimeout * 60 * 1000;
+        const timeoutTimestamp = Date.now() + timeoutInMs;
+        return storeParams(state.set('scheduledContactTimeout', timeoutTimestamp));
+      }
+      case actionTypes.CLEAR_SCHEDULED_CONTACT_TIMEOUT: {
+        return storeParams(state.set('scheduledContactTimeout', null));
       }
       case actionTypes.SET_SESSION_ID: {
         storeLocalSession(storage, SESSION_NAME, action.sessionId);

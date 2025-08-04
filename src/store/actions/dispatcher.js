@@ -231,6 +231,14 @@ export function setMessagesScroll(value) {
   store.dispatch(actions.setMessagesScroll(value));
 }
 
+export function scheduleContactTimeout(contactTimeout) {
+  store.dispatch(actions.scheduleContactTimeout(contactTimeout));
+}
+
+export function clearScheduledContactTimeout() {
+  store.dispatch(actions.clearScheduledContactTimeout());
+}
+
 export function setContext(context) {
   store.dispatch(actions.setContext(context));
 }
