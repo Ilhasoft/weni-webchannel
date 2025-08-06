@@ -9,7 +9,7 @@ import './styles.scss';
 import { getAttachmentType } from '../../../../../../../../utils/messages';
 
 function transformImages(text) {
-  const anyURLRegEx = /\bhttps?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\b/g;
+  const anyURLRegEx = /(?<!\]\()\bhttps?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\b/g;
   
   return text.replace(anyURLRegEx, (url) => {
     try {
