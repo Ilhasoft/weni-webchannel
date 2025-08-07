@@ -48,6 +48,8 @@ function Sender({
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [audioTimer, setAudioTimer] = useState('');
 
+  const isScreenHeightSmall = window.innerHeight < 720;
+
   function switchCamera() {
     if (!isSwitchingVideo) {
       document.querySelector('#wwc-video').dispatchEvent(new Event('switch'));
@@ -342,7 +344,7 @@ function Sender({
           onChange={value => setUserInput(value.target.value)}
           placeholder={inputTextFieldHint}
           disabled={disabledInput || userInput === 'disable'}
-          autoFocus
+          autoFocus={!isScreenHeightSmall}
           autoComplete="off"
           onKeyDown={event => handlePressed(event)}
           style={{ display: isAudioRecording || isVideoRecording ? 'none' : null }}
