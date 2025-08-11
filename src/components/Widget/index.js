@@ -309,7 +309,7 @@ class Widget extends Component {
     const { dispatch, isChatOpen, customMessageDelay, disableTooltips, disableMessageTooltips } = this.props;
     const delay = this.skipNextMessageDelay ? 0 : customMessageDelay(message.text || '');
     this.skipNextMessageDelay = false;
-    
+
     setTimeout(() => {
       this.dispatchMessage(message);
       if (!isChatOpen) {
@@ -397,11 +397,14 @@ class Widget extends Component {
       this.skipNextMessageDelay = true;
       dispatch(startTyping());
 
-      // set a timeout to automatically stop typing after 25 seconds
+      const delayInSeconds = 50;
+      const delay = delayInSeconds * 1000;
+
+      // set a timeout to automatically stop typing after the delay
       this.typingTimeoutId = setTimeout(() => {
         dispatch(stopTyping());
         this.typingTimeoutId = null;
-      }, 25000);
+      }, delay);
     } else if (receivedMessage.type === 'ack') {
       dispatch(setMessagesScroll(true));
       this.dispatchAckAttachment(receivedMessage.message);
