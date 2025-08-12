@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.24.0](https://https//github.com/push-platform/push-webchat/compare/v2.23.0...v2.24.0) (2025-08-12)
+
+### Features
+
+* skips custom delay typing when typing_start is received from the socket, preventing duplicated typing behavior ([5d4c3eb](https://github.com/Ilhasoft/weni-webchannel/pull/137/commits/5d4c3eb662c47e603e3df07bba8e38de4e0dd5ce))
+* increases typing maximum timeout to 50 seconds ([1d93b52](https://github.com/Ilhasoft/weni-webchannel/pull/137/commits/1d93b52c855f8c1a5283cc34c28904be10cfbaf9))
+
+### Bug Fixes
+
+* ensures connection is closed before try to reconnect ([c23efa9](https://github.com/Ilhasoft/weni-webchannel/pull/137/commits/c23efa9114d509faf3794c3940ecc6521e9f3c6a))
+* ignores URL image transformation if it is already in markdown format ([5e887fa](https://github.com/Ilhasoft/weni-webchannel/pull/137/commits/5e887fae525c644fe5315edc884a6e530612c36e))
+* considers screen height on the input autofocus, preventing automatic keyboard from opening when the screen is too small ([ff1abaa](https://github.com/Ilhasoft/weni-webchannel/pull/137/commits/ff1abaa9fd5525c425ae49ce293386d8135c8891))
+* fixes typing styling on the fullscreen mode ([7b89ed8](https://github.com/Ilhasoft/weni-webchannel/pull/137/commits/7b89ed8ee2612cb9714b33cdb2d3597153fffb2e))
+
 ## [2.23.0](https://https//github.com/push-platform/push-webchat/compare/v2.22.1...v2.23.0) (2025-08-04)
 
 ### Features
@@ -25,7 +39,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* set Webpack build umd named define option for compatibility reasons with require.js  ([186de77](https://github.com/Ilhasoft/weni-webchannel/commit/186de77821dbfbd70254543a622dacbc78f07a5e))
+* set Webpack build umd named define option for compatibility reasons with require.js ([186de77](https://github.com/Ilhasoft/weni-webchannel/commit/186de77821dbfbd70254543a622dacbc78f07a5e))
 
 ## [2.21.0](https://https//github.com/push-platform/push-webchat/compare/v2.19.4...v2.21.0) (2025-04-24)
 

@@ -35,7 +35,19 @@ const ConnectedWidget = forwardRef((props, ref) => {
     }
 
     isInitialized() {
-      return this.socket ? this.socket.readyState === 1 : false;
+      return this.socket && this.socket.readyState === 1;
+    }
+
+    isConnecting() {
+      return this.socket && this.socket.readyState === 0;
+    }
+
+    isClosing() {
+      return this.socket && this.socket.readyState === 2;
+    }
+
+    isClosed() {
+      return !this.socket || this.socket.readyState === 3;
     }
 
     on(event, callback) {
@@ -68,11 +80,17 @@ const ConnectedWidget = forwardRef((props, ref) => {
           }, closeRetryDelayMs);
         } else {
           this.socket.close();
+          this.socket = null;
         }
       }
     }
 
     createSocket() {
+      if (this.socket) {
+        this.socket.close();
+        this.socket = null;
+      }
+      
       const socketHost = this.socketUrl.replace(/^(https?:|)\/\//, '');
       this.socket = new WebSocket(`wss://${socketHost}/ws`);
     }

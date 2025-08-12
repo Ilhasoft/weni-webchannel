@@ -75,6 +75,7 @@ class Widget extends Component {
     super(props);
     this.messages = [];
     this.onGoingMessageDelay = false;
+    this.skipNextMessageDelay = false;
     this.sendMessage = this.sendMessage.bind(this);
     this.intervalId = null;
     this.contactTimeoutIntervalId = null;
@@ -195,6 +196,11 @@ class Widget extends Component {
 
     this.unsubscribe();
 
+    if (this.reconnectionTimeout) {
+      clearTimeout(this.reconnectionTimeout);
+      this.reconnectionTimeout = null;
+    }
+
     if (socket) {
       socket.close();
     }
@@ -202,6 +208,7 @@ class Widget extends Component {
     clearTimeout(this.typingTimeoutId);
     clearInterval(this.intervalId);
     clearInterval(this.contactTimeoutIntervalId);
+    clearInterval(this.pingIntervalId);
   }
 
   getSessionId() {
@@ -306,7 +313,9 @@ class Widget extends Component {
 
   newMessageTimeout(message) {
     const { dispatch, isChatOpen, customMessageDelay, disableTooltips, disableMessageTooltips } = this.props;
-    
+    const delay = this.skipNextMessageDelay ? 0 : customMessageDelay(message.text || '');
+    this.skipNextMessageDelay = false;
+
     setTimeout(() => {
       this.dispatchMessage(message);
       if (!isChatOpen) {
@@ -320,7 +329,7 @@ class Widget extends Component {
       dispatch(triggerMessageDelayed(false));
       this.onGoingMessageDelay = false;
       this.popLastMessage();
-    }, customMessageDelay(message.text || ''));
+    }, delay);
   }
 
   propagateMetadata(metadata) {
@@ -391,13 +400,17 @@ class Widget extends Component {
       if (this.typingTimeoutId) {
         clearTimeout(this.typingTimeoutId);
       }
+      this.skipNextMessageDelay = true;
       dispatch(startTyping());
 
-      // set a timeout to automatically stop typing after 25 seconds
+      const delayInSeconds = 50;
+      const delay = delayInSeconds * 1000;
+
+      // set a timeout to automatically stop typing after the delay
       this.typingTimeoutId = setTimeout(() => {
         dispatch(stopTyping());
         this.typingTimeoutId = null;
-      }, 25000);
+      }, delay);
     } else if (receivedMessage.type === 'ack') {
       dispatch(setMessagesScroll(true));
       this.dispatchAckAttachment(receivedMessage.message);
@@ -651,6 +664,10 @@ class Widget extends Component {
       sessionToken
     } = this.props;
 
+    if (this.attemptingReconnection && !socket.isInitialized()) {
+      return;
+    }
+
     if (!socket.isInitialized() || this.attemptingReconnection) {
       socket.createSocket();
 
@@ -715,7 +732,11 @@ class Widget extends Component {
         }
         const attemptingLimit = 30;
 
-        const attemptReconnection = setTimeout(() => {
+        if (this.reconnectionTimeout) {
+          clearTimeout(this.reconnectionTimeout);
+        }
+
+        this.reconnectionTimeout = setTimeout(() => {
           let attempt = this.state.attemptReconnection;
           if (attempt <= attemptingLimit) {
             this.attemptingReconnection = true;
@@ -727,7 +748,7 @@ class Widget extends Component {
             this.setState({ attemptReconnection: attempt });
           } else {
             this.setState({ attemptReconnection: 0 });
-            clearTimeout(attemptReconnection);
+            this.reconnectionTimeout = null;
           }
         }, delayInterval);
       };
@@ -966,7 +987,9 @@ class Widget extends Component {
 
     websocket.send(JSON.stringify(options));
 
-    setTimeout(websocket.close(), 1000);
+    setTimeout(() => {
+      websocket.close();
+    }, 1000);
   }
 
   render() {
