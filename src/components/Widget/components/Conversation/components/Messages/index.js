@@ -3,7 +3,7 @@ import PropTypes, { array } from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect, useSelector } from 'react-redux';
 import Dropzone from 'react-dropzone';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { withTranslation } from 'react-i18next';
 
 import alertCircle from 'assets/alert-circle-1-1.svg';
