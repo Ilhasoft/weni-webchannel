@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.24.1](https://https//github.com/push-platform/push-webchat/compare/v2.24.0...v2.24.1) (2025-08-13)
+
+### Bug Fixes
+
+* prevents the global export of the lodash package (_ object) that could cause conflicts ([41da4f5](https://github.com/Ilhasoft/weni-webchannel/pull/138/commits/41da4f52edafda89d43481fcfe1843630ead785b))
+
 ## [2.24.0](https://https//github.com/push-platform/push-webchat/compare/v2.23.0...v2.24.0) (2025-08-12)
 
 ### Features
