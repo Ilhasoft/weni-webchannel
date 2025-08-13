@@ -12,6 +12,7 @@ import iconIndicator from 'assets/indicator.svg';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import { audioToMp3Blob } from 'utils/audioToMp3Blob';
 
 import './style.scss';
 import SuggestionsList from './components/Suggestions';
@@ -196,10 +197,10 @@ function Sender({
 
     mediaRecorder.addEventListener('stop', () => {
       if (send) {
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        const file = new File([audioBlob], 'recording.wav', { type: 'audio/wav' });
-
-        setSelectedFiles([file]);
+        audioToMp3Blob(audioChunks, (mp3Blob) => {
+          const file = new File([mp3Blob], 'recording.mp3', { type: 'audio/mp3' });
+          setSelectedFiles([file]);
+        });
       }
     });
 
