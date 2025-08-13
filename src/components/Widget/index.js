@@ -313,7 +313,8 @@ class Widget extends Component {
 
   newMessageTimeout(message) {
     const { dispatch, isChatOpen, customMessageDelay, disableTooltips, disableMessageTooltips } = this.props;
-    const delay = this.skipNextMessageDelay ? 0 : customMessageDelay(message.text || '');
+    const fromCustomMessageDelay = customMessageDelay(message.text || '');
+    const delay = this.skipNextMessageDelay ? 0 : fromCustomMessageDelay;
     this.skipNextMessageDelay = false;
 
     setTimeout(() => {
