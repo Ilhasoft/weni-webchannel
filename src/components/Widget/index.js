@@ -665,10 +665,6 @@ class Widget extends Component {
       sessionToken
     } = this.props;
 
-    if (this.attemptingReconnection && !socket.isInitialized()) {
-      return;
-    }
-
     if (!socket.isInitialized() || this.attemptingReconnection) {
       socket.createSocket();
 
