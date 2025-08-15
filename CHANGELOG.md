@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.24.4](https://https//github.com/push-platform/push-webchat/compare/v2.24.1...v2.24.4) (2025-08-15)
+
+### Bug Fixes
+
+* reconnects when the socket is closed ([b8aa3a3](https://github.com/Ilhasoft/weni-webchannel/commit/b8aa3a3d68fa9950c9f3064b29cedc8d3d98c4c6))
+
+### Features
+
+* converts audio to mp3 before sending it to the socket, avoiding incompatibilities with IOs ([aecdfa5](https://github.com/Ilhasoft/weni-webchannel/commit/aecdfa52bf15715c452cd0442413120745c38ac4))
+* always calls customMessageDelay, even when its return value is not used ([95da124](https://github.com/Ilhasoft/weni-webchannel/commit/95da124f2f44caee18f2c17f8be2275ddeb54c37))
+
 ## [2.24.1](https://https//github.com/push-platform/push-webchat/compare/v2.24.0...v2.24.1) (2025-08-13)
 
 ### Bug Fixes
