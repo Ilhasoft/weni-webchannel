@@ -55,6 +55,7 @@ const WidgetLayout = (props) => {
           closeAndDisconnect={props.closeAndDisconnect}
           forceChatConnection={props.forceChatConnection}
           transformURLsIntoImages={props.transformURLsIntoImages}
+          isConnected={props.isConnected}
         />
       )}
       {!props.embedded && (
@@ -116,7 +117,8 @@ WidgetLayout.propTypes = {
   customAutoComplete: PropTypes.func,
   showTooltip: PropTypes.bool,
   customizeWidget: PropTypes.shape({}),
-  transformURLsIntoImages: PropTypes.bool
+  transformURLsIntoImages: PropTypes.bool,
+  isConnected: PropTypes.bool
 };
 
 export default connect(mapStateToProps)(WidgetLayout);

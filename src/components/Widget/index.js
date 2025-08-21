@@ -66,9 +66,13 @@ import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
 import { buildQuickReplies, toBase64, getAttachmentType } from '../../utils/messages';
+import { socketOnClose } from './socketEvents';
 
 const MAX_PING_LIMIT = 216;
 let currentInitialization = null;
+
+let socketOnCloseListener = null;
+let afterOnOpen = null;
 
 class Widget extends Component {
   constructor(props) {
@@ -93,6 +97,7 @@ class Widget extends Component {
     this.historyPage = 1;
     this.typingTimeoutId = null;
     this.hasUserOpenedChat = false;
+    this.reconnectImmediate = false;
     this.clientMessageMap = {
       text: insertUserMessage,
       image: insertUserImage,
@@ -122,7 +127,8 @@ class Widget extends Component {
 
   state = {
     playNotification: Sound.status.STOPPED,
-    attemptReconnection: 0
+    attemptReconnection: 0,
+    isConnected: false,
   };
 
   componentWillMount() {
@@ -418,12 +424,14 @@ class Widget extends Component {
     } else if (receivedMessage.type === 'error') {
       if (receivedMessage.error === 'unable to register: client from already exists') {
         this.props.dispatch(openSessionMessage());
+        this.props.socket.socket.removeEventListener('close', socketOnCloseListener);
+        this.props.socket.socket.close();
       }
     } else if (receivedMessage.type === 'warning') {
       if (receivedMessage.warning === 'Connection closed by request') {
-        this.reconnectWithDelay = true;
-        // eslint-disable-next-line react/prop-types
-        this.props.socket.close();
+        this.props.dispatch(openSessionMessage());
+        this.props.socket.socket.removeEventListener('close', socketOnCloseListener);
+        this.props.socket.socket.close();
       }
     } else if (receivedMessage.type === 'forbidden') {
       this.canReconnect = false;
@@ -451,7 +459,7 @@ class Widget extends Component {
       const timestamp = historyMessage.timestamp || new Date().getTime();
 
       teste.forEach((item) => {
-        this.handleDeleteMessage(item);
+        this.handleDeleteMessage(item, historyMessage);
       });
 
       if (!newItem) {
@@ -466,8 +474,15 @@ class Widget extends Component {
 
   handleDeleteMessage = (item, historyMessage) => {
     const { messagesJS, dispatch } = this.props;
-    if (messagesJS[item].text === historyMessage.text) {
-      dispatch(deleteMessage());
+    if (!historyMessage || !messagesJS[item]) return;
+
+    const isPlaceholder = messagesJS[item].id === undefined;
+    const isTextMessage = Boolean(messagesJS[item].text);
+    const historyIsText = historyMessage.message && historyMessage.message.type === 'text';
+    const textsMatch = historyIsText && isTextMessage && messagesJS[item].text === historyMessage.message.text;
+
+    if (isPlaceholder && textsMatch) {
+      dispatch(deleteMessage(item));
     }
   }
 
@@ -704,10 +719,16 @@ class Widget extends Component {
           that.pingIntervalId = setInterval(() => {
             that.pingSocket();
           }, 50000);
+          that.setState({ isConnected: true });
           that.connected = true;
           that.attemptingReconnection = false;
           this.reconnectWithDelay = false;
           that.props.dispatch(closeSessionMessage());
+
+          if (afterOnOpen) {
+            afterOnOpen();
+            afterOnOpen = null;
+          }
         }
       };
 
@@ -715,40 +736,8 @@ class Widget extends Component {
         this.handleBotUtterance(msg);
       };
 
-      socket.socket.onclose = (event) => {
-        // eslint-disable-next-line no-console
-        console.log('SOCKET_ONCLOSE: Socket closed connection:', event);
-
-        if (!this.canReconnect) {
-          return;
-        }
-
-        let delayInterval = 100;
-        if (this.reconnectWithDelay) {
-          delayInterval = 1000;
-        }
-        const attemptingLimit = 30;
-
-        if (this.reconnectionTimeout) {
-          clearTimeout(this.reconnectionTimeout);
-        }
-
-        this.reconnectionTimeout = setTimeout(() => {
-          let attempt = this.state.attemptReconnection;
-          if (attempt <= attemptingLimit) {
-            this.attemptingReconnection = true;
-            this.reconnectWithDelay = false;
-            clearInterval(this.pingIntervalId);
-            this.props.dispatch(closeSessionMessage());
-            this.initializeWidget(sendInitPayload);
-            attempt += 1;
-            this.setState({ attemptReconnection: attempt });
-          } else {
-            this.setState({ attemptReconnection: 0 });
-            this.reconnectionTimeout = null;
-          }
-        }, delayInterval);
-      };
+      socketOnCloseListener = socketOnClose.bind(this);
+      socket.socket.addEventListener('close', socketOnCloseListener);
 
       socket.socket.onerror = (err) => {
         // eslint-disable-next-line no-console
@@ -970,23 +959,25 @@ class Widget extends Component {
   }
 
   forceChatConnection() {
-    const { sessionToken, socket } = this.props;
-    const websocket = socket.socket;
+    afterOnOpen = () => {
+      const { sessionToken, socket } = this.props;
 
-    const options = {
-      type: 'close_session',
-      from: this.getUniqueFrom()
-    };
+      const options = {
+        type: 'close_session',
+        from: this.getUniqueFrom()
+      };
+  
+      if (sessionToken) {
+        options.token = sessionToken;
+      }
 
-    if (sessionToken) {
-      options.token = sessionToken;
+      socket.socket.send(JSON.stringify(options));
+      this.reconnectImmediate = true;
+      socket.socket.close();
     }
 
-    websocket.send(JSON.stringify(options));
-
-    setTimeout(() => {
-      websocket.close();
-    }, 1000);
+    this.attemptingReconnection = true;
+    this.initializeWidget();
   }
 
   render() {
@@ -1025,6 +1016,7 @@ class Widget extends Component {
           customAutoComplete={this.props.customAutoComplete}
           showTooltip={this.props.showTooltip}
           transformURLsIntoImages={this.props.transformURLsIntoImages}
+          isConnected={this.state.isConnected}
         />
         <Sound url={this.props.customSoundNotification} playStatus={this.state.playNotification} />
       </div>
