@@ -9,7 +9,7 @@ import { withTranslation } from 'react-i18next';
 import alertCircle from 'assets/alert-circle-1-1.svg';
 import { MESSAGES_TYPES, VALID_FILE_TYPE } from 'constants';
 import {
-  Video, Image, Message, Snippet, QuickReply, DocViewer, Audio
+  Video, Image, Message, Snippet, QuickReply, DocViewer, Audio, Thinking
 } from 'messagesComponents';
 
 import { getHistory, dropMessages } from 'actions';
@@ -174,11 +174,12 @@ class Messages extends Component {
   render() {
     const {
       displayTypingIndication,
+      displayThinkingIndication,
       profileAvatar,
       sendMessage,
       openSessionMessage,
       closeAndDisconnect,
-      t
+      t,
     } = this.props;
 
     const renderMessages = () => {
@@ -275,7 +276,8 @@ class Messages extends Component {
             <input className="push-dropzone" {...getInputProps()} />
             <section>
               {renderMessages()}
-              {displayTypingIndication && (
+              {displayThinkingIndication && <Thinking profileAvatar={profileAvatar} />}
+              {!displayThinkingIndication && displayTypingIndication && (
                 <div
                   className={`push-message push-typing-indication ${profileAvatar
                     && 'push-with-avatar'}`}
@@ -324,6 +326,7 @@ Message.defaultTypes = {
 export default connect(store => ({
   messages: store.messages,
   displayTypingIndication: store.behavior.get('messageDelayed') || store.behavior.get('isTyping'),
+  displayThinkingIndication: store.behavior.get('isThinking'),
   openSessionMessage: store.behavior.get('openSessionMessage'),
   messagesScroll: store.behavior.get('messagesScroll')
 }))(withTranslation()(Messages));
