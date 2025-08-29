@@ -448,9 +448,8 @@ class Widget extends Component {
       if (receivedMessage.error === 'unable to register: client from already exists') {
         console.log('%cSOCKET RECEIVED ERROR - already exists', 'color: #F71963; font-weight: bold;', new Date());
 
-        this.props.dispatch(openSessionMessage());
         this.props.socket.socket.removeEventListener('close', socketOnCloseListener);
-        this.props.socket.socket.close();
+        this.forceChatConnection();
       }
     } else if (receivedMessage.type === 'warning') {
       if (receivedMessage.warning === 'Connection closed by request') {
