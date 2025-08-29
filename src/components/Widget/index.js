@@ -332,13 +332,13 @@ class Widget extends Component {
     this.skipNextMessageDelay = false;
 
     if (this.isShowingThinking) {
-      dispatch(stopThinking());
       dispatch(startTyping());
 
       delay = 1000 + Math.random() * 1000; // 1 to 2 seconds
     }
 
     this.isShowingThinking = false;
+    dispatch(stopThinking());
 
     setTimeout(() => {
       this.dispatchMessage(message);
@@ -446,12 +446,16 @@ class Widget extends Component {
       this.dispatchAckAttachment(receivedMessage.message);
     } else if (receivedMessage.type === 'error') {
       if (receivedMessage.error === 'unable to register: client from already exists') {
+        console.log('%cSOCKET RECEIVED ERROR - already exists', 'color: #F71963; font-weight: bold;', new Date());
+
         this.props.dispatch(openSessionMessage());
         this.props.socket.socket.removeEventListener('close', socketOnCloseListener);
         this.props.socket.socket.close();
       }
     } else if (receivedMessage.type === 'warning') {
       if (receivedMessage.warning === 'Connection closed by request') {
+        console.log('%cSOCKET RECEIVED WARNING - closed by request', 'color: #F71963; font-weight: bold;', new Date());
+
         this.props.dispatch(openSessionMessage());
         this.props.socket.socket.removeEventListener('close', socketOnCloseListener);
         this.props.socket.socket.close();
@@ -462,6 +466,7 @@ class Widget extends Component {
       this.props.socket.close();
       store.dispatch(disconnectServer());
     } else if (receivedMessage.type === 'allow_contact_timeout') {
+      console.log('%cSOCKET RECEIVED allow_contact_timeout', 'color: #F71963; font-weight: bold;', new Date());
       dispatch(clearScheduledContactTimeout());
       this.forceNewChatSession();
       this.waitingForTimeoutConfirmation = false;
@@ -731,6 +736,8 @@ class Widget extends Component {
       const that = this;
       // eslint-disable-next-line func-names
       socket.socket.onopen = function () {
+        console.log('%cSOCKET ONOPEN', 'color: #F71963; font-weight: bold;', new Date());
+        
         if (!that.connected || that.attemptingReconnection) {
           that.startConnection(
             this,

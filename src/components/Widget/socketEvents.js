@@ -1,10 +1,9 @@
 import { closeSessionMessage } from 'actions';
 
-export function socketOnClose(event) {
-  this.setState({ isConnected: false });
+export function socketOnClose() {
+  console.log('%cSOCKET ONCLOSE', 'color: #F71963; font-weight: bold;', new Date());
 
-  // eslint-disable-next-line no-console
-  console.log('SOCKET_ONCLOSE: Socket closed connection:', event);
+  this.setState({ isConnected: false });
 
   if (!this.canReconnect) {
     return;
@@ -19,7 +18,7 @@ export function socketOnClose(event) {
     clearInterval(this.pingIntervalId);
     this.props.dispatch(closeSessionMessage());
     this.initializeWidget(true);
-  }, this.reconnectImmediate ? 0 : 10000);
+  }, this.reconnectImmediate ? 0 : 15000);
 
   this.reconnectImmediate = false;
 }
