@@ -5,6 +5,7 @@ import Snippet from './Snippet';
 import QuickReply from './QuickReply';
 import DocViewer from './docViewer';
 import Audio from './AudioReply';
+import Thinking from './Thinking';
 
 export {
   Video,
@@ -13,6 +14,7 @@ export {
   Snippet,
   QuickReply,
   DocViewer,
-  Audio
+  Audio,
+  Thinking
 }
 ;
