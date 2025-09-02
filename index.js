@@ -21,12 +21,6 @@ import './src/utils/i18n';
 
 const plugin = {
   init: (args) => {
-    if (window.WebChatIsAlreadyInitialized) {
-      return;
-    }
-
-    window.WebChatIsAlreadyInitialized = true;
-
     ReactDOM.render(
       <Widget
         protocol={args.protocol}
