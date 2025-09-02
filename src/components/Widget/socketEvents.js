@@ -18,7 +18,7 @@ export function socketOnClose() {
     clearInterval(this.pingIntervalId);
     this.props.dispatch(closeSessionMessage());
     this.initializeWidget(true);
-  }, this.reconnectImmediate ? 0 : 5000);
+  }, this.reconnectImmediate ? 1000 : 5000);
 
   this.reconnectImmediate = false;
 }
