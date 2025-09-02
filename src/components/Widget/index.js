@@ -475,8 +475,13 @@ class Widget extends Component {
   buildHistory(history) {
     const { dispatch } = this.props;
     const teste = this.getPositionsWithoutId();
+    const sortedHistory = (history || []).slice().sort((a, b) => {
+      const aTs = parseInt(a && a.timestamp, 10) || 0;
+      const bTs = parseInt(b && b.timestamp, 10) || 0;
+      return aTs - bTs;
+    });
 
-    for (const historyMessage of history) {
+    for (const historyMessage of sortedHistory) {
       const position = this.findInsertionPosition(historyMessage);
       const newItem = this.getUniqueNewItems(historyMessage);
       const sender = historyMessage.direction === 'in' ? 'response' : 'client';
@@ -516,9 +521,10 @@ class Widget extends Component {
   findInsertionPosition = (newObj) => {
     const { messagesJS } = this.props;
     let position = messagesJS.length; // Posição padrão para o final da lista
-
+    const newTs = parseInt(newObj && newObj.timestamp, 10) || 0;
     for (let i = 0; i < messagesJS.length; i++) {
-      if (messagesJS[i].timestamp > newObj.timestamp) {
+      const currentTs = parseInt(messagesJS[i].timestamp, 10) || 0;
+      if (currentTs > newTs) {
         position = i;
         break;
       }
