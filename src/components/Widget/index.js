@@ -426,7 +426,14 @@ class Widget extends Component {
       }
       this.skipNextMessageDelay = true;
 
-      if (receivedMessage.from === 'ai-assistant') {
+      const channelUuidsToSkipThinking = [
+        '3672b72a-146b-4b69-9294-49e024397fdc',
+        'eeab299f-be17-40da-a07c-9eb861f7c669',
+      ];
+
+      const shouldSkipThinking = channelUuidsToSkipThinking.includes(this.props.channelUuid);
+
+      if (receivedMessage.from === 'ai-assistant' && !shouldSkipThinking) {
         this.isShowingThinking = true;
         dispatch(startThinking());
       } else {
