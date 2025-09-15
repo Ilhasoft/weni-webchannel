@@ -429,6 +429,7 @@ class Widget extends Component {
       const channelUuidsToSkipThinking = [
         '3672b72a-146b-4b69-9294-49e024397fdc',
         'eeab299f-be17-40da-a07c-9eb861f7c669',
+        '52fd7490-175f-4a22-ab11-7d8ef2730888',
       ];
 
       const shouldSkipThinking = channelUuidsToSkipThinking.includes(this.props.channelUuid);
