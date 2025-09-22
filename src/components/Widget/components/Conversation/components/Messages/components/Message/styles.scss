@@ -16,6 +16,61 @@
         margin: 0 auto;
       }
     }
+
+    .push-markdown-carousel-container {
+      display: flex;
+
+      .push-markdown-carousel {
+        display: flex;
+        flex-direction: row;
+        gap: 0.75em;
+
+        .push-markdown-carousel__item {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5em;
+
+          .push-markdown-carousel__item__image {
+            width: 10em;
+            height: 10em;
+            object-fit: contain;
+          }
+
+          .push-markdown-carousel__item__name,
+          .push-markdown-carousel__item__description {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-clamp: 2;
+            text-overflow: ellipsis;
+          }
+
+          .push-markdown-carousel__item__name {
+            font-size: 1em;
+            font-weight: 600;
+            margin: 0;
+            font-weight: normal;
+          }
+
+          .push-markdown-carousel__item__description {
+            font-size: 0.8em;
+            margin: 0;
+            font-weight: normal;
+          }
+
+          .push-markdown-carousel__item__price {
+            font-size: 1em;
+            margin: 0;
+            font-weight: bold;
+
+            s {
+              font-size: 0.8em;
+            }
+          }
+        }
+      }
+    }
   }
 
   .push-client {

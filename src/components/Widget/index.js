@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { xml2js } from 'xml-js';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Sound from 'react-sound';
@@ -419,7 +420,39 @@ class Widget extends Component {
         ...receivedMessage.message,
         quick_replies: buildQuickReplies(receivedMessage.message.quick_replies)
       };
-      this.handleMessageReceived(newMessage);
+
+      const xmlNotation = '<?xml version="1.0" encoding="UTF-8" ?>';
+
+      if (String(newMessage.text).includes(xmlNotation)) {
+        const text = String(newMessage.text).split(xmlNotation)[0];
+        const xml = xml2js(`<root>${String(newMessage.text).split(xmlNotation)[1]}</root>`);
+        
+        if (text.trim() !== '') {
+          this.handleMessageReceived({
+            ...newMessage,
+            text,
+          });
+        }
+
+        const elements = xml.elements.find((element) => element.name === 'root').elements.filter((element) => element.name === 'carousel-item').map((element) => element.elements).map((elements) => elements.reduce((acc, curr) => ({ ...acc, [curr.name]: curr.elements.find(element => element.type === 'text').text }), {}));
+
+        this.handleMessageReceived({
+          ...newMessage,
+          text: `\`\`\`html
+<section class="push-markdown-carousel">
+  ${elements.map((element) => `
+  <section class="push-markdown-carousel__item">
+    <img class="push-markdown-carousel__item__image" src="${element.image.match(/\(.+\)/)[0].slice(1, -1)}" />
+    <h3 class="push-markdown-carousel__item__name" title="${element.name}">${element.name}</h3>
+    <p class="push-markdown-carousel__item__description" title="${element.description}">${element.description}</p>
+    <p class="push-markdown-carousel__item__price">${element.price.replace(/(\(.+\))/, "<s>$1</s>")}</p>
+  </section>`).join('\n')}
+</section>
+`,
+        });
+      } else {
+        this.handleMessageReceived(newMessage);
+      }
     } else if (receivedMessage.type === 'typing_start') {
       if (this.typingTimeoutId) {
         clearTimeout(this.typingTimeoutId);
