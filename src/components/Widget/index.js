@@ -471,6 +471,7 @@ class Widget extends Component {
         '52fd7490-175f-4a22-ab11-7d8ef2730888',
         'aa072a23-bc5f-4c64-b24b-2e1b1b55ec12', // arsonyb2c 01
         'fdbe25ab-e734-4c22-b14a-ece4fbaac6f4', // puppis
+        '886f7c15-c4e8-4198-a3c0-014b68937cd6', // puppis - reviewed
       ];
 
       const shouldSkipThinking = channelUuidsToSkipThinking.includes(this.props.channelUuid);
