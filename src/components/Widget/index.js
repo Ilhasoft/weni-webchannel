@@ -442,9 +442,15 @@ class Widget extends Component {
 <section class="push-markdown-carousel">
   ${elements.map((element) => `
   <section class="push-markdown-carousel__item">
-    <img class="push-markdown-carousel__item__image" src="${element.image.match(/\(.+\)/)[0].slice(1, -1)}" />
-    <h3 class="push-markdown-carousel__item__name" title="${element.name}">${element.name}</h3>
-    <p class="push-markdown-carousel__item__description" title="${element.description}">${element.description}</p>
+    <a class="push-markdown-carousel__item__link" href="${element.product_link}" target="_blank">
+      <img class="push-markdown-carousel__item__image" src="${element.image.match(/\(.+\)/)[0].slice(1, -1)}" />
+    </a>
+    <a class="push-markdown-carousel__item__link" href="${element.product_link}" target="_blank">
+      <h3 class="push-markdown-carousel__item__name" title="${element.name}">${element.name}</h3>
+    </a>
+    <a class="push-markdown-carousel__item__link" href="${element.product_link}" target="_blank">
+      <p class="push-markdown-carousel__item__description" title="${element.description}">${element.description}</p>
+    </a>
     <p class="push-markdown-carousel__item__price">${element.price.replace(/(\(.+\))/, "<s>$1</s>")}</p>
   </section>`).join('\n')}
 </section>
