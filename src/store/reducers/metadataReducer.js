@@ -46,9 +46,6 @@ export default function (storage) {
       case actionTypes.SET_HINT_TEXT: {
         return storeMetadata(state.set('hintText', action.hint));
       }
-      case actionTypes.SET_CONTEXT: {
-        return storeMetadata(state.set('context', action.context));
-      }
       case actionTypes.PULL_SESSION: {
         const localSession = getLocalSession(storage, SESSION_NAME);
         if (localSession && localSession.metadata) {

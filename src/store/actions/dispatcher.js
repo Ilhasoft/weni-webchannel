@@ -244,5 +244,5 @@ export function setContext(context) {
 }
 
 export function getContext() {
-  return store.getState().metadata.get('context') || '';
+  return store.getState().behavior.get('context') || '';
 }
