@@ -8,8 +8,7 @@ export default function (storage) {
     linkTarget: '',
     domHighlight: Map(),
     hintText: '',
-    showTooltip: false,
-    context: ''
+    showTooltip: false
   });
 
   const initialState = Map({
