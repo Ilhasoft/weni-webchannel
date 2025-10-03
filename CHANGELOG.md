@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.25.0](https://https//github.com/push-platform/push-webchat/compare/v2.24.9...v2.25.0) (2025-10-03)
+
+### Features
+
+* feat: add socket event callbacks for incoming and outgoing messages
+
 ## [2.24.9](https://https//github.com/push-platform/push-webchat/compare/v2.24.5...v2.24.9) (2025-10-02)
 
 ### Bug Fixes
