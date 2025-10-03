@@ -397,6 +397,7 @@ class Widget extends Component {
         quick_replies: buildQuickReplies(receivedMessage.message.quick_replies)
       };
       this.handleMessageReceived(newMessage);
+      this.emitSocketEvent('incomingMessage', newMessage);
     } else if (receivedMessage.type === 'typing_start') {
       if (this.typingTimeoutId) {
         clearTimeout(this.typingTimeoutId);
@@ -859,7 +860,7 @@ class Widget extends Component {
       this.typingTimeoutId = null;
     }
     this.props.dispatch(stopTyping());
-    
+
     // TODO: add location type
     let shouldPlay = true;
     if (message.type === 'text') {
@@ -940,6 +941,7 @@ class Widget extends Component {
 
         this.props.dispatch(addUserMessage(textMessage.message.text));
         this.props.dispatch(emitUserMessage(textMessage));
+        this.emitSocketEvent('outgoingMessage', textMessage);
       }
       event.target.message.value = '';
       this.props.dispatch(setUserInput(''));
@@ -956,9 +958,18 @@ class Widget extends Component {
               }
             };
             this.props.dispatch(emitUserMessage(attachmentMessage));
+            this.emitSocketEvent('outgoingMessage', attachmentMessage);
           });
         }
       });
+    }
+  }
+
+  emitSocketEvent(eventFunction, data) {
+    // eslint-disable-next-line react/prop-types
+    const onEvent = this.props.socket.onSocketEvent;
+    if (onEvent[eventFunction]) {
+      onEvent[eventFunction](data);
     }
   }
 
