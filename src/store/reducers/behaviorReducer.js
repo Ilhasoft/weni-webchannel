@@ -32,7 +32,8 @@ export default function (
     initPayloadSent: false,
     sessionIdTransaction: false,
     messagesScroll: true,
-    scheduledContactTimeout: null
+    scheduledContactTimeout: null,
+    context: ''
   });
 
   return function reducer(state = initialState, action) {
@@ -175,6 +176,9 @@ export default function (
       }
       case actionTypes.CLEAR_SCHEDULED_CONTACT_TIMEOUT: {
         return storeParams(state.set('scheduledContactTimeout', null));
+      }
+      case actionTypes.SET_CONTEXT: {
+        return storeParams(state.set('context', action.context));
       }
       case actionTypes.SET_SESSION_ID: {
         storeLocalSession(storage, SESSION_NAME, action.sessionId);

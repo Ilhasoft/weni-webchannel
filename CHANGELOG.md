@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.25.0](https://https//github.com/push-platform/push-webchat/compare/v2.24.9...v2.25.0) (2025-10-03)
+
+### Features
+
+* feat: add socket event callbacks for incoming and outgoing messages
+
+## [2.24.9](https://https//github.com/push-platform/push-webchat/compare/v2.24.5...v2.24.9) (2025-10-02)
+
+### Bug Fixes
+
+* fix: update context retrieval in store actions to use behavior state
+
+### [2.24.5](https://https//github.com/push-platform/push-webchat/compare/v2.24.4...v2.24.5) (2025-10-01)
+
+
+### Bug fixes
+
+* fixes context being cleared on socket message ([da0848b](https://github.com/Ilhasoft/weni-webchannel/commit/da0848b12805c7373e2c806489a2b97ae939b9e1))
+
+
 ## [2.24.4](https://https//github.com/push-platform/push-webchat/compare/v2.24.1...v2.24.4) (2025-08-15)
 
 ### Bug Fixes

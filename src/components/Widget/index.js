@@ -132,7 +132,7 @@ class Widget extends Component {
   state = {
     playNotification: Sound.status.STOPPED,
     attemptReconnection: 0,
-    isConnected: false,
+    isConnected: false
   };
 
   componentWillMount() {
@@ -420,27 +420,26 @@ class Widget extends Component {
         ...receivedMessage.message,
         quick_replies: buildQuickReplies(receivedMessage.message.quick_replies)
       };
-
       const xmlNotation = '<?xml version="1.0" encoding="UTF-8" ?>';
 
       if (String(newMessage.text).includes(xmlNotation)) {
         const text = String(newMessage.text).split(xmlNotation)[0];
         const xml = xml2js(`<root>${String(newMessage.text).split(xmlNotation)[1]}</root>`);
-        
+
         if (text.trim() !== '') {
           this.handleMessageReceived({
             ...newMessage,
-            text,
+            text
           });
         }
 
-        const elements = xml.elements.find((element) => element.name === 'root').elements.filter((element) => element.name === 'carousel-item').map((element) => element.elements).map((elements) => elements.reduce((acc, curr) => ({ ...acc, [curr.name]: curr.elements.find(element => element.type === 'text').text }), {}));
+        const elements = xml.elements.find(element => element.name === 'root').elements.filter(element => element.name === 'carousel-item').map(element => element.elements).map(elements => elements.reduce((acc, curr) => ({ ...acc, [curr.name]: curr.elements.find(element => element.type === 'text').text }), {}));
 
         this.handleMessageReceived({
           ...newMessage,
           text: `\`\`\`html
 <section class="push-markdown-carousel">
-  ${elements.map((element) => `
+  ${elements.map(element => `
   <section class="push-markdown-carousel__item">
     <a class="push-markdown-carousel__item__link" href="${element.product_link}" target="_blank">
       <img class="push-markdown-carousel__item__image" src="${element.image.match(/\(.+\)/)[0].slice(1, -1)}" />
@@ -451,13 +450,16 @@ class Widget extends Component {
     <a class="push-markdown-carousel__item__link" href="${element.product_link}" target="_blank">
       <p class="push-markdown-carousel__item__description" title="${element.description}">${element.description}</p>
     </a>
-    <p class="push-markdown-carousel__item__price">${element.price.replace(/(\(.+\))/, "<s>$1</s>")}</p>
+    <p class="push-markdown-carousel__item__price">${element.price.replace(/(\(.+\))/, '<s>$1</s>')}</p>
   </section>`).join('\n')}
 </section>
-`,
+`
         });
+
+        this.emitSocketEvent('incomingMessage', newMessage);
       } else {
         this.handleMessageReceived(newMessage);
+        this.emitSocketEvent('incomingMessage', newMessage);
       }
     } else if (receivedMessage.type === 'typing_start') {
       if (this.typingTimeoutId) {
@@ -471,7 +473,7 @@ class Widget extends Component {
         '52fd7490-175f-4a22-ab11-7d8ef2730888',
         'aa072a23-bc5f-4c64-b24b-2e1b1b55ec12', // arsonyb2c 01
         'fdbe25ab-e734-4c22-b14a-ece4fbaac6f4', // puppis
-        '886f7c15-c4e8-4198-a3c0-014b68937cd6', // puppis - reviewed
+        '886f7c15-c4e8-4198-a3c0-014b68937cd6' // puppis - reviewed
       ];
 
       const shouldSkipThinking = channelUuidsToSkipThinking.includes(this.props.channelUuid);
@@ -792,7 +794,7 @@ class Widget extends Component {
       // eslint-disable-next-line func-names
       socket.socket.onopen = function () {
         console.log('%cSOCKET ONOPEN', 'color: #F71963; font-weight: bold;', new Date());
-        
+
         if (!that.connected || that.attemptingReconnection) {
           that.startConnection(
             this,
@@ -933,7 +935,7 @@ class Widget extends Component {
       this.typingTimeoutId = null;
     }
     this.finishTyping();
-    
+
     // TODO: add location type
     let shouldPlay = true;
     if (message.type === 'text') {
@@ -1014,6 +1016,7 @@ class Widget extends Component {
 
         this.props.dispatch(addUserMessage(textMessage.message.text));
         this.props.dispatch(emitUserMessage(textMessage));
+        this.emitSocketEvent('outgoingMessage', textMessage);
       }
       event.target.message.value = '';
       this.props.dispatch(setUserInput(''));
@@ -1030,9 +1033,18 @@ class Widget extends Component {
               }
             };
             this.props.dispatch(emitUserMessage(attachmentMessage));
+            this.emitSocketEvent('outgoingMessage', attachmentMessage);
           });
         }
       });
+    }
+  }
+
+  emitSocketEvent(eventFunction, data) {
+    // eslint-disable-next-line react/prop-types
+    const onEvent = this.props.socket.onSocketEvent;
+    if (onEvent[eventFunction]) {
+      onEvent[eventFunction](data);
     }
   }
 
@@ -1051,7 +1063,7 @@ class Widget extends Component {
         type: 'close_session',
         from: this.getUniqueFrom()
       };
-  
+
       if (sessionToken) {
         options.token = sessionToken;
       }
@@ -1059,7 +1071,7 @@ class Widget extends Component {
       socket.socket.send(JSON.stringify(options));
       this.reconnectImmediate = true;
       socket.socket.close();
-    }
+    };
 
     this.attemptingReconnection = true;
     this.initializeWidget();
