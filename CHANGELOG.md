@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.26.0] (2025-10-08)
+
+### Features
+
+* feat: skips thinking for some channel uuids
+* feat: adds carousel
+* feat: adds product link
+* feat: orders message history by creation
+* feat: forces retry reconnection
+
+### Bug Fixes
+
+* fix: prevents duplicated connection
+
 ## [2.25.0](https://https//github.com/push-platform/push-webchat/compare/v2.24.9...v2.25.0) (2025-10-03)
 
 ### Features
