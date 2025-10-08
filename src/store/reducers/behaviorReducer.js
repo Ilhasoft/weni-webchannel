@@ -22,6 +22,7 @@ export default function (
     unreadCount: 0,
     messageDelayed: false,
     isTyping: false,
+    isThinking: false,
     oldUrl: '',
     suggestions: [],
     pageChangeCallbacks: Map(),
@@ -142,6 +143,12 @@ export default function (
       }
       case actionTypes.STOP_TYPING: {
         return storeParams(state.set('isTyping', false));
+      }
+      case actionTypes.START_THINKING: {
+        return storeParams(state.set('isThinking', true));
+      }
+      case actionTypes.STOP_THINKING: {
+        return storeParams(state.set('isThinking', false));
       }
       case actionTypes.SET_OLD_URL: {
         return storeParams(state.set('oldUrl', action.url));

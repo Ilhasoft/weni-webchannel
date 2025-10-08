@@ -140,7 +140,7 @@ export default function (storage) {
       }
       case actionTypes.DELETE_MESSAGE: {
         return storeMessage(
-          state.slice(action.index, 1)
+          state.delete(action.index)
         );
       }
       case actionTypes.CLEAR: {

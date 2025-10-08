@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { xml2js } from 'xml-js';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Sound from 'react-sound';
@@ -55,6 +56,8 @@ import {
   deleteMessage,
   startTyping,
   stopTyping,
+  startThinking,
+  stopThinking,
   scheduleContactTimeout,
   clearScheduledContactTimeout
 } from 'actions';
@@ -66,9 +69,13 @@ import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
 import { buildQuickReplies, toBase64, getAttachmentType } from '../../utils/messages';
+import { socketOnClose } from './socketEvents';
 
 const MAX_PING_LIMIT = 216;
 let currentInitialization = null;
+
+let socketOnCloseListener = null;
+let afterOnOpen = null;
 
 class Widget extends Component {
   constructor(props) {
@@ -76,6 +83,7 @@ class Widget extends Component {
     this.messages = [];
     this.onGoingMessageDelay = false;
     this.skipNextMessageDelay = false;
+    this.isShowingThinking = false;
     this.sendMessage = this.sendMessage.bind(this);
     this.intervalId = null;
     this.contactTimeoutIntervalId = null;
@@ -93,6 +101,7 @@ class Widget extends Component {
     this.historyPage = 1;
     this.typingTimeoutId = null;
     this.hasUserOpenedChat = false;
+    this.reconnectImmediate = false;
     this.clientMessageMap = {
       text: insertUserMessage,
       image: insertUserImage,
@@ -122,7 +131,8 @@ class Widget extends Component {
 
   state = {
     playNotification: Sound.status.STOPPED,
-    attemptReconnection: 0
+    attemptReconnection: 0,
+    isConnected: false
   };
 
   componentWillMount() {
@@ -268,6 +278,10 @@ class Widget extends Component {
     }
   }
 
+  finishTyping() {
+    this.props.dispatch(stopTyping());
+  }
+
   handleMessageReceived(message) {
     const { dispatch, initPayload } = this.props;
 
@@ -275,7 +289,8 @@ class Widget extends Component {
       clearTimeout(this.typingTimeoutId);
       this.typingTimeoutId = null;
     }
-    dispatch(stopTyping());
+
+    this.finishTyping();
 
     // if greater than 15 minutes in sec
     if (!this.checkedHistory && new Date().getTime() / 1000 - message.timestamp > 900) {
@@ -314,8 +329,17 @@ class Widget extends Component {
   newMessageTimeout(message) {
     const { dispatch, isChatOpen, customMessageDelay, disableTooltips, disableMessageTooltips } = this.props;
     const fromCustomMessageDelay = customMessageDelay(message.text || '');
-    const delay = this.skipNextMessageDelay ? 0 : fromCustomMessageDelay;
+    let delay = this.skipNextMessageDelay ? 0 : fromCustomMessageDelay;
     this.skipNextMessageDelay = false;
+
+    if (this.isShowingThinking) {
+      dispatch(startTyping());
+
+      delay = 1000 + Math.random() * 1000; // 1 to 2 seconds
+    }
+
+    this.isShowingThinking = false;
+    dispatch(stopThinking());
 
     setTimeout(() => {
       this.dispatchMessage(message);
@@ -396,35 +420,96 @@ class Widget extends Component {
         ...receivedMessage.message,
         quick_replies: buildQuickReplies(receivedMessage.message.quick_replies)
       };
-      this.handleMessageReceived(newMessage);
-      this.emitSocketEvent('incomingMessage', newMessage);
+      const xmlNotation = '<?xml version="1.0" encoding="UTF-8" ?>';
+
+      if (String(newMessage.text).includes(xmlNotation)) {
+        const text = String(newMessage.text).split(xmlNotation)[0];
+        const xml = xml2js(`<root>${String(newMessage.text).split(xmlNotation)[1]}</root>`);
+
+        if (text.trim() !== '') {
+          this.handleMessageReceived({
+            ...newMessage,
+            text
+          });
+        }
+
+        const elements = xml.elements.find(element => element.name === 'root').elements.filter(element => element.name === 'carousel-item').map(element => element.elements).map(elements => elements.reduce((acc, curr) => ({ ...acc, [curr.name]: curr.elements.find(element => element.type === 'text').text }), {}));
+
+        this.handleMessageReceived({
+          ...newMessage,
+          text: `\`\`\`html
+<section class="push-markdown-carousel">
+  ${elements.map(element => `
+  <section class="push-markdown-carousel__item">
+    <a class="push-markdown-carousel__item__link" href="${element.product_link}" target="_blank">
+      <img class="push-markdown-carousel__item__image" src="${element.image.match(/\(.+\)/)[0].slice(1, -1)}" />
+    </a>
+    <a class="push-markdown-carousel__item__link" href="${element.product_link}" target="_blank">
+      <h3 class="push-markdown-carousel__item__name" title="${element.name}">${element.name}</h3>
+    </a>
+    <a class="push-markdown-carousel__item__link" href="${element.product_link}" target="_blank">
+      <p class="push-markdown-carousel__item__description" title="${element.description}">${element.description}</p>
+    </a>
+    <p class="push-markdown-carousel__item__price">${element.price.replace(/(\(.+\))/, '<s>$1</s>')}</p>
+  </section>`).join('\n')}
+</section>
+`
+        });
+
+        this.emitSocketEvent('incomingMessage', newMessage);
+      } else {
+        this.handleMessageReceived(newMessage);
+        this.emitSocketEvent('incomingMessage', newMessage);
+      }
     } else if (receivedMessage.type === 'typing_start') {
       if (this.typingTimeoutId) {
         clearTimeout(this.typingTimeoutId);
       }
       this.skipNextMessageDelay = true;
-      dispatch(startTyping());
 
-      const delayInSeconds = 50;
-      const delay = delayInSeconds * 1000;
+      const channelUuidsToSkipThinking = [
+        '3672b72a-146b-4b69-9294-49e024397fdc',
+        'eeab299f-be17-40da-a07c-9eb861f7c669',
+        '52fd7490-175f-4a22-ab11-7d8ef2730888',
+        'aa072a23-bc5f-4c64-b24b-2e1b1b55ec12', // arsonyb2c 01
+        'fdbe25ab-e734-4c22-b14a-ece4fbaac6f4', // puppis
+        '886f7c15-c4e8-4198-a3c0-014b68937cd6' // puppis - reviewed
+      ];
 
-      // set a timeout to automatically stop typing after the delay
-      this.typingTimeoutId = setTimeout(() => {
-        dispatch(stopTyping());
-        this.typingTimeoutId = null;
-      }, delay);
+      const shouldSkipThinking = channelUuidsToSkipThinking.includes(this.props.channelUuid);
+
+      if (receivedMessage.from === 'ai-assistant' && !shouldSkipThinking) {
+        this.isShowingThinking = true;
+        dispatch(startThinking());
+      } else {
+        dispatch(startTyping());
+
+        const delayInSeconds = 50;
+        const delay = delayInSeconds * 1000;
+
+        // set a timeout to automatically stop typing after the delay
+        this.typingTimeoutId = setTimeout(() => {
+          this.finishTyping();
+          this.typingTimeoutId = null;
+        }, delay);
+      }
     } else if (receivedMessage.type === 'ack') {
       dispatch(setMessagesScroll(true));
       this.dispatchAckAttachment(receivedMessage.message);
     } else if (receivedMessage.type === 'error') {
       if (receivedMessage.error === 'unable to register: client from already exists') {
-        this.props.dispatch(openSessionMessage());
+        console.log('%cSOCKET RECEIVED ERROR - already exists', 'color: #F71963; font-weight: bold;', new Date());
+
+        this.props.socket.socket.removeEventListener('close', socketOnCloseListener);
+        this.forceChatConnection();
       }
     } else if (receivedMessage.type === 'warning') {
       if (receivedMessage.warning === 'Connection closed by request') {
-        this.reconnectWithDelay = true;
-        // eslint-disable-next-line react/prop-types
-        this.props.socket.close();
+        console.log('%cSOCKET RECEIVED WARNING - closed by request', 'color: #F71963; font-weight: bold;', new Date());
+
+        this.props.dispatch(openSessionMessage());
+        this.props.socket.socket.removeEventListener('close', socketOnCloseListener);
+        this.props.socket.socket.close();
       }
     } else if (receivedMessage.type === 'forbidden') {
       this.canReconnect = false;
@@ -432,6 +517,7 @@ class Widget extends Component {
       this.props.socket.close();
       store.dispatch(disconnectServer());
     } else if (receivedMessage.type === 'allow_contact_timeout') {
+      console.log('%cSOCKET RECEIVED allow_contact_timeout', 'color: #F71963; font-weight: bold;', new Date());
       dispatch(clearScheduledContactTimeout());
       this.forceNewChatSession();
       this.waitingForTimeoutConfirmation = false;
@@ -441,8 +527,13 @@ class Widget extends Component {
   buildHistory(history) {
     const { dispatch } = this.props;
     const teste = this.getPositionsWithoutId();
+    const sortedHistory = (history || []).slice().sort((a, b) => {
+      const aTs = parseInt(a && a.timestamp, 10) || 0;
+      const bTs = parseInt(b && b.timestamp, 10) || 0;
+      return aTs - bTs;
+    });
 
-    for (const historyMessage of history) {
+    for (const historyMessage of sortedHistory) {
       const position = this.findInsertionPosition(historyMessage);
       const newItem = this.getUniqueNewItems(historyMessage);
       const sender = historyMessage.direction === 'in' ? 'response' : 'client';
@@ -452,7 +543,7 @@ class Widget extends Component {
       const timestamp = historyMessage.timestamp || new Date().getTime();
 
       teste.forEach((item) => {
-        this.handleDeleteMessage(item);
+        this.handleDeleteMessage(item, historyMessage);
       });
 
       if (!newItem) {
@@ -467,17 +558,25 @@ class Widget extends Component {
 
   handleDeleteMessage = (item, historyMessage) => {
     const { messagesJS, dispatch } = this.props;
-    if (messagesJS[item].text === historyMessage.text) {
-      dispatch(deleteMessage());
+    if (!historyMessage || !messagesJS[item]) return;
+
+    const isPlaceholder = messagesJS[item].id === undefined;
+    const isTextMessage = Boolean(messagesJS[item].text);
+    const historyIsText = historyMessage.message && historyMessage.message.type === 'text';
+    const textsMatch = historyIsText && isTextMessage && messagesJS[item].text === historyMessage.message.text;
+
+    if (isPlaceholder && textsMatch) {
+      dispatch(deleteMessage(item));
     }
   }
 
   findInsertionPosition = (newObj) => {
     const { messagesJS } = this.props;
     let position = messagesJS.length; // Posição padrão para o final da lista
-
+    const newTs = parseInt(newObj && newObj.timestamp, 10) || 0;
     for (let i = 0; i < messagesJS.length; i++) {
-      if (messagesJS[i].timestamp > newObj.timestamp) {
+      const currentTs = parseInt(messagesJS[i].timestamp, 10) || 0;
+      if (currentTs > newTs) {
         position = i;
         break;
       }
@@ -694,6 +793,8 @@ class Widget extends Component {
       const that = this;
       // eslint-disable-next-line func-names
       socket.socket.onopen = function () {
+        console.log('%cSOCKET ONOPEN', 'color: #F71963; font-weight: bold;', new Date());
+
         if (!that.connected || that.attemptingReconnection) {
           that.startConnection(
             this,
@@ -705,10 +806,16 @@ class Widget extends Component {
           that.pingIntervalId = setInterval(() => {
             that.pingSocket();
           }, 50000);
+          that.setState({ isConnected: true });
           that.connected = true;
           that.attemptingReconnection = false;
           this.reconnectWithDelay = false;
           that.props.dispatch(closeSessionMessage());
+
+          if (afterOnOpen) {
+            afterOnOpen();
+            afterOnOpen = null;
+          }
         }
       };
 
@@ -716,40 +823,8 @@ class Widget extends Component {
         this.handleBotUtterance(msg);
       };
 
-      socket.socket.onclose = (event) => {
-        // eslint-disable-next-line no-console
-        console.log('SOCKET_ONCLOSE: Socket closed connection:', event);
-
-        if (!this.canReconnect) {
-          return;
-        }
-
-        let delayInterval = 100;
-        if (this.reconnectWithDelay) {
-          delayInterval = 1000;
-        }
-        const attemptingLimit = 30;
-
-        if (this.reconnectionTimeout) {
-          clearTimeout(this.reconnectionTimeout);
-        }
-
-        this.reconnectionTimeout = setTimeout(() => {
-          let attempt = this.state.attemptReconnection;
-          if (attempt <= attemptingLimit) {
-            this.attemptingReconnection = true;
-            this.reconnectWithDelay = false;
-            clearInterval(this.pingIntervalId);
-            this.props.dispatch(closeSessionMessage());
-            this.initializeWidget(sendInitPayload);
-            attempt += 1;
-            this.setState({ attemptReconnection: attempt });
-          } else {
-            this.setState({ attemptReconnection: 0 });
-            this.reconnectionTimeout = null;
-          }
-        }, delayInterval);
-      };
+      socketOnCloseListener = socketOnClose.bind(this);
+      socket.socket.addEventListener('close', socketOnCloseListener);
 
       socket.socket.onerror = (err) => {
         // eslint-disable-next-line no-console
@@ -859,7 +934,7 @@ class Widget extends Component {
       clearTimeout(this.typingTimeoutId);
       this.typingTimeoutId = null;
     }
-    this.props.dispatch(stopTyping());
+    this.finishTyping();
 
     // TODO: add location type
     let shouldPlay = true;
@@ -981,23 +1056,25 @@ class Widget extends Component {
   }
 
   forceChatConnection() {
-    const { sessionToken, socket } = this.props;
-    const websocket = socket.socket;
+    afterOnOpen = () => {
+      const { sessionToken, socket } = this.props;
 
-    const options = {
-      type: 'close_session',
-      from: this.getUniqueFrom()
+      const options = {
+        type: 'close_session',
+        from: this.getUniqueFrom()
+      };
+
+      if (sessionToken) {
+        options.token = sessionToken;
+      }
+
+      socket.socket.send(JSON.stringify(options));
+      this.reconnectImmediate = true;
+      socket.socket.close();
     };
 
-    if (sessionToken) {
-      options.token = sessionToken;
-    }
-
-    websocket.send(JSON.stringify(options));
-
-    setTimeout(() => {
-      websocket.close();
-    }, 1000);
+    this.attemptingReconnection = true;
+    this.initializeWidget();
   }
 
   render() {
@@ -1036,6 +1113,7 @@ class Widget extends Component {
           customAutoComplete={this.props.customAutoComplete}
           showTooltip={this.props.showTooltip}
           transformURLsIntoImages={this.props.transformURLsIntoImages}
+          isConnected={this.state.isConnected}
         />
         <Sound url={this.props.customSoundNotification} playStatus={this.state.playNotification} />
       </div>

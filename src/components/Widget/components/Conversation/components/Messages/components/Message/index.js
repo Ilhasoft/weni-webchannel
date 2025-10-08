@@ -39,6 +39,7 @@ class Message extends PureComponent {
     if (customCss && customCss.style === 'class') {
       customCss.css = customCss.css.replace(/^\./, '');
     }
+    
     return (
       <div
         className={
@@ -55,6 +56,9 @@ class Message extends PureComponent {
       >
         <div className="push-message-text">
           {sender === 'response' ? (
+            text.includes('```html') ? (
+              <div className={'push-markdown-carousel-container'} dangerouslySetInnerHTML={{ __html: text.slice(('```html').length) }} />
+            ) : (
             <ReactMarkdown
               className={'push-markdown'}
               source={this.props.transformURLsIntoImages ? transformImages(text) : text}
@@ -83,7 +87,7 @@ class Message extends PureComponent {
                 )
               }}
             />
-          ) : (
+          )) : (
             text
           )}
         </div>

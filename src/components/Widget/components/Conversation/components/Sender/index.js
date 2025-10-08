@@ -32,7 +32,8 @@ function Sender({
   getSuggestions,
   setSuggestions,
   selectedSuggestion,
-  customAutoComplete
+  customAutoComplete,
+  isConnected
 }) {
   const formEl = useRef();
   const inputEl = useRef();
@@ -48,8 +49,6 @@ function Sender({
   const [hasMoreThanOneVideo, setHasMoreThanOneVideo] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [audioTimer, setAudioTimer] = useState('');
-
-  const isScreenHeightSmall = window.innerHeight < 720;
 
   function switchCamera() {
     if (!isSwitchingVideo) {
@@ -344,8 +343,7 @@ function Sender({
           value={userInput}
           onChange={value => setUserInput(value.target.value)}
           placeholder={inputTextFieldHint}
-          disabled={disabledInput || userInput === 'disable'}
-          autoFocus={!isScreenHeightSmall}
+          disabled={disabledInput || userInput === 'disable' || !isConnected}
           autoComplete="off"
           onKeyDown={event => handlePressed(event)}
           style={{ display: isAudioRecording || isVideoRecording ? 'none' : null }}
@@ -362,7 +360,7 @@ function Sender({
             <img src={iconMic} alt="Microphone" className="camera-and-microphone__microphone" onClick={startRecording} />
           </section>
         ) : suggestionsConfig.automaticSend && !isAudioRecording && !isVideoRecording ? null : (
-          <button type="submit" className="push-send">
+          <button type="submit" className="push-send" disabled={!isConnected}>
             <img src={isVideoRecording && !isVideoPaused ? iconPhotoCameraLight : iconSend} className="push-send-icon" alt="send message" />
           </button>
         )}
@@ -398,7 +396,8 @@ Sender.propTypes = {
   suggestions: PropTypes.shape({}),
   suggestionsConfig: PropTypes.shape({}),
   setSuggestions: PropTypes.func,
-  selectedSuggestion: PropTypes.string
+  selectedSuggestion: PropTypes.string,
+  isConnected: PropTypes.bool
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sender);

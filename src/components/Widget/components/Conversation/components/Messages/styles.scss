@@ -67,6 +67,48 @@
   }
 }
 
+.push-message.push-thinking {
+  .push-response {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+
+    #push-thinking-text {
+      animation-duration: 5s;
+      animation-fill-mode: forwards;
+    }
+
+    .push-thinking-icon {
+      width: 1em;
+      height: 1em;
+    }
+
+    #push-wave {
+      margin-left: 0.3em;
+    }
+  }
+}
+
+@keyframes push-thinking-text-in {
+  0% {
+    opacity: 0;
+  }
+  
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes push-thinking-text-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 .push-from-client {
   justify-content: flex-end;
 }

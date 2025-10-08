@@ -595,3 +595,15 @@ export function stopTyping() {
     type: actions.STOP_TYPING
   };
 }
+
+export function startThinking() {
+  return {
+    type: actions.START_THINKING
+  };
+}
+
+export function stopThinking() {
+  return {
+    type: actions.STOP_THINKING
+  };
+}

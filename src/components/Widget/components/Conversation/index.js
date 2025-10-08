@@ -39,6 +39,7 @@ const Conversation = props => (
       inputTextFieldHint={props.inputTextFieldHint}
       suggestionsConfig={props.suggestionsConfig}
       customAutoComplete={props.customAutoComplete}
+      isConnected={props.isConnected}
     />
     {React.createElement(
       'a',
@@ -72,7 +73,8 @@ Conversation.propTypes = {
   headerImage: PropTypes.string,
   suggestionsConfig: PropTypes.shape({}),
   customAutoComplete: PropTypes.func,
-  transformURLsIntoImages: PropTypes.bool
+  transformURLsIntoImages: PropTypes.bool,
+  isConnected: PropTypes.bool
 };
 
 export default Conversation;
