@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { xml2js } from 'xml-js';
 
 import { PROP_TYPES } from 'constants';
 import DocViewer from '../docViewer';
@@ -27,6 +28,46 @@ function transformImages(text) {
       return url;
     }
   });
+}
+
+const xmlNotation = '<?xml version="1.0" encoding="UTF-8" ?>';
+
+function getCarouselHTML(rawText) {
+  let finalHTML = '';
+
+  const [text, xml] = String(rawText).split(xmlNotation);
+
+  const xmlObject = xml2js(`<root>${xml}</root>`);
+
+  if (text.trim() !== '') {
+    finalHTML += `${text}<br />`;
+  }
+
+  const elements = xmlObject.elements.find(element => element.name === 'root').elements.filter(element => element.name === 'carousel-item').map(element => element.elements).map(elements => elements.reduce((acc, curr) => ({ ...acc, [curr.name]: curr.elements.find(element => element.type === 'text').text }), {}));
+
+  finalHTML += `
+    <section class="push-markdown-carousel">
+      ${elements.map(element => `
+        <section class="push-markdown-carousel__item">
+          <a class="push-markdown-carousel__item__link" href="${element.product_link}" target="_blank">
+            <img class="push-markdown-carousel__item__image" src="${element.image.match(/\(.+\)/)[0].slice(1, -1)}" />
+          </a>
+
+          <a class="push-markdown-carousel__item__link" href="${element.product_link}" target="_blank">
+            <h3 class="push-markdown-carousel__item__name" title="${element.name}">${element.name}</h3>
+          </a>
+
+          <a class="push-markdown-carousel__item__link" href="${element.product_link}" target="_blank">
+            <p class="push-markdown-carousel__item__description" title="${element.description}">${element.description}</p>
+          </a>
+
+          <p class="push-markdown-carousel__item__price">${element.price.replace(/(\(.+\))/, '<s>$1</s>')}</p>
+        </section>`
+      ).join('\n')}
+    </section>
+  `;
+
+  return finalHTML;
 }
 
 class Message extends PureComponent {
@@ -58,6 +99,8 @@ class Message extends PureComponent {
           {sender === 'response' ? (
             text.includes('```html') ? (
               <div className={'push-markdown-carousel-container'} dangerouslySetInnerHTML={{ __html: text.slice(('```html').length) }} />
+            ) : text.includes(xmlNotation) ? (
+              <div className={'push-markdown-carousel-container'} dangerouslySetInnerHTML={{ __html: getCarouselHTML(text) }} />
             ) : (
             <ReactMarkdown
               className={'push-markdown'}
