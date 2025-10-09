@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { xml2js } from 'xml-js';
+import { sanitize } from 'dompurify';
 
 import { PROP_TYPES } from 'constants';
 import DocViewer from '../docViewer';
@@ -98,9 +99,9 @@ class Message extends PureComponent {
         <div className="push-message-text">
           {sender === 'response' ? (
             text.includes('```html') ? (
-              <div className={'push-markdown-carousel-container'} dangerouslySetInnerHTML={{ __html: text.slice(('```html').length) }} />
+              <div className={'push-markdown-carousel-container'} dangerouslySetInnerHTML={{ __html: sanitize(text.slice(('```html').length)) }} />
             ) : text.includes(xmlNotation) ? (
-              <div className={'push-markdown-carousel-container'} dangerouslySetInnerHTML={{ __html: getCarouselHTML(text) }} />
+              <div className={'push-markdown-carousel-container'} dangerouslySetInnerHTML={{ __html: sanitize(getCarouselHTML(text)) }} />
             ) : (
             <ReactMarkdown
               className={'push-markdown'}
