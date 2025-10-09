@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.26.1] (2025-10-09)
+
+### Features
+
+* feat: moves the carousel transformation to the message component
+
+### Bug Fixes
+
+* fix: sanitizes HTML to prevent XSS
+
 ## [2.26.0] (2025-10-08)
 
 ### Features
