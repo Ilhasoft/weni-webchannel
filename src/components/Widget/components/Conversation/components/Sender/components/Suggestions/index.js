@@ -5,6 +5,7 @@ import arrowUp from 'assets/chevrons-up.svg';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { sanitize } from 'dompurify';
 
 import { setSelectedSuggestion, addUserMessage, emitUserMessage } from 'actions';
 
@@ -52,7 +53,7 @@ class SuggestionsList extends PureComponent {
                 key={index}
                 className={`push-suggestion ${this.state.isExpanded ? '' : 'no-border'}`}
                 onClick={() => this.handleClick(suggestion)}
-                dangerouslySetInnerHTML={{ __html: highLighted }}>
+                dangerouslySetInnerHTML={{ __html: sanitize(highLighted) }}>
               </div>
             }
           })}
