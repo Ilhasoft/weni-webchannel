@@ -78,6 +78,7 @@ const plugin = {
         contactTimeout={args.contactTimeout}
         transformURLsIntoImages={args.transformURLsIntoImages}
         disableMessageTooltips={args.disableMessageTooltips}
+        forceThinkingAfterSendingMessage={args.forceThinkingAfterSendingMessage}
       />,
       document.querySelector(args.selector)
     );

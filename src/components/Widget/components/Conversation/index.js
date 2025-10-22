@@ -40,6 +40,7 @@ const Conversation = props => (
       suggestionsConfig={props.suggestionsConfig}
       customAutoComplete={props.customAutoComplete}
       isConnected={props.isConnected}
+      forceThinkingAfterSendingMessage={props.forceThinkingAfterSendingMessage}
     />
     {React.createElement(
       'a',
@@ -74,7 +75,8 @@ Conversation.propTypes = {
   suggestionsConfig: PropTypes.shape({}),
   customAutoComplete: PropTypes.func,
   transformURLsIntoImages: PropTypes.bool,
-  isConnected: PropTypes.bool
+  isConnected: PropTypes.bool,
+  forceThinkingAfterSendingMessage: PropTypes.bool,
 };
 
 export default Conversation;
