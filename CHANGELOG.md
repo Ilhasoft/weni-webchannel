@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.26.2] (2025-10-22)
+
+### Features
+
+* feat: adds `forceThinkingAfterSendingMessage` parameter to enables Thinking immediately after sending a message
+
 ## [2.26.1] (2025-10-09)
 
 ### Features
