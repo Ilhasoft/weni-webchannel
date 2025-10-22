@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable indent */
-import { getSuggestions, setUserInput, setSuggestions } from 'actions';
+import { getSuggestions, setUserInput, setSuggestions, startThinking } from 'actions';
 import iconAttachFile from 'assets/attach_file.svg';
 import iconPhotoCamera from 'assets/photo_camera.svg';
 import iconPhotoCameraLight from 'assets/photo_camera_light.svg';
@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { audioToMp3Blob } from 'utils/audioToMp3Blob';
+import { store } from '../../../../../../index';
 
 import './style.scss';
 import SuggestionsList from './components/Suggestions';
@@ -33,7 +34,8 @@ function Sender({
   setSuggestions,
   selectedSuggestion,
   customAutoComplete,
-  isConnected
+  isConnected,
+  forceThinkingAfterSendingMessage,
 }) {
   const formEl = useRef();
   const inputEl = useRef();
@@ -222,6 +224,10 @@ function Sender({
       }
     } else {
       sendMessage(...args);
+      
+      if (forceThinkingAfterSendingMessage) {
+        store.dispatch(startThinking());
+      }
     }
   }
 
@@ -397,7 +403,8 @@ Sender.propTypes = {
   suggestionsConfig: PropTypes.shape({}),
   setSuggestions: PropTypes.func,
   selectedSuggestion: PropTypes.string,
-  isConnected: PropTypes.bool
+  isConnected: PropTypes.bool,
+  forceThinkingAfterSendingMessage: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sender);

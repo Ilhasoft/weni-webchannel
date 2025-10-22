@@ -56,6 +56,7 @@ const WidgetLayout = (props) => {
           forceChatConnection={props.forceChatConnection}
           transformURLsIntoImages={props.transformURLsIntoImages}
           isConnected={props.isConnected}
+          forceThinkingAfterSendingMessage={props.forceThinkingAfterSendingMessage}
         />
       )}
       {!props.embedded && (
@@ -118,7 +119,8 @@ WidgetLayout.propTypes = {
   showTooltip: PropTypes.bool,
   customizeWidget: PropTypes.shape({}),
   transformURLsIntoImages: PropTypes.bool,
-  isConnected: PropTypes.bool
+  isConnected: PropTypes.bool,
+  forceThinkingAfterSendingMessage: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(WidgetLayout);

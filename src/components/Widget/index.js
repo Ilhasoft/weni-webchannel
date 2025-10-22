@@ -1075,6 +1075,7 @@ class Widget extends Component {
           showTooltip={this.props.showTooltip}
           transformURLsIntoImages={this.props.transformURLsIntoImages}
           isConnected={this.state.isConnected}
+          forceThinkingAfterSendingMessage={this.props.forceThinkingAfterSendingMessage}
         />
         <Sound url={this.props.customSoundNotification} playStatus={this.state.playNotification} />
       </div>
@@ -1150,7 +1151,7 @@ Widget.propTypes = {
   transformURLsIntoImages: PropTypes.bool,
   disableMessageTooltips: PropTypes.bool,
   contactTimeout: PropTypes.number,
-  transformURLsIntoImages: PropTypes.bool
+  forceThinkingAfterSendingMessage: PropTypes.bool,
 };
 
 Widget.defaultProps = {

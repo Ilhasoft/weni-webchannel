@@ -18,7 +18,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
       host,
       onSocketEvent,
       socketUrl,
-      transformURLsIntoImages
+      transformURLsIntoImages,
+      forceThinkingAfterSendingMessage,
     ) {
       this.url = url;
       this.customData = customData;
@@ -32,6 +33,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
       this.marker = Math.random();
       this.socketUrl = socketUrl;
       this.transformURLsIntoImages = transformURLsIntoImages;
+      this.forceThinkingAfterSendingMessage = forceThinkingAfterSendingMessage;
     }
 
     isInitialized() {
@@ -169,6 +171,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         contactTimeout={props.contactTimeout}
         transformURLsIntoImages={props.transformURLsIntoImages}
         disableMessageTooltips={props.disableMessageTooltips}
+        forceThinkingAfterSendingMessage={props.forceThinkingAfterSendingMessage}
       />
     </Provider>
   );
@@ -228,7 +231,8 @@ ConnectedWidget.propTypes = {
   clientId: PropTypes.string,
   transformURLsIntoImages: PropTypes.bool,
   disableMessageTooltips: PropTypes.bool,
-  contactTimeout: PropTypes.number
+  contactTimeout: PropTypes.number,
+  forceThinkingAfterSendingMessage: PropTypes.bool,
 };
 
 ConnectedWidget.defaultProps = {
@@ -288,7 +292,8 @@ ConnectedWidget.defaultProps = {
   clientId: window.location.hostname,
   transformURLsIntoImages: false,
   disableMessageTooltips: false,
-  contactTimeout: 0
+  contactTimeout: 0,
+  forceThinkingAfterSendingMessage: false,
 };
 
 export default ConnectedWidget;
