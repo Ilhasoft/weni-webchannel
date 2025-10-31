@@ -559,7 +559,7 @@ class Widget extends Component {
   getUniqueNewItems = (newItem) => {
     const { messagesJS } = this.props;
 
-    return messagesJS.some(item => item.id === newItem.ID);
+    return messagesJS.some(item => String(item.id) === String(newItem.ID));
   }
 
   dispatchAckAttachment(message) {
@@ -900,7 +900,7 @@ class Widget extends Component {
     // TODO: add location type
     let shouldPlay = true;
     if (message.type === 'text') {
-      this.props.dispatch(addResponseMessage(message.text, message.id));
+      this.props.dispatch(addResponseMessage(message.text, message.id, Number(message.timestamp)));
     } else if (message.type === 'video') {
       this.props.dispatch(
         addVideoSnippet({
