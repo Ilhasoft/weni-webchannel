@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.26.4] (2025-11-05)
+
+### Features
+
+* feat: waits for the confirmation message to verify that the user can send the message
+
 ## [2.26.3] (2025-10-31)
 
 ### Bug Fixes
