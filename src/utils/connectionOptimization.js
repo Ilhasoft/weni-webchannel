@@ -20,6 +20,10 @@ export const connectionOptimization = {
       return true;
     }
 
+    if (props.initPayload) {
+      return true;
+    }
+
     try {
       const chatSession = JSON.parse(sessionStorage.getItem('chat_session') || localStorage.getItem('chat_session'));
 
