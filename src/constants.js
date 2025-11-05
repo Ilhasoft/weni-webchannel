@@ -103,7 +103,10 @@ export const PROP_TYPES = {
       MESSAGES_TYPES.TEXT,
       MESSAGES_TYPES.IMGREPLY.IMAGE
     ]),
-    id: PropTypes.number,
+    id: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ]),
     title: PropTypes.string,
     src: PropTypes.string,
     sender: PropTypes.oneOf([

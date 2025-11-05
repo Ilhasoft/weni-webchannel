@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { connectionOptimization } from '../../utils/connectionOptimization';
 import Conversation from './components/Conversation';
 import Launcher from './components/Launcher';
 import './style.scss';
@@ -19,7 +20,7 @@ const WidgetLayout = (props) => {
   }
   const showCloseButton =
     props.showCloseButton !== undefined ? props.showCloseButton : !props.embedded;
-  const isVisible = props.isChatVisible && !(props.hideWhenNotConnected && !props.connected);
+  const isVisible = connectionOptimization.isWidgetVisible({ props });
   const chatShowing = props.isChatOpen || props.embedded;
 
   if (chatShowing) {
@@ -121,6 +122,7 @@ WidgetLayout.propTypes = {
   transformURLsIntoImages: PropTypes.bool,
   isConnected: PropTypes.bool,
   forceThinkingAfterSendingMessage: PropTypes.bool,
+  channelUuid: PropTypes.string,
 };
 
 export default connect(mapStateToProps)(WidgetLayout);
