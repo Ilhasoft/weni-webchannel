@@ -126,6 +126,8 @@ class Widget extends Component {
       response: this.responseMessageMap,
       client: this.clientMessageMap
     };
+    this.isReadyToSendMessage = false;
+    this.messagesWaitingToBeSent = [];
   }
 
   state = {
@@ -406,6 +408,16 @@ class Widget extends Component {
       this.props.dispatch(closeSessionMessage());
     }
 
+    if (receivedMessage.type === 'ready_for_message') {
+      this.isReadyToSendMessage = true;
+
+      this.messagesWaitingToBeSent.forEach((sendMessage) => {
+        sendMessage();
+      });
+
+      this.messagesWaitingToBeSent = [];
+    }
+
     if (receivedMessage.type === 'history') {
       dispatch(setMessagesScroll(false));
       if (receivedMessage.history) {
@@ -466,6 +478,8 @@ class Widget extends Component {
       }
     } else if (receivedMessage.type === 'warning') {
       if (receivedMessage.warning === 'Connection closed by request') {
+        this.isReadyToSendMessage = false;
+
         console.log('%cSOCKET RECEIVED WARNING - closed by request', 'color: #F71963; font-weight: bold;', new Date());
 
         this.props.dispatch(openSessionMessage());
@@ -786,6 +800,9 @@ class Widget extends Component {
 
       socketOnCloseListener = socketOnClose.bind(this);
       socket.socket.addEventListener('close', socketOnCloseListener);
+      socket.socket.addEventListener('close', () => {
+        this.isReadyToSendMessage = false;
+      });
 
       socket.socket.onerror = (err) => {
         // eslint-disable-next-line no-console
@@ -976,8 +993,17 @@ class Widget extends Component {
         };
 
         this.props.dispatch(addUserMessage(textMessage.message.text));
-        this.props.dispatch(emitUserMessage(textMessage));
-        this.emitSocketEvent('outgoingMessage', textMessage);
+
+        const sendMessage = () => {
+          this.props.dispatch(emitUserMessage(textMessage));
+          this.emitSocketEvent('outgoingMessage', textMessage);
+        }
+
+        if (this.isReadyToSendMessage) {
+          sendMessage();
+        } else {
+          this.messagesWaitingToBeSent.push(sendMessage);
+        }
       }
       event.target.message.value = '';
       this.props.dispatch(setUserInput(''));
@@ -993,8 +1019,17 @@ class Widget extends Component {
                 media
               }
             };
-            this.props.dispatch(emitUserMessage(attachmentMessage));
-            this.emitSocketEvent('outgoingMessage', attachmentMessage);
+
+            const sendMessage = () => {
+              this.props.dispatch(emitUserMessage(attachmentMessage));
+              this.emitSocketEvent('outgoingMessage', attachmentMessage);
+            }
+
+            if (this.isReadyToSendMessage) {
+              sendMessage();
+            } else {
+              this.messagesWaitingToBeSent.push(sendMessage);
+            }
           });
         }
       });
