@@ -810,14 +810,14 @@ class Widget extends Component {
     }
   }
 
-  initializeWidget(sendInitPayload = true) {
+  initializeWidget(sendInitPayload = true, forceConnect = false) {
     const {
       dispatch,
       embedded,
       initialized,
     } = this.props;
 
-    if (connectionOptimization.shouldConnectSocketWhenWidgetIsInitialized({ props: this.props })) {
+    if (connectionOptimization.shouldConnectSocketWhenWidgetIsInitialized({ props: this.props }) || forceConnect) {
       this.connectSocket({ sendInitPayload });
     }
 
@@ -1085,7 +1085,7 @@ class Widget extends Component {
     };
 
     this.attemptingReconnection = true;
-    this.initializeWidget();
+    this.initializeWidget(true, true);
   }
 
   render() {
@@ -1127,6 +1127,7 @@ class Widget extends Component {
           isConnected={this.state.isConnected}
           forceThinkingAfterSendingMessage={this.props.forceThinkingAfterSendingMessage}
           channelUuid={this.props.channelUuid}
+          useConnectionOptimization={this.props.useConnectionOptimization}
         />
         <Sound url={this.props.customSoundNotification} playStatus={this.state.playNotification} />
       </div>
@@ -1203,6 +1204,7 @@ Widget.propTypes = {
   disableMessageTooltips: PropTypes.bool,
   contactTimeout: PropTypes.number,
   forceThinkingAfterSendingMessage: PropTypes.bool,
+  useConnectionOptimization: PropTypes.bool,
 };
 
 Widget.defaultProps = {

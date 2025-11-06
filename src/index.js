@@ -172,6 +172,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
         transformURLsIntoImages={props.transformURLsIntoImages}
         disableMessageTooltips={props.disableMessageTooltips}
         forceThinkingAfterSendingMessage={props.forceThinkingAfterSendingMessage}
+        useConnectionOptimization={props.useConnectionOptimization}
       />
     </Provider>
   );
@@ -233,6 +234,7 @@ ConnectedWidget.propTypes = {
   disableMessageTooltips: PropTypes.bool,
   contactTimeout: PropTypes.number,
   forceThinkingAfterSendingMessage: PropTypes.bool,
+  useConnectionOptimization: PropTypes.bool,
 };
 
 ConnectedWidget.defaultProps = {
@@ -294,6 +296,7 @@ ConnectedWidget.defaultProps = {
   disableMessageTooltips: false,
   contactTimeout: 0,
   forceThinkingAfterSendingMessage: false,
+  useConnectionOptimization: false,
 };
 
 export default ConnectedWidget;
