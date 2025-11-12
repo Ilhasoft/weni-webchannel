@@ -349,7 +349,7 @@ function Sender({
           value={userInput}
           onChange={value => setUserInput(value.target.value)}
           placeholder={inputTextFieldHint}
-          disabled={disabledInput || userInput === 'disable' || !isConnected}
+          disabled={disabledInput || userInput === 'disable'}
           autoComplete="off"
           onKeyDown={event => handlePressed(event)}
           style={{ display: isAudioRecording || isVideoRecording ? 'none' : null }}

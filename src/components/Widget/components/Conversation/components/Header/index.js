@@ -63,12 +63,6 @@ const Header = ({
               </div>
           }
         </div>
-        {
-          !connected &&
-          <span className="push-loading">
-            {connectingText}
-          </span>
-        }
       </div>
     )
 }

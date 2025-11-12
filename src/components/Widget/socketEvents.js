@@ -17,7 +17,7 @@ export function socketOnClose() {
     this.attemptingReconnection = true;
     clearInterval(this.pingIntervalId);
     this.props.dispatch(closeSessionMessage());
-    this.initializeWidget(true);
+    this.initializeWidget(true, true);
   }, this.reconnectImmediate ? 1000 : 5000);
 
   this.reconnectImmediate = false;

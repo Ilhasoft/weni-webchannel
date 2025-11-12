@@ -85,7 +85,11 @@ function initStore(hintText, connectingText, socket, storage, docViewer = false,
             page: action.page
           }
         };
-        socket.socket.send(JSON.stringify(payload));
+
+        if (socket.socket && socket.socket.readyState === WebSocket.OPEN) {
+          socket.socket.send(JSON.stringify(payload));
+        }
+
         break;
       }
       case actionTypes.GET_OPEN_STATE: {

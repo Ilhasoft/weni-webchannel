@@ -15,7 +15,7 @@ export default function (
     initialized: false,
     isChatVisible: true,
     isChatOpen: false,
-    disabledInput: true,
+    disabledInput: false,
     docViewer,
     inputTextFieldHint,
     connectingText,

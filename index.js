@@ -79,6 +79,7 @@ const plugin = {
         transformURLsIntoImages={args.transformURLsIntoImages}
         disableMessageTooltips={args.disableMessageTooltips}
         forceThinkingAfterSendingMessage={args.forceThinkingAfterSendingMessage}
+        useConnectionOptimization={args.useConnectionOptimization}
       />,
       document.querySelector(args.selector)
     );

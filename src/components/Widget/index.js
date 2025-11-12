@@ -67,6 +67,7 @@ import { store } from '../../index';
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
+import { connectionOptimization } from '../../utils/connectionOptimization';
 import { buildQuickReplies, toBase64, getAttachmentType } from '../../utils/messages';
 import { socketOnClose } from './socketEvents';
 
@@ -727,12 +728,10 @@ class Widget extends Component {
     return `${Math.floor(Math.random() * Date.now())}@${validClientId}`;
   }
 
-  initializeWidget(sendInitPayload = true) {
+  connectSocket({ sendInitPayload }) {
     const {
       socket,
       dispatch,
-      embedded,
-      initialized,
       sessionId,
       host,
       channelUuid,
@@ -808,6 +807,18 @@ class Widget extends Component {
         // eslint-disable-next-line no-console
         console.log('SOCKET_ONERROR: Socket error:', err);
       };
+    }
+  }
+
+  initializeWidget(sendInitPayload = true, forceConnect = false) {
+    const {
+      dispatch,
+      embedded,
+      initialized,
+    } = this.props;
+
+    if (connectionOptimization.shouldConnectSocketWhenWidgetIsInitialized({ props: this.props }) || forceConnect) {
+      this.connectSocket({ sendInitPayload });
     }
 
     if (embedded && initialized) {
@@ -971,6 +982,10 @@ class Widget extends Component {
   }
 
   handleMessageSubmit(event) {
+    if (this.props.socket.socket === null) {
+      this.connectSocket({ sendInitPayload: true });
+    }
+
     if (this.inactivityTimerId) {
       clearTimeout(this.inactivityTimerId);
       this.inactivityTimerId = null;
@@ -1070,7 +1085,7 @@ class Widget extends Component {
     };
 
     this.attemptingReconnection = true;
-    this.initializeWidget();
+    this.initializeWidget(true, true);
   }
 
   render() {
@@ -1111,6 +1126,8 @@ class Widget extends Component {
           transformURLsIntoImages={this.props.transformURLsIntoImages}
           isConnected={this.state.isConnected}
           forceThinkingAfterSendingMessage={this.props.forceThinkingAfterSendingMessage}
+          channelUuid={this.props.channelUuid}
+          useConnectionOptimization={this.props.useConnectionOptimization}
         />
         <Sound url={this.props.customSoundNotification} playStatus={this.state.playNotification} />
       </div>
@@ -1187,6 +1204,7 @@ Widget.propTypes = {
   disableMessageTooltips: PropTypes.bool,
   contactTimeout: PropTypes.number,
   forceThinkingAfterSendingMessage: PropTypes.bool,
+  useConnectionOptimization: PropTypes.bool,
 };
 
 Widget.defaultProps = {
@@ -1219,7 +1237,7 @@ Widget.defaultProps = {
   startFullScreen: false,
   showTooltip: false,
   disableMessageTooltips: false,
-  contactTimeout: 0
+  contactTimeout: 0,
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);
