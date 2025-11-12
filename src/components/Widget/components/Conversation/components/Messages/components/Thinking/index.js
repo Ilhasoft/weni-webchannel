@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import thinkingArticle from 'assets/thinking-article.svg';
 import thinkingLightbulb from 'assets/thinking-lightbulb-2.svg';
@@ -22,23 +23,23 @@ class Thinking extends PureComponent {
 
     this.messages = [
       {
-        text: 'Processando informações',
+        key: 'ThinkingProcessing',
         icon: thinkingArticle,
       },
       {
-        text: 'Conectando ideias',
+        key: 'ThinkingConnecting',
         icon: thinkingLightbulb,
       },
       {
-        text: 'Refinando detalhes',
+        key: 'ThinkingRefining',
         icon: thinkingWandStars,
       },
       {
-        text: 'Estruturando resposta',
+        key: 'ThinkingStructuring',
         icon: thinkingTooltip,
       },
       {
-        text: 'Quase pronto, só mais um instante',
+        key: 'ThinkingAlmostReady',
         icon: thinkingRocketLaunch,
       }
     ];
@@ -117,6 +118,8 @@ class Thinking extends PureComponent {
   }
 
   render() {
+    const { t } = this.props;
+
     return (
       <div
         className={`push-group-message push-from-response`}
@@ -134,12 +137,12 @@ class Thinking extends PureComponent {
 
             <p className="push-message-text" id="push-thinking-text">
               {this.state.currentMessageIndex !== null && (
-                this.messages[this.state.currentMessageIndex].text
+                t(this.messages[this.state.currentMessageIndex].key)
               )}
             </p>
 
             <div id="push-wave">
-              <p className="push-customText">Typing...</p>
+              <p className="push-customText">{t('ThinkingTyping')}</p>
               <span className="push-dot" />
               <span className="push-dot" />
               <span className="push-dot" />
@@ -155,4 +158,4 @@ Thinking.propTypes = {
   profileAvatar: PropTypes.string,
 };
 
-export default Thinking;
+export default withTranslation()(Thinking);

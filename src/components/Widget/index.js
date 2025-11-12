@@ -70,6 +70,7 @@ import { storeLocalSession, getLocalSession } from '../../store/reducers/helper'
 import { connectionOptimization } from '../../utils/connectionOptimization';
 import { buildQuickReplies, toBase64, getAttachmentType } from '../../utils/messages';
 import { socketOnClose } from './socketEvents';
+import i18n from '../../utils/i18n';
 
 const MAX_PING_LIMIT = 216;
 let currentInitialization = null;
@@ -417,6 +418,13 @@ class Widget extends Component {
       });
 
       this.messagesWaitingToBeSent = [];
+
+      this.requestProjectLanguage();
+    }
+
+    if (receivedMessage.type === 'project_language') {
+      const language = receivedMessage && receivedMessage.data && receivedMessage.data.language;
+      i18n.changeLanguage(language);
     }
 
     if (receivedMessage.type === 'history') {
@@ -1049,6 +1057,18 @@ class Widget extends Component {
         }
       });
     }
+  }
+
+  requestProjectLanguage() {
+    const { socket: { socket } } = this.props;
+
+    console.log('requestProjectLanguage');
+
+    const options = {
+      type: 'get_project_language',
+    };
+
+    socket.send(JSON.stringify(options));
   }
 
   emitSocketEvent(eventFunction, data) {
