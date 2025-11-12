@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.26.5] (2025-11-12)
+
+### Features
+
+* feat: provides connection optimization so that the connection is established only on the user's first interaction
+
 ## [2.26.4] (2025-11-05)
 
 ### Features
