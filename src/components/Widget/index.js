@@ -1062,8 +1062,6 @@ class Widget extends Component {
   requestProjectLanguage() {
     const { socket: { socket } } = this.props;
 
-    console.log('requestProjectLanguage');
-
     const options = {
       type: 'get_project_language',
     };
