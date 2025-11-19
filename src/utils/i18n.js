@@ -8,7 +8,13 @@ const resources = {
       OpenSessionTitle: 'You are already logged into another session.',
       OpenSessionSubtitle: 'Click "Use here" to use chat in this session.',
       OpenSessionCloseText: 'Close',
-      OpenSessionUseText: 'Use here'
+      OpenSessionUseText: 'Use here',
+      ThinkingProcessing: 'Processing information',
+      ThinkingConnecting: 'Connecting ideas',
+      ThinkingRefining: 'Refining details',
+      ThinkingStructuring: 'Structuring response',
+      ThinkingAlmostReady: 'Almost ready, just a moment',
+      ThinkingTyping: 'Typing...'
     }
   },
   pt: {
@@ -16,7 +22,13 @@ const resources = {
       OpenSessionTitle: 'Você já está logado em outra sessão.',
       OpenSessionSubtitle: 'Clique em "Usar aqui" para usar o chat nesta sessão.',
       OpenSessionCloseText: 'Fechar',
-      OpenSessionUseText: 'Usar aqui'
+      OpenSessionUseText: 'Usar aqui',
+      ThinkingProcessing: 'Processando informações',
+      ThinkingConnecting: 'Conectando ideias',
+      ThinkingRefining: 'Refinando detalhes',
+      ThinkingStructuring: 'Estruturando resposta',
+      ThinkingAlmostReady: 'Quase pronto, só mais um instante',
+      ThinkingTyping: 'Digitando...'
     }
   },
   es: {
@@ -24,7 +36,13 @@ const resources = {
       OpenSessionTitle: 'Ya estás conectado a otra sesión.',
       OpenSessionSubtitle: 'Haga clic en "Utilizar aquí" para utilizar el chat en esta sesión.',
       OpenSessionCloseText: 'Cerrar',
-      OpenSessionUseText: 'Utilizar aquí'
+      OpenSessionUseText: 'Utilizar aquí',
+      ThinkingProcessing: 'Procesando información',
+      ThinkingConnecting: 'Conectando ideas',
+      ThinkingRefining: 'Refinando detalles',
+      ThinkingStructuring: 'Estructurando respuesta',
+      ThinkingAlmostReady: 'Casi listo, solo un momento',
+      ThinkingTyping: 'Escribiendo...'
     }
   }
 };
