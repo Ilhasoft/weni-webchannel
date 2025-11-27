@@ -38,10 +38,12 @@ function initStore(hintText, connectingText, socket, storage, docViewer = false,
     switch (action.type) {
       case actionTypes.EMIT_NEW_USER_MESSAGE: {
         const context = store.getState().behavior.get('context') || '';
+        const data = action.message.data || {};
         const payload = {
           type: action.message.type,
           message: action.message.message,
-          context
+          data,
+          context,
         };
         socket.socket.send(JSON.stringify(payload));
         break;

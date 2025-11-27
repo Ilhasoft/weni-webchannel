@@ -19,6 +19,15 @@ import {
 
 import './src/utils/i18n';
 
+const widgetRef = React.createRef();
+
+const setCustomField = (key, value) => {
+  const instance = widgetRef.current;
+  if (instance && typeof instance.setCustomField === 'function') {
+    instance.setCustomField(key, value);
+  }
+};
+
 const plugin = {
   init: (args) => {
     if (window.WebChatIsAlreadyInitialized) {
@@ -29,6 +38,7 @@ const plugin = {
 
     ReactDOM.render(
       <Widget
+        ref={widgetRef}
         protocol={args.protocol}
         socketUrl={args.socketUrl}
         protocolOptions={args.protocolOptions}
@@ -83,7 +93,8 @@ const plugin = {
       />,
       document.querySelector(args.selector)
     );
-  }
+  },
+  setCustomField,
 };
 
 export {
@@ -101,5 +112,6 @@ export {
   clear,
   setSessionId,
   setContext,
-  getContext
+  getContext,
+  setCustomField,
 };
