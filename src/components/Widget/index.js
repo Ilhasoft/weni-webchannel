@@ -1069,6 +1069,26 @@ class Widget extends Component {
     socket.send(JSON.stringify(options));
   }
 
+  setCustomField(key, value) {
+    const payload = {
+      type: 'set_custom_field',
+      data: {
+        key,
+        value,
+      }
+    };
+
+    const sendCustomField = () => {
+      this.props.dispatch(emitUserMessage(payload));
+    };
+
+    if (this.isReadyToSendMessage) {
+      sendCustomField();
+    } else {
+      this.messagesWaitingToBeSent.push(sendCustomField);
+    }
+  }
+
   emitSocketEvent(eventFunction, data) {
     // eslint-disable-next-line react/prop-types
     const onEvent = this.props.socket.onSocketEvent;
